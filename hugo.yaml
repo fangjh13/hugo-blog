@@ -65,9 +65,13 @@ params:
   homeInfoParams:
     Title: "Fython's Blog"
     Content: >
-      Welcome to my personal blog website.
+      ##### Welcome to my personal blog website
 
-      - Recording Life Sharing Technology 🌟
+      -
+
+      - Recording Life Sharing Technology
+
+      - Stay Hungry Stay Foolish 🌟
 
   socialIcons:
     - name: github
@@ -76,7 +80,7 @@ params:
       url: "index.xml"
 
   editPost:
-    URL: "https://github.com/fangjh13/myself/blob/main/content"
+    URL: "https://github.com/fangjh13/hugo-blog/blob/main/content"
     Text: "Suggest Changes" # edit text
     appendFilePath: true # to append file path to Edit link
 
