@@ -227,7 +227,7 @@
 </div>
 
   <div class="post-content"><p><a href="https://git-scm.com/">Git</a>是当今最流行的开源版本控制系统，使用git的每个团队应该也有固定的工作流。今天就介绍一个现有普遍使用的工作流<strong>git-flow</strong>。</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/GitFlowHotfixBranch.png" alt="git-flow"  />
+<p><img loading="lazy" src="../images/GitFlowHotfixBranch.png" alt="git-flow"  />
 </p>
 <h2 id="分支branch">分支（branch）<a hidden class="anchor" aria-hidden="true" href="#分支branch">#</a></h2>
 <p>如上图一般分支有*<code>master</code><em>、</em><code>develop</code><em>、</em><code>feature/xxx</code><em>、</em><code>release/xxx</code><em>、</em><code>hotfixes</code>*，下面一一介绍。</p>
@@ -237,7 +237,7 @@
 </blockquote>
 <p>*<code>master</code>*只能用来包括产品代码，不要在这上面做任何的改动。</p>
 <p>*<code>develop</code><em>开发主分支，所有新功能的分支从这里<code>checkout</code>，所以这是开发的基础分支。该分支也是汇集所有开发新功能后最后<code>merge</code>到</em><code>master</code>*的分支。</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/01-master-develop.png" alt="master-develop-branch"  />
+<p><img loading="lazy" src="../images/01-master-develop.png" alt="master-develop-branch"  />
 </p>
 <h3 id="临时分支">临时分支<a hidden class="anchor" aria-hidden="true" href="#临时分支">#</a></h3>
 <blockquote>
@@ -246,7 +246,7 @@
 <p>*<code>feature/xxx</code><em>开发新功能的分支从</em><code>develop</code><em>分支<code>checkout</code>每个功能创建一个分支是一个良好的习惯。开发测试完后<code>merge</code>到</em><code>develop</code>*分支进行更全面的测试。</p>
 <p>*<code>release/xxx</code><em>产品预发布分支，一般以版本号为分支名，需要合并到</em><code>master</code>*分支发布。</p>
 <p>*<code>hotfixes</code><em>紧急修复bug的分支基于</em><code>master</code><em>分支，修复完后一定要合并到</em><code>master</code><em>分支和</em><code>develop</code>*分支。</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/02-features-hotfix.png" alt="feature-hotfix-branch"  />
+<p><img loading="lazy" src="../images/02-features-hotfix.png" alt="feature-hotfix-branch"  />
 </p>
 <h2 id="git-flow工作流程">Git-flow工作流程<a hidden class="anchor" aria-hidden="true" href="#git-flow工作流程">#</a></h2>
 <h3 id="基本步骤">基本步骤<a hidden class="anchor" aria-hidden="true" href="#基本步骤">#</a></h3>

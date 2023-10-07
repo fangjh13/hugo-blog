@@ -229,7 +229,7 @@
 </blockquote>
 <h2 id="建立连接三次握手">建立连接(三次握手）<a hidden class="anchor" aria-hidden="true" href="#建立连接三次握手">#</a></h2>
 <p>TCP是面向连接的所以传输双方在传输前要建立一条连接后才能通信，建立连接后TCP协议提供全双⼯(就是可以同时发送和接收不影响)的通信服务。建立连接的过程我们给它取了个生动的名字叫“三次握手”，因为从发起到建立连接一共有三个步骤也就是双方会发三个包，先看下面的图</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/3-way-handshake.jpg" alt="3-way-handshake"  />
+<p><img loading="lazy" src="../images/3-way-handshake.jpg" alt="3-way-handshake"  />
 </p>
 <ol>
 <li>首先客户端发送<code>SYN</code>(Synchronous)包到服务端告诉服务器开始建立连接，包里面会包含一个随机数(<code>j</code>)序列号(Sequence Number)，此时客户端进入<code>SYC-SENT</code>状态。当然最初服务器是处于<code>LISTEN</code>状态监听某一个端口，本文图片以绿底黑框的都代表TCP状态。</li>
@@ -237,7 +237,7 @@
 <li>客户端收到<code>SYN-ACK</code>包并发送确认号码<code>k+1</code>，此时客户端的状态为<code>ESTABLISHED</code>，服务器收到<code>ACK</code>后状态也变为<code>ESTABLISHED</code></li>
 </ol>
 <p>以下是wireshake抓包后TCP连接的三次握手，这里序列号码<code>j</code>和<code>k</code>都为<code>0</code>。</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/wireshark-3-way-handshake.png" alt="wireshake-3-handshake"  />
+<p><img loading="lazy" src="../images/wireshark-3-way-handshake.png" alt="wireshake-3-handshake"  />
 </p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    TCP A (port 65525)                                     TCP B (port 443)
 </span></span><span class="line"><span class="cl">
@@ -250,7 +250,7 @@
 </span></span><span class="line"><span class="cl">  3.  ESTABLISHED --&gt; &lt;SEQ=1&gt;&lt;ACK=1&gt;&lt;CTL=ACK&gt;          --&lt; ESTABLISHED
 </span></span></code></pre></div><h2 id="断开连接四次挥手">断开连接(四次挥手)<a hidden class="anchor" aria-hidden="true" href="#断开连接四次挥手">#</a></h2>
 <p>断开连接称为“挥手”一共有四步每一方向占两步，由于TCP是全双工的所以关闭连接需要双方都完成关闭(close)才算结束，其中会涉及状态也就比握手多。客户端和服务端都可以发起挥手动作，先发送<code>FIN</code>包的动作叫主动关闭(active close)然后另一方回应<code>ACK</code>包叫执行被动关闭(passive colse)，双方各完成一次主动和被动关闭一共四次。</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/4-way-handshake.jpg" alt="4-way-handshake"  />
+<p><img loading="lazy" src="../images/4-way-handshake.jpg" alt="4-way-handshake"  />
 </p>
 <ol>
 <li>客户端数据传输完毕发起断开连接(主动关闭)，发送<code>FIN</code>包携带一个序列号(<code>x</code>)到服务端并更新自己的状态为<code>FIN-WAIT-1</code></li>
@@ -260,7 +260,7 @@
 <li>因为客户端最后不知道服务端有没有收到<code>ACK</code>包，所以默认等待两倍的<a href="https://en.wikipedia.org/wiki/Maximum_segment_lifetime">MSL</a>(Maximum Segment Lifetime)，Linux上MSL一般为60s，等待120s使服务器如果没有收到<code>ACK</code>也能重传<code>FIN</code>包，最后把自己的状态置为<code>CLOSED</code>在此之前的MSL时间中一直是<code>TIME-WAIT</code>状态</li>
 </ol>
 <p>看一个现实中的例子ssh连接退出</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/wireshark-4-way-handshake.png" alt="wireshake-4-handshake"  />
+<p><img loading="lazy" src="../images/wireshark-4-way-handshake.png" alt="wireshake-4-handshake"  />
 </p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    TCP A (port 49612)                                     TCP B (port 22)
 </span></span><span class="line"><span class="cl">
@@ -280,7 +280,7 @@
 </span></span><span class="line"><span class="cl">      CLOSED
 </span></span></code></pre></div><h2 id="tcp状态迁移图">TCP状态迁移图<a hidden class="anchor" aria-hidden="true" href="#tcp状态迁移图">#</a></h2>
 <p>TCP一共有11种状态，虚线箭头表示客户端状态转换轨迹，实线表示服务端，但这里的客户端和服务端不是绝对的可以互换。</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/TCP-state-transition-diagram.gif" alt="TCP state transition diagram"  />
+<p><img loading="lazy" src="../images/TCP-state-transition-diagram.gif" alt="TCP state transition diagram"  />
 </p>
 <h3 id="closing状态">CLOSING状态<a hidden class="anchor" aria-hidden="true" href="#closing状态">#</a></h3>
 <p>仔细看你会发现有一个<code>CLOSING</code>状态有些陌生，因为以上介绍的三次握手和四次挥手都是正常且顺序连接或断开中TCP状态，现实应用中比较复杂上面还有一个状态没有涉及到就是<code>CLOSING</code></p>

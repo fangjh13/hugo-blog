@@ -247,7 +247,7 @@
 </span></span><span class="line"><span class="cl">	<span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">ListenAndServe</span><span class="p">(</span><span class="s">&#34;localhost:6060&#34;</span><span class="p">,</span> <span class="kc">nil</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl"><span class="p">}()</span>
 </span></span></code></pre></div><p>然后浏览器访问<code>http://localhost:6060/debug/pprof/</code>，显示如下页面</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/pprof_index.png" alt=""  />
+<p><img loading="lazy" src="../images/pprof_index.png" alt=""  />
 </p>
 <p>如上如果服务是 http 服务且使用的是 <code>http.DefaultServeMux</code> 不需要做任何路由注册默认会注册相关路由，初始化调用了<a href="https://github.com/golang/go/blob/f865b5fefeafaf76ce6ff99e44d41c52cb6b884b/src/net/http/pprof/pprof.go#L72-L76"><code>init </code>函数</a>会自动注册，路径为 <code>/debug/pprof/</code>，显示上图，能大概看个当前 goroutine 数目、堆分配情况、锁的情况，具体分析还是要使用下文的 <code>go tool pprof</code> 工具。</p>
 <p>如果使用的是自定义的 <code>ServeMux</code> 或 <code>Handler</code> 需要我们自己手动注册需要的路由，比如使用 echo 框架的时候</p>
@@ -373,7 +373,7 @@
 </span></span></code></pre></div><p><code>list</code> 后跟正则表达式显示源码，<code>peek</code> 显示调用链</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">(pprof) web
 </span></span></code></pre></div><p><code>web</code> 命令显示 svg 图，能更直观的展示，前提是需要安装 <a href="http://www.graphviz.org/">graphviz</a>，权重越大方框越大，颜色越明显，箭头是调用图</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/pprof_cpu_profile.png" alt=""  />
+<p><img loading="lazy" src="../images/pprof_cpu_profile.png" alt=""  />
 </p>
 <h3 id="服务型应用">服务型应用<a hidden class="anchor" aria-hidden="true" href="#服务型应用">#</a></h3>
 <p>我们来看下如果使用的是 http 服务，以 <a href="https://github.com/fangjh13/blog-exmaple/blob/main/pprof/server.go">server.go</a> 为例，服务启动后监听在<code>:6060</code>端口</p>
@@ -472,7 +472,7 @@
 </span></span><span class="line"><span class="cl">Saved profile in ~/pprof/pprof.alloc_objects.alloc_space.inuse_objects.inuse_space.002.pb.gz
 </span></span><span class="line"><span class="cl">Serving web UI on http://localhost:8080
 </span></span></code></pre></div><p>访问网页，在左上角 view 中切换 Flame Graph 可以以火焰图的方式展示</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/pprof_flame_graph.png" alt=""  />
+<p><img loading="lazy" src="../images/pprof_flame_graph.png" alt=""  />
 </p>
 <p>如果应用比较复杂，生成的调用图特别大，看起来很乱，有两个办法可以优化：</p>
 <ul>

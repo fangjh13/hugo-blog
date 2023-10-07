@@ -223,7 +223,7 @@ im_bg_b64 = driver.execute_script( &#39;return document.getElementsByClassName(&
 </div>
 
   <div class="post-content"><h1 id="破解滑块验证码geetest极验">破解滑块验证码（geetest极验）<a hidden class="anchor" aria-hidden="true" href="#破解滑块验证码geetest极验">#</a></h1>
-<p><img loading="lazy" src="https://img.fythonfang.com/2021-05-01-103607_439x430_scrot.png" alt=""  />
+<p><img loading="lazy" src="../images/2021-05-01-103607_439x430_scrot.png" alt=""  />
 </p>
 <p>最近写爬虫遇到极验（geetest）的滑块验证码，首先想到的是用<a href="https://selenium-python.readthedocs.io/">Selenium</a>模拟人拖动滑块，那么问题来了其实主要解决下面两个问题</p>
 <ul>
@@ -247,13 +247,13 @@ im_bg_b64 = driver.execute_script( &#39;return document.getElementsByClassName(&
 </span></span><span class="line"><span class="cl"><span class="n">im_bg_bytes</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">im_bg_b64</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;./temp_bg.png&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">im_bg_bytes</span><span class="p">)</span>
-</span></span></code></pre></div><p><img loading="lazy" src="https://img.fythonfang.com/temp_bg.png" alt=""  />
+</span></span></code></pre></div><p><img loading="lazy" src="../images/temp_bg.png" alt=""  />
 </p>
 <p>然后第二张 <em>geetest_canvas_slice</em> 根据上面相同的方法保存到本地是这样的，就是一个滑块</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/temp_slice.png" alt=""  />
+<p><img loading="lazy" src="../images/temp_slice.png" alt=""  />
 </p>
 <p>第三张 <em>geetest_canvas_fullbg</em> 猜名称也能猜到是图片的全景</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/temp_fullbg.png" alt=""  />
+<p><img loading="lazy" src="../images/temp_fullbg.png" alt=""  />
 </p>
 <p>有上面三张图片，怎么计算滑动的距离呢，发现只要找到第一张缺口的位置坐标 x1 和第二张滑块的坐标 x2 那么 x1 - x2 就是我们要的距离，主要是找到 x1 的位置可以通过对比第一张和第三张得到，具体的方法是对比两张图像素点不同时即为 x1 的位置。因为 x2 的位置一直在左边差不多固定的位置假设离最左边为 10 个像素所以我们不需要计算 x2，以下是实现两张图片确定 x1 的代码，图片处理使用的是<a href="https://pillow.readthedocs.io/en/stable/">pillow</a>库</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_dis_use_same_pixel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">im_fullbg</span><span class="p">,</span> <span class="n">im_bg</span><span class="p">):</span>

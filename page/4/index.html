@@ -184,14 +184,14 @@ Proto定义 使用gRPC必须先使用protocol buffers定义序列化的结构包
     </h2>
   </header>
   <div class="entry-content">
-    <p>Python描述符(descriptor) Python中有一个很少被使用或者用户自定义的特性，那就是描述符(descriptor)，但它是@property, @classmethod, @staticmethod和super的底层实现机制，我今天就扒一扒它，官方文档对描述符的介绍如下
+    <p>Python 描述符(descriptor) Python 中有一个很少被使用或者用户自定义的特性，那就是描述符(descriptor)，但它是@property, @classmethod, @staticmethod和super的底层实现机制，我今天就扒一扒它，官方文档对描述符的介绍如下
 In general, a descriptor is an object attribute with “binding behavior”, one whose attribute access has been overridden by methods in the descriptor protocol: __get__(), __set__(), and __delete__(). If any of those methods are defined for an object, it is said to be a descriptor.
 描述符是绑定了行为的对象属性(object attribute)，实现了描述符协议(descriptor protocol)，描述符协议就是定义了__get__(),__set__(),__delete__()中的一个或者多个方法，将描述符对象作为其他对象的属性进行访问时，就会产生一些特殊的效果。
 上面的定义可能还是有些晦涩，一步步来
 默认查找属性 在没有描述符定义情况下，我们访问属性的顺序如下，以a.x为例
-查找实例字典里的属性就是a.__dict__[&#39;x&#39;]有就返回 往上查找父类的字典就是a.__class__.__dict__[&#39;x&#39;]有就返回 上面都没有就查找父类的基类(不包括元类(metaclass)) 如果定义了__getattr__就会返回此方法 最后都没有抛出AttributeError &gt;&gt;&gt; class A: ... x = 8 ... ... &gt;&gt;&gt; class B(A): ....</p>
+查找实例字典里的属性就是a.__dict__[&#39;x&#39;]有就返回 往上查找父类的字典就是a.__class__.__dict__[&#39;x&#39;]有就返回 上面都没有就查找父类的基类(不包括元类(metaclass)) 如果定义了__getattr__就会返回此方法 最后都没有抛出AttributeError &gt;&gt;&gt; class A: ... x = 8 ... ....</p>
   </div>
-  <footer class="entry-footer"><span title='2019-12-17 11:38:45 +0800 +0800'>December 17, 2019</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;1126 words&nbsp;·&nbsp;Fython</footer>
+  <footer class="entry-footer"><span title='2019-12-17 11:38:45 +0800 +0800'>December 17, 2019</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;1135 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Python描述符(descriptor)" href="https://blog.fangjiahui.me/posts/2019-12-17-python-descriptor/"></a>
 </article>
 

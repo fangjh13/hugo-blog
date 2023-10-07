@@ -311,7 +311,7 @@ Public(&#43;) Protected(#) Private(-) Package(~) 第二层属性的格式是
 <p>UML类图是描述类的内部结构（属性, 方法等）和类与类之间的关系（泛化, 实现，组合, 聚合，关联，依赖），是一种静态结构图。是在面向对象程序设计中建模的常用方法，不仅是系统编码和测试的重要模型，以图的形式展示还可以简化人们对系统的理解。</p>
 <h2 id="格式">格式<a hidden class="anchor" aria-hidden="true" href="#格式">#</a></h2>
 <p>一般是用三层矩形框表示，第一层表示类的名称，第二层表示的是字段和属性，第三层则是类的方法，如果某一层没有则可以省略。第一层中，如果是<strong>抽象类</strong>，名称需用<em>斜体</em>显示。</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/20200708115611873_1519558387.jpg" alt="class"  />
+<p><img loading="lazy" src="../images/20200708115611873_1519558387.jpg" alt="class"  />
 </p>
 <p>属性和方法前面的符号（+、#、-等）代表可见性</p>
 <ul>
@@ -330,42 +330,42 @@ Public(&#43;) Protected(#) Private(-) Package(~) 第二层属性的格式是
 </blockquote>
 <h2 id="类与类之间的关系">类与类之间的关系<a hidden class="anchor" aria-hidden="true" href="#类与类之间的关系">#</a></h2>
 <p>类图中类与类之间的关系主要由：继承、实现、依赖、关联、聚合、组合这六大类型。表示方式如下图：</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/20200708115205255_1705085089.jpg" alt="relation"  />
+<p><img loading="lazy" src="../images/20200708115205255_1705085089.jpg" alt="relation"  />
 </p>
 <h3 id="泛化generalizationextens">泛化（generalization/extens）<a hidden class="anchor" aria-hidden="true" href="#泛化generalizationextens">#</a></h3>
 <p>泛化又称继承，是IS-A的关系，两个对象之间如果可以用IS-A来表示，就是继承关系：（..是..)</p>
 <p>泛化关系用一条带空心箭头的实线表示；如下图表示（猫继承自动物）猫是（IS-A）动物</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/20200708154854835_905887702.jpg" alt="generalization"  />
+<p><img loading="lazy" src="../images/20200708154854835_905887702.jpg" alt="generalization"  />
 </p>
 <h3 id="实现realizationimplements">实现（realization/implements)<a hidden class="anchor" aria-hidden="true" href="#实现realizationimplements">#</a></h3>
 <p>实现关系指的是一个class类实现interface接口（可以是多个）的功能，在Java中可以直接用关键字<code>implements</code>表示，在C++中目标类可用抽象类表示</p>
 <p>实现关系用一条带空心箭头的虚线表示；如下图自行车必须实现车这个抽象类 注意这个<em>车</em>类是斜体代表抽象类</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/20200708143201877_1118780767.jpg" alt="realization"  />
+<p><img loading="lazy" src="../images/20200708143201877_1118780767.jpg" alt="realization"  />
 </p>
 <p>各种关系的强弱顺序： 泛化 = 实现 &gt; 组合 &gt; 聚合 &gt; 关联 &gt; 依赖</p>
 <h3 id="聚合aggregation">聚合（aggregation）<a hidden class="anchor" aria-hidden="true" href="#聚合aggregation">#</a></h3>
 <p>聚合关系是整体与部分的关系即HAS-A关系，整体和部分不是强依赖的可以单独存在，此时整体与部分之间是可分离的，他们可以具有各自的生命周期，部分可以属于多个整体对象，也可以为多个整体对象共享，例如公司的部门和员工，即使公司不存在了员工还是存在的。</p>
 <p>聚合关系用一条带空心菱形箭头的实线表示，如下所示部门HAS-A员工</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/20200708152257471_1964177444.jpg" alt="aggregation"  />
+<p><img loading="lazy" src="../images/20200708152257471_1964177444.jpg" alt="aggregation"  />
 </p>
 <h3 id="组合composition">组合（composition）<a hidden class="anchor" aria-hidden="true" href="#组合composition">#</a></h3>
 <p>组合关系也是整体与部分的关系，但部分不能离开整体而单独存在，整体的生命周期结束也就意味着部分的生命周期结束，他体现的是一种CONTAINS-A的关系。如公司和部门是整体和部分的关系，没有公司就不存在部门。组合关系是一种比聚合更强的关系。</p>
 <p>组合关系用一条带实心菱形箭头的实线表示，如下表示公司CONTAINS-A部门</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/20200708160550075_2023419750.jpg" alt="compositon"  />
+<p><img loading="lazy" src="../images/20200708160550075_2023419750.jpg" alt="compositon"  />
 </p>
 <h3 id="依赖dependency">依赖（dependency）<a hidden class="anchor" aria-hidden="true" href="#依赖dependency">#</a></h3>
 <p>依赖关系是一种临时性的关系，通常在运行期间产生，并且随着运行时的变化，可以简单的理解，就是一个类A使用到了另一个类B，而这种使用关系是具有偶然性的、临时性的、非常弱的，但是B类的变化会影响到A。例如程序员依赖电脑工作。</p>
 <p>依赖关系是用一条带箭头的虚线表示，依赖有方向如下程序员依赖电脑，也可以是双向的把箭头去掉，双向依赖是一种非常糟糕的结构，我们总是应该保持单向依赖，杜绝双向依赖的产生</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/20200708170807060_288930146.jpg" alt="dependency"  />
+<p><img loading="lazy" src="../images/20200708170807060_288930146.jpg" alt="dependency"  />
 </p>
 <h3 id="关联association">关联（association）<a hidden class="anchor" aria-hidden="true" href="#关联association">#</a></h3>
 <p>关联关系是两个类语义级别的一种强依赖关系，这种关系比依赖更强、不存在依赖关系的偶然性、关系也不是临时性的，一般是长期性的，而且双方的关系一般是平等的、关联可以是单向、双向的；表现在代码层面，为被关联类B以类属性或方法的形式出现在关联类A中，也可能是关联类A引用了一个类型为被关联类B的全局变量；</p>
 <p>关联关系是用一条带箭头的实线线表示，如下Person和Cat就是关联关系</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/20200708180808142_129252726.jpg" alt="association"  />
+<p><img loading="lazy" src="../images/20200708180808142_129252726.jpg" alt="association"  />
 </p>
 <h2 id="实例">实例<a hidden class="anchor" aria-hidden="true" href="#实例">#</a></h2>
 <p>下面看一个实例</p>
-<p><img loading="lazy" src="https://img.fythonfang.com/20200709115404034_1447009589.jpg" alt="example"  />
+<p><img loading="lazy" src="../images/20200709115404034_1447009589.jpg" alt="example"  />
 </p>
 <ol>
 <li>Dog和Animal是泛化（继承）关系</li>

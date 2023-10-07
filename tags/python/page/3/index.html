@@ -147,13 +147,13 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>深入理解 Python3 yield yield是python内置的关键字，它能产生一个生成器（Generator）。
+    <p>深入理解 Python3 yield yield是 python 内置的关键字，它能产生一个生成器（Generator）。
 0x01. Generators 只要函数中有yield就会变成一个generator object生成器对象，生成器对象可以迭代，但与iterable不同的是它只能迭代一次。先来看一个简单的例子
 &gt;&gt;&gt; def foo(): ... yield 1 ... yield 2 ... yield 3 ... &gt;&gt;&gt; g = foo() &gt;&gt;&gt; g &lt;generator object foo at 0x7ffb08326ca8&gt; &gt;&gt;&gt; for i in g: ... print(i) ... ... 1 2 3 &gt;&gt;&gt; for i in g: ... print(i) ... ... &gt;&gt;&gt; 当你调用foo这个函数的时候，函数内部的代码并不立马执行 ，这个函数只返回一个生成器对象，如果有庞大的数据它不像iterable占用内存，会每次调用时才计算产生值。
 其实for循环隐式的调用__next__()方法，直到遇到StopIteration停止。
 &gt;&gt;&gt; def bar(): ... yield &#39;a&#39; # 第一次调用next()代码运行到这，产生&#39;a&#39; ... yield &#39;b&#39; # 第二次调用next()代码运行到这，产生&#39;b&#39; ....</p>
   </div>
-  <footer class="entry-footer"><span title='2017-04-28 12:48:40 +0800 +0800'>April 28, 2017</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;742 words&nbsp;·&nbsp;Fython</footer>
+  <footer class="entry-footer"><span title='2017-04-28 12:48:40 +0800 +0800'>April 28, 2017</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;748 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to 深入理解 Python中的yield" href="https://blog.fangjiahui.me/posts/2017-04-28-python3-yield/"></a>
 </article>
 

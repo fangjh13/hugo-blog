@@ -162,18 +162,17 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>Python中的特殊方法 python在定义class时有很多特殊方法可以定义，它们一般都是以双下划线开头和结尾如__init__、__call__、__lt__、__iter__、__setattr__、__setitem__等，下面将对这些常用方法作一些总结。
-[TOC]
-class基本方法 __new__(cls[, ...]) 我们都知道__init__会在类初始化的时候被调用其实它不是第一个被调用的，第一个是__new__会在对象创建的时候被调用，这时还没有实例化所以它的第一个参数是cls。
+    <p>Python 中的特殊方法 python 在定义 class 时有很多特殊方法可以定义，它们一般都是以双下划线开头和结尾如__init__、__call__、__lt__、__iter__、__setattr__、__setitem__等，下面将对这些常用方法作一些总结。
+class 基本方法 __new__(cls[, ...]) 我们都知道__init__会在类初始化的时候被调用其实它不是第一个被调用的，第一个是__new__会在对象创建的时候被调用，这时还没有实例化所以它的第一个参数是cls。
 __init__(self[, ...]) 最常用的类方法不用过多介绍，对象初始化时自动调用，也就是在__new__之后才会调用。第一个参数是self实例本身。有一点要注意的是它不能返回(return)值，不然会报TypeError记住它是用来初始化对象的。
-class A: def __new__(cls): print(&#39;__new__ called&#39;) return super(A, cls).__new__(cls) def __init__(self): print(&#39;__init__ called&#39;) a = A() 返回如下，注意这是Python3的写法默认A继承自object，如果使用Python2的需要指定A继承自object基类，使用新类。不然__new__是不会被调用的。
+class A: def __new__(cls): print(&#39;__new__ called&#39;) return super(A, cls).__new__(cls) def __init__(self): print(&#39;__init__ called&#39;) a = A() 返回如下，注意这是 Python3 的写法默认A继承自object，如果使用 Python2 的需要指定A继承自object基类，使用新类。不然__new__是不会被调用的。
 __new__ called __init__ called 需要注意的是上面我们定义了__new__接收类对象(cls)，必须返回return super(A, cls).__new__(cls)这个类实例也就是下面方法的self，因为__new__会被首先调用返回实例对象以供下面的方法如__init__这些使用。如果去掉这一句其他方法会返回None。默认未定义__new__方法时，默认返回父类实例super().__new__(cls, *args, **kwargs)
 __str__(self) 调用print(obj)或str(obj)时返回的字符串是对人类友好的(human readable string)。
 __repr__(self) 调用repr(obj)或obj返回的字符串，比较偏向机器。
 __format__(self, format_spec) 调用f string或format时调用，format(value, format_spec)相当于value.__format__(format_spec)
-class Animal: def __init__(self, name): self.name = name def __format__(self, format_spec): if format_spec == &#39;view&#39;: return f&#34;this is {self.name}&#34; else: raise ValueError(&#39;invalid format spec....</p>
+class Animal: def __init__(self, name): self.name = name def __format__(self, format_spec): if format_spec == &#39;view&#39;: return f&#34;this is {self....</p>
   </div>
-  <footer class="entry-footer"><span title='2018-01-28 05:36:12 +0800 +0800'>January 28, 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;551 words&nbsp;·&nbsp;Fython</footer>
+  <footer class="entry-footer"><span title='2018-01-28 05:36:12 +0800 +0800'>January 28, 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;588 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Python中的特殊方法" href="https://blog.fangjiahui.me/posts/2018-01-28-python-magical-special-methods/"></a>
 </article>
 
