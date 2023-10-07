@@ -1,3 +1,3 @@
-# Hugo Blog
+# Fython's Blog
 
-My personal blog website, Powered by [Hugo](https://gohugo.io/) & [PaperMod](https://github.com/adityatelange/hugo-PaperMod)
+This is my personal blog website. Powered by [Hugo](https://gohugo.io/) using the [PaperMod](https://github.com/adityatelange/hugo-PaperMod) theme and host by Github.
