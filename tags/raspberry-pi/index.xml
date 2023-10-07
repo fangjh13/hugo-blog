@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Raspberry Pi on Fython&#39;s Blog</title>
-    <link>https://blog.fangjiahui.me/tags/raspberry-pi/</link>
+    <link>http://blog.fangjiahui.me/tags/raspberry-pi/</link>
     <description>Recent content in Raspberry Pi on Fython&#39;s Blog</description>
     <image>
       <title>Fython&#39;s Blog</title>
-      <url>https://blog.fangjiahui.me/blog-cover-1.png</url>
-      <link>https://blog.fangjiahui.me/blog-cover-1.png</link>
+      <url>http://blog.fangjiahui.me/blog-cover-1.png</url>
+      <link>http://blog.fangjiahui.me/blog-cover-1.png</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 02 Apr 2018 12:41:09 +0800</lastBuildDate><atom:link href="https://blog.fangjiahui.me/tags/raspberry-pi/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 02 Apr 2018 12:41:09 +0800</lastBuildDate><atom:link href="http://blog.fangjiahui.me/tags/raspberry-pi/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用usb转TTL(PL2303模块) 串口连接树莓派3B</title>
-      <link>https://blog.fangjiahui.me/posts/2018-04-02-raspberry-pi-3b-uart-serial-connect/</link>
+      <link>http://blog.fangjiahui.me/posts/2018-04-02-raspberry-pi-3b-uart-serial-connect/</link>
       <pubDate>Mon, 02 Apr 2018 12:41:09 +0800</pubDate>
       
-      <guid>https://blog.fangjiahui.me/posts/2018-04-02-raspberry-pi-3b-uart-serial-connect/</guid>
+      <guid>http://blog.fangjiahui.me/posts/2018-04-02-raspberry-pi-3b-uart-serial-connect/</guid>
       <description>使用 usb 转 TTL(PL2303 模块) 串口连接树莓派 3B By default, on Raspberry Pis equipped with the wireless/Bluetooth module (Raspberry Pi 3 and Raspberry Pi Zero W), the PL011 UART is connected to the BT module, while the mini UART is used for Linux console output. On all other models the PL011 is used for the Linux console output.
 在树莓派 3 以前，官方是将“硬件串口”分配给 GPIO 中的 UART(GPIO14&amp;amp;GPIO15)，因此可以独立调整串口的速率和模式，直接连接就可以。而在 3 以后的树莓派中因为新增了蓝牙使用掉了 UART。这样默认就不开启了，以下是手动开启的方法。
 使用 HDMI 启动树莓派编辑/boot/config.txt在后面新增以下两行
