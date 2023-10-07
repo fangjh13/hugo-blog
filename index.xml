@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Fython&#39;s Blog</title>
+    <link>http://127.0.0.1:8000/</link>
+    <description>Recent content on Fython&#39;s Blog</description>
+    <image>
+      <title>Fython&#39;s Blog</title>
+      <url>http://127.0.0.1:8000/blog-cover-1.png</url>
+      <link>http://127.0.0.1:8000/blog-cover-1.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 11 Feb 2023 11:38:27 +0800</lastBuildDate><atom:link href="http://127.0.0.1:8000/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>PostgreSQL 全文搜索</title>
+      <link>http://127.0.0.1:8000/posts/2023-02-11-postgresql-full-text-search/</link>
+      <pubDate>Sat, 11 Feb 2023 11:38:27 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2023-02-11-postgresql-full-text-search/</guid>
+      <description>PostgreSQL 内置全文搜索记录</description>
+    </item>
+    
+    <item>
+      <title>Go 服务性能分析 pprof 的使用</title>
+      <link>http://127.0.0.1:8000/posts/2022-12-16-go-tool-pprof-tutorial/</link>
+      <pubDate>Fri, 16 Dec 2022 10:51:46 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2022-12-16-go-tool-pprof-tutorial/</guid>
+      <description>go tool pprof 教程</description>
+    </item>
+    
+    <item>
+      <title>openwrt 自动重拨</title>
+      <link>http://127.0.0.1:8000/posts/2022-08-06-openwrt-auto-pppoe/</link>
+      <pubDate>Sat, 06 Aug 2022 10:47:16 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2022-08-06-openwrt-auto-pppoe/</guid>
+      <description>有的 openwrt 固件不会断网自动重播，检查 /etc/ppp/options 文件是否存在如下参数，没有的话自己加上一般就好了
+maxfail 0 persist 或者使用 crotab 重启接口，每天 3 点重新拨号
+0 3 * * * ifdown wan &amp;amp;&amp;amp; sleep 3 &amp;amp;&amp;amp; ifup wan Reference: https://www.right.com.cn/FORUM/thread-4107089-1-1.html </description>
+    </item>
+    
+    <item>
+      <title>Go 中的类型和比较</title>
+      <link>http://127.0.0.1:8000/posts/2022-05-29-go-types-and-comparisons/</link>
+      <pubDate>Sun, 29 May 2022 13:53:54 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2022-05-29-go-types-and-comparisons/</guid>
+      <description>golang 中的类型和它们的比较规则</description>
+    </item>
+    
+    <item>
+      <title>Chrome  继续访问证书错误的网页</title>
+      <link>http://127.0.0.1:8000/posts/2021-12-21-chrome-proceed-anyway/</link>
+      <pubDate>Tue, 21 Dec 2021 03:31:55 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2021-12-21-chrome-proceed-anyway/</guid>
+      <description>Chrome 继续访问证书错误的网页 chrome 有时访问 https 网页会出现警告 NET::ERR_CERT_DATE_INVALID
+Your connection is not private Attackers might be trying to steal your information from xxx.example.com (for example, passwords, messages, or credit cards). Learn more NET::ERR_CERT_DATE_INVALID 有个彩蛋 如果要继续访问只需要点击页面然后键盘输入 thisisunsafe 就可以继续访问了
+Reference https://stackoverflow.com/questions/58802767/no-proceed-anyway-option-on-neterr-cert-invalid-in-chrome-on-macos</description>
+    </item>
+    
+    <item>
+      <title>Manjaro Linux 安装 Emoji</title>
+      <link>http://127.0.0.1:8000/posts/2021-10-08-marjaro-arch-linxu-install-full-emoji/</link>
+      <pubDate>Fri, 08 Oct 2021 07:47:40 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2021-10-08-marjaro-arch-linxu-install-full-emoji/</guid>
+      <description>Manjaro 原生的字体没法覆盖全部的 Emojis 可能导致一些字体显示框框 可以通过安装 noto-fonts-emoji 将Noto Color Emoji 字体设置为默认表情符号字体来解决这个问题。Arch 应该也可以通过此方法解决
+1. 安装字体 sudo pacman -S noto-fonts-emoji 2. 在 /usr/share/fontconfig/conf.avail/ 中创建 75-noto-color-emoji.conf 文件 文件内容如下
+&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;!DOCTYPE fontconfig SYSTEM &amp;#34;fonts.dtd&amp;#34;&amp;gt; &amp;lt;fontconfig&amp;gt; &amp;lt;!-- Add generic family. --&amp;gt; &amp;lt;match target=&amp;#34;pattern&amp;#34;&amp;gt; &amp;lt;test qual=&amp;#34;any&amp;#34; name=&amp;#34;family&amp;#34;&amp;gt;&amp;lt;string&amp;gt;emoji&amp;lt;/string&amp;gt;&amp;lt;/test&amp;gt; &amp;lt;edit name=&amp;#34;family&amp;#34; mode=&amp;#34;assign&amp;#34; binding=&amp;#34;same&amp;#34;&amp;gt;&amp;lt;string&amp;gt;Noto Color Emoji&amp;lt;/string&amp;gt;&amp;lt;/edit&amp;gt; &amp;lt;/match&amp;gt; &amp;lt;!-- This adds Noto Color Emoji as a final fallback font for the default font families. --&amp;gt; &amp;lt;match target=&amp;#34;pattern&amp;#34;&amp;gt; &amp;lt;test name=&amp;#34;family&amp;#34;&amp;gt;&amp;lt;string&amp;gt;sans&amp;lt;/string&amp;gt;&amp;lt;/test&amp;gt; &amp;lt;edit name=&amp;#34;family&amp;#34; mode=&amp;#34;append&amp;#34;&amp;gt;&amp;lt;string&amp;gt;Noto Color Emoji&amp;lt;/string&amp;gt;&amp;lt;/edit&amp;gt; &amp;lt;/match&amp;gt; &amp;lt;match target=&amp;#34;pattern&amp;#34;&amp;gt; &amp;lt;test name=&amp;#34;family&amp;#34;&amp;gt;&amp;lt;string&amp;gt;serif&amp;lt;/string&amp;gt;&amp;lt;/test&amp;gt; &amp;lt;edit name=&amp;#34;family&amp;#34; mode=&amp;#34;append&amp;#34;&amp;gt;&amp;lt;string&amp;gt;Noto Color Emoji&amp;lt;/string&amp;gt;&amp;lt;/edit&amp;gt; &amp;lt;/match&amp;gt; &amp;lt;match target=&amp;#34;pattern&amp;#34;&amp;gt; &amp;lt;test name=&amp;#34;family&amp;#34;&amp;gt;&amp;lt;string&amp;gt;sans-serif&amp;lt;/string&amp;gt;&amp;lt;/test&amp;gt; &amp;lt;edit name=&amp;#34;family&amp;#34; mode=&amp;#34;append&amp;#34;&amp;gt;&amp;lt;string&amp;gt;Noto Color Emoji&amp;lt;/string&amp;gt;&amp;lt;/edit&amp;gt; &amp;lt;/match&amp;gt; &amp;lt;match target=&amp;#34;pattern&amp;#34;&amp;gt; &amp;lt;test name=&amp;#34;family&amp;#34;&amp;gt;&amp;lt;string&amp;gt;monospace&amp;lt;/string&amp;gt;&amp;lt;/test&amp;gt; &amp;lt;edit name=&amp;#34;family&amp;#34; mode=&amp;#34;append&amp;#34;&amp;gt;&amp;lt;string&amp;gt;Noto Color Emoji&amp;lt;/string&amp;gt;&amp;lt;/edit&amp;gt; &amp;lt;/match&amp;gt; &amp;lt;!</description>
+    </item>
+    
+    <item>
+      <title>破解滑块验证码（geetest极验）</title>
+      <link>http://127.0.0.1:8000/posts/2021-05-05-crack-geetest-captcha/</link>
+      <pubDate>Wed, 05 May 2021 13:15:11 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2021-05-05-crack-geetest-captcha/</guid>
+      <description>破解滑块验证码（geetest极验） 最近写爬虫遇到极验（geetest）的滑块验证码，首先想到的是用Selenium模拟人拖动滑块，那么问题来了其实主要解决下面两个问题
+拖动的距离是多少 怎么模拟出像人一样再滑动 滑动距离 先来解决第一个问题，我们怎么计算拖动距离，打开chrome的审查元素查看需要拖动的图片
+&amp;lt;div class=&amp;#34;geetest_canvas_img geetest_absolute&amp;#34; style=&amp;#34;display: block;&amp;#34;&amp;gt; &amp;lt;div class=&amp;#34;geetest_slicebg geetest_absolute&amp;#34;&amp;gt; &amp;lt;canvas class=&amp;#34;geetest_canvas_bg geetest_absolute&amp;#34; height=&amp;#34;160&amp;#34; width=&amp;#34;260&amp;#34;&amp;gt;&amp;lt;/canvas&amp;gt; &amp;lt;canvas class=&amp;#34;geetest_canvas_slice geetest_absolute&amp;#34; width=&amp;#34;260&amp;#34; height=&amp;#34;160&amp;#34;&amp;gt;&amp;lt;/canvas&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;canvas class=&amp;#34;geetest_canvas_fullbg geetest_fade geetest_absolute&amp;#34; height=&amp;#34;160&amp;#34; width=&amp;#34;260&amp;#34; style=&amp;#34;display: none;&amp;#34;&amp;gt;&amp;lt;/canvas&amp;gt; &amp;lt;/div&amp;gt; 发现有三个canvas 对应三张图片大小都是 260* 160 ，我们使用selenium执行 js 转成 base64 后再转成图片都保存下来看一下，第一张 geetest_canvas_bg 是有缺口的图片
+im_bg_b64 = driver.execute_script( &amp;#39;return document.getElementsByClassName(&amp;#34;geetest_canvas_bg geetest_absolute&amp;#34;)[0].toDataURL(&amp;#34;image/png&amp;#34;);&amp;#39;) # base64 encoded image im_bg_b64 = im_bg_b64.split(&amp;#39;,&amp;#39;)[-1] im_bg_bytes = base64.b64decode(im_bg_b64) with open(&amp;#39;./temp_bg.png&amp;#39;, &amp;#39;wb&amp;#39;) as f: f.write(im_bg_bytes) 然后第二张 geetest_canvas_slice 根据上面相同的方法保存到本地是这样的，就是一个滑块</description>
+    </item>
+    
+    <item>
+      <title>Mac Launchd 介绍和使用</title>
+      <link>http://127.0.0.1:8000/posts/2021-04-19-mac-launchd-daemons-and-agents-tutorial/</link>
+      <pubDate>Mon, 19 Apr 2021 03:25:09 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2021-04-19-mac-launchd-daemons-and-agents-tutorial/</guid>
+      <description>Mac Launchd 介绍和使用 Linux 上如果想开机开机启动一个服务或者定时运行一个服务有很多的选择比如之前介绍过的Systemd或者用crontab也可以，而在 Mac 不同它有一个类似的叫 Launchd 的系统，对应使用launchctl命令控制
+Daemons and Agents Launchd 管理 Daemons 和 Agents 两种类型分别存放在不同的文件夹下，主要的区别是
+Agents 是用户登录后执行的 Daemons 是开机后就执行，可以通过UserName指定用户比如root用户 配置文件 Launchd 配置文件以.plist结尾，本质上是xml格式的文件，Daemons 和 Agents 各存放的路径也不同
+类型 路径 说明 User Agents ~/Library/LaunchAgents 用户 Agents 当前用户登录时运行 Global Agents /Library/LaunchAgents 全局 Agents 任何用户登录时都会运行 System Agents /System/Library/LaunchAgents 系统 Agents 任何用户登录时都会运行 Global Daemons /Library/LaunchDaemons 全局 Daemons 内核初始化加载完后就运行 System Daemons /System/Library/LaunchDaemons 系统 Daemons 内核初始化加载完后就运行 系统运行开机首先会加载内核启动kernel_tas(0)，然后启动launchd(1)好后去启动指定好的 Daemons 最后用户登录再运行相应的 Agents 任务
+一般文件名都以com.domain.programName.plist格式命名，不管是 Daemons 还是 Agents 格式都是一样的，只是存放位置不同。看下面一个 hello world 的例子 ~/Library/LaunchAgents/com.</description>
+    </item>
+    
+    <item>
+      <title> Go 中的 Arrays 和 Slices</title>
+      <link>http://127.0.0.1:8000/posts/2021-04-08-go-arrays-and-slices/</link>
+      <pubDate>Thu, 08 Apr 2021 03:17:59 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2021-04-08-go-arrays-and-slices/</guid>
+      <description>Golang 中的 Arrays 和 Slices 在 go 语言中，我们经常使用Slices类型因为它的方便和灵活，它和另一个Arrays类型有着密切的关系，Slices 是建立在 Arrays 的基础上的，搞明白它们的原理能使我们更加的轻松的使用它们
+Arrays Arrays 和别的语言(C、Java)的类型一样，有固定的长度，在内存里是一块连续的空间，用以存储相同类型的 types。用如下方式申明
+var array [5]int 像[size]T在 go 中申明array，size 是 type 的一部分 如上面的[5]int代表 5 个 int 元素的 Arrays，和另一个如[10]int是不同的类型，Arrays 有确定的长度。并且申明之后带默认值(各类型的零值)。也可以使用[...]符号省略 size 申明，编译器自动计算 如array := [...]int{1, 2, 3, 4, 5} 变量array引用的是整个 Array 而不是 Array 的第一个元素，如果将一个数组另外赋值是将这个数组拷贝了一份，数组作为函数参数也是将整个数组拷贝一份，非引用数组的指针 Slices 就是因为 Arrays 比较难用，go 在此基础上建立了 Slices，它是可以动态调整长度(dynamically-sized)的描述 Arrays 一部分的 types，Slices 可以使用切片数组的方式得到
+array := [5]int{1, 2, 3, 4, 5} // Arrays var slice = array[1:4] // same as `var slice []int = array[1:4]` fmt.</description>
+    </item>
+    
+    <item>
+      <title>Bash备忘录</title>
+      <link>http://127.0.0.1:8000/posts/2021-01-20-bash-shell-cheat-sheet/</link>
+      <pubDate>Wed, 20 Jan 2021 07:50:48 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2021-01-20-bash-shell-cheat-sheet/</guid>
+      <description>BASH SHELL cheat sheet 记录一些 bash shell 脚本的奇技淫巧，都是从实际使用中 google 的。bash 各 Linux 发行版都自带方便好用特别是文本处理、一些运维之类的小脚本，但有些语法繁琐不好记容易忘整理一下方便查找。
+trap trap 命令 用于指定在接收到信号后将要采取的动作，常见的用途是在脚本程序被中断时完成清理工作。当 shell 接收到 sigspec 指定的信号时，arg 参数（命令）将会被读取，并被执行。例如：
+trap &amp;#34;exit 1&amp;#34; HUP INT PIPE QUIT TERM 表示当 shell 收到HUP,INT,PIPE,QUIT,TERM这几个信号时，当前执行的程序会读取参数&amp;quot;exit 1&amp;quot;，并将它作为命令执行。
+如果要忽略某个信号就参数使用单引号就可以&#39;&#39;
+trap &amp;#39;&amp;#39; signals 如果启动的时候忽略了信号比如使用了nohup，trap 命令是无效的。具体信号可使用man 7 signal或者kill -l查阅
+$*、$@、$# 直接上例子看，如下脚本test.sh
+echo 参数总个数 \$#: $# echo 第0个参数 \$0: $0 for a in $(seq 1 $#); do eval b=\$$a echo 第&amp;#34;$a&amp;#34;个参数 \$&amp;#34;$a&amp;#34;: $b done echo -e &amp;#34;\nUsing \&amp;#34;\$#\&amp;#34;:&amp;#34; echo &amp;#34;$#&amp;#34; echo -e &amp;#34;\nUsing \$#:&amp;#34; echo $# echo -e &amp;#34;\nUsing \&amp;#34;\$*\&amp;#34;:&amp;#34; for a in &amp;#34;$*&amp;#34;; do echo $a; done echo -e &amp;#34;\nUsing \$*:&amp;#34; for a in $*; do echo $a; done echo -e &amp;#34;\nUsing \&amp;#34;\$@\&amp;#34;:&amp;#34; for a in &amp;#34;$@&amp;#34;; do echo $a; done echo -e &amp;#34;\nUsing \$@:&amp;#34; for a in $@; do echo $a; done 然后运行此脚本，注意最后3 4用了双引号</description>
+    </item>
+    
+    <item>
+      <title>使用kubeadm在虚拟机本地搭建Kubernetes集群</title>
+      <link>http://127.0.0.1:8000/posts/2020-12-23-creating-a-kubernetes-cluster-with-kubeadm/</link>
+      <pubDate>Wed, 23 Dec 2020 13:16:29 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2020-12-23-creating-a-kubernetes-cluster-with-kubeadm/</guid>
+      <description>本地k8s集群</description>
+    </item>
+    
+    <item>
+      <title>正则表达式中的预查</title>
+      <link>http://127.0.0.1:8000/posts/2020-10-27-regular-expression-lookarounds/</link>
+      <pubDate>Tue, 27 Oct 2020 10:04:12 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2020-10-27-regular-expression-lookarounds/</guid>
+      <description>正则表达式中的预查 有时候使用正则会用到非获取匹配，就是不进行存储供以后使用，也就是正则中的预查，预查分为正向预查(lookahead)和反向预查(lookbehind)。
+正向预查
+(?=pattern)正向肯定预查(Positive lookahead)。如Python(?=3)匹配Python后跟3的语句，如输入Python3但其中最后的3不算进结果，返回Python
+(?!pattern)正向否定预查(Negative lookahead)。和上面的类似只是否定的，Python(?!3)匹配后面不带3的句子，输入Python2，也是返回Python
+反向预查
+(?&amp;lt;=pattern)反向肯定预查(Positive lookbehind)。如(?&amp;lt;=2)Python其实和上面也差不多反向就是向左匹配就是匹配Python前面是2的语句，如输入2Python，返回Python
+(?&amp;lt;!pattern)反向否定预查(Negative lookbehind)。如(?&amp;lt;!3)Python匹配Python前面不是3的输入，如输入2Python，返回Python
+还有一个长的挺像的这里也记录下
+(?:pattern) 匹配pattern但不获取匹配结果。 (?:t|b)oy只匹配boy或者toy，和toy|boy一样但更简洁，当然如果使用(t|b)oy就会多一个group</description>
+    </item>
+    
+    <item>
+      <title>Bash 快捷操作</title>
+      <link>http://127.0.0.1:8000/posts/2020-07-14-bash-tip-and-tricks/</link>
+      <pubDate>Tue, 14 Jul 2020 03:47:53 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2020-07-14-bash-tip-and-tricks/</guid>
+      <description>Bash 快捷操作 GUN Bash 是现代操作系统一般都默认自带的Shell，它兼容sh并提供了更多的feature，如果我们常用命令行那么记住一些快捷键和trick能大大提高我们的工作效率，这篇文章就介绍下本人常用的快捷键和一些技巧。
+Bash默认的是emacs模式，这里的快捷键以默认的为准，可以使用set -o命令查看，使用set -o emacs设置。
+[TOC]
+移动光标 快捷键 描述 Ctrl + a 移动光标到行首 Ctrl + e 移动光标到行尾 Alt + b 移动光标后退一个单词（词首） Alt + f 移动光标前进一个单词（词首） Ctrl + f 光标前进一个字母 Ctrl + b 光标后退一个字母 Ctrl + xx 当前位置与行首之间光标切换 一般配合Ctrl的是单字符移动，Alt是单词为边界。建议将键盘上的caps lock键改成Ctrl这样手指移动距离更短按起来也更加舒服方便。
+剪切（删除）粘贴 快捷键 描述 Ctrl + k 剪切从光标到行尾 Ctrl + u 剪切从光标到行首 Ctrl + w 从光标向前剪切一个单词 Alt + Backspace 与 Ctrl + w 类似，但分隔符是一些特殊字符 Alt + d 从光标向后剪切一个单词 Ctrl + d 删除光标下一个字母，如果没有字符存在，ctrl+d 则会登出该会话 Ctrl + h 删除光标前一个字母 Alt + t swap(当前单词, 上一个单词) Ctrl + t swap(当前字母, 上一个字母) Ctrl + y 粘贴上一次剪切的文本，配合 Ctrl-u、Ctrl-k 效果极好 大小写转换 快捷键 描述 Alt + c 大写当前字母，并移动光标到单词尾 Alt + u 大写从当光标到单词尾 Alt + l 小写从当光标到单词尾 历史命令 快捷键 描述 Ctrl + r 向后搜索历史命令 Ctrl + g 退出搜索 Ctrl + p 历史中上一个命令，代替向上方向键 Ctrl + n 历史中下一个命令，代替乡下方向键 Alt + .</description>
+    </item>
+    
+    <item>
+      <title>UML 类图</title>
+      <link>http://127.0.0.1:8000/posts/2020-07-09-uml-class-diagram/</link>
+      <pubDate>Thu, 09 Jul 2020 06:10:47 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2020-07-09-uml-class-diagram/</guid>
+      <description>UML 类图 统一建模语言（英语：Unified Modeling Language，缩写 UML）是非专利的第三代建模和规约语言。UML是一种开放的方法，用于说明、可视化、构建和编写一个正在开发的、面向对象的、软件密集系统的制品的开放方法。UML展现了一系列最佳工程实践，这些最佳实践在对大规模，复杂系统进行建模方面，特别是在软件架构层次已经被验证有效。
+以上是维基百科上对UML的定义，它定义了很多的图，本文主要介绍类图，是属于结构性图形中的静态图，本文所有图是通过OmniGraffle画的。
+结构性图形（Structure diagrams）强调的是系统式的建模：
+静态图（static diagram） 类图 对象图 包图 实现图（implementation diagram） 组件图 部署图 剖面图 复合结构图 行为式图形（Behavior diagrams）强调系统模型中触发的事件：
+活动图 状态图 用例图 交互性图形（Interaction diagrams），属于行为图形的子集合，强调系统模型中的资料流程：
+通信图 交互概述图（UML 2.0） 时序图（UML 2.0） 时间图（UML 2.0） 定义 UML类图是描述类的内部结构（属性, 方法等）和类与类之间的关系（泛化, 实现，组合, 聚合，关联，依赖），是一种静态结构图。是在面向对象程序设计中建模的常用方法，不仅是系统编码和测试的重要模型，以图的形式展示还可以简化人们对系统的理解。
+格式 一般是用三层矩形框表示，第一层表示类的名称，第二层表示的是字段和属性，第三层则是类的方法，如果某一层没有则可以省略。第一层中，如果是抽象类，名称需用斜体显示。
+属性和方法前面的符号（+、#、-等）代表可见性
+Public(+) Protected(#) Private(-) Package(~) 第二层属性的格式是
+可见性 名称 : 类型 [= 默认值]
+第三层方法的格式是
+可见性 名称(参数类型 参数, &amp;hellip;) : 返回类型
+类与类之间的关系 类图中类与类之间的关系主要由：继承、实现、依赖、关联、聚合、组合这六大类型。表示方式如下图：
+泛化（generalization/extens） 泛化又称继承，是IS-A的关系，两个对象之间如果可以用IS-A来表示，就是继承关系：（..是..)
+泛化关系用一条带空心箭头的实线表示；如下图表示（猫继承自动物）猫是（IS-A）动物
+实现（realization/implements) 实现关系指的是一个class类实现interface接口（可以是多个）的功能，在Java中可以直接用关键字implements表示，在C++中目标类可用抽象类表示
+实现关系用一条带空心箭头的虚线表示；如下图自行车必须实现车这个抽象类 注意这个车类是斜体代表抽象类
+各种关系的强弱顺序： 泛化 = 实现 &amp;gt; 组合 &amp;gt; 聚合 &amp;gt; 关联 &amp;gt; 依赖</description>
+    </item>
+    
+    <item>
+      <title>Flask项目中集成Celery</title>
+      <link>http://127.0.0.1:8000/posts/2020-05-24-flask-celery-integrated/</link>
+      <pubDate>Sun, 24 May 2020 10:20:01 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2020-05-24-flask-celery-integrated/</guid>
+      <description>flask web项目使用celery任务队列</description>
+    </item>
+    
+    <item>
+      <title>TCP连接和各状态浅析</title>
+      <link>http://127.0.0.1:8000/posts/2020-02-13-tcp-handshake-process-and-state-trainsition/</link>
+      <pubDate>Thu, 13 Feb 2020 03:38:51 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2020-02-13-tcp-handshake-process-and-state-trainsition/</guid>
+      <description>详解linux中TCP连接与断开与其中的状态</description>
+    </item>
+    
+    <item>
+      <title>通过谷歌gRPC部署线上机器学习模型</title>
+      <link>http://127.0.0.1:8000/posts/2019-12-31-python-web-grpc-inference/</link>
+      <pubDate>Tue, 31 Dec 2019 13:33:06 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2019-12-31-python-web-grpc-inference/</guid>
+      <description>python gRPC 在Flask中远程调用</description>
+    </item>
+    
+    <item>
+      <title>Python描述符(descriptor)</title>
+      <link>http://127.0.0.1:8000/posts/2019-12-17-python-descriptor/</link>
+      <pubDate>Tue, 17 Dec 2019 11:38:45 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2019-12-17-python-descriptor/</guid>
+      <description>Python描述符(descriptor) Python中有一个很少被使用或者用户自定义的特性，那就是描述符(descriptor)，但它是@property, @classmethod, @staticmethod和super的底层实现机制，我今天就扒一扒它，官方文档对描述符的介绍如下
+In general, a descriptor is an object attribute with “binding behavior”, one whose attribute access has been overridden by methods in the descriptor protocol: __get__(), __set__(), and __delete__(). If any of those methods are defined for an object, it is said to be a descriptor.
+描述符是绑定了行为的对象属性(object attribute)，实现了描述符协议(descriptor protocol)，描述符协议就是定义了__get__(),__set__(),__delete__()中的一个或者多个方法，将描述符对象作为其他对象的属性进行访问时，就会产生一些特殊的效果。
+上面的定义可能还是有些晦涩，一步步来
+默认查找属性 在没有描述符定义情况下，我们访问属性的顺序如下，以a.x为例
+查找实例字典里的属性就是a.__dict__[&#39;x&#39;]有就返回 往上查找父类的字典就是a.__class__.__dict__[&#39;x&#39;]有就返回 上面都没有就查找父类的基类(不包括元类(metaclass)) 如果定义了__getattr__就会返回此方法 最后都没有抛出AttributeError &amp;gt;&amp;gt;&amp;gt; class A: ... x = 8 ... ... &amp;gt;&amp;gt;&amp;gt; class B(A): .</description>
+    </item>
+    
+    <item>
+      <title>使用 Core dump 解密加密的sh脚本</title>
+      <link>http://127.0.0.1:8000/posts/2019-10-16-linux-core-dump-decrypt-script/</link>
+      <pubDate>Wed, 16 Oct 2019 15:31:21 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2019-10-16-linux-core-dump-decrypt-script/</guid>
+      <description>linux core dump 从内存中读取shell脚本</description>
+    </item>
+    
+    <item>
+      <title>Python实现单例(Singleton)的几种方法</title>
+      <link>http://127.0.0.1:8000/posts/2019-02-27-python-singleton/</link>
+      <pubDate>Wed, 27 Feb 2019 09:07:17 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2019-02-27-python-singleton/</guid>
+      <description>Python实现单例(Singleton)的几种方法 单例是一种比较简单的设计模式，每次实例化只提供一个相同的实例对象，对于保证实例唯一和节约系统资源的时候十分有用，下面就看看python中实现单例的几种方法
+使用__new__方法 因为在类的实例化过程中__new__方法会比__init__提前调用，我们在类属性中保存一个_singleton每次只返回这个。
+class Singleton: def __new__(cls, *args, **kwargs): if not getattr(cls, &amp;#39;_singleton&amp;#39;, None): cls._singleton = super().__new__(cls, *args, **kwargs) return cls._singleton class MyClass(Singleton): pass a = MyClass() b = MyClass() print(id(a)) # 4433117872 print(id(b)) # 4433117872 print(a is b) # True 使用装饰器 from functools import wraps def singleton(cls): _singleton = {} @wraps(cls) def wrapper(*args, **kwargs): if not _singleton.get(cls): _singleton[cls] = cls(*args, **kwargs) return _singleton[cls] return wrapper @singleton class MyClass: pass 利用装饰器中的_singleton变量存储所有类的实例</description>
+    </item>
+    
+    <item>
+      <title>Mac不安装第三方应用读写NTFS格式硬盘</title>
+      <link>http://127.0.0.1:8000/posts/2019-01-25-mac-mount-ntfs/</link>
+      <pubDate>Fri, 25 Jan 2019 08:59:14 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2019-01-25-mac-mount-ntfs/</guid>
+      <description>Mac不安装第三方应用读写NTFS格式硬盘 首先插入硬盘或者U盘，现在的盘只能读取，我们先umount以/dev/disk3s2分区为例
+❯ mount # 列出挂载分区 /dev/disk1s5 on / (apfs, local, read-only, journaled) devfs on /dev (devfs, local, nobrowse) /dev/disk1s1 on /System/Volumes/Data (apfs, local, journaled, nobrowse) /dev/disk1s4 on /private/var/vm (apfs, local, journaled, nobrowse) /dev/disk3s2 on /Volumes/TOSHIBA EXT (ntfs, local, nodev, nosuid, read-only, noowners) ❯ sudo umount /Volumes/TOSHIBA\ EXT 创建挂在路径，然后手动挂载
+sudo mkdir /Volumes/mount sudo mount -t ntfs -o rw,auto,nobrowse /dev/disk3s2 /Volumes/mount cd /Volumes/mount 就这样移动硬盘可读写了，也可以打开Finder试试</description>
+    </item>
+    
+    <item>
+      <title>Mysql数据库备份脚本(使用mysqldump)</title>
+      <link>http://127.0.0.1:8000/posts/2018-11-08-mysqldump-backup-script/</link>
+      <pubDate>Thu, 08 Nov 2018 03:11:51 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2018-11-08-mysqldump-backup-script/</guid>
+      <description>Mysql(mysqldump)备份脚本 记录下服务器上一个备份 mysql 数据库的脚本，使用 mysql 自带的mysqldump命令
+!/usr/bin/env bash USER=username PASSWORD=password MAXIMUM_BACKUP_FILES=10 BACKUP_FOLDER=/path/to/save/folder DATABASES=( db_name_0 db_name_1 ) # check mysqldump instlled _=$(command -v mysqldump) if [[ $? != 0 ]] then printf &amp;#34;You don&amp;#39;t seem to mysqldump installed, exit..\n&amp;#34; exit 1 fi # create backup folder if [ ! -d $BACKUP_FOLDER ] then mkdir $BACKUP_FOLDER fi # backup for DB in ${DATABASES[@]} do echo backing up ${DB} database ... if $(mysqldump --host=localhost --user=${USER} --password=${PASSWORD} ${DB} | gzip -9 &amp;gt; ${BACKUP_FOLDER}/db_${DB}_$(date +&amp;#34;%Y%m%d&amp;#34;).</description>
+    </item>
+    
+    <item>
+      <title>使用 Cython 加密 Python 项目</title>
+      <link>http://127.0.0.1:8000/posts/2018-11-03-encrypt-protect-python-code/</link>
+      <pubDate>Sat, 03 Nov 2018 08:32:22 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2018-11-03-encrypt-protect-python-code/</guid>
+      <description>保护 Python 代码</description>
+    </item>
+    
+    <item>
+      <title>读《亲爱的安德烈》</title>
+      <link>http://127.0.0.1:8000/posts/2018-10-07-read-dear-andreas-walther/</link>
+      <pubDate>Sun, 07 Oct 2018 14:15:27 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2018-10-07-read-dear-andreas-walther/</guid>
+      <description>今年的中秋和国庆只隔了一周的工作日，故中秋没回老家和两朋友去了东极岛看看海和吃了点海鲜惶惶三日，途中大巴车上用 kobo（类似 kindle）看了一半，国庆长假回乡见父母同学抽空书架上取出又看了一半。我可能守旧，能用实体书看的时候还是喜欢实体书的质感，捧着本书比 kobo 感觉更真实，但 kobo 能装下我书架上的所有书也方便易带和搜索，或许多年后实体书也会成为奢侈品吧。
+这是本两代人中间差了30年的一共36封家书，但读来会惊讶母亲和儿子竟可以如此像朋友般对话沟通，涵盖了政治、艺术、人生、生活等等。于儿子更能明白为人父母的殷切期望不是能成才取得多大多大的成就而是只要你过得开心。当安德烈说我这辈子可能达不到父母的成就，可能只是一个平庸人时。龙妈妈这样回答
+对我最重要的，安德烈，不是你有否成就，而是你是否快乐。而在现代的生活架构里，什么样的工作比较可能给你快乐？第一，它给你意义；第二，它给你时间。你的工作是你觉得有意义的，你的工作不绑架你使你成为工作的俘虏，容许你去充分体验生活，你就比较可能是快乐的。至于金钱和名声，哪里是快乐的核心元素呢？……我也要求你读书用功，不是因为我要你跟别人比成就，而是因为，我希望你将来有选择的权利，选择有意义、有时间的工作，而不是被迫谋生。……『平庸』是跟别人比，心灵的安适是跟自己比。我们最终极的负责对象，安德烈，千山万水走到最后，还是『自己』二字。
+而在儿子为情所困时，妈妈等了好久既激动又兴奋
+我愿意和你分享的是我自己的『心得报告』，那就是，人生就像条大河，可能风景清丽，更可能惊涛骇浪。你需要的伴侣，最好是那能够和你并肩而立在船头，浅吟低唱两岸风光，同时更能在惊涛骇浪中紧紧握住你的手不放的人。换句话说，最好她本身不是你必须应付的惊涛骇浪。
+于父母时要明白当孩子已经18岁成人时他已经是一个独立的个体，他要为自己做的事情付全部的责任。如安德烈常抽烟，而且在母亲面前抽。每次见到妈妈恨不得跑过去抽两个耳光但你不能马上上去制止，因为他已成人已是一个独立的个体。
+父母也会认识到孩子慢慢的长大，像小鸟一样终会飞走。当父母五六十岁孩子就会意识到回国头来慢慢看看，我还有父母这个窝。</description>
+    </item>
+    
+    <item>
+      <title>Systemd 中的timer单元</title>
+      <link>http://127.0.0.1:8000/posts/2018-08-16-systemd-timer-unit/</link>
+      <pubDate>Thu, 16 Aug 2018 09:43:23 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2018-08-16-systemd-timer-unit/</guid>
+      <description>Systemd 中的timer单元 上一篇讲了systemd 中的service单元，这次记录一下 timer 单元。timer 必须依赖 service 单元来配置，可以用来做替代 crontab 的选择。
+timer单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu下的apt-daily.timer，该目录下也存在一个apt-daily.service服务文件配合一起使用。
+[Unit] Description=Daily apt activities [Timer] OnCalendar=*-*-* 6,18:00 RandomizedDelaySec=12h AccuracySec=1h Persistent=true [Install] WantedBy=timers.target 上面的[Timer]块代表每天上午6点和下午6点都运行 apt 脚本，具体[Timer]块可配置以下参数
+单调定时器(Monotonic timer) Option Description OnActiveSec= 相对计时器开始后多少时间执行，格式如2h、2s、2w、2d OnBootSec= 相对系统启动后多少时间执行 OnStartupSec= 相对 systemd 启动多少时间后执行 OnUnitActiveSec= 每隔多少时间再次运行一次 OnUnitInactiveSec= 服务在最后一次停止后，隔多久再执行一次 可以两个参数一起使用，如下每周开机15分钟后执行 foo
+[Unit] Description=Run foo weekly and on boot [Timer] OnBootSec=15min OnUnitActiveSec=1w [Install] WantedBy=timers.target 实时定时器(Realtime timer) Option Description OnCalendar= 相对系统时间指定特定时刻运行，它接受如2h、2s 的格式也可以是 星期 年-月-日 时:分:秒的格式，..指定区间，*代表所有的。可参考systemd.time(7) Persistent= 是一个布尔值，默认为 no，当使用 OnCalendar 的设置时，指定该功能要不要持续进行。如断电恢复后是不是要执行上次没执行的 AccuracySec= 设置定时器的触发精度。默认值是一分钟。定时器并不必然在所设置的精准时间点上启动匹配单元， 而是在所设置的精准时间点为起点的一小段时间窗口范围内的某个时间点上启动匹配单元， 这个时间窗口的起点由 OnCalendar=, OnActiveSec=, OnBootSec=, OnStartupSec=, OnUnitActiveSec= or OnUnitInactiveSec= 决定， 而这个时间窗口的长度则由该指令决定。 RandomizedDelaySec= 将此单元的定时器随机延迟一小段时间， 这一小段时间的长度介于零到该指令设置的时间长度之间， 以均匀概率分布。 如下是每月的1到4号12点周一和周二运行 foo，格式如OnCalendar=*-*-* 4:00:00代表每天4点</description>
+    </item>
+    
+    <item>
+      <title>Mac终端(Terminal)配置</title>
+      <link>http://127.0.0.1:8000/posts/2018-07-23-mac-config-terminal/</link>
+      <pubDate>Mon, 23 Jul 2018 12:50:27 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2018-07-23-mac-config-terminal/</guid>
+      <description>Mac终端(Terminal)配置 平时工作中命令行用的比图形界面多，所以有必要配置一个赏心悦目的终端界面来提高工作效率(^_^)。
+iTerm 第一步就是替换原来的自带终端(Terminal)，换成iTerm。iTerm是一个深受广大开发者欢迎的终端App，代码托管在Github，可以直接在官网下载安装。最新版为 Build 3.4.14
+打开iTerm2 &amp;gt; Preferences &amp;gt; General，在Selection下勾上Applications in terminal may access clipboard使在iTerm中鼠标选中就能复制到系统剪切板使用command+v粘贴
+打开iTerm2 &amp;gt; Preferences &amp;gt; Profiles，右边点Keys把左右 option键设为Esc+，取消勾选Apps can change this来启用 Unix 的Alt + B和Alt + F前进和后退一个单词。
+Zsh &amp;amp; Oh My Zsh 打开 iTerm安装Homebrew
+/bin/bash -c &amp;#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&amp;#34; 使用 Homebrew 安装 zsh，设为默认的终端。从 Big Sur 已经设置zsh为默认的终端了，可以跳过此步骤，可以使用echo $SHELL检查
+brew install zsh oh-my-zsh是 zsh 的配置文件，使用下面命令安装
+sh -c &amp;#34;$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)&amp;#34; 打开 iTerm 会耐看很多，应该长成这个样子了
+配置.zshrc文件可以更改主题或者增加插件，默认启用robbyrussell 主题和开启了 git插件，可以根据需要更改主题和插件。
+SH_THEME=&amp;#34;robbyrussell&amp;#34; ... plugins=( git ) 然后加第三方插件</description>
+    </item>
+    
+    <item>
+      <title>Systemd中Service单元介绍</title>
+      <link>http://127.0.0.1:8000/posts/2018-07-08-systemd-service-unit/</link>
+      <pubDate>Sun, 08 Jul 2018 02:28:21 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2018-07-08-systemd-service-unit/</guid>
+      <description>.service 模板</description>
+    </item>
+    
+    <item>
+      <title>XPath语法</title>
+      <link>http://127.0.0.1:8000/posts/2018-06-01-xpath-syntax/</link>
+      <pubDate>Fri, 01 Jun 2018 03:23:12 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2018-06-01-xpath-syntax/</guid>
+      <description>XPath语法 XPath是在XML中检索信息的语言，也就是遍历XML文档，找出有用的信息。这里记录下XPath的语法
+选取节点 XPath 使用路径表达式在 XML 文档中选取节点。节点是通过沿着路径或者 step 来选取的。
+表达式 描述 nodename 选取此节点的所有子节点 / 从根节点选取 // 从整个文档选取，不考虑它们的位置 . 选取当前节点 .. 选取当前节点的父节点 @ 选取属性 实例 &amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;bookstore&amp;gt; &amp;lt;book category=&amp;#34;cooking&amp;#34;&amp;gt; &amp;lt;title lang=&amp;#34;en&amp;#34;&amp;gt;Everyday Italian&amp;lt;/title&amp;gt; &amp;lt;author&amp;gt;Giada De Laurentiis&amp;lt;/author&amp;gt; &amp;lt;year&amp;gt;2005&amp;lt;/year&amp;gt; &amp;lt;price&amp;gt;30.00&amp;lt;/price&amp;gt; &amp;lt;/book&amp;gt; &amp;lt;book category=&amp;#34;children&amp;#34;&amp;gt; &amp;lt;title lang=&amp;#34;zh&amp;#34;&amp;gt;哈利波特&amp;lt;/title&amp;gt; &amp;lt;author&amp;gt;J K. Rowling&amp;lt;/author&amp;gt; &amp;lt;year&amp;gt;2005&amp;lt;/year&amp;gt; &amp;lt;price&amp;gt;29.99&amp;lt;/price&amp;gt; &amp;lt;/book&amp;gt; &amp;lt;book category=&amp;#34;web&amp;#34;&amp;gt; &amp;lt;title lang=&amp;#34;en&amp;#34;&amp;gt;XQuery Kick Start&amp;lt;/title&amp;gt; &amp;lt;author&amp;gt;James McGovern&amp;lt;/author&amp;gt; &amp;lt;author&amp;gt;Per Bothner&amp;lt;/author&amp;gt; &amp;lt;author&amp;gt;Kurt Cagle&amp;lt;/author&amp;gt; &amp;lt;author&amp;gt;James Linn&amp;lt;/author&amp;gt; &amp;lt;author&amp;gt;Vaidyanathan Nagarajan&amp;lt;/author&amp;gt; &amp;lt;year&amp;gt;2003&amp;lt;/year&amp;gt; &amp;lt;price&amp;gt;49.99&amp;lt;/price&amp;gt; &amp;lt;/book&amp;gt; &amp;lt;book category=&amp;#34;web&amp;#34; cover=&amp;#34;paperback&amp;#34;&amp;gt; &amp;lt;title lang=&amp;#34;en&amp;#34;&amp;gt;Learning XML&amp;lt;/title&amp;gt; &amp;lt;author&amp;gt;Erik T.</description>
+    </item>
+    
+    <item>
+      <title>使用usb转TTL(PL2303模块) 串口连接树莓派3B</title>
+      <link>http://127.0.0.1:8000/posts/2018-04-02-raspberry-pi-3b-uart-serial-connect/</link>
+      <pubDate>Mon, 02 Apr 2018 12:41:09 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2018-04-02-raspberry-pi-3b-uart-serial-connect/</guid>
+      <description>使用 usb 转 TTL(PL2303 模块) 串口连接树莓派 3B By default, on Raspberry Pis equipped with the wireless/Bluetooth module (Raspberry Pi 3 and Raspberry Pi Zero W), the PL011 UART is connected to the BT module, while the mini UART is used for Linux console output. On all other models the PL011 is used for the Linux console output.
+在树莓派 3 以前，官方是将“硬件串口”分配给 GPIO 中的 UART(GPIO14&amp;amp;GPIO15)，因此可以独立调整串口的速率和模式，直接连接就可以。而在 3 以后的树莓派中因为新增了蓝牙使用掉了 UART。这样默认就不开启了，以下是手动开启的方法。
+使用 HDMI 启动树莓派编辑/boot/config.txt在后面新增以下两行
+# 激活串口输出 enable_uart=1 # 禁用蓝牙 dtoverlay=pi3-disable-bt 运行sudo systemctl disable hciuart禁用蓝牙服务，然后重启</description>
+    </item>
+    
+    <item>
+      <title>collections模块中的namedtuple和defaultdict</title>
+      <link>http://127.0.0.1:8000/posts/2018-02-09-python-collections-namedtuple-and-defaultdict/</link>
+      <pubDate>Fri, 09 Feb 2018 15:17:02 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2018-02-09-python-collections-namedtuple-and-defaultdict/</guid>
+      <description>collections模块中的namedtuple和defaultdict collections模块是Python中对内置类型(dict, list, tuple)的拓展。就是说它们本身具有普通内置类型的所有特性，并添加了新的功能。
+namedtuple() namedtuple(typename, field_names)是tuple的子类，定义的元组可以通过属性访问，也易于理解，self-document。field_names可以是列表或者是通过空格或者逗号分隔的字符串。
+&amp;gt;&amp;gt;&amp;gt; from collections import namedtuple &amp;gt;&amp;gt;&amp;gt; Point = namedtuple(&amp;#39;point&amp;#39;, &amp;#39;x, y&amp;#39;) &amp;gt;&amp;gt;&amp;gt; p = Point(3, y=4) &amp;gt;&amp;gt;&amp;gt; p point(x=3, y=4) &amp;gt;&amp;gt;&amp;gt; p[0] 3 &amp;gt;&amp;gt;&amp;gt; p.x 3 &amp;gt;&amp;gt;&amp;gt; x, y = p &amp;gt;&amp;gt;&amp;gt; print(x, y) 3 4 namedtuple有几个比较有用的方法和属性
+SomeNamedTuple._make(iterable)类方法，从可迭代对象中取值，长度必须和传入的field_names一致，返回一个新的对象 somenamedtuple._asdict()方法返回一个有序字典(OrderedDict) somenamedtuple._replace(**kwargs)方法替换值，返回一个新的对象，原来的不变 somenamedtuple._fields属性返回键名(field name)，可用于创建新的named tuple 再来看两个官方文档上的例子读取csv文件或者从sqlite读取
+EmployeeRecord = namedtuple(&amp;#39;EmployeeRecord&amp;#39;, &amp;#39;name, age, title, department, paygrade&amp;#39;) import csv for emp in map(EmployeeRecord._make, csv.reader(open(&amp;#34;employees.csv&amp;#34;, &amp;#34;rb&amp;#34;))): print(emp.name, emp.title) import sqlite3 conn = sqlite3.</description>
+    </item>
+    
+    <item>
+      <title>Python中的特殊方法</title>
+      <link>http://127.0.0.1:8000/posts/2018-01-28-python-magical-special-methods/</link>
+      <pubDate>Sun, 28 Jan 2018 05:36:12 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2018-01-28-python-magical-special-methods/</guid>
+      <description>整理类定义时的特殊方法</description>
+    </item>
+    
+    <item>
+      <title>配置SSH agent 和 SSH agent forwarding转发</title>
+      <link>http://127.0.0.1:8000/posts/2017-12-27-ssh-agent-and-ssh-agent-forwarding/</link>
+      <pubDate>Wed, 27 Dec 2017 03:00:27 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2017-12-27-ssh-agent-and-ssh-agent-forwarding/</guid>
+      <description>SSH agent 和 SSH agent forwarding</description>
+    </item>
+    
+    <item>
+      <title>Git工作流</title>
+      <link>http://127.0.0.1:8000/posts/2017-11-21-git-workflow/</link>
+      <pubDate>Tue, 21 Nov 2017 07:18:51 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2017-11-21-git-workflow/</guid>
+      <description>Git工作流介绍与协同工作</description>
+    </item>
+    
+    <item>
+      <title>Python中@propery 使用</title>
+      <link>http://127.0.0.1:8000/posts/2017-10-08-python-property-tutorial/</link>
+      <pubDate>Sun, 08 Oct 2017 07:26:02 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2017-10-08-python-property-tutorial/</guid>
+      <description>Python中@propery 装饰器的使用 python是面向对象的语言，当我们想在类中封装一个变量，并提供设置和获取值的时候，往往会使用如下方法。
+class Student: def __init__(self, score): self.__score = score def get_score(self): return self.__score def set_score(self, score): self.__score = score 然后如下输出
+&amp;gt;&amp;gt;&amp;gt; s = Student(99) &amp;gt;&amp;gt;&amp;gt; s.get_score() 99 &amp;gt;&amp;gt;&amp;gt; s.set_score(100) &amp;gt;&amp;gt;&amp;gt; s.get_score() 100 这是最简单的封装，但有没有像s.score这样属性直接调用s.score = 100直接赋值的呢，有！而且很简单。
+class Student: def __init__(self, score): self.score = score 没错就是__init__方法直接设置。
+&amp;gt;&amp;gt;&amp;gt; s = Student(99) &amp;gt;&amp;gt;&amp;gt; s.score 99 &amp;gt;&amp;gt;&amp;gt; s.score = 100 &amp;gt;&amp;gt;&amp;gt; s.score 100 以上的方法没有封装，而且如果我想要判断score的值范围（0~100）也无法做到，使用第一种set_score倒是可以做到。
+class Student: def __init__(self, score): self.set_score(score) def get_score(self): return self.</description>
+    </item>
+    
+    <item>
+      <title>《在宇宙间不易被风吹散》</title>
+      <link>http://127.0.0.1:8000/posts/2017-07-27-zai-yu-zhou-jian/</link>
+      <pubDate>Thu, 27 Jul 2017 05:41:11 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2017-07-27-zai-yu-zhou-jian/</guid>
+      <description>《在宇宙间不易被风吹散》 一日茶，一夜酒，一部毫不掩饰的小说，一次没有目的的见面，一群不谈正经事的朋友，用美好的器物消磨必定留不住的时间。所谓本质一直就在那里，本一不二。
+《在宇宙间不易被风吹散》是冯唐2016年出版的杂文集。他是个高产的作家其实不止是个靠文字为生的读书人更是个投资人、前麦肯锡合伙人、战略管理顾问等等只是爱好文字业余写作，最近有《搜神记》在预售。
+冯唐算是最近两年比较火的作家特别是翻译了《飞鸟集》从翻译到下架到召回之后。由于翻译的很青春荷尔蒙，诗中到处充斥着“裤裆”、“舌吻”、“他妈”等词不符合大众对诗“信、达、雅”的标准被出版商下架召回。有时也出现在各种电视节目上《铿锵三人行》《搜神记》。
+书的封面骚气十足，他怀抱着一位他热爱的妇女，若隐若现够写意。嗯，很“冯唐”！不会是又一部《素女经》、《不二》吧。书名一开始不太理解，书中旧书店一文中说我想，每个像Moskowitz先生一样牛逼的人，都要有个笃定的核，这样在宇宙间才不易被风吹散，仿佛每个伟大的街区都要有家旧书店。而冯唐这本书就是证明他有一颗笃定的核的书。
+书是一篇篇杂文、随笔组成的，在序分中他说这本书，就和各位简单分享我理解的东方美学。，书中大部分文章介绍他玩各种器物的心得和体会加冯唐体依旧自恋。当然逼格要高煮茶要用日本龙文堂造铁壶、喝茶要用北宋建窑兔毫盏、手表要戴百达翡丽、相机要莱卡M9全幅画旁轴加50mm定焦饼干镜头、戴白玉扳指用他的话说就是用美好的器物消磨必定留不住的时间。用他扎实的文字功底加非常人的见识描述出来，世俗绝不庸俗。挺喜欢他文字中的那点“坏”或者说那点“黄”和肿胀，带着点痞子气。
+除了这些美好的器物他在“跑步，让自己和身体尽人力”中说坚持运动跑步的好处甜睡、去烦、放下等，在”大学教育 我在协和学到的十件事”中说硬着头皮学些暂时不觉的有用的知识有什么用所学过的知识，哪怕基本都忘了，如果需要，我们知道去哪里找。因为我们学过，我们知道这些知识存在，我们不容易狭隘，不狭隘往往意味着不傻逼。乔布斯说要相信会有一天这些零碎的知识会串联起来帮助你。在“财富观 富二代的自我修养”中如果我只能追求一种名牌，我一定追求教育上的名牌：上最好的大学，读最有名的名著。这些都是该汲取的地方。
+还自恋地回应了下为什么这么自恋“能做到实事求是的自恋其实是自信和自尊，任何领域做到最好之后，人只能相信自己的判断，只能自恋。”
+全文完。</description>
+    </item>
+    
+    <item>
+      <title>Python3 协程(Coroutine) 与 asyncio</title>
+      <link>http://127.0.0.1:8000/posts/2017-05-18-python3-coroutine-and-asyncio/</link>
+      <pubDate>Thu, 18 May 2017 03:27:34 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2017-05-18-python3-coroutine-and-asyncio/</guid>
+      <description>协程、asyncio、async/await</description>
+    </item>
+    
+    <item>
+      <title>深入理解 Python中的yield</title>
+      <link>http://127.0.0.1:8000/posts/2017-04-28-python3-yield/</link>
+      <pubDate>Fri, 28 Apr 2017 12:48:40 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2017-04-28-python3-yield/</guid>
+      <description>Python中的yield</description>
+    </item>
+    
+    <item>
+      <title>Python装饰器(decorators)</title>
+      <link>http://127.0.0.1:8000/posts/2017-04-10-python-decorators/</link>
+      <pubDate>Mon, 10 Apr 2017 18:12:51 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2017-04-10-python-decorators/</guid>
+      <description>装饰器介绍</description>
+    </item>
+    
+    <item>
+      <title>SSH进阶 端口转发 内网穿透</title>
+      <link>http://127.0.0.1:8000/posts/2017-04-08-ssh-tunnel-port-forwarding/</link>
+      <pubDate>Sat, 08 Apr 2017 07:06:13 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2017-04-08-ssh-tunnel-port-forwarding/</guid>
+      <description>SSH Tunnel - Port Forwarding</description>
+    </item>
+    
+    <item>
+      <title>《我们仨》杨绛先生回忆录</title>
+      <link>http://127.0.0.1:8000/posts/2017-04-06-wo-men-san/</link>
+      <pubDate>Thu, 06 Apr 2017 15:55:53 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2017-04-06-wo-men-san/</guid>
+      <description>我一个人思念我们仨</description>
+    </item>
+    
+    <item>
+      <title>Python中的类变量(class variables)和实例变量(instance variables)</title>
+      <link>http://127.0.0.1:8000/posts/2017-03-25-difference-between-class-and-instance-variables/</link>
+      <pubDate>Sat, 25 Mar 2017 14:38:27 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2017-03-25-difference-between-class-and-instance-variables/</guid>
+      <description>Python中的类变量(class variables)和实例变量(instance variables) 类变量(Class Variables) 类变量是所有实例共享的变量，类和实例都能访问。也就是说类创建了之后类变量就已经初始化了之后所有的实例都共享这个变量不会单独创建。类变量需要定义在类的里面方法的外面
+class Foo: cls_var = &amp;#34;this is class method&amp;#34; def __init__(self): pass f0 = Foo() f1 = Foo() print(f0.cls_var, id(f0.cls_var)) print(f1.cls_var, id(f1.cls_var)) print(Foo.cls_var, id(Foo.cls_var)) Foo.cls_var = &amp;#34;changed&amp;#34; print(f0.cls_var, id(f0.cls_var)) print(f1.cls_var, id(f1.cls_var)) print(Foo.cls_var, id(Foo.cls_var)) 输出
+this is class method 4328472272 this is class method 4328472272 this is class method 4328472272 changed 4328412136 changed 4328412136 changed 4328412136 类Foo定义了cls_var类变量没有绑定到任何实例，类Foo和实例f0,f1它们引用的变量cls_var都是同一个地址，所以共享一个类变量，只要改变了所有引用的都会影响。以下是统计一共创建了多少实例的例子
+class Person: count = 0 # class variable def __init__(self, name): self.</description>
+    </item>
+    
+    <item>
+      <title>Python类方法与静态方法的区别 | different between staticmethod and classmethod</title>
+      <link>http://127.0.0.1:8000/posts/2017-03-20-python-different-with-staticmethod-and-classmethod/</link>
+      <pubDate>Mon, 20 Mar 2017 06:32:24 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2017-03-20-python-different-with-staticmethod-and-classmethod/</guid>
+      <description>Python中的装饰器@staticmethod和@classmethod的区别</description>
+    </item>
+    
+    <item>
+      <title>Markdown 语法说明</title>
+      <link>http://127.0.0.1:8000/posts/2017-03-19-markdown-syntax-reference/</link>
+      <pubDate>Sun, 19 Mar 2017 09:59:44 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2017-03-19-markdown-syntax-reference/</guid>
+      <description>Markdown quick reference</description>
+    </item>
+    
+    <item>
+      <title>Nginx局域网搭建静态文件下载服务器</title>
+      <link>http://127.0.0.1:8000/posts/2017-03-19-nginx-static-files-download-server-config/</link>
+      <pubDate>Sun, 19 Mar 2017 08:57:18 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2017-03-19-nginx-static-files-download-server-config/</guid>
+      <description>用Nginx做内网的文件下载服务器</description>
+    </item>
+    
+    <item>
+      <title>Mariadb Mysql 字符集设置</title>
+      <link>http://127.0.0.1:8000/posts/2017-03-18-mysql-mariadb-character-sets-and-collations/</link>
+      <pubDate>Sat, 18 Mar 2017 05:23:25 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2017-03-18-mysql-mariadb-character-sets-and-collations/</guid>
+      <description>Character Sets and Collations</description>
+    </item>
+    
+    
+    
+  </channel>
+</rss>

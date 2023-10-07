@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>TCP连接和各状态浅析 | Fython&#39;s Blog</title>
+<meta name="keywords" content="Linux, Network">
+<meta name="description" content="详解linux中TCP连接与断开与其中的状态">
+<meta name="author" content="Fython">
+<link rel="canonical" href="http://127.0.0.1:8000/posts/2020-02-13-tcp-handshake-process-and-state-trainsition/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.73c5f38ae8d9aaab6402bebf0c9459d0d8b9c7b018822bddcff46721198a28d5.css" integrity="sha256-c8XziujZqqtkAr6/DJRZ0Ni5x7AYgivdz/RnIRmKKNU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://127.0.0.1:8000/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://127.0.0.1:8000/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://127.0.0.1:8000/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://127.0.0.1:8000/apple-touch-icon.png">
+<link rel="mask-icon" href="http://127.0.0.1:8000/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="TCP连接和各状态浅析" />
+<meta property="og:description" content="详解linux中TCP连接与断开与其中的状态" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://127.0.0.1:8000/posts/2020-02-13-tcp-handshake-process-and-state-trainsition/" /><meta property="og:image" content="http://127.0.0.1:8000/blog-cover-1.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-02-13T03:38:51+08:00" />
+<meta property="article:modified_time" content="2020-04-13T03:38:57+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://127.0.0.1:8000/blog-cover-1.png"/>
+
+<meta name="twitter:title" content="TCP连接和各状态浅析"/>
+<meta name="twitter:description" content="详解linux中TCP连接与断开与其中的状态"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://127.0.0.1:8000/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "TCP连接和各状态浅析",
+      "item": "http://127.0.0.1:8000/posts/2020-02-13-tcp-handshake-process-and-state-trainsition/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "TCP连接和各状态浅析",
+  "name": "TCP连接和各状态浅析",
+  "description": "详解linux中TCP连接与断开与其中的状态",
+  "keywords": [
+    "Linux", "Network"
+  ],
+  "articleBody": "TCP连接和各状态浅析 TCP协议中三次握手连接和四次挥手断开和其中的状态变化\nTCP(Transmission Control Protocol)协议在OSI模型中属于传输层的协议(第4层)也是最常用的互联网协议，与UDP相比它是一种可靠的传输协议，建立和断开连接中一共有11种可能发生的状态(states)。\nLinux系统中可以用ss -nat命令查看所有TCP连接情况如果是旧的系统没有此命令可以使用netstat代替只是输出格式不一致，统计当前所有TCP状态可以加管道实现 ss -nat | awk 'NR\u003e1 { d[$1]++ } END { for (i in d) print i, d[i] }'\n建立连接(三次握手） TCP是面向连接的所以传输双方在传输前要建立一条连接后才能通信，建立连接后TCP协议提供全双⼯(就是可以同时发送和接收不影响)的通信服务。建立连接的过程我们给它取了个生动的名字叫“三次握手”，因为从发起到建立连接一共有三个步骤也就是双方会发三个包，先看下面的图\n首先客户端发送SYN(Synchronous)包到服务端告诉服务器开始建立连接，包里面会包含一个随机数(j)序列号(Sequence Number)，此时客户端进入SYC-SENT状态。当然最初服务器是处于LISTEN状态监听某一个端口，本文图片以绿底黑框的都代表TCP状态。 服务端收到SYN发送应答SYN-ACK(Acknowledgement)携带确认号码(Acknowledge Number)为收到的序列号+1也就是j+1，加上一个自己的SYC序列号随机数(k)，服务端把状态置为SYN-RECEIVED 客户端收到SYN-ACK包并发送确认号码k+1，此时客户端的状态为ESTABLISHED，服务器收到ACK后状态也变为ESTABLISHED 以下是wireshake抓包后TCP连接的三次握手，这里序列号码j和k都为0。\nTCP A (port 65525) TCP B (port 443) LISTEN (Start) 1. SYN-SENT --\u003e ",
+  "wordCount" : "157",
+  "inLanguage": "en",
+  "datePublished": "2020-02-13T03:38:51+08:00",
+  "dateModified": "2020-04-13T03:38:57+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Fython"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://127.0.0.1:8000/posts/2020-02-13-tcp-handshake-process-and-state-trainsition/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Fython's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://127.0.0.1:8000/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://127.0.0.1:8000/" accesskey="h" title="Fython&#39;s Blog (Alt + H)">Fython&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://127.0.0.1:8000/archives" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://127.0.0.1:8000/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://127.0.0.1:8000/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://127.0.0.1:8000/">Home</a>&nbsp;»&nbsp;<a href="http://127.0.0.1:8000/posts/">Posts</a></div>
+    <h1 class="post-title">
+      TCP连接和各状态浅析
+    </h1>
+    <div class="post-description">
+      详解linux中TCP连接与断开与其中的状态
+    </div>
+    <div class="post-meta"><span title='2020-02-13 03:38:51 +0800 +0800'>February 13, 2020</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;157 words&nbsp;·&nbsp;Fython&nbsp;|&nbsp;<a href="https://github.com/fangjh13/hugo-blog/blob/main/content/posts/2020-02-13-tcp-handshake-process-and-state-trainsition.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#建立连接三次握手">建立连接(三次握手）</a></li>
+    <li><a href="#断开连接四次挥手">断开连接(四次挥手)</a></li>
+    <li><a href="#tcp状态迁移图">TCP状态迁移图</a>
+      <ul>
+        <li><a href="#closing状态">CLOSING状态</a></li>
+        <li><a href="#状态表">状态表</a></li>
+      </ul>
+    </li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h1 id="tcp连接和各状态浅析">TCP连接和各状态浅析<a hidden class="anchor" aria-hidden="true" href="#tcp连接和各状态浅析">#</a></h1>
+<blockquote>
+<p>TCP协议中三次握手连接和四次挥手断开和其中的状态变化</p>
+</blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Transmission_Control_Protocol">TCP</a>(Transmission Control Protocol)协议在<a href="https://en.wikipedia.org/wiki/OSI_model">OSI模型</a>中属于传输层的协议(第4层)也是最常用的互联网协议，与<a href="https://en.wikipedia.org/wiki/User_Datagram_Protocol">UDP</a>相比它是一种可靠的传输协议，建立和断开连接中一共有11种可能发生的状态(states)。</p>
+<blockquote>
+<p>Linux系统中可以用<code>ss -nat</code>命令查看所有TCP连接情况如果是旧的系统没有此命令可以使用<code>netstat</code>代替只是输出格式不一致，统计当前所有TCP状态可以加管道实现
+<code>ss -nat | awk 'NR&gt;1 { d[$1]++ } END { for (i in d) print i, d[i] }'</code></p>
+</blockquote>
+<h2 id="建立连接三次握手">建立连接(三次握手）<a hidden class="anchor" aria-hidden="true" href="#建立连接三次握手">#</a></h2>
+<p>TCP是面向连接的所以传输双方在传输前要建立一条连接后才能通信，建立连接后TCP协议提供全双⼯(就是可以同时发送和接收不影响)的通信服务。建立连接的过程我们给它取了个生动的名字叫“三次握手”，因为从发起到建立连接一共有三个步骤也就是双方会发三个包，先看下面的图</p>
+<p><img loading="lazy" src="https://img.fythonfang.com/3-way-handshake.jpg" alt="3-way-handshake"  />
+</p>
+<ol>
+<li>首先客户端发送<code>SYN</code>(Synchronous)包到服务端告诉服务器开始建立连接，包里面会包含一个随机数(<code>j</code>)序列号(Sequence Number)，此时客户端进入<code>SYC-SENT</code>状态。当然最初服务器是处于<code>LISTEN</code>状态监听某一个端口，本文图片以绿底黑框的都代表TCP状态。</li>
+<li>服务端收到<code>SYN</code>发送应答<code>SYN-ACK(Acknowledgement)</code>携带确认号码(Acknowledge Number)为收到的序列号+1也就是<code>j+1</code>，加上一个自己的<code>SYC</code>序列号随机数(<code>k</code>)，服务端把状态置为<code>SYN-RECEIVED</code></li>
+<li>客户端收到<code>SYN-ACK</code>包并发送确认号码<code>k+1</code>，此时客户端的状态为<code>ESTABLISHED</code>，服务器收到<code>ACK</code>后状态也变为<code>ESTABLISHED</code></li>
+</ol>
+<p>以下是wireshake抓包后TCP连接的三次握手，这里序列号码<code>j</code>和<code>k</code>都为<code>0</code>。</p>
+<p><img loading="lazy" src="https://img.fythonfang.com/wireshark-3-way-handshake.png" alt="wireshake-3-handshake"  />
+</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    TCP A (port 65525)                                     TCP B (port 443)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                                                           LISTEN
+</span></span><span class="line"><span class="cl">       (Start)
+</span></span><span class="line"><span class="cl">  1.  SYN-SENT    --&gt; &lt;SEQ=0&gt;&lt;CTL=SYN&gt;                 --&gt; SYN-RECEIVE
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  2.  ESTABLISHED &lt;-- &lt;SEQ=0&gt;&lt;ACK=1&gt;&lt;CTL=SYN,ACK&gt;      &lt;-- SYN-RECEIVE
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  3.  ESTABLISHED --&gt; &lt;SEQ=1&gt;&lt;ACK=1&gt;&lt;CTL=ACK&gt;          --&lt; ESTABLISHED
+</span></span></code></pre></div><h2 id="断开连接四次挥手">断开连接(四次挥手)<a hidden class="anchor" aria-hidden="true" href="#断开连接四次挥手">#</a></h2>
+<p>断开连接称为“挥手”一共有四步每一方向占两步，由于TCP是全双工的所以关闭连接需要双方都完成关闭(close)才算结束，其中会涉及状态也就比握手多。客户端和服务端都可以发起挥手动作，先发送<code>FIN</code>包的动作叫主动关闭(active close)然后另一方回应<code>ACK</code>包叫执行被动关闭(passive colse)，双方各完成一次主动和被动关闭一共四次。</p>
+<p><img loading="lazy" src="https://img.fythonfang.com/4-way-handshake.jpg" alt="4-way-handshake"  />
+</p>
+<ol>
+<li>客户端数据传输完毕发起断开连接(主动关闭)，发送<code>FIN</code>包携带一个序列号(<code>x</code>)到服务端并更新自己的状态为<code>FIN-WAIT-1</code></li>
+<li>服务端收到<code>FIN</code>包返回<code>ACK</code>包(被动关闭)，应答ACK确认序号为<code>x+1</code>，服务端此时的状态为<code>CLOSE-WAIT</code>。另一边客户端收到<code>ACK</code>更新状态为<code>FIN-WAIT-2</code></li>
+<li>服务端准备执行断开连接(主动关闭)，此时服务端的状态还是<code>CLOSE-WAIT</code>，发送<code>FIN</code>包携带序列号(<code>y</code>)到客户端更新服务端状态为<code>LAST-ACK</code>，客户端收到<code>FIN</code>包后状态变为<code>TIME-WAIT</code>。</li>
+<li>客户端收到<code>FIN</code>应答<code>ACK</code>(被动关闭)携带确认序号为<code>y+1</code>，服务端收到<code>ACK</code>立即关闭连接状态变为<code>CLOSED</code></li>
+<li>因为客户端最后不知道服务端有没有收到<code>ACK</code>包，所以默认等待两倍的<a href="https://en.wikipedia.org/wiki/Maximum_segment_lifetime">MSL</a>(Maximum Segment Lifetime)，Linux上MSL一般为60s，等待120s使服务器如果没有收到<code>ACK</code>也能重传<code>FIN</code>包，最后把自己的状态置为<code>CLOSED</code>在此之前的MSL时间中一直是<code>TIME-WAIT</code>状态</li>
+</ol>
+<p>看一个现实中的例子ssh连接退出</p>
+<p><img loading="lazy" src="https://img.fythonfang.com/wireshark-4-way-handshake.png" alt="wireshake-4-handshake"  />
+</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    TCP A (port 49612)                                     TCP B (port 22)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  1.  ESTABLISHED                                          ESTABLISHED
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  2.  (Close)
+</span></span><span class="line"><span class="cl">      FIN-WAIT-1  --&gt; &lt;SEQ=277&gt;&lt;ACK=401&gt;&lt;CTL=FIN,ACK&gt;  --&gt; CLOSE-WAIT
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  3.  FIN-WAIT-2  &lt;-- &lt;SEQ=401&gt;&lt;ACK=278&gt;&lt;CTL=ACK&gt;      &lt;-- CLOSE-WAIT
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  4.                                                       (Close)
+</span></span><span class="line"><span class="cl">      TIME-WAIT   &lt;-- &lt;SEQ=401&gt;&lt;ACK=278&gt;&lt;CTL=FIN,ACK&gt;  &lt;-- LAST-ACK
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  5.  TIME-WAIT   --&gt; &lt;SEQ=278&gt;&lt;ACK=402&gt;&lt;CTL=ACK&gt;      --&lt; CLOSED
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  6.  (2 MSL)
+</span></span><span class="line"><span class="cl">      CLOSED
+</span></span></code></pre></div><h2 id="tcp状态迁移图">TCP状态迁移图<a hidden class="anchor" aria-hidden="true" href="#tcp状态迁移图">#</a></h2>
+<p>TCP一共有11种状态，虚线箭头表示客户端状态转换轨迹，实线表示服务端，但这里的客户端和服务端不是绝对的可以互换。</p>
+<p><img loading="lazy" src="https://img.fythonfang.com/TCP-state-transition-diagram.gif" alt="TCP state transition diagram"  />
+</p>
+<h3 id="closing状态">CLOSING状态<a hidden class="anchor" aria-hidden="true" href="#closing状态">#</a></h3>
+<p>仔细看你会发现有一个<code>CLOSING</code>状态有些陌生，因为以上介绍的三次握手和四次挥手都是正常且顺序连接或断开中TCP状态，现实应用中比较复杂上面还有一个状态没有涉及到就是<code>CLOSING</code></p>
+<p>从上面状态转换图中可看到<code>CLOSING</code>状态发生的情况是在首先发起挥手的一方(比如说客户端)正常如上图在<code>FIN-WAIT-1</code>后会进入<code>FIN-WAIT-2</code>，可进入<code>FIN-WAIT-2</code>是有条件的那就是收到第一次发<code>FIN</code>后服务端返回的<code>ACK</code>，可此时客户端没有收到<code>ACK</code>反而收到了服务端的<code>FIN</code>包，按上面讲的这就乱序了，这种特殊情况就是<code>CLOSING</code>状态，也就是说进入<code>CLOSING</code>有下面三个条件</p>
+<ul>
+<li>主动关闭发送<code>FIN</code>包发起后(此时是<code>FIN-WAIT-1</code>)</li>
+<li>没有收到另一方的<code>ACK</code>包等待中</li>
+<li>收到另一方发送过来的 <code>FIN</code>包</li>
+</ul>
+<h3 id="状态表">状态表<a hidden class="anchor" aria-hidden="true" href="#状态表">#</a></h3>
+<p>现在对所有状态做个总结</p>
+<table>
+<thead>
+<tr>
+<th>TCP connection state</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LISTEN</td>
+<td>SOCKET监听中等待远程连接</td>
+</tr>
+<tr>
+<td>SYN-SENT</td>
+<td>发送连接请求SYN包后等待SYN-ACK包，第一次握手</td>
+</tr>
+<tr>
+<td>SYN-RECEIVED</td>
+<td>连接收到SYN包到并返回SYN-ACK包等待远端ACK，第二次握手</td>
+</tr>
+<tr>
+<td>ESTABLISHED</td>
+<td>连接已经建立，双方可以传输数据了,第三次握手</td>
+</tr>
+<tr>
+<td>FIN-WAIT-1</td>
+<td>发起主动关闭发送FIN包后等待ACK包,第一次挥手，另一方一般很快返回很少见到</td>
+</tr>
+<tr>
+<td>CLOSE-WAIT</td>
+<td>被动关闭收到对方FIN包，返回发送ACK包，在没有发起主动关闭之前一直使这个状态，第二次挥手</td>
+</tr>
+<tr>
+<td>FIN-WAIT-2</td>
+<td>收到发起主动关闭返回的ACK包，等待对方发送FIN包，现在只能接收数据不能发送数据，也叫半关闭状态，持续时间短，第二次挥手</td>
+</tr>
+<tr>
+<td>LAST-ACK</td>
+<td>进行一次被动关闭后，发起主动关闭等待ACK，第三次挥手</td>
+</tr>
+<tr>
+<td>TIME-WAIT</td>
+<td>主动关闭执行后，收到FIN包(第三次挥手)，并返回ACK(第四次挥手) 等待两倍的MSL之后进入CLOSED</td>
+</tr>
+<tr>
+<td>CLOSING</td>
+<td>见上面</td>
+</tr>
+<tr>
+<td>CLOSED</td>
+<td>连接关闭没有连接</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reference">Reference<a hidden class="anchor" aria-hidden="true" href="#reference">#</a></h2>
+<ol>
+<li><a href="https://www.ibm.com/support/knowledgecenter/en/SSLTBW_2.1.0/com.ibm.zos.v2r1.halu101/constatus.htm">www.ibm.com</a></li>
+<li><a href="https://community.apigee.com/articles/7970/tcp-states-explained.html">community.apigee.com</a></li>
+<li><a href="https://blog.confirm.ch/tcp-connection-states/">blog.confirm.ch</a></li>
+<li><a href="https://blog.csdn.net/dog250/article/details/52070680">blog.csdn.net</a></li>
+</ol>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://127.0.0.1:8000/tags/linux/">Linux</a></li>
+      <li><a href="http://127.0.0.1:8000/tags/network/">Network</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://127.0.0.1:8000/posts/2020-05-24-flask-celery-integrated/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>Flask项目中集成Celery</span>
+  </a>
+  <a class="next" href="http://127.0.0.1:8000/posts/2019-12-31-python-web-grpc-inference/">
+    <span class="title">Next »</span>
+    <br>
+    <span>通过谷歌gRPC部署线上机器学习模型</span>
+  </a>
+</nav>
+
+
+<div class="share-buttons">
+    <a target="_blank" rel="noopener noreferrer" aria-label="share TCP连接和各状态浅析 on twitter"
+        href="https://twitter.com/intent/tweet/?text=TCP%e8%bf%9e%e6%8e%a5%e5%92%8c%e5%90%84%e7%8a%b6%e6%80%81%e6%b5%85%e6%9e%90&amp;url=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2020-02-13-tcp-handshake-process-and-state-trainsition%2f&amp;hashtags=Linux%2cNetwork">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share TCP连接和各状态浅析 on linkedin"
+        href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2020-02-13-tcp-handshake-process-and-state-trainsition%2f&amp;title=TCP%e8%bf%9e%e6%8e%a5%e5%92%8c%e5%90%84%e7%8a%b6%e6%80%81%e6%b5%85%e6%9e%90&amp;summary=TCP%e8%bf%9e%e6%8e%a5%e5%92%8c%e5%90%84%e7%8a%b6%e6%80%81%e6%b5%85%e6%9e%90&amp;source=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2020-02-13-tcp-handshake-process-and-state-trainsition%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share TCP连接和各状态浅析 on reddit"
+        href="https://reddit.com/submit?url=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2020-02-13-tcp-handshake-process-and-state-trainsition%2f&title=TCP%e8%bf%9e%e6%8e%a5%e5%92%8c%e5%90%84%e7%8a%b6%e6%80%81%e6%b5%85%e6%9e%90">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share TCP连接和各状态浅析 on facebook"
+        href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2020-02-13-tcp-handshake-process-and-state-trainsition%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share TCP连接和各状态浅析 on whatsapp"
+        href="https://api.whatsapp.com/send?text=TCP%e8%bf%9e%e6%8e%a5%e5%92%8c%e5%90%84%e7%8a%b6%e6%80%81%e6%b5%85%e6%9e%90%20-%20http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2020-02-13-tcp-handshake-process-and-state-trainsition%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share TCP连接和各状态浅析 on telegram"
+        href="https://telegram.me/share/url?text=TCP%e8%bf%9e%e6%8e%a5%e5%92%8c%e5%90%84%e7%8a%b6%e6%80%81%e6%b5%85%e6%9e%90&amp;url=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2020-02-13-tcp-handshake-process-and-state-trainsition%2f">
+        <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share TCP连接和各状态浅析 on ycombinator"
+        href="https://news.ycombinator.com/submitlink?t=TCP%e8%bf%9e%e6%8e%a5%e5%92%8c%e5%90%84%e7%8a%b6%e6%80%81%e6%b5%85%e6%9e%90&u=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2020-02-13-tcp-handshake-process-and-state-trainsition%2f">
+        <svg version="1.1" xml:space="preserve" width="30px" height="30px" viewBox="0 0 512 512" fill="currentColor"
+            xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+            <path
+                d="M449.446 0C483.971 0 512 28.03 512 62.554L512 449.446C512 483.97 483.97 512 449.446 512L62.554 512C28.03 512 0 483.97 0 449.446L0 62.554C0 28.03 28.029 0 62.554 0L449.446 0ZM183.8767 87.9921H121.8427L230.6673 292.4508V424.0079H281.3328V292.4508L390.1575 87.9921H328.1233L256 238.2489z" />
+        </svg>
+    </a>
+</div>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://127.0.0.1:8000/">Fython&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

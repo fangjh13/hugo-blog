@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Go on Fython&#39;s Blog</title>
+    <link>http://127.0.0.1:8000/tags/go/</link>
+    <description>Recent content in Go on Fython&#39;s Blog</description>
+    <image>
+      <title>Fython&#39;s Blog</title>
+      <url>http://127.0.0.1:8000/blog-cover-1.png</url>
+      <link>http://127.0.0.1:8000/blog-cover-1.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 16 Dec 2022 10:51:46 +0800</lastBuildDate><atom:link href="http://127.0.0.1:8000/tags/go/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go 服务性能分析 pprof 的使用</title>
+      <link>http://127.0.0.1:8000/posts/2022-12-16-go-tool-pprof-tutorial/</link>
+      <pubDate>Fri, 16 Dec 2022 10:51:46 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2022-12-16-go-tool-pprof-tutorial/</guid>
+      <description>go tool pprof 教程</description>
+    </item>
+    
+    <item>
+      <title>Go 中的类型和比较</title>
+      <link>http://127.0.0.1:8000/posts/2022-05-29-go-types-and-comparisons/</link>
+      <pubDate>Sun, 29 May 2022 13:53:54 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2022-05-29-go-types-and-comparisons/</guid>
+      <description>golang 中的类型和它们的比较规则</description>
+    </item>
+    
+    <item>
+      <title> Go 中的 Arrays 和 Slices</title>
+      <link>http://127.0.0.1:8000/posts/2021-04-08-go-arrays-and-slices/</link>
+      <pubDate>Thu, 08 Apr 2021 03:17:59 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2021-04-08-go-arrays-and-slices/</guid>
+      <description>Golang 中的 Arrays 和 Slices 在 go 语言中，我们经常使用Slices类型因为它的方便和灵活，它和另一个Arrays类型有着密切的关系，Slices 是建立在 Arrays 的基础上的，搞明白它们的原理能使我们更加的轻松的使用它们
+Arrays Arrays 和别的语言(C、Java)的类型一样，有固定的长度，在内存里是一块连续的空间，用以存储相同类型的 types。用如下方式申明
+var array [5]int 像[size]T在 go 中申明array，size 是 type 的一部分 如上面的[5]int代表 5 个 int 元素的 Arrays，和另一个如[10]int是不同的类型，Arrays 有确定的长度。并且申明之后带默认值(各类型的零值)。也可以使用[...]符号省略 size 申明，编译器自动计算 如array := [...]int{1, 2, 3, 4, 5} 变量array引用的是整个 Array 而不是 Array 的第一个元素，如果将一个数组另外赋值是将这个数组拷贝了一份，数组作为函数参数也是将整个数组拷贝一份，非引用数组的指针 Slices 就是因为 Arrays 比较难用，go 在此基础上建立了 Slices，它是可以动态调整长度(dynamically-sized)的描述 Arrays 一部分的 types，Slices 可以使用切片数组的方式得到
+array := [5]int{1, 2, 3, 4, 5} // Arrays var slice = array[1:4] // same as `var slice []int = array[1:4]` fmt.</description>
+    </item>
+    
+  </channel>
+</rss>

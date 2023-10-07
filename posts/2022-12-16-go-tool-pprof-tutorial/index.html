@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Go 服务性能分析 pprof 的使用 | Fython&#39;s Blog</title>
+<meta name="keywords" content="Go">
+<meta name="description" content="go tool pprof 教程">
+<meta name="author" content="Fython">
+<link rel="canonical" href="http://127.0.0.1:8000/posts/2022-12-16-go-tool-pprof-tutorial/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.73c5f38ae8d9aaab6402bebf0c9459d0d8b9c7b018822bddcff46721198a28d5.css" integrity="sha256-c8XziujZqqtkAr6/DJRZ0Ni5x7AYgivdz/RnIRmKKNU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://127.0.0.1:8000/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://127.0.0.1:8000/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://127.0.0.1:8000/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://127.0.0.1:8000/apple-touch-icon.png">
+<link rel="mask-icon" href="http://127.0.0.1:8000/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Go 服务性能分析 pprof 的使用" />
+<meta property="og:description" content="go tool pprof 教程" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://127.0.0.1:8000/posts/2022-12-16-go-tool-pprof-tutorial/" /><meta property="og:image" content="http://127.0.0.1:8000/blog-cover-1.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-16T10:51:46+08:00" />
+<meta property="article:modified_time" content="2022-12-16T10:56:43+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://127.0.0.1:8000/blog-cover-1.png"/>
+
+<meta name="twitter:title" content="Go 服务性能分析 pprof 的使用"/>
+<meta name="twitter:description" content="go tool pprof 教程"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://127.0.0.1:8000/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Go 服务性能分析 pprof 的使用",
+      "item": "http://127.0.0.1:8000/posts/2022-12-16-go-tool-pprof-tutorial/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Go 服务性能分析 pprof 的使用",
+  "name": "Go 服务性能分析 pprof 的使用",
+  "description": "go tool pprof 教程",
+  "keywords": [
+    "Go"
+  ],
+  "articleBody": "Go 服务性能分析 pprof 的使用 go 是主打性能的语言 所以官方集成了方便性能检测的工具 go tool pprof 方便好用，主要可以收集如下指标\nprofile : 程序 cpu 使用情况，按照一定频率去采集应用程序在 CPU 和寄存器上面的数据 heap : 程序 heap 内存使用情况，和调用关系 goroutine : 程序内 goroutine 启动数，各自的调用情况。 block : 报告导致阻塞的同步原语的情况 goroutines 不在运行状态的情况，可以用来分析和查找死锁等性能瓶颈。默认情况下未启用，需要手动调用runtime.SetBlockProfileRate启用。 mutex: 报告锁竞争。默认情况下未启用，需要手动调用runtime.SetMutexProfileFraction启用。 集成到服务 服务应用 常驻的服务型应用要使用 pprof 首先得在服务启动入口导入包\nimport _ \"net/http/pprof\" ··· go func() { log.Println(http.ListenAndServe(\"localhost:6060\", nil)) }() 然后浏览器访问http://localhost:6060/debug/pprof/，显示如下页面\n如上如果服务是 http 服务且使用的是 http.DefaultServeMux 不需要做任何路由注册默认会注册相关路由，初始化调用了init 函数会自动注册，路径为 /debug/pprof/，显示上图，能大概看个当前 goroutine 数目、堆分配情况、锁的情况，具体分析还是要使用下文的 go tool pprof 工具。\n如果使用的是自定义的 ServeMux 或 Handler 需要我们自己手动注册需要的路由，比如使用 echo 框架的时候\nfunc RegisterRoutes(engine *echo.Echo) { router := engine.Group(\"\") ...... // 按需注册 router.GET(\"/debug/pprof\", echo.WrapHandler(http.HandlerFunc(pprof.Index))) router.GET(\"/debug/pprof/allocs\", echo.WrapHandler(http.HandlerFunc(pprof.Index))) router.GET(\"/debug/pprof/block\", echo.WrapHandler(http.HandlerFunc(pprof.Index))) router.GET(\"/debug/pprof/goroutine\", echo.WrapHandler(http.HandlerFunc(pprof.Index))) router.GET(\"/debug/pprof/heap\", echo.WrapHandler(http.HandlerFunc(pprof.Index))) router.GET(\"/debug/pprof/mutex\", echo.WrapHandler(http.HandlerFunc(pprof.Index))) router.GET(\"/debug/pprof/cmdline\", echo.WrapHandler(http.HandlerFunc(pprof.Cmdline))) router.GET(\"/debug/pprof/profile\", echo.WrapHandler(http.HandlerFunc(pprof.Profile))) router.GET(\"/debug/pprof/symbol\", echo.WrapHandler(http.HandlerFunc(pprof.Symbol))) router.POST(\"/debug/pprof/symbol\", echo.WrapHandler(http.HandlerFunc(pprof.Symbol))) router.GET(\"/debug/pprof/trace\", echo.WrapHandler(http.HandlerFunc(pprof.Trace))) router.GET(\"/debug/pprof/threadcreate\", echo.WrapHandler(http.HandlerFunc(pprof.Index))) } 如果使用的是 gin 框架，可以使用官方提供的 middleware\n独立应用 独立应用（执行完就退出）使用 pprof ，如工具类应用需要用到 runtime/pprof 包，手动设置 cpu profile 直接放在 main 函数就行，为了更小的影响性能 pprof 会大概以 100 次/秒的频率采样，程序退出最后保存到设置的文件\nvar cpuprofile = flag.String(\"cpuprofile\", \"\", \"write cpu profile to file\") func main() { flag.Parse() if *cpuprofile != \"\" { f, err := os.Create(*cpuprofile) if err != nil { log.Fatal(err) } pprof.StartCPUProfile(f) defer pprof.StopCPUProfile() // cpu 需要调用 StopCPUProfile } ... 内存分析需要在调用的函数后调用 WriteHeapProfile 方法就可以，不需要 stop，如官方教程在 FindHavlakLoops 后设置了 WriteHeapProfile\nvar memprofile = flag.String(\"memprofile\", \"\", \"write memory profile to this file\") ... FindHavlakLoops(cfgraph, lsgraph) if *memprofile != \"\" { f, err := os.Create(*memprofile) if err != nil { log.Fatal(err) } pprof.WriteHeapProfile(f) f.Close() return } 分析 不管是开启了 http 服务分析，还是手动设置的，都需要使用如下命令分析\ngo tool pprof [options] [binary] ... binary 为 build 后的二进制文件，source 为上面生成的报告，也可以是 http 地址， 如果带 -http= 参数会以 web UI 方式展示\n# cpu profile go tool pprof ./main profile.out # cpu profile use http go tool pprof ./main http://loacalhost:6060/debug/pprof/profile # memory go tool pprof ./main http://loacalhost:6060/debug/pprof/heap # goroutine go tool pprof ./main http://loacalhost:6060/debug/pprof/goroutine # cpu 采样 60s 默认 30s go tool pprof ./main 'http://loacalhost:6060/debug/pprof/profile?seconds=60' # web UI 方式查看 go tool pprof -http=:8080 ./main profile.out 单体应用 以cpu_profile.go代码为例，启动参数开启 cpu profile\ngo build ./cpu_profile.go ./cpu_profile -cpuprofile cpu_profile.out go tool pprof ./cpu_profile cpu_profile.out 然后启动文本模式的命令行\nFile: cpu_profile Type: cpu Time: Dec 13, 2022 at 2:29pm (CST) Duration: 5.16s, Total samples = 4.02s (77.93%) Entering interactive mode (type \"help\" for commands, \"o\" for options) (pprof) 显示 Type: cpu 表示是 cpu profile，采样时间是 5.16s，输入 help 可以查看所有的命令，命令有很多一般常用的有 top, list, peek, tree,web\n(pprof) top Showing nodes accounting for 4.02s, 100% of 4.02s total Showing top 10 nodes out of 11 flat flat% sum% cum cum% 3.63s 90.30% 90.30% 3.99s 99.25% main.Task 0.36s 8.96% 99.25% 0.36s 8.96% runtime.asyncPreempt 0.03s 0.75% 100% 0.03s 0.75% runtime.pthread_cond_signal 0 0% 100% 0.03s 0.75% runtime.mcall 0 0% 100% 0.03s 0.75% runtime.notewakeup 0 0% 100% 0.03s 0.75% runtime.park_m 0 0% 100% 0.03s 0.75% runtime.resetspinning 0 0% 100% 0.03s 0.75% runtime.schedule 0 0% 100% 0.03s 0.75% runtime.semawakeup 0 0% 100% 0.03s 0.75% runtime.startm (pprof) 使用 top 命令查看占用前 10 占用 cpu 的采样，可以使用 top 30 增加输出数目，前三列显示了函数正在运行的占用 cpu 的时间，所占用的百分比，第三列是当前所有函数总的使用 cpu 的比例。第四列和第五列代表这个函数以及子函数运行所占用的时间和比例（也被称为累加值 cumulative），应该大于等于前两列的值，可以用 top -cum 按 cumulative 排序，可以明显的看到 main.Task 占用了 90.30% 占用 cpu 异常高\n(pprof) list Task Total: 4.02s ROUTINE ======================== main.Task in ... cpu_profile.go 3.63s 3.99s (flat, cum) 99.25% of Total . . 9:) . . 10: . . 11:var cpuprofile = flag.String(\"cpuprofile\", \"\", \"write cpu profile to file\") . . 12: . . 13:func Task() { 3.63s 3.99s 14: for { . . 15: } . . 16:} . . 17: . . 18:func main() { . . 19: flag.Parse() (pprof) peek Task Showing nodes accounting for 4.02s, 100% of 4.02s total ----------------------------------------------------------+------------- flat flat% sum% cum cum% calls calls% + context ----------------------------------------------------------+------------- 3.63s 90.30% 90.30% 3.99s 99.25% | main.Task 0.36s 9.02% | runtime.asyncPreempt ----------------------------------------------------------+------------- (pprof) list 后跟正则表达式显示源码，peek 显示调用链\n(pprof) web web 命令显示 svg 图，能更直观的展示，前提是需要安装 graphviz，权重越大方框越大，颜色越明显，箭头是调用图\n服务型应用 我们来看下如果使用的是 http 服务，以 server.go 为例，服务启动后监听在:6060端口\n❯ go build ./server.go ❯ ./server # 启动 访问 http://127.0.0.1:6060/debug/pprof/ 显示 profile 信息，如上图。多次调用/enlarge 路由后进入内存分析\n❯ curl http://127.0.0.1:6060/enlarge slice len: 10485760 ❯ curl http://127.0.0.1:6060/enlarge slice len: 20971520 ❯ curl http://127.0.0.1:6060/enlarge slice len: 31457280 ❯ curl http://127.0.0.1:6060/enlarge slice len: 41943040 ❯ go tool pprof 'http://127.0.0.1:6060/debug/pprof/heap' Fetching profile over HTTP from http://127.0.0.1:6060/debug/pprof/heap Saved profile in ~/pprof/pprof.alloc_objects.alloc_space.inuse_objects.inuse_space.001.pb.gz Type: inuse_space Time: Dec 13, 2022 at 3:32pm (CST) Entering interactive mode (type \"help\" for commands, \"o\" for options) (pprof) top Showing nodes accounting for 57.95MB, 100% of 57.95MB total Showing top 10 nodes out of 28 flat flat% sum% cum cum% 54.95MB 94.82% 94.82% 54.95MB 94.82% main.main.func1 1.50MB 2.59% 97.41% 1.50MB 2.59% runtime.allocm 0.50MB 0.86% 98.27% 0.50MB 0.86% runtime.acquireSudog 0.50MB 0.86% 99.14% 0.50MB 0.86% runtime.bgscavenge 0.50MB 0.86% 100% 1MB 1.73% runtime.gcBgMarkWorker 0 0% 100% 54.95MB 94.82% net/http.(*ServeMux).ServeHTTP 0 0% 100% 54.95MB 94.82% net/http.(*conn).serve 0 0% 100% 54.95MB 94.82% net/http.HandlerFunc.ServeHTTP 0 0% 100% 54.95MB 94.82% net/http.serverHandler.ServeHTTP 0 0% 100% 0.50MB 0.86% runtime.gcMarkDone (pprof) list func1 Total: 57.95MB ROUTINE ======================== main.main.func1 in ~/pprof/demo/server.go 54.95MB 54.95MB (flat, cum) 94.82% of Total . . 11: . . 12:func main() { . . 13: . . 14: http.HandleFunc(\"/enlarge\", func(w http.ResponseWriter, r *http.Request) { . . 15: d := make([]byte, 10*1024*1024) // 10M 54.95MB 54.95MB 16: data = append(data, d...) . . 17: fmt.Fprintf(w, \"slice len: %d\", len(data)) . . 18: }) . . 19: . . 20: log.Println(http.ListenAndServe(\"localhost:6060\", nil)) . . 21:} (pprof) tree func1 Active filters: focus=func1 Showing nodes accounting for 54.95MB, 93.21% of 58.96MB total ----------------------------------------------------------+------------- flat flat% sum% cum cum% calls calls% + context ----------------------------------------------------------+------------- 54.95MB 100% | net/http.HandlerFunc.ServeHTTP 54.95MB 93.21% 93.21% 54.95MB 93.21% | main.main.func1 ----------------------------------------------------------+------------- 54.95MB 100% | net/http.serverHandler.ServeHTTP 0 0% 93.21% 54.95MB 93.21% | net/http.(*ServeMux).ServeHTTP 54.95MB 100% | net/http.HandlerFunc.ServeHTTP ----------------------------------------------------------+------------- 0 0% 93.21% 54.95MB 93.21% | net/http.(*conn).serve 54.95MB 100% | net/http.serverHandler.ServeHTTP ----------------------------------------------------------+------------- 54.95MB 100% | net/http.(*ServeMux).ServeHTTP 0 0% 93.21% 54.95MB 93.21% | net/http.HandlerFunc.ServeHTTP 54.95MB 100% | main.main.func1 ----------------------------------------------------------+------------- 54.95MB 100% | net/http.(*conn).serve 0 0% 93.21% 54.95MB 93.21% | net/http.serverHandler.ServeHTTP 54.95MB 100% | net/http.(*ServeMux).ServeHTTP ----------------------------------------------------------+------------- (pprof) 命令和之前 cpu profile 分析一样只是这次对象是内存，Type: inuse_space 是默认的统计的是内存使用大小，在 go tool pprof执行时加上 -inuse_objects 可以切换，还有几个参数如下\n-inuse_space: 正在使用的内存大小，默认模式 -inuse_objects: 正在使用，尚未被释放的对象数量 -alloc_space: 已经被分配的内存空间，没有考虑对象释放的情况 -alloc_objects: 已经被分配的对象数量，没有考虑对象释放的情况 如果是内存泄露, 可以根据 inuse_space 的占比和变化判断, 但是也不是万能的, 有些时候, 一些 inuse_space 是因为高流量导致的. 对于频繁创建的一些对象 可以在 alloc_space 和 alloc_object 判断, 这种场景可以通过复用对象池来减少没意义的分配。\n上面 main.main.func1 明显就是内存很高，很容易排查到，tree命令显示了函数调用栈\n在调用 cpu profile 时默认采样 30s，可以使用 ?seconds=5s参数指定，如果在调用时返回一个 \"profile duration exceeds server's *WriteTimeout*\"的错误。那是 http.Server 的 WriteTimeout 小了调大相应的值即可\nhttp.Server{ Addr: addr, ReadTimeout: time.Second * 5, ReadHeaderTimeout: time.Second * 2, WriteTimeout: time.Second * 90, } 加上 -http=:8080 可以使用 web ui 的方式查看，不启动命令行\ngo tool pprof -http=:8080 'http://127.0.0.1:6060/debug/pprof/heap' Fetching profile over HTTP from http://127.0.0.1:6060/debug/pprof/heap Saved profile in ~/pprof/pprof.alloc_objects.alloc_space.inuse_objects.inuse_space.002.pb.gz Serving web UI on http://localhost:8080 访问网页，在左上角 view 中切换 Flame Graph 可以以火焰图的方式展示\n如果应用比较复杂，生成的调用图特别大，看起来很乱，有两个办法可以优化：\n使用 web funcName 的方式，只打印和某个函数相关的内容 运行 go tool pprof 命令时加上 --nodefration=0.05 参数，表示如果调用的子函数使用的 CPU、memory 不超过 5%，就忽略 测试集成 go test 命令有两个参数和 pprof 相关，它们分别指定生成的 CPU 和 Memory profiling 保存的文件：\n-cpuprofile：cpu profiling 数据要保存的文件地址 -memprofile：memory profiling 数据要报文的文件地址 比如下面执行 go test 的同时，也会执行 CPU profiling，并把结果保存在 cpu.prof 文件中：\n$ go test -bench . -cpuprofile=cpu.prof 执行结束之后，就会生成 main.test 和 cpu.prof 文件。要想使用 go tool pprof，需要指定的二进制文件就是 main.test。\n在 https 中使用 go tool pprof https+insecure://localhost:6060/debug/pprof/heap将原来的http替换成https+insecure即可。\n自动捕获 profile 是查看当时的系统状态 我们线上代码运行出问题的时候有时候要么已经重启要么程序已经退出，怎么保留案发现场及时的记录有用的数据呢，手动调用runtime/pprof是可以控制，但自己打哪里不知道啊，所以介绍下下面一个包\nholmes\n它能在两种状态下记录 profile\ncpu/mem/goroutine 数突然比正常情况下的平均值高出了一定的比例，比如说资源占用率突增 25%就是出现了资源尖刺。 cpu/mem/goroutine 数超过了程序正常运行情况下的阈值，比如说 80%就定义为服务资源紧张。 具体可参考文档自行配置\nReference https://go.dev/blog/pprof https://mp.weixin.qq.com/s/m68JmVxEW2NebjM7PMnE1A https://mp.weixin.qq.com/s/MNj7SqooyCYLo0ooUt5APA https://mp.weixin.qq.com/s/SsCPvePTvjxzLqudZaN4Sw ",
+  "wordCount" : "1082",
+  "inLanguage": "en",
+  "datePublished": "2022-12-16T10:51:46+08:00",
+  "dateModified": "2022-12-16T10:56:43+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Fython"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://127.0.0.1:8000/posts/2022-12-16-go-tool-pprof-tutorial/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Fython's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://127.0.0.1:8000/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://127.0.0.1:8000/" accesskey="h" title="Fython&#39;s Blog (Alt + H)">Fython&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://127.0.0.1:8000/archives" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://127.0.0.1:8000/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://127.0.0.1:8000/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://127.0.0.1:8000/">Home</a>&nbsp;»&nbsp;<a href="http://127.0.0.1:8000/posts/">Posts</a></div>
+    <h1 class="post-title">
+      Go 服务性能分析 pprof 的使用
+    </h1>
+    <div class="post-description">
+      go tool pprof 教程
+    </div>
+    <div class="post-meta"><span title='2022-12-16 10:51:46 +0800 +0800'>December 16, 2022</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;1082 words&nbsp;·&nbsp;Fython&nbsp;|&nbsp;<a href="https://github.com/fangjh13/hugo-blog/blob/main/content/posts/2022-12-16-go-tool-pprof-tutorial.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#集成到服务">集成到服务</a>
+      <ul>
+        <li><a href="#服务应用">服务应用</a></li>
+        <li><a href="#独立应用">独立应用</a></li>
+      </ul>
+    </li>
+    <li><a href="#分析">分析</a>
+      <ul>
+        <li><a href="#单体应用">单体应用</a></li>
+        <li><a href="#服务型应用">服务型应用</a></li>
+      </ul>
+    </li>
+    <li><a href="#测试集成">测试集成</a></li>
+    <li><a href="#在-https-中使用">在 https 中使用</a></li>
+    <li><a href="#自动捕获">自动捕获</a>
+      <ul>
+        <li><a href="#reference">Reference</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h1 id="go-服务性能分析-pprof-的使用">Go 服务性能分析 pprof 的使用<a hidden class="anchor" aria-hidden="true" href="#go-服务性能分析-pprof-的使用">#</a></h1>
+<p>go 是主打性能的语言 所以官方集成了方便性能检测的工具 <code>go tool pprof</code> 方便好用，主要可以收集如下指标</p>
+<ul>
+<li><code>profile</code> : 程序 cpu 使用情况，按照一定频率去采集应用程序在 CPU 和寄存器上面的数据</li>
+<li><code>heap</code> : 程序 heap 内存使用情况，和调用关系</li>
+<li><code>goroutine</code> : 程序内 goroutine 启动数，各自的调用情况。</li>
+<li><code>block</code> : 报告导致阻塞的同步原语的情况 goroutines 不在运行状态的情况，可以用来分析和查找死锁等性能瓶颈。默认情况下未启用，需要手动调用<code>runtime.SetBlockProfileRate</code>启用。</li>
+<li><code>mutex</code>: 报告锁竞争。默认情况下未启用，需要手动调用<code>runtime.SetMutexProfileFraction</code>启用。</li>
+</ul>
+<h2 id="集成到服务">集成到服务<a hidden class="anchor" aria-hidden="true" href="#集成到服务">#</a></h2>
+<h3 id="服务应用">服务应用<a hidden class="anchor" aria-hidden="true" href="#服务应用">#</a></h3>
+<p>常驻的服务型应用要使用 <code>pprof</code> 首先得在服务启动入口导入包</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nx">_</span> <span class="s">&#34;net/http/pprof&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">···</span>
+</span></span><span class="line"><span class="cl"><span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">ListenAndServe</span><span class="p">(</span><span class="s">&#34;localhost:6060&#34;</span><span class="p">,</span> <span class="kc">nil</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}()</span>
+</span></span></code></pre></div><p>然后浏览器访问<code>http://localhost:6060/debug/pprof/</code>，显示如下页面</p>
+<p><img loading="lazy" src="https://img.fythonfang.com/pprof_index.png" alt=""  />
+</p>
+<p>如上如果服务是 http 服务且使用的是 <code>http.DefaultServeMux</code> 不需要做任何路由注册默认会注册相关路由，初始化调用了<a href="https://github.com/golang/go/blob/f865b5fefeafaf76ce6ff99e44d41c52cb6b884b/src/net/http/pprof/pprof.go#L72-L76"><code>init </code>函数</a>会自动注册，路径为 <code>/debug/pprof/</code>，显示上图，能大概看个当前 goroutine 数目、堆分配情况、锁的情况，具体分析还是要使用下文的 <code>go tool pprof</code> 工具。</p>
+<p>如果使用的是自定义的 <code>ServeMux</code> 或 <code>Handler</code> 需要我们自己手动注册需要的路由，比如使用 echo 框架的时候</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">RegisterRoutes</span><span class="p">(</span><span class="nx">engine</span> <span class="o">*</span><span class="nx">echo</span><span class="p">.</span><span class="nx">Echo</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"> <span class="nx">router</span> <span class="o">:=</span> <span class="nx">engine</span><span class="p">.</span><span class="nf">Group</span><span class="p">(</span><span class="s">&#34;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">......</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 按需注册
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span> <span class="nx">router</span><span class="p">.</span><span class="nf">GET</span><span class="p">(</span><span class="s">&#34;/debug/pprof&#34;</span><span class="p">,</span> <span class="nx">echo</span><span class="p">.</span><span class="nf">WrapHandler</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">HandlerFunc</span><span class="p">(</span><span class="nx">pprof</span><span class="p">.</span><span class="nx">Index</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"> <span class="nx">router</span><span class="p">.</span><span class="nf">GET</span><span class="p">(</span><span class="s">&#34;/debug/pprof/allocs&#34;</span><span class="p">,</span> <span class="nx">echo</span><span class="p">.</span><span class="nf">WrapHandler</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">HandlerFunc</span><span class="p">(</span><span class="nx">pprof</span><span class="p">.</span><span class="nx">Index</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"> <span class="nx">router</span><span class="p">.</span><span class="nf">GET</span><span class="p">(</span><span class="s">&#34;/debug/pprof/block&#34;</span><span class="p">,</span> <span class="nx">echo</span><span class="p">.</span><span class="nf">WrapHandler</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">HandlerFunc</span><span class="p">(</span><span class="nx">pprof</span><span class="p">.</span><span class="nx">Index</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"> <span class="nx">router</span><span class="p">.</span><span class="nf">GET</span><span class="p">(</span><span class="s">&#34;/debug/pprof/goroutine&#34;</span><span class="p">,</span> <span class="nx">echo</span><span class="p">.</span><span class="nf">WrapHandler</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">HandlerFunc</span><span class="p">(</span><span class="nx">pprof</span><span class="p">.</span><span class="nx">Index</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"> <span class="nx">router</span><span class="p">.</span><span class="nf">GET</span><span class="p">(</span><span class="s">&#34;/debug/pprof/heap&#34;</span><span class="p">,</span> <span class="nx">echo</span><span class="p">.</span><span class="nf">WrapHandler</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">HandlerFunc</span><span class="p">(</span><span class="nx">pprof</span><span class="p">.</span><span class="nx">Index</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"> <span class="nx">router</span><span class="p">.</span><span class="nf">GET</span><span class="p">(</span><span class="s">&#34;/debug/pprof/mutex&#34;</span><span class="p">,</span> <span class="nx">echo</span><span class="p">.</span><span class="nf">WrapHandler</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">HandlerFunc</span><span class="p">(</span><span class="nx">pprof</span><span class="p">.</span><span class="nx">Index</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"> <span class="nx">router</span><span class="p">.</span><span class="nf">GET</span><span class="p">(</span><span class="s">&#34;/debug/pprof/cmdline&#34;</span><span class="p">,</span> <span class="nx">echo</span><span class="p">.</span><span class="nf">WrapHandler</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">HandlerFunc</span><span class="p">(</span><span class="nx">pprof</span><span class="p">.</span><span class="nx">Cmdline</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"> <span class="nx">router</span><span class="p">.</span><span class="nf">GET</span><span class="p">(</span><span class="s">&#34;/debug/pprof/profile&#34;</span><span class="p">,</span> <span class="nx">echo</span><span class="p">.</span><span class="nf">WrapHandler</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">HandlerFunc</span><span class="p">(</span><span class="nx">pprof</span><span class="p">.</span><span class="nx">Profile</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"> <span class="nx">router</span><span class="p">.</span><span class="nf">GET</span><span class="p">(</span><span class="s">&#34;/debug/pprof/symbol&#34;</span><span class="p">,</span> <span class="nx">echo</span><span class="p">.</span><span class="nf">WrapHandler</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">HandlerFunc</span><span class="p">(</span><span class="nx">pprof</span><span class="p">.</span><span class="nx">Symbol</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"> <span class="nx">router</span><span class="p">.</span><span class="nf">POST</span><span class="p">(</span><span class="s">&#34;/debug/pprof/symbol&#34;</span><span class="p">,</span> <span class="nx">echo</span><span class="p">.</span><span class="nf">WrapHandler</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">HandlerFunc</span><span class="p">(</span><span class="nx">pprof</span><span class="p">.</span><span class="nx">Symbol</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"> <span class="nx">router</span><span class="p">.</span><span class="nf">GET</span><span class="p">(</span><span class="s">&#34;/debug/pprof/trace&#34;</span><span class="p">,</span> <span class="nx">echo</span><span class="p">.</span><span class="nf">WrapHandler</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">HandlerFunc</span><span class="p">(</span><span class="nx">pprof</span><span class="p">.</span><span class="nx">Trace</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"> <span class="nx">router</span><span class="p">.</span><span class="nf">GET</span><span class="p">(</span><span class="s">&#34;/debug/pprof/threadcreate&#34;</span><span class="p">,</span> <span class="nx">echo</span><span class="p">.</span><span class="nf">WrapHandler</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">HandlerFunc</span><span class="p">(</span><span class="nx">pprof</span><span class="p">.</span><span class="nx">Index</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><blockquote>
+<p>如果使用的是 gin 框架，可以使用官方提供的 <a href="https://github.com/gin-contrib/pprof">middleware</a></p>
+</blockquote>
+<h3 id="独立应用">独立应用<a hidden class="anchor" aria-hidden="true" href="#独立应用">#</a></h3>
+<p>独立应用（执行完就退出）使用 pprof ，如工具类应用需要用到 <code>runtime/pprof</code> 包，手动设置 cpu profile 直接放在 main 函数就行，为了更小的影响性能 pprof 会大概以 100 次/秒的频率采样，程序退出最后保存到设置的文件</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">cpuprofile</span> <span class="p">=</span> <span class="nx">flag</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;cpuprofile&#34;</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="s">&#34;write cpu profile to file&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">flag</span><span class="p">.</span><span class="nf">Parse</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">*</span><span class="nx">cpuprofile</span> <span class="o">!=</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">f</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span><span class="o">*</span><span class="nx">cpuprofile</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">pprof</span><span class="p">.</span><span class="nf">StartCPUProfile</span><span class="p">(</span><span class="nx">f</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">defer</span> <span class="nx">pprof</span><span class="p">.</span><span class="nf">StopCPUProfile</span><span class="p">()</span>  <span class="c1">// cpu 需要调用 StopCPUProfile
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span></code></pre></div><p>内存分析需要在调用的函数后调用 <code>WriteHeapProfile</code> 方法就可以，不需要 stop，如<a href="https://go.dev/blog/pprof">官方教程</a>在 <code>FindHavlakLoops</code> 后设置了 WriteHeapProfile</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">memprofile</span> <span class="p">=</span> <span class="nx">flag</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;memprofile&#34;</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="s">&#34;write memory profile to this file&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">...</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">FindHavlakLoops</span><span class="p">(</span><span class="nx">cfgraph</span><span class="p">,</span> <span class="nx">lsgraph</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">*</span><span class="nx">memprofile</span> <span class="o">!=</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">f</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span><span class="o">*</span><span class="nx">memprofile</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">pprof</span><span class="p">.</span><span class="nf">WriteHeapProfile</span><span class="p">(</span><span class="nx">f</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">f</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><h2 id="分析">分析<a hidden class="anchor" aria-hidden="true" href="#分析">#</a></h2>
+<p>不管是开启了 http 服务分析，还是手动设置的，都需要使用如下命令分析</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">go tool pprof <span class="o">[</span>options<span class="o">]</span> <span class="o">[</span>binary<span class="o">]</span> &lt;source&gt; ...
+</span></span></code></pre></div><p><code>binary</code> 为 build 后的二进制文件，<code>source</code> 为上面生成的报告，也可以是 http 地址， 如果带 <code>-http=</code> 参数会以 web UI 方式展示</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># cpu profile</span>
+</span></span><span class="line"><span class="cl">go tool pprof ./main profile.out
+</span></span><span class="line"><span class="cl"><span class="c1"># cpu profile use http</span>
+</span></span><span class="line"><span class="cl">go tool pprof ./main http://loacalhost:6060/debug/pprof/profile
+</span></span><span class="line"><span class="cl"><span class="c1"># memory</span>
+</span></span><span class="line"><span class="cl">go tool pprof ./main http://loacalhost:6060/debug/pprof/heap
+</span></span><span class="line"><span class="cl"><span class="c1"># goroutine</span>
+</span></span><span class="line"><span class="cl">go tool pprof ./main http://loacalhost:6060/debug/pprof/goroutine
+</span></span><span class="line"><span class="cl"><span class="c1"># cpu 采样 60s 默认 30s</span>
+</span></span><span class="line"><span class="cl">go tool pprof ./main <span class="s1">&#39;http://loacalhost:6060/debug/pprof/profile?seconds=60&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># web UI 方式查看</span>
+</span></span><span class="line"><span class="cl">go tool pprof -http<span class="o">=</span>:8080 ./main profile.out
+</span></span></code></pre></div><h3 id="单体应用">单体应用<a hidden class="anchor" aria-hidden="true" href="#单体应用">#</a></h3>
+<p>以<a href="https://github.com/fangjh13/blog-exmaple/blob/main/pprof/cpu_profile.go"><code>cpu_profile.go</code>代码</a>为例，启动参数开启 cpu profile</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">go build ./cpu_profile.go
+</span></span><span class="line"><span class="cl">./cpu_profile -cpuprofile cpu_profile.out
+</span></span><span class="line"><span class="cl">go tool pprof ./cpu_profile cpu_profile.out
+</span></span></code></pre></div><p>然后启动文本模式的命令行</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">File: cpu_profile
+</span></span><span class="line"><span class="cl">Type: cpu
+</span></span><span class="line"><span class="cl">Time: Dec 13, <span class="m">2022</span> at 2:29pm <span class="o">(</span>CST<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Duration: 5.16s, Total <span class="nv">samples</span> <span class="o">=</span> 4.02s <span class="o">(</span>77.93%<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Entering interactive mode <span class="o">(</span><span class="nb">type</span> <span class="s2">&#34;help&#34;</span> <span class="k">for</span> commands, <span class="s2">&#34;o&#34;</span> <span class="k">for</span> options<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>pprof<span class="o">)</span>
+</span></span></code></pre></div><p>显示 <code>Type: cpu</code> 表示是 cpu profile，采样时间是 5.16s，输入 <code>help</code> 可以查看所有的命令，命令有很多一般常用的有 <code>top</code>, <code>list</code>, <code>peek</code>, <code>tree</code>,<code>web</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>pprof<span class="o">)</span> top
+</span></span><span class="line"><span class="cl">Showing nodes accounting <span class="k">for</span> 4.02s, 100% of 4.02s total
+</span></span><span class="line"><span class="cl">Showing top <span class="m">10</span> nodes out of <span class="m">11</span>
+</span></span><span class="line"><span class="cl">      flat  flat%   sum%        cum   cum%
+</span></span><span class="line"><span class="cl">     3.63s 90.30% 90.30%      3.99s 99.25%  main.Task
+</span></span><span class="line"><span class="cl">     0.36s  8.96% 99.25%      0.36s  8.96%  runtime.asyncPreempt
+</span></span><span class="line"><span class="cl">     0.03s  0.75%   100%      0.03s  0.75%  runtime.pthread_cond_signal
+</span></span><span class="line"><span class="cl">         <span class="m">0</span>     0%   100%      0.03s  0.75%  runtime.mcall
+</span></span><span class="line"><span class="cl">         <span class="m">0</span>     0%   100%      0.03s  0.75%  runtime.notewakeup
+</span></span><span class="line"><span class="cl">         <span class="m">0</span>     0%   100%      0.03s  0.75%  runtime.park_m
+</span></span><span class="line"><span class="cl">         <span class="m">0</span>     0%   100%      0.03s  0.75%  runtime.resetspinning
+</span></span><span class="line"><span class="cl">         <span class="m">0</span>     0%   100%      0.03s  0.75%  runtime.schedule
+</span></span><span class="line"><span class="cl">         <span class="m">0</span>     0%   100%      0.03s  0.75%  runtime.semawakeup
+</span></span><span class="line"><span class="cl">         <span class="m">0</span>     0%   100%      0.03s  0.75%  runtime.startm
+</span></span><span class="line"><span class="cl"><span class="o">(</span>pprof<span class="o">)</span>
+</span></span></code></pre></div><p>使用 <code>top</code> 命令查看占用前 10 占用 cpu 的采样，可以使用 <code>top 30</code> 增加输出数目，前三列显示了函数正在运行的占用 cpu 的时间，所占用的百分比，第三列是当前所有函数总的使用 cpu 的比例。第四列和第五列代表这个函数以及子函数运行所占用的时间和比例（也被称为累加值 cumulative），应该大于等于前两列的值，可以用 <code>top -cum</code> 按 cumulative 排序，可以明显的看到 <code>main.Task</code> 占用了 <code>90.30%</code> 占用 cpu 异常高</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>pprof<span class="o">)</span> list Task
+</span></span><span class="line"><span class="cl">Total: 4.02s
+</span></span><span class="line"><span class="cl"><span class="nv">ROUTINE</span> <span class="o">========================</span> main.Task in
+</span></span><span class="line"><span class="cl">...  cpu_profile.go
+</span></span><span class="line"><span class="cl">     3.63s      3.99s <span class="o">(</span>flat, cum<span class="o">)</span> 99.25% of Total
+</span></span><span class="line"><span class="cl">         .          .      9:<span class="o">)</span>
+</span></span><span class="line"><span class="cl">         .          .     10:
+</span></span><span class="line"><span class="cl">         .          .     11:var <span class="nv">cpuprofile</span> <span class="o">=</span> flag.String<span class="o">(</span><span class="s2">&#34;cpuprofile&#34;</span>, <span class="s2">&#34;&#34;</span>, <span class="s2">&#34;write cpu profile to file&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">         .          .     12:
+</span></span><span class="line"><span class="cl">         .          .     13:func Task<span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">     3.63s      3.99s     14:   <span class="k">for</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">         .          .     15:   <span class="o">}</span>
+</span></span><span class="line"><span class="cl">         .          .     16:<span class="o">}</span>
+</span></span><span class="line"><span class="cl">         .          .     17:
+</span></span><span class="line"><span class="cl">         .          .     18:func main<span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">         .          .     19:   flag.Parse<span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>pprof<span class="o">)</span> peek Task
+</span></span><span class="line"><span class="cl">Showing nodes accounting <span class="k">for</span> 4.02s, 100% of 4.02s total
+</span></span><span class="line"><span class="cl">----------------------------------------------------------+-------------
+</span></span><span class="line"><span class="cl">      flat  flat%   sum%        cum   cum%   calls calls% + context
+</span></span><span class="line"><span class="cl">----------------------------------------------------------+-------------
+</span></span><span class="line"><span class="cl">     3.63s 90.30% 90.30%      3.99s 99.25%                <span class="p">|</span> main.Task
+</span></span><span class="line"><span class="cl">                                             0.36s  9.02% <span class="p">|</span>   runtime.asyncPreempt
+</span></span><span class="line"><span class="cl">----------------------------------------------------------+-------------
+</span></span><span class="line"><span class="cl"><span class="o">(</span>pprof<span class="o">)</span>
+</span></span></code></pre></div><p><code>list</code> 后跟正则表达式显示源码，<code>peek</code> 显示调用链</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">(pprof) web
+</span></span></code></pre></div><p><code>web</code> 命令显示 svg 图，能更直观的展示，前提是需要安装 <a href="http://www.graphviz.org/">graphviz</a>，权重越大方框越大，颜色越明显，箭头是调用图</p>
+<p><img loading="lazy" src="https://img.fythonfang.com/pprof_cpu_profile.png" alt=""  />
+</p>
+<h3 id="服务型应用">服务型应用<a hidden class="anchor" aria-hidden="true" href="#服务型应用">#</a></h3>
+<p>我们来看下如果使用的是 http 服务，以 <a href="https://github.com/fangjh13/blog-exmaple/blob/main/pprof/server.go">server.go</a> 为例，服务启动后监听在<code>:6060</code>端口</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ go build ./server.go
+</span></span><span class="line"><span class="cl">❯ ./server  <span class="c1"># 启动</span>
+</span></span></code></pre></div><p>访问 <code>http://127.0.0.1:6060/debug/pprof/</code> 显示 profile 信息，如上图。多次调用<code>/enlarge</code> 路由后进入内存分析</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ curl http://127.0.0.1:6060/enlarge
+</span></span><span class="line"><span class="cl">slice len: <span class="m">10485760</span>
+</span></span><span class="line"><span class="cl">❯ curl http://127.0.0.1:6060/enlarge
+</span></span><span class="line"><span class="cl">slice len: <span class="m">20971520</span>
+</span></span><span class="line"><span class="cl">❯ curl http://127.0.0.1:6060/enlarge
+</span></span><span class="line"><span class="cl">slice len: <span class="m">31457280</span>
+</span></span><span class="line"><span class="cl">❯ curl http://127.0.0.1:6060/enlarge
+</span></span><span class="line"><span class="cl">slice len: <span class="m">41943040</span>
+</span></span><span class="line"><span class="cl">❯ go tool pprof <span class="s1">&#39;http://127.0.0.1:6060/debug/pprof/heap&#39;</span>
+</span></span><span class="line"><span class="cl">Fetching profile over HTTP from http://127.0.0.1:6060/debug/pprof/heap
+</span></span><span class="line"><span class="cl">Saved profile in ~/pprof/pprof.alloc_objects.alloc_space.inuse_objects.inuse_space.001.pb.gz
+</span></span><span class="line"><span class="cl">Type: inuse_space
+</span></span><span class="line"><span class="cl">Time: Dec 13, <span class="m">2022</span> at 3:32pm <span class="o">(</span>CST<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Entering interactive mode <span class="o">(</span><span class="nb">type</span> <span class="s2">&#34;help&#34;</span> <span class="k">for</span> commands, <span class="s2">&#34;o&#34;</span> <span class="k">for</span> options<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>pprof<span class="o">)</span> top
+</span></span><span class="line"><span class="cl">Showing nodes accounting <span class="k">for</span> 57.95MB, 100% of 57.95MB total
+</span></span><span class="line"><span class="cl">Showing top <span class="m">10</span> nodes out of <span class="m">28</span>
+</span></span><span class="line"><span class="cl">      flat  flat%   sum%        cum   cum%
+</span></span><span class="line"><span class="cl">   54.95MB 94.82% 94.82%    54.95MB 94.82%  main.main.func1
+</span></span><span class="line"><span class="cl">    1.50MB  2.59% 97.41%     1.50MB  2.59%  runtime.allocm
+</span></span><span class="line"><span class="cl">    0.50MB  0.86% 98.27%     0.50MB  0.86%  runtime.acquireSudog
+</span></span><span class="line"><span class="cl">    0.50MB  0.86% 99.14%     0.50MB  0.86%  runtime.bgscavenge
+</span></span><span class="line"><span class="cl">    0.50MB  0.86%   100%        1MB  1.73%  runtime.gcBgMarkWorker
+</span></span><span class="line"><span class="cl">         <span class="m">0</span>     0%   100%    54.95MB 94.82%  net/http.<span class="o">(</span>*ServeMux<span class="o">)</span>.ServeHTTP
+</span></span><span class="line"><span class="cl">         <span class="m">0</span>     0%   100%    54.95MB 94.82%  net/http.<span class="o">(</span>*conn<span class="o">)</span>.serve
+</span></span><span class="line"><span class="cl">         <span class="m">0</span>     0%   100%    54.95MB 94.82%  net/http.HandlerFunc.ServeHTTP
+</span></span><span class="line"><span class="cl">         <span class="m">0</span>     0%   100%    54.95MB 94.82%  net/http.serverHandler.ServeHTTP
+</span></span><span class="line"><span class="cl">         <span class="m">0</span>     0%   100%     0.50MB  0.86%  runtime.gcMarkDone
+</span></span><span class="line"><span class="cl"><span class="o">(</span>pprof<span class="o">)</span> list func1
+</span></span><span class="line"><span class="cl">Total: 57.95MB
+</span></span><span class="line"><span class="cl"><span class="nv">ROUTINE</span> <span class="o">========================</span> main.main.func1 in
+</span></span><span class="line"><span class="cl">~/pprof/demo/server.go
+</span></span><span class="line"><span class="cl">   54.95MB    54.95MB <span class="o">(</span>flat, cum<span class="o">)</span> 94.82% of Total
+</span></span><span class="line"><span class="cl">         .          .     11:
+</span></span><span class="line"><span class="cl">         .          .     12:func main<span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">         .          .     13:
+</span></span><span class="line"><span class="cl">         .          .     14:   http.HandleFunc<span class="o">(</span><span class="s2">&#34;/enlarge&#34;</span>, func<span class="o">(</span>w http.ResponseWriter, r *http.Request<span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">         .          .     15:           d :<span class="o">=</span> make<span class="o">([]</span>byte, 10*1024*1024<span class="o">)</span> // 10M
+</span></span><span class="line"><span class="cl">   54.95MB    54.95MB     16:           <span class="nv">data</span> <span class="o">=</span> append<span class="o">(</span>data, d...<span class="o">)</span>
+</span></span><span class="line"><span class="cl">         .          .     17:           fmt.Fprintf<span class="o">(</span>w, <span class="s2">&#34;slice len: %d&#34;</span>, len<span class="o">(</span>data<span class="o">))</span>
+</span></span><span class="line"><span class="cl">         .          .     18:   <span class="o">})</span>
+</span></span><span class="line"><span class="cl">         .          .     19:
+</span></span><span class="line"><span class="cl">         .          .     20:   log.Println<span class="o">(</span>http.ListenAndServe<span class="o">(</span><span class="s2">&#34;localhost:6060&#34;</span>, nil<span class="o">))</span>
+</span></span><span class="line"><span class="cl">         .          .     21:<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>pprof<span class="o">)</span> tree func1
+</span></span><span class="line"><span class="cl">Active filters:
+</span></span><span class="line"><span class="cl">   <span class="nv">focus</span><span class="o">=</span>func1
+</span></span><span class="line"><span class="cl">Showing nodes accounting <span class="k">for</span> 54.95MB, 93.21% of 58.96MB total
+</span></span><span class="line"><span class="cl">----------------------------------------------------------+-------------
+</span></span><span class="line"><span class="cl">      flat  flat%   sum%        cum   cum%   calls calls% + context
+</span></span><span class="line"><span class="cl">----------------------------------------------------------+-------------
+</span></span><span class="line"><span class="cl">                                           54.95MB   100% <span class="p">|</span>   net/http.HandlerFunc.ServeHTTP
+</span></span><span class="line"><span class="cl">   54.95MB 93.21% 93.21%    54.95MB 93.21%                <span class="p">|</span> main.main.func1
+</span></span><span class="line"><span class="cl">----------------------------------------------------------+-------------
+</span></span><span class="line"><span class="cl">                                           54.95MB   100% <span class="p">|</span>   net/http.serverHandler.ServeHTTP
+</span></span><span class="line"><span class="cl">         <span class="m">0</span>     0% 93.21%    54.95MB 93.21%                <span class="p">|</span> net/http.<span class="o">(</span>*ServeMux<span class="o">)</span>.ServeHTTP
+</span></span><span class="line"><span class="cl">                                           54.95MB   100% <span class="p">|</span>   net/http.HandlerFunc.ServeHTTP
+</span></span><span class="line"><span class="cl">----------------------------------------------------------+-------------
+</span></span><span class="line"><span class="cl">         <span class="m">0</span>     0% 93.21%    54.95MB 93.21%                <span class="p">|</span> net/http.<span class="o">(</span>*conn<span class="o">)</span>.serve
+</span></span><span class="line"><span class="cl">                                           54.95MB   100% <span class="p">|</span>   net/http.serverHandler.ServeHTTP
+</span></span><span class="line"><span class="cl">----------------------------------------------------------+-------------
+</span></span><span class="line"><span class="cl">                                           54.95MB   100% <span class="p">|</span>   net/http.<span class="o">(</span>*ServeMux<span class="o">)</span>.ServeHTTP
+</span></span><span class="line"><span class="cl">         <span class="m">0</span>     0% 93.21%    54.95MB 93.21%                <span class="p">|</span> net/http.HandlerFunc.ServeHTTP
+</span></span><span class="line"><span class="cl">                                           54.95MB   100% <span class="p">|</span>   main.main.func1
+</span></span><span class="line"><span class="cl">----------------------------------------------------------+-------------
+</span></span><span class="line"><span class="cl">                                           54.95MB   100% <span class="p">|</span>   net/http.<span class="o">(</span>*conn<span class="o">)</span>.serve
+</span></span><span class="line"><span class="cl">         <span class="m">0</span>     0% 93.21%    54.95MB 93.21%                <span class="p">|</span> net/http.serverHandler.ServeHTTP
+</span></span><span class="line"><span class="cl">                                           54.95MB   100% <span class="p">|</span>   net/http.<span class="o">(</span>*ServeMux<span class="o">)</span>.ServeHTTP
+</span></span><span class="line"><span class="cl">----------------------------------------------------------+-------------
+</span></span><span class="line"><span class="cl"><span class="o">(</span>pprof<span class="o">)</span>
+</span></span></code></pre></div><p>命令和之前 cpu profile 分析一样只是这次对象是内存，<code>Type: inuse_space</code> 是默认的统计的是内存使用大小，在 <code>go tool pprof</code>执行时加上 <code>-inuse_objects</code> 可以切换，还有几个参数如下</p>
+<ul>
+<li><code>-inuse_space</code>: 正在使用的内存大小，默认模式</li>
+<li><code>-inuse_objects</code>: 正在使用，尚未被释放的对象数量</li>
+<li><code>-alloc_space</code>: 已经被分配的内存空间，没有考虑对象释放的情况</li>
+<li><code>-alloc_objects</code>: 已经被分配的对象数量，没有考虑对象释放的情况</li>
+</ul>
+<p>如果是内存泄露, 可以根据 inuse_space 的占比和变化判断, 但是也不是万能的, 有些时候, 一些 inuse_space 是因为高流量导致的. 对于频繁创建的一些对象 可以在 alloc_space 和 alloc_object 判断, 这种场景可以通过复用对象池来减少没意义的分配。</p>
+<p>上面 <code>main.main.func1</code> 明显就是内存很高，很容易排查到，<code>tree</code>命令显示了函数调用栈</p>
+<p>在调用 cpu profile 时默认采样 30s，可以使用 <code>?seconds=5s</code>参数指定，如果在调用时返回一个 <code>&quot;profile duration exceeds server's *WriteTimeout*&quot;</code>的错误。那是 <code>http.Server</code> 的 <code>WriteTimeout</code> 小了调大相应的值即可</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">http</span><span class="p">.</span><span class="nx">Server</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">Addr</span><span class="p">:</span>              <span class="nx">addr</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">ReadTimeout</span><span class="p">:</span>       <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">ReadHeaderTimeout</span><span class="p">:</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">WriteTimeout</span><span class="p">:</span>      <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span> <span class="o">*</span> <span class="mi">90</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>加上 <code>-http=:8080</code> 可以使用 web ui 的方式查看，不启动命令行</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">go tool pprof -http<span class="o">=</span>:8080 <span class="s1">&#39;http://127.0.0.1:6060/debug/pprof/heap&#39;</span>
+</span></span><span class="line"><span class="cl">Fetching profile over HTTP from http://127.0.0.1:6060/debug/pprof/heap
+</span></span><span class="line"><span class="cl">Saved profile in ~/pprof/pprof.alloc_objects.alloc_space.inuse_objects.inuse_space.002.pb.gz
+</span></span><span class="line"><span class="cl">Serving web UI on http://localhost:8080
+</span></span></code></pre></div><p>访问网页，在左上角 view 中切换 Flame Graph 可以以火焰图的方式展示</p>
+<p><img loading="lazy" src="https://img.fythonfang.com/pprof_flame_graph.png" alt=""  />
+</p>
+<p>如果应用比较复杂，生成的调用图特别大，看起来很乱，有两个办法可以优化：</p>
+<ul>
+<li>使用 <code>web funcName</code> 的方式，只打印和某个函数相关的内容</li>
+<li>运行 <code>go tool pprof</code> 命令时加上 <code>--nodefration=0.05</code> 参数，表示如果调用的子函数使用的 CPU、memory 不超过 5%，就忽略</li>
+</ul>
+<h2 id="测试集成">测试集成<a hidden class="anchor" aria-hidden="true" href="#测试集成">#</a></h2>
+<p>go test 命令有两个参数和 pprof 相关，它们分别指定生成的 CPU 和 Memory profiling 保存的文件：</p>
+<ul>
+<li>-cpuprofile：cpu profiling 数据要保存的文件地址</li>
+<li>-memprofile：memory profiling 数据要报文的文件地址</li>
+</ul>
+<p>比如下面执行 go test 的同时，也会执行 CPU profiling，并把结果保存在 cpu.prof 文件中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ go <span class="nb">test</span> -bench . -cpuprofile<span class="o">=</span>cpu.prof
+</span></span></code></pre></div><p>执行结束之后，就会生成 main.test 和 cpu.prof 文件。要想使用 go tool pprof，需要指定的二进制文件就是 main.test。</p>
+<h2 id="在-https-中使用">在 https 中使用<a hidden class="anchor" aria-hidden="true" href="#在-https-中使用">#</a></h2>
+<p><code>go tool pprof https+insecure://localhost:6060/debug/pprof/heap</code>将原来的<code>http</code>替换成<code>https+insecure</code>即可。</p>
+<h2 id="自动捕获">自动捕获<a hidden class="anchor" aria-hidden="true" href="#自动捕获">#</a></h2>
+<p>profile 是查看当时的系统状态 我们线上代码运行出问题的时候有时候要么已经重启要么程序已经退出，怎么保留案发现场及时的记录有用的数据呢，手动调用<code>runtime/pprof</code>是可以控制，但自己打哪里不知道啊，所以介绍下下面一个包</p>
+<p><a href="https://github.com/mosn/holmes">holmes</a></p>
+<p>它能在两种状态下记录 profile</p>
+<ul>
+<li>cpu/mem/goroutine 数突然比正常情况下的平均值高出了一定的比例，比如说资源占用率突增 25%就是出现了资源尖刺。</li>
+<li>cpu/mem/goroutine 数超过了程序正常运行情况下的阈值，比如说 80%就定义为服务资源紧张。</li>
+</ul>
+<p>具体可参考文档自行配置</p>
+<h3 id="reference">Reference<a hidden class="anchor" aria-hidden="true" href="#reference">#</a></h3>
+<ul>
+<li><a href="https://go.dev/blog/pprof">https://go.dev/blog/pprof</a></li>
+<li><a href="https://mp.weixin.qq.com/s/m68JmVxEW2NebjM7PMnE1A">https://mp.weixin.qq.com/s/m68JmVxEW2NebjM7PMnE1A</a></li>
+<li><a href="https://mp.weixin.qq.com/s/MNj7SqooyCYLo0ooUt5APA">https://mp.weixin.qq.com/s/MNj7SqooyCYLo0ooUt5APA</a></li>
+<li><a href="https://mp.weixin.qq.com/s/SsCPvePTvjxzLqudZaN4Sw">https://mp.weixin.qq.com/s/SsCPvePTvjxzLqudZaN4Sw</a></li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://127.0.0.1:8000/tags/go/">Go</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://127.0.0.1:8000/posts/2023-02-11-postgresql-full-text-search/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>PostgreSQL 全文搜索</span>
+  </a>
+  <a class="next" href="http://127.0.0.1:8000/posts/2022-08-06-openwrt-auto-pppoe/">
+    <span class="title">Next »</span>
+    <br>
+    <span>openwrt 自动重拨</span>
+  </a>
+</nav>
+
+
+<div class="share-buttons">
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Go 服务性能分析 pprof 的使用 on twitter"
+        href="https://twitter.com/intent/tweet/?text=Go%20%e6%9c%8d%e5%8a%a1%e6%80%a7%e8%83%bd%e5%88%86%e6%9e%90%20pprof%20%e7%9a%84%e4%bd%bf%e7%94%a8&amp;url=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2022-12-16-go-tool-pprof-tutorial%2f&amp;hashtags=Go">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Go 服务性能分析 pprof 的使用 on linkedin"
+        href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2022-12-16-go-tool-pprof-tutorial%2f&amp;title=Go%20%e6%9c%8d%e5%8a%a1%e6%80%a7%e8%83%bd%e5%88%86%e6%9e%90%20pprof%20%e7%9a%84%e4%bd%bf%e7%94%a8&amp;summary=Go%20%e6%9c%8d%e5%8a%a1%e6%80%a7%e8%83%bd%e5%88%86%e6%9e%90%20pprof%20%e7%9a%84%e4%bd%bf%e7%94%a8&amp;source=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2022-12-16-go-tool-pprof-tutorial%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Go 服务性能分析 pprof 的使用 on reddit"
+        href="https://reddit.com/submit?url=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2022-12-16-go-tool-pprof-tutorial%2f&title=Go%20%e6%9c%8d%e5%8a%a1%e6%80%a7%e8%83%bd%e5%88%86%e6%9e%90%20pprof%20%e7%9a%84%e4%bd%bf%e7%94%a8">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Go 服务性能分析 pprof 的使用 on facebook"
+        href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2022-12-16-go-tool-pprof-tutorial%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Go 服务性能分析 pprof 的使用 on whatsapp"
+        href="https://api.whatsapp.com/send?text=Go%20%e6%9c%8d%e5%8a%a1%e6%80%a7%e8%83%bd%e5%88%86%e6%9e%90%20pprof%20%e7%9a%84%e4%bd%bf%e7%94%a8%20-%20http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2022-12-16-go-tool-pprof-tutorial%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Go 服务性能分析 pprof 的使用 on telegram"
+        href="https://telegram.me/share/url?text=Go%20%e6%9c%8d%e5%8a%a1%e6%80%a7%e8%83%bd%e5%88%86%e6%9e%90%20pprof%20%e7%9a%84%e4%bd%bf%e7%94%a8&amp;url=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2022-12-16-go-tool-pprof-tutorial%2f">
+        <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Go 服务性能分析 pprof 的使用 on ycombinator"
+        href="https://news.ycombinator.com/submitlink?t=Go%20%e6%9c%8d%e5%8a%a1%e6%80%a7%e8%83%bd%e5%88%86%e6%9e%90%20pprof%20%e7%9a%84%e4%bd%bf%e7%94%a8&u=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2022-12-16-go-tool-pprof-tutorial%2f">
+        <svg version="1.1" xml:space="preserve" width="30px" height="30px" viewBox="0 0 512 512" fill="currentColor"
+            xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+            <path
+                d="M449.446 0C483.971 0 512 28.03 512 62.554L512 449.446C512 483.97 483.97 512 449.446 512L62.554 512C28.03 512 0 483.97 0 449.446L0 62.554C0 28.03 28.029 0 62.554 0L449.446 0ZM183.8767 87.9921H121.8427L230.6673 292.4508V424.0079H281.3328V292.4508L390.1575 87.9921H328.1233L256 238.2489z" />
+        </svg>
+    </a>
+</div>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://127.0.0.1:8000/">Fython&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

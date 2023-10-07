@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Network on Fython&#39;s Blog</title>
+    <link>http://127.0.0.1:8000/tags/network/</link>
+    <description>Recent content in Network on Fython&#39;s Blog</description>
+    <image>
+      <title>Fython&#39;s Blog</title>
+      <url>http://127.0.0.1:8000/blog-cover-1.png</url>
+      <link>http://127.0.0.1:8000/blog-cover-1.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 13 Feb 2020 03:38:51 +0800</lastBuildDate><atom:link href="http://127.0.0.1:8000/tags/network/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>TCP连接和各状态浅析</title>
+      <link>http://127.0.0.1:8000/posts/2020-02-13-tcp-handshake-process-and-state-trainsition/</link>
+      <pubDate>Thu, 13 Feb 2020 03:38:51 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2020-02-13-tcp-handshake-process-and-state-trainsition/</guid>
+      <description>详解linux中TCP连接与断开与其中的状态</description>
+    </item>
+    
+  </channel>
+</rss>

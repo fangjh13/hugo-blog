@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>使用 Cython 加密 Python 项目 | Fython&#39;s Blog</title>
+<meta name="keywords" content="Python">
+<meta name="description" content="保护 Python 代码">
+<meta name="author" content="Fython">
+<link rel="canonical" href="http://127.0.0.1:8000/posts/2018-11-03-encrypt-protect-python-code/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.73c5f38ae8d9aaab6402bebf0c9459d0d8b9c7b018822bddcff46721198a28d5.css" integrity="sha256-c8XziujZqqtkAr6/DJRZ0Ni5x7AYgivdz/RnIRmKKNU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://127.0.0.1:8000/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://127.0.0.1:8000/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://127.0.0.1:8000/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://127.0.0.1:8000/apple-touch-icon.png">
+<link rel="mask-icon" href="http://127.0.0.1:8000/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="使用 Cython 加密 Python 项目" />
+<meta property="og:description" content="保护 Python 代码" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://127.0.0.1:8000/posts/2018-11-03-encrypt-protect-python-code/" /><meta property="og:image" content="http://127.0.0.1:8000/blog-cover-1.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-11-03T08:32:22+08:00" />
+<meta property="article:modified_time" content="2019-08-14T08:12:45+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://127.0.0.1:8000/blog-cover-1.png"/>
+
+<meta name="twitter:title" content="使用 Cython 加密 Python 项目"/>
+<meta name="twitter:description" content="保护 Python 代码"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://127.0.0.1:8000/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "使用 Cython 加密 Python 项目",
+      "item": "http://127.0.0.1:8000/posts/2018-11-03-encrypt-protect-python-code/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "使用 Cython 加密 Python 项目",
+  "name": "使用 Cython 加密 Python 项目",
+  "description": "保护 Python 代码",
+  "keywords": [
+    "Python"
+  ],
+  "articleBody": "最近公司需要将 python 代码部署到端上查了各种加密方法说到底 python 其实是不建议加密部署的，像什么生成.pyc其实都是很容易反编译直接运行的，因为它是解释型语言。不像 C 或者 java 可以编译后生成机器码直接部署。还有看到把项目打包成.exe文件，在 windows 上运行，由于我们使用 Linux 平台没有尝试，最后选择了使用Cython这个库来加密(编译成二进制)。\nCython其实就是把py 代码编译成 C或者 C++代码来执行，在Linux 上会生成.so二进制文件，Windows下为.pyd，所以还有一个作用是加速代码的执行效率。但还有一些限制如项目中不能删除__init__.py否者包导入会失败。详细可参考官方文档，Cython 还在持续开发中支持 Python3，下面也用Python3演示。\n先来做一些准备工作定义编译后的文件夹build和一些部署不需要的文件和文件夹，将待编译的.py文件加入ext_modules列表\ncur_dir = os.path.abspath(os.path.dirname(__file__)) setup_file = os.path.split(__file__)[1] build_dir = os.path.join(cur_dir, 'build') build_tmp_dir = os.path.join(build_dir, \"temp\") # define exclude dirs, these dirs will be deleted exclude_dirs = ['.git', '__pycache__', 'test', 'logs', 'venv', 'tests'] # defile exclude files, these files will be deleted exclude_files = ['*.md', '.gitignore', '.python-version', 'requirements.txt', '*.pyc', '*.c'] # these `.py` files will be retained and don't compile to `.so` ignore_py_files = ['config.py'] ext_modules = [] # get all build files for path, dirs, files in os.walk(cur_dir, topdown=True): dirs[:] = [d for d in dirs if d not in exclude_dirs] # touch a new file when __init__.py not exists for _dir in dirs: init_file = os.path.join(path, _dir, '__init__.py') if not os.path.isfile(init_file): print('WARNING: create new empty [{}] file.'.format(init_file)) with open(init_file, 'a') as f: pass # create target folder if not os.path.isdir(build_dir): os.mkdir(build_dir) # make empty dirs for dir_name in dirs: dir = os.path.join(path, dir_name) target_dir = dir.replace(cur_dir, build_dir) os.mkdir(target_dir) for file_name in files: file = os.path.join(path, file_name) if os.path.splitext(file)[1] == '.py': if file_name in ignore_py_files: # don't compile to .so if file_name not in exclude_files: shutil.copy(file, path.replace(cur_dir, build_dir)) elif file_name in exclude_files: # remove it pass else: # add to compile if file_name == '__init__.py': # copy __init__.py resolve package cannot be imported shutil.copy(file, path.replace(cur_dir, build_dir)) if file_name != setup_file: ext_modules.append(file) else: _exclude = False for pattern in exclude_files: if fnmatch.fnmatch(file_name, pattern): _exclude = True if not _exclude: shutil.copy(file, path.replace(cur_dir, build_dir)) 我们需要把原来的每个文件夹下__init__.py拷贝一份，不然项目中相对导入这些会失效。然后把ext_modules列表传给cythonize生成distutils Extension objects再传给setup函数。\nfrom distutils.core import setup from Cython.Build import cythonize from Cython.Distutils import build_ext setup( ext_modules=cythonize( ext_modules, compiler_directives=dict( always_allow_keywords=True, c_string_encoding='utf-8', language_level=3 ) ), cmdclass=dict( build_ext=build_ext ), script_args=[\"build_ext\", \"-b\", build_dir, \"-t\", build_tmp_dir] ) ..... 需要注意的是传给setup时需要加always_allow_keywords=True参数否者默认的python 特性关键字参数编译后运行是会报TypeError: ... takes no keyword arguments错的，如 fask 应用上。还有在运行的时候指定了build_dir是编译后存放的目录，不指定默认存放当前目录下，还有临时目录build_tmp_dir稍后可以删除。\n完整代码可以参考我Github上的代码，拷贝本脚本到项目根目录可以适当修改如哪些不需要放到部署环境的，安装 Cython 后确保每个子文件夹下有__init__.py内容为空的也行，不然生成的.so会路径不对。运行python3 build_it.py会生成一个build文件夹，之后删掉除 build 文件夹所有源文件进入 build 文件夹运行即可（需要启动脚本）。\nReference https://bucharjan.cz https://web.archive.org https://laucyun.com https://www.cnblogs.com ",
+  "wordCount" : "307",
+  "inLanguage": "en",
+  "datePublished": "2018-11-03T08:32:22+08:00",
+  "dateModified": "2019-08-14T08:12:45+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Fython"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://127.0.0.1:8000/posts/2018-11-03-encrypt-protect-python-code/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Fython's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://127.0.0.1:8000/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://127.0.0.1:8000/" accesskey="h" title="Fython&#39;s Blog (Alt + H)">Fython&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://127.0.0.1:8000/archives" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://127.0.0.1:8000/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://127.0.0.1:8000/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://127.0.0.1:8000/">Home</a>&nbsp;»&nbsp;<a href="http://127.0.0.1:8000/posts/">Posts</a></div>
+    <h1 class="post-title">
+      使用 Cython 加密 Python 项目
+    </h1>
+    <div class="post-description">
+      保护 Python 代码
+    </div>
+    <div class="post-meta"><span title='2018-11-03 08:32:22 +0800 +0800'>November 3, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;307 words&nbsp;·&nbsp;Fython&nbsp;|&nbsp;<a href="https://github.com/fangjh13/hugo-blog/blob/main/content/posts/2018-11-03-encrypt-protect-python-code.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#reference">Reference</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>最近公司需要将 python 代码部署到端上查了各种加密方法说到底 python 其实是不建议加密部署的，像什么生成<code>.pyc</code>其实都是很容易反编译直接运行的，因为它是解释型语言。不像 C 或者 java 可以编译后生成机器码直接部署。还有看到把项目打包成<code>.exe</code>文件，在 windows 上运行，由于我们使用 Linux 平台没有尝试，最后选择了使用<a href="https://cython.org/">Cython</a>这个库来加密(编译成二进制)。</p>
+<p><code>Cython</code>其实就是把py 代码编译成 C或者 C++代码来执行，在Linux 上会生成<code>.so</code>二进制文件，Windows下为<code>.pyd</code>，所以还有一个作用是加速代码的执行效率。但还有一些限制如项目中不能删除<code>__init__.py</code>否者包导入会失败。详细可参考<a href="https://cython.readthedocs.io/en/latest/src/userguide/limitations.html#cython-limitations">官方文档</a>，Cython 还在持续开发中支持 Python3，下面也用Python3演示。</p>
+<p>先来做一些准备工作定义编译后的文件夹<code>build</code>和一些部署不需要的文件和文件夹，将待编译的<code>.py</code>文件加入<code>ext_modules</code>列表</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">cur_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">setup_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">build_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_dir</span><span class="p">,</span> <span class="s1">&#39;build&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">build_tmp_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">build_dir</span><span class="p">,</span> <span class="s2">&#34;temp&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># define exclude dirs, these dirs will be deleted</span>
+</span></span><span class="line"><span class="cl"><span class="n">exclude_dirs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;.git&#39;</span><span class="p">,</span> <span class="s1">&#39;__pycache__&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;logs&#39;</span><span class="p">,</span> <span class="s1">&#39;venv&#39;</span><span class="p">,</span> <span class="s1">&#39;tests&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># defile exclude files, these files will be deleted</span>
+</span></span><span class="line"><span class="cl"><span class="n">exclude_files</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;*.md&#39;</span><span class="p">,</span> <span class="s1">&#39;.gitignore&#39;</span><span class="p">,</span> <span class="s1">&#39;.python-version&#39;</span><span class="p">,</span> <span class="s1">&#39;requirements.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;*.pyc&#39;</span><span class="p">,</span> <span class="s1">&#39;*.c&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># these `.py` files will be retained and don&#39;t compile to `.so`</span>
+</span></span><span class="line"><span class="cl"><span class="n">ignore_py_files</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;config.py&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ext_modules</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># get all build files</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">cur_dir</span><span class="p">,</span> <span class="n">topdown</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dirs</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dirs</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">exclude_dirs</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># touch a new file when __init__.py not exists</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">_dir</span> <span class="ow">in</span> <span class="n">dirs</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">init_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">_dir</span><span class="p">,</span> <span class="s1">&#39;__init__.py&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">init_file</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING: create new empty [</span><span class="si">{}</span><span class="s1">] file.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">init_file</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">init_file</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">pass</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># create target folder</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">build_dir</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">build_dir</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># make empty dirs</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">dir_name</span> <span class="ow">in</span> <span class="n">dirs</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">dir_name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">target_dir</span> <span class="o">=</span> <span class="nb">dir</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">cur_dir</span><span class="p">,</span> <span class="n">build_dir</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">target_dir</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">file</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;.py&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">ignore_py_files</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># don&#39;t compile to .so</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">file_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">exclude_files</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">cur_dir</span><span class="p">,</span> <span class="n">build_dir</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="k">elif</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">exclude_files</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># remove it</span>
+</span></span><span class="line"><span class="cl">                <span class="k">pass</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># add to compile</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">file_name</span> <span class="o">==</span> <span class="s1">&#39;__init__.py&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">#  copy __init__.py resolve package cannot be imported</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">cur_dir</span><span class="p">,</span> <span class="n">build_dir</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">file_name</span> <span class="o">!=</span> <span class="n">setup_file</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">ext_modules</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_exclude</span> <span class="o">=</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">exclude_files</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">fnmatch</span><span class="o">.</span><span class="n">fnmatch</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">_exclude</span> <span class="o">=</span> <span class="kc">True</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="ow">not</span> <span class="n">_exclude</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">cur_dir</span><span class="p">,</span> <span class="n">build_dir</span><span class="p">))</span>
+</span></span></code></pre></div><p>我们需要把原来的每个文件夹下<code>__init__.py</code>拷贝一份，不然项目中相对导入这些会失效。然后把<code>ext_modules</code>列表传给<code>cythonize</code>生成distutils Extension objects再传给<code>setup</code>函数。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">distutils.core</span> <span class="kn">import</span> <span class="n">setup</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">Cython.Build</span> <span class="kn">import</span> <span class="n">cythonize</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">Cython.Distutils</span> <span class="kn">import</span> <span class="n">build_ext</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">setup</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ext_modules</span><span class="o">=</span><span class="n">cythonize</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ext_modules</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">compiler_directives</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="n">always_allow_keywords</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">c_string_encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">language_level</span><span class="o">=</span><span class="mi">3</span>
+</span></span><span class="line"><span class="cl">            <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cmdclass</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">build_ext</span><span class="o">=</span><span class="n">build_ext</span>
+</span></span><span class="line"><span class="cl">        <span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">script_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;build_ext&#34;</span><span class="p">,</span> <span class="s2">&#34;-b&#34;</span><span class="p">,</span> <span class="n">build_dir</span><span class="p">,</span> <span class="s2">&#34;-t&#34;</span><span class="p">,</span> <span class="n">build_tmp_dir</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">.....</span>
+</span></span></code></pre></div><p>需要注意的是传给<code>setup</code>时需要加<code>always_allow_keywords=True</code>参数否者默认的python 特性关键字参数编译后运行是会报<code>TypeError: ... takes no keyword arguments</code>错的，如 fask 应用上。还有在运行的时候指定了<code>build_dir</code>是编译后存放的目录，不指定默认存放当前目录下，还有临时目录<code>build_tmp_dir</code>稍后可以删除。</p>
+<p>完整代码可以参考我<a href="https://github.com/fangjh13/protect_python_code/blob/master/build_it.py">Github</a>上的代码，拷贝本脚本到项目根目录可以适当修改如哪些不需要放到部署环境的，安装 Cython 后确保每个子文件夹下有<code>__init__.py</code>内容为空的也行，不然生成的<code>.so</code>会路径不对。运行<code>python3 build_it.py</code>会生成一个build文件夹，之后删掉除 build 文件夹所有源文件进入 build 文件夹运行即可（需要启动脚本）。</p>
+<h3 id="reference">Reference<a hidden class="anchor" aria-hidden="true" href="#reference">#</a></h3>
+<ul>
+<li><a href="https://bucharjan.cz/blog/using-cython-to-protect-a-python-codebase.html">https://bucharjan.cz</a></li>
+<li><a href="https://web.archive.org/web/20160402091909/http://blog.biicode.com/bii-internals-compiling-your-python-application-with-cython/">https://web.archive.org</a></li>
+<li><a href="https://laucyun.com/ea4eae29d21ea116b24c61b5d61f9f64.html">https://laucyun.com</a></li>
+<li><a href="https://www.cnblogs.com/ke10/p/py2so.html">https://www.cnblogs.com</a></li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://127.0.0.1:8000/tags/python/">Python</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://127.0.0.1:8000/posts/2018-11-08-mysqldump-backup-script/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>Mysql数据库备份脚本(使用mysqldump)</span>
+  </a>
+  <a class="next" href="http://127.0.0.1:8000/posts/2018-10-07-read-dear-andreas-walther/">
+    <span class="title">Next »</span>
+    <br>
+    <span>读《亲爱的安德烈》</span>
+  </a>
+</nav>
+
+
+<div class="share-buttons">
+    <a target="_blank" rel="noopener noreferrer" aria-label="share 使用 Cython 加密 Python 项目 on twitter"
+        href="https://twitter.com/intent/tweet/?text=%e4%bd%bf%e7%94%a8%20Cython%20%e5%8a%a0%e5%af%86%20Python%20%e9%a1%b9%e7%9b%ae&amp;url=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2018-11-03-encrypt-protect-python-code%2f&amp;hashtags=Python">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share 使用 Cython 加密 Python 项目 on linkedin"
+        href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2018-11-03-encrypt-protect-python-code%2f&amp;title=%e4%bd%bf%e7%94%a8%20Cython%20%e5%8a%a0%e5%af%86%20Python%20%e9%a1%b9%e7%9b%ae&amp;summary=%e4%bd%bf%e7%94%a8%20Cython%20%e5%8a%a0%e5%af%86%20Python%20%e9%a1%b9%e7%9b%ae&amp;source=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2018-11-03-encrypt-protect-python-code%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share 使用 Cython 加密 Python 项目 on reddit"
+        href="https://reddit.com/submit?url=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2018-11-03-encrypt-protect-python-code%2f&title=%e4%bd%bf%e7%94%a8%20Cython%20%e5%8a%a0%e5%af%86%20Python%20%e9%a1%b9%e7%9b%ae">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share 使用 Cython 加密 Python 项目 on facebook"
+        href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2018-11-03-encrypt-protect-python-code%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share 使用 Cython 加密 Python 项目 on whatsapp"
+        href="https://api.whatsapp.com/send?text=%e4%bd%bf%e7%94%a8%20Cython%20%e5%8a%a0%e5%af%86%20Python%20%e9%a1%b9%e7%9b%ae%20-%20http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2018-11-03-encrypt-protect-python-code%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share 使用 Cython 加密 Python 项目 on telegram"
+        href="https://telegram.me/share/url?text=%e4%bd%bf%e7%94%a8%20Cython%20%e5%8a%a0%e5%af%86%20Python%20%e9%a1%b9%e7%9b%ae&amp;url=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2018-11-03-encrypt-protect-python-code%2f">
+        <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share 使用 Cython 加密 Python 项目 on ycombinator"
+        href="https://news.ycombinator.com/submitlink?t=%e4%bd%bf%e7%94%a8%20Cython%20%e5%8a%a0%e5%af%86%20Python%20%e9%a1%b9%e7%9b%ae&u=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2018-11-03-encrypt-protect-python-code%2f">
+        <svg version="1.1" xml:space="preserve" width="30px" height="30px" viewBox="0 0 512 512" fill="currentColor"
+            xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+            <path
+                d="M449.446 0C483.971 0 512 28.03 512 62.554L512 449.446C512 483.97 483.97 512 449.446 512L62.554 512C28.03 512 0 483.97 0 449.446L0 62.554C0 28.03 28.029 0 62.554 0L449.446 0ZM183.8767 87.9921H121.8427L230.6673 292.4508V424.0079H281.3328V292.4508L390.1575 87.9921H328.1233L256 238.2489z" />
+        </svg>
+    </a>
+</div>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://127.0.0.1:8000/">Fython&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

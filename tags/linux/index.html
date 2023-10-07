@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Linux | Fython&#39;s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="My Personal Blog Site">
+<meta name="author" content="Fython">
+<link rel="canonical" href="http://127.0.0.1:8000/tags/linux/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.73c5f38ae8d9aaab6402bebf0c9459d0d8b9c7b018822bddcff46721198a28d5.css" integrity="sha256-c8XziujZqqtkAr6/DJRZ0Ni5x7AYgivdz/RnIRmKKNU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://127.0.0.1:8000/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://127.0.0.1:8000/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://127.0.0.1:8000/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://127.0.0.1:8000/apple-touch-icon.png">
+<link rel="mask-icon" href="http://127.0.0.1:8000/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://127.0.0.1:8000/tags/linux/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Linux" />
+<meta property="og:description" content="My Personal Blog Site" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://127.0.0.1:8000/tags/linux/" /><meta property="og:image" content="http://127.0.0.1:8000/blog-cover-1.png"/>
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://127.0.0.1:8000/blog-cover-1.png"/>
+
+<meta name="twitter:title" content="Linux"/>
+<meta name="twitter:description" content="My Personal Blog Site"/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://127.0.0.1:8000/" accesskey="h" title="Fython&#39;s Blog (Alt + H)">Fython&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://127.0.0.1:8000/archives" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://127.0.0.1:8000/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://127.0.0.1:8000/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="http://127.0.0.1:8000/">Home</a>&nbsp;»&nbsp;<a href="http://127.0.0.1:8000/tags/">Tags</a></div>
+  <h1>
+    Linux
+    <a href="/tags/linux/index.xml" title="RSS" aria-label="RSS">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" height="23">
+        <path d="M4 11a9 9 0 0 1 9 9" />
+        <path d="M4 4a16 16 0 0 1 16 16" />
+        <circle cx="5" cy="19" r="1" />
+      </svg>
+    </a>
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Bash备忘录
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>BASH SHELL cheat sheet 记录一些 bash shell 脚本的奇技淫巧，都是从实际使用中 google 的。bash 各 Linux 发行版都自带方便好用特别是文本处理、一些运维之类的小脚本，但有些语法繁琐不好记容易忘整理一下方便查找。
+trap trap 命令 用于指定在接收到信号后将要采取的动作，常见的用途是在脚本程序被中断时完成清理工作。当 shell 接收到 sigspec 指定的信号时，arg 参数（命令）将会被读取，并被执行。例如：
+trap &#34;exit 1&#34; HUP INT PIPE QUIT TERM 表示当 shell 收到HUP,INT,PIPE,QUIT,TERM这几个信号时，当前执行的程序会读取参数&#34;exit 1&#34;，并将它作为命令执行。
+如果要忽略某个信号就参数使用单引号就可以&#39;&#39;
+trap &#39;&#39; signals 如果启动的时候忽略了信号比如使用了nohup，trap 命令是无效的。具体信号可使用man 7 signal或者kill -l查阅
+$*、$@、$# 直接上例子看，如下脚本test.sh
+echo 参数总个数 \$#: $# echo 第0个参数 \$0: $0 for a in $(seq 1 $#); do eval b=\$$a echo 第&#34;$a&#34;个参数 \$&#34;$a&#34;: $b done echo -e &#34;\nUsing \&#34;\$#\&#34;:&#34; echo &#34;$#&#34; echo -e &#34;\nUsing \$#:&#34; echo $# echo -e &#34;\nUsing \&#34;\$*\&#34;:&#34; for a in &#34;$*&#34;; do echo $a; done echo -e &#34;\nUsing \$*:&#34; for a in $*; do echo $a; done echo -e &#34;\nUsing \&#34;\$@\&#34;:&#34; for a in &#34;$@&#34;; do echo $a; done echo -e &#34;\nUsing \$@:&#34; for a in $@; do echo $a; done 然后运行此脚本，注意最后3 4用了双引号...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-01-20 07:50:48 +0800 +0800'>January 20, 2021</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;337 words&nbsp;·&nbsp;Fython</footer>
+  <a class="entry-link" aria-label="post link to Bash备忘录" href="http://127.0.0.1:8000/posts/2021-01-20-bash-shell-cheat-sheet/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>TCP连接和各状态浅析
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>TCP连接和各状态浅析 TCP协议中三次握手连接和四次挥手断开和其中的状态变化
+TCP(Transmission Control Protocol)协议在OSI模型中属于传输层的协议(第4层)也是最常用的互联网协议，与UDP相比它是一种可靠的传输协议，建立和断开连接中一共有11种可能发生的状态(states)。
+Linux系统中可以用ss -nat命令查看所有TCP连接情况如果是旧的系统没有此命令可以使用netstat代替只是输出格式不一致，统计当前所有TCP状态可以加管道实现 ss -nat | awk &#39;NR&gt;1 { d[$1]&#43;&#43; } END { for (i in d) print i, d[i] }&#39;
+建立连接(三次握手） TCP是面向连接的所以传输双方在传输前要建立一条连接后才能通信，建立连接后TCP协议提供全双⼯(就是可以同时发送和接收不影响)的通信服务。建立连接的过程我们给它取了个生动的名字叫“三次握手”，因为从发起到建立连接一共有三个步骤也就是双方会发三个包，先看下面的图
+首先客户端发送SYN(Synchronous)包到服务端告诉服务器开始建立连接，包里面会包含一个随机数(j)序列号(Sequence Number)，此时客户端进入SYC-SENT状态。当然最初服务器是处于LISTEN状态监听某一个端口，本文图片以绿底黑框的都代表TCP状态。 服务端收到SYN发送应答SYN-ACK(Acknowledgement)携带确认号码(Acknowledge Number)为收到的序列号&#43;1也就是j&#43;1，加上一个自己的SYC序列号随机数(k)，服务端把状态置为SYN-RECEIVED 客户端收到SYN-ACK包并发送确认号码k&#43;1，此时客户端的状态为ESTABLISHED，服务器收到ACK后状态也变为ESTABLISHED 以下是wireshake抓包后TCP连接的三次握手，这里序列号码j和k都为0。
+TCP A (port 65525) TCP B (port 443) LISTEN (Start) 1. SYN-SENT --&gt; &lt;SEQ=0&gt;&lt;CTL=SYN&gt; --&gt; SYN-RECEIVE 2. ESTABLISHED &lt;-- &lt;SEQ=0&gt;&lt;ACK=1&gt;&lt;CTL=SYN,ACK&gt; &lt;-- SYN-RECEIVE 3. ESTABLISHED --&gt; &lt;SEQ=1&gt;&lt;ACK=1&gt;&lt;CTL=ACK&gt; --&lt; ESTABLISHED 断开连接(四次挥手) 断开连接称为“挥手”一共有四步每一方向占两步，由于TCP是全双工的所以关闭连接需要双方都完成关闭(close)才算结束，其中会涉及状态也就比握手多。客户端和服务端都可以发起挥手动作，先发送FIN包的动作叫主动关闭(active close)然后另一方回应ACK包叫执行被动关闭(passive colse)，双方各完成一次主动和被动关闭一共四次。
+客户端数据传输完毕发起断开连接(主动关闭)，发送FIN包携带一个序列号(x)到服务端并更新自己的状态为FIN-WAIT-1 服务端收到FIN包返回ACK包(被动关闭)，应答ACK确认序号为x&#43;1，服务端此时的状态为CLOSE-WAIT。另一边客户端收到ACK更新状态为FIN-WAIT-2 服务端准备执行断开连接(主动关闭)，此时服务端的状态还是CLOSE-WAIT，发送FIN包携带序列号(y)到客户端更新服务端状态为LAST-ACK，客户端收到FIN包后状态变为TIME-WAIT。 客户端收到FIN应答ACK(被动关闭)携带确认序号为y&#43;1，服务端收到ACK立即关闭连接状态变为CLOSED 因为客户端最后不知道服务端有没有收到ACK包，所以默认等待两倍的MSL(Maximum Segment Lifetime)，Linux上MSL一般为60s，等待120s使服务器如果没有收到ACK也能重传FIN包，最后把自己的状态置为CLOSED在此之前的MSL时间中一直是TIME-WAIT状态 看一个现实中的例子ssh连接退出...</p>
+  </div>
+  <footer class="entry-footer"><span title='2020-02-13 03:38:51 +0800 +0800'>February 13, 2020</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;157 words&nbsp;·&nbsp;Fython</footer>
+  <a class="entry-link" aria-label="post link to TCP连接和各状态浅析" href="http://127.0.0.1:8000/posts/2020-02-13-tcp-handshake-process-and-state-trainsition/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>使用 Core dump 解密加密的sh脚本
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>使用 Core dump 解密加密的脚本 之前遇到网上的集成的shell脚本有点问题想手动修改下，发现脚本是加密的，网上找了好久发现有gzexe、shc加密方法都尝试了一遍，可惜解密都不成功，最后用了一个粗暴的办法就是任何程序总要加载到内存运行的吧，那就直接中断coredump查看内存里的内容，以下是具体方法。
+root用户执行如下命令
+ulimit -c unlimited echo &#34;/core_dump/%e-%p-%t.core&#34; &gt; /proc/sys/kernel/core_pattern mkdir /core_dump 以上第一句是设置内核coredump大小，这里设置不限制。第二句是设置coredump存储位置和格式，%e代表可执行程序名，%p代表pid， %t代表生成时间。然后去执行脚本如xxx.sh
+./xxx.sh 6 start &amp; (sleep 0.01 &amp;&amp; kill -SIGSEGV $!) 之后会输出类似[1]&#43; Segmentation fault (core dumped)...的提示，然后查看/core_dump文件夹下，就会有dump出来的文件了，直接vim打开查看会有一些乱码手动处理一下就可以了。
+如果在core_dump文件夹下没有dump出来的文件，可使用如下命令测试然后查看是否有文件生成。
+sleep 15 &amp; killall -SIGSEGV sleep 正常情况下core_dump文件夹下会有以sleep开头的文件。</p>
+  </div>
+  <footer class="entry-footer"><span title='2019-10-16 15:31:21 +0800 +0800'>October 16, 2019</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;40 words&nbsp;·&nbsp;Fython</footer>
+  <a class="entry-link" aria-label="post link to 使用 Core dump 解密加密的sh脚本" href="http://127.0.0.1:8000/posts/2019-10-16-linux-core-dump-decrypt-script/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Systemd 中的timer单元
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Systemd 中的timer单元 上一篇讲了systemd 中的service单元，这次记录一下 timer 单元。timer 必须依赖 service 单元来配置，可以用来做替代 crontab 的选择。
+timer单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu下的apt-daily.timer，该目录下也存在一个apt-daily.service服务文件配合一起使用。
+[Unit] Description=Daily apt activities [Timer] OnCalendar=*-*-* 6,18:00 RandomizedDelaySec=12h AccuracySec=1h Persistent=true [Install] WantedBy=timers.target 上面的[Timer]块代表每天上午6点和下午6点都运行 apt 脚本，具体[Timer]块可配置以下参数
+单调定时器(Monotonic timer) Option Description OnActiveSec= 相对计时器开始后多少时间执行，格式如2h、2s、2w、2d OnBootSec= 相对系统启动后多少时间执行 OnStartupSec= 相对 systemd 启动多少时间后执行 OnUnitActiveSec= 每隔多少时间再次运行一次 OnUnitInactiveSec= 服务在最后一次停止后，隔多久再执行一次 可以两个参数一起使用，如下每周开机15分钟后执行 foo
+[Unit] Description=Run foo weekly and on boot [Timer] OnBootSec=15min OnUnitActiveSec=1w [Install] WantedBy=timers.target 实时定时器(Realtime timer) Option Description OnCalendar= 相对系统时间指定特定时刻运行，它接受如2h、2s 的格式也可以是 星期 年-月-日 时:分:秒的格式，..指定区间，*代表所有的。可参考systemd.time(7) Persistent= 是一个布尔值，默认为 no，当使用 OnCalendar 的设置时，指定该功能要不要持续进行。如断电恢复后是不是要执行上次没执行的 AccuracySec= 设置定时器的触发精度。默认值是一分钟。定时器并不必然在所设置的精准时间点上启动匹配单元， 而是在所设置的精准时间点为起点的一小段时间窗口范围内的某个时间点上启动匹配单元， 这个时间窗口的起点由 OnCalendar=, OnActiveSec=, OnBootSec=, OnStartupSec=, OnUnitActiveSec= or OnUnitInactiveSec= 决定， 而这个时间窗口的长度则由该指令决定。 RandomizedDelaySec= 将此单元的定时器随机延迟一小段时间， 这一小段时间的长度介于零到该指令设置的时间长度之间， 以均匀概率分布。 如下是每月的1到4号12点周一和周二运行 foo，格式如OnCalendar=*-*-* 4:00:00代表每天4点...</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-08-16 09:43:23 +0800 +0800'>August 16, 2018</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;186 words&nbsp;·&nbsp;Fython</footer>
+  <a class="entry-link" aria-label="post link to Systemd 中的timer单元" href="http://127.0.0.1:8000/posts/2018-08-16-systemd-timer-unit/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Systemd中Service单元介绍
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Systemd中Service单元介绍 Systemd是一个系统管理守护进程、工具和库的集合，用于取代System V初始进程，集中管理和配置类UNIX系统，可见它非常的强大。
+Systemd分为多个单元（unit）如服务（.service），挂载点（.mount），套接口（.socket）和设备（.device）等，这里记录使用最多的服务（service）文件的编写。用户自定义的一般存放在/etc/systemd/sytem/文件夹下，还有另外的文件夹类debian系列的如下。
+Directory Description /lib/systemd/system/ 系统自带的或者程序自带安装的单元存放在此 /etc/systemd/system/ 用户自定义的，此文件夹优先级最高，可以覆盖上面文件夹的内容 下面是系统安装openssh-server后，在/lib/systemd/system/ssh.service下的服务。
+[Unit] Description=OpenBSD Secure Shell server After=network.target auditd.service ConditionPathExists=!/etc/ssh/sshd_not_to_be_run [Service] EnvironmentFile=-/etc/default/ssh ExecStart=/usr/sbin/sshd -D $SSHD_OPTS ExecReload=/bin/kill -HUP $MAINPID KillMode=process Restart=on-failure RestartPreventExitStatus=255 Type=notify [Install] WantedBy=multi-user.target Alias=sshd.service 如上所示一般每个Unit都有各个块(section)组成，由[]包裹就是块名。下面的就是配置，直到另一个块开始为止。
+[Unit] section
+[Unit]一般是第一个块文件配置，配置各种元数据(metadata)和其他单元的关系
+Option Description Description= 这个单元的描述字符串 Documentation= 文档链接 Requires= 运行这个单元所需要的依赖单元，否则启动失败 Wants= 和上面Requires相似，但是非强限制。如果列出在此的单元没有启动，本单元也还是能启动持续运行 BindsTo= 和上面Requires相似，区别是列出在此的单元终止了，本单元也会停止 Before= 在此列出的单元，只有在本单元启动后才会启动。但不是依赖关系，如需依赖配置上述Requires命令 After= 在启动本单元之前，先要启动在此列出的单元。但不是依赖关系，如需依赖配置上述Requires命令 Conflicts= 在此列出的单元，不能和本单元同时运行，和Requires相反 OnFailure= 在此列出的单元将会在本单元失败后激活 还有很多的如Condition...和Assert...配置详情可以查看手册man 5 systemd.unit
+[Install] section
+[Install]一般是最后一个块文件配置，这个是可选项，也就是说可以不配置。只有在开机启动激活(enable)时触发。
+Option Description WantedBy= 指定该单元如何开机启动(enable)，依赖在此列出的单元，有点类似[Unit]块中的Wants，不同的是它会创建软链接到.wants文件夹，如上sshd如果被enable，该单元会创建一个软链接到/etc/systemd/system/multi-user.target.wants文件夹下，如果文件夹不存在则创建文件夹再软链接。 RequiredBy= 和上面WantedBy类似，但如果在此列出的单元没有激活，本单元会激活失败，同样在.requires文件夹下创建软链接。 Alias= 设置改单元的别名，可以给systemctl使用，例如上面sshd的开机启动可以使用 systemctl enable ssh....</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-07-08 02:28:21 +0800 +0800'>July 8, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;248 words&nbsp;·&nbsp;Fython</footer>
+  <a class="entry-link" aria-label="post link to Systemd中Service单元介绍" href="http://127.0.0.1:8000/posts/2018-07-08-systemd-service-unit/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://127.0.0.1:8000/">Fython&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

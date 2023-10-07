@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Git | Fython&#39;s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="My Personal Blog Site">
+<meta name="author" content="Fython">
+<link rel="canonical" href="http://127.0.0.1:8000/tags/git/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.73c5f38ae8d9aaab6402bebf0c9459d0d8b9c7b018822bddcff46721198a28d5.css" integrity="sha256-c8XziujZqqtkAr6/DJRZ0Ni5x7AYgivdz/RnIRmKKNU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://127.0.0.1:8000/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://127.0.0.1:8000/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://127.0.0.1:8000/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://127.0.0.1:8000/apple-touch-icon.png">
+<link rel="mask-icon" href="http://127.0.0.1:8000/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://127.0.0.1:8000/tags/git/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Git" />
+<meta property="og:description" content="My Personal Blog Site" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://127.0.0.1:8000/tags/git/" /><meta property="og:image" content="http://127.0.0.1:8000/blog-cover-1.png"/>
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://127.0.0.1:8000/blog-cover-1.png"/>
+
+<meta name="twitter:title" content="Git"/>
+<meta name="twitter:description" content="My Personal Blog Site"/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://127.0.0.1:8000/" accesskey="h" title="Fython&#39;s Blog (Alt + H)">Fython&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://127.0.0.1:8000/archives" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://127.0.0.1:8000/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://127.0.0.1:8000/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="http://127.0.0.1:8000/">Home</a>&nbsp;»&nbsp;<a href="http://127.0.0.1:8000/tags/">Tags</a></div>
+  <h1>
+    Git
+    <a href="/tags/git/index.xml" title="RSS" aria-label="RSS">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" height="23">
+        <path d="M4 11a9 9 0 0 1 9 9" />
+        <path d="M4 4a16 16 0 0 1 16 16" />
+        <circle cx="5" cy="19" r="1" />
+      </svg>
+    </a>
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Git工作流
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Git是当今最流行的开源版本控制系统，使用git的每个团队应该也有固定的工作流。今天就介绍一个现有普遍使用的工作流git-flow。
+分支（branch） 如上图一般分支有*master、develop、feature/xxx、release/xxx、hotfixes*，下面一一介绍。
+长期分支 长期分支是跟着产品长期存在的不会删除。
+*master*只能用来包括产品代码，不要在这上面做任何的改动。
+*develop开发主分支，所有新功能的分支从这里checkout，所以这是开发的基础分支。该分支也是汇集所有开发新功能后最后merge到master*的分支。
+临时分支 临时分支只用来开发新功能、修复bug和发布产品用最后删除。
+*feature/xxx开发新功能的分支从develop分支checkout每个功能创建一个分支是一个良好的习惯。开发测试完后merge到develop*分支进行更全面的测试。
+*release/xxx产品预发布分支，一般以版本号为分支名，需要合并到master*分支发布。
+*hotfixes紧急修复bug的分支基于master分支，修复完后一定要合并到master分支和develop*分支。
+Git-flow工作流程 基本步骤 开发人员首先从*develop*分支checkout -b feature/xxx一个待开发的分支，开发和测试。 当开发和测试都完成后将*feature/xxx合并到develop并删除清理。当然其中有新功能时可以再新建一个feature*分支并最后合并到开发分支。 终于等到release了，现在开发分支汇集了所有新开发的功能并无重大bug，我们从*develop分支checkout一个release/v1.0.0的分支进行更加全面的测试准备发布，有bug就在release分支修复，正式发布就是把这个release分支合并到master分支打上tag。当然不要忘记将发布分支合并到develop分支以保持和master*代码同步一致。 可能发布后有紧急的bug需要修复那就从*master分支checkout一个hotfixes/missing-link分支修复bug并合并到master和develop*最后删除。 总结一下 以上就是Git-flow方案的所有流程，优点是分支清晰各干各的看名字就知道，最后只留下*master和develop*分枝。缺点当然是步骤比较繁琐咯，开发要新建很多分支然后切换和删除。我们可以还有很多方案选择GitHub flow、GitLab flow等，或者理解熟练了之后自创一套也是可以的。
+GitHub协同工作 身为一个开发者一定想为开源项目贡献自己的代码，下面是基本步骤可做参考。也可以作为团队协作的基本流程。
+Fork到自己帐号下并Clone到本地 git remote add upstream https://github.com/... 添加上游项目地址（源项目地址）以便更新到最新的代码，添加完可用git remote -v查看除了origin应该还有upstream远程地址 git pull upstream master从刚才添加的upstream拉取最新代码 git checkout -b feature/some-feature 新建一个你要添加新功能的分支，开发就在这上面进行 git add . &amp;&amp; git commit -m &#39;some feature add&#39;测试通过后提交代码 git checkout master &amp;&amp; git pull upstream master这主要是从源仓库拉取最新代码，在你开发期间，如果源项目有改动提交pull就能拉取下来 git checkout feature/some-feature &amp;&amp; git rebase master 然后执行一次变基更新代码 git push origin feature/some-feature推送你开发完并更新到最新的分支到GitHub 去自己GitHub帐号下 pull request等review合并 一具话就是先在本地新建一个分支开发最后提交这个分支发PR，需要注意的是提交到远程的时候记得先pull更新代码然后rebase使分支清晰可读。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2017-11-21 07:18:51 +0800 +0800'>November 21, 2017</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;82 words&nbsp;·&nbsp;Fython</footer>
+  <a class="entry-link" aria-label="post link to Git工作流" href="http://127.0.0.1:8000/posts/2017-11-21-git-workflow/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://127.0.0.1:8000/">Fython&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

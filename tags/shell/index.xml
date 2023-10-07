@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Shell on Fython&#39;s Blog</title>
+    <link>http://127.0.0.1:8000/tags/shell/</link>
+    <description>Recent content in Shell on Fython&#39;s Blog</description>
+    <image>
+      <title>Fython&#39;s Blog</title>
+      <url>http://127.0.0.1:8000/blog-cover-1.png</url>
+      <link>http://127.0.0.1:8000/blog-cover-1.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 14 Jul 2020 03:47:53 +0800</lastBuildDate><atom:link href="http://127.0.0.1:8000/tags/shell/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bash 快捷操作</title>
+      <link>http://127.0.0.1:8000/posts/2020-07-14-bash-tip-and-tricks/</link>
+      <pubDate>Tue, 14 Jul 2020 03:47:53 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2020-07-14-bash-tip-and-tricks/</guid>
+      <description>Bash 快捷操作 GUN Bash 是现代操作系统一般都默认自带的Shell，它兼容sh并提供了更多的feature，如果我们常用命令行那么记住一些快捷键和trick能大大提高我们的工作效率，这篇文章就介绍下本人常用的快捷键和一些技巧。
+Bash默认的是emacs模式，这里的快捷键以默认的为准，可以使用set -o命令查看，使用set -o emacs设置。
+[TOC]
+移动光标 快捷键 描述 Ctrl + a 移动光标到行首 Ctrl + e 移动光标到行尾 Alt + b 移动光标后退一个单词（词首） Alt + f 移动光标前进一个单词（词首） Ctrl + f 光标前进一个字母 Ctrl + b 光标后退一个字母 Ctrl + xx 当前位置与行首之间光标切换 一般配合Ctrl的是单字符移动，Alt是单词为边界。建议将键盘上的caps lock键改成Ctrl这样手指移动距离更短按起来也更加舒服方便。
+剪切（删除）粘贴 快捷键 描述 Ctrl + k 剪切从光标到行尾 Ctrl + u 剪切从光标到行首 Ctrl + w 从光标向前剪切一个单词 Alt + Backspace 与 Ctrl + w 类似，但分隔符是一些特殊字符 Alt + d 从光标向后剪切一个单词 Ctrl + d 删除光标下一个字母，如果没有字符存在，ctrl+d 则会登出该会话 Ctrl + h 删除光标前一个字母 Alt + t swap(当前单词, 上一个单词) Ctrl + t swap(当前字母, 上一个字母) Ctrl + y 粘贴上一次剪切的文本，配合 Ctrl-u、Ctrl-k 效果极好 大小写转换 快捷键 描述 Alt + c 大写当前字母，并移动光标到单词尾 Alt + u 大写从当光标到单词尾 Alt + l 小写从当光标到单词尾 历史命令 快捷键 描述 Ctrl + r 向后搜索历史命令 Ctrl + g 退出搜索 Ctrl + p 历史中上一个命令，代替向上方向键 Ctrl + n 历史中下一个命令，代替乡下方向键 Alt + .</description>
+    </item>
+    
+    <item>
+      <title>使用 Core dump 解密加密的sh脚本</title>
+      <link>http://127.0.0.1:8000/posts/2019-10-16-linux-core-dump-decrypt-script/</link>
+      <pubDate>Wed, 16 Oct 2019 15:31:21 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2019-10-16-linux-core-dump-decrypt-script/</guid>
+      <description>linux core dump 从内存中读取shell脚本</description>
+    </item>
+    
+    <item>
+      <title>Mysql数据库备份脚本(使用mysqldump)</title>
+      <link>http://127.0.0.1:8000/posts/2018-11-08-mysqldump-backup-script/</link>
+      <pubDate>Thu, 08 Nov 2018 03:11:51 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2018-11-08-mysqldump-backup-script/</guid>
+      <description>Mysql(mysqldump)备份脚本 记录下服务器上一个备份 mysql 数据库的脚本，使用 mysql 自带的mysqldump命令
+!/usr/bin/env bash USER=username PASSWORD=password MAXIMUM_BACKUP_FILES=10 BACKUP_FOLDER=/path/to/save/folder DATABASES=( db_name_0 db_name_1 ) # check mysqldump instlled _=$(command -v mysqldump) if [[ $? != 0 ]] then printf &amp;#34;You don&amp;#39;t seem to mysqldump installed, exit..\n&amp;#34; exit 1 fi # create backup folder if [ ! -d $BACKUP_FOLDER ] then mkdir $BACKUP_FOLDER fi # backup for DB in ${DATABASES[@]} do echo backing up ${DB} database ... if $(mysqldump --host=localhost --user=${USER} --password=${PASSWORD} ${DB} | gzip -9 &amp;gt; ${BACKUP_FOLDER}/db_${DB}_$(date +&amp;#34;%Y%m%d&amp;#34;).</description>
+    </item>
+    
+    <item>
+      <title>Systemd 中的timer单元</title>
+      <link>http://127.0.0.1:8000/posts/2018-08-16-systemd-timer-unit/</link>
+      <pubDate>Thu, 16 Aug 2018 09:43:23 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2018-08-16-systemd-timer-unit/</guid>
+      <description>Systemd 中的timer单元 上一篇讲了systemd 中的service单元，这次记录一下 timer 单元。timer 必须依赖 service 单元来配置，可以用来做替代 crontab 的选择。
+timer单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu下的apt-daily.timer，该目录下也存在一个apt-daily.service服务文件配合一起使用。
+[Unit] Description=Daily apt activities [Timer] OnCalendar=*-*-* 6,18:00 RandomizedDelaySec=12h AccuracySec=1h Persistent=true [Install] WantedBy=timers.target 上面的[Timer]块代表每天上午6点和下午6点都运行 apt 脚本，具体[Timer]块可配置以下参数
+单调定时器(Monotonic timer) Option Description OnActiveSec= 相对计时器开始后多少时间执行，格式如2h、2s、2w、2d OnBootSec= 相对系统启动后多少时间执行 OnStartupSec= 相对 systemd 启动多少时间后执行 OnUnitActiveSec= 每隔多少时间再次运行一次 OnUnitInactiveSec= 服务在最后一次停止后，隔多久再执行一次 可以两个参数一起使用，如下每周开机15分钟后执行 foo
+[Unit] Description=Run foo weekly and on boot [Timer] OnBootSec=15min OnUnitActiveSec=1w [Install] WantedBy=timers.target 实时定时器(Realtime timer) Option Description OnCalendar= 相对系统时间指定特定时刻运行，它接受如2h、2s 的格式也可以是 星期 年-月-日 时:分:秒的格式，..指定区间，*代表所有的。可参考systemd.time(7) Persistent= 是一个布尔值，默认为 no，当使用 OnCalendar 的设置时，指定该功能要不要持续进行。如断电恢复后是不是要执行上次没执行的 AccuracySec= 设置定时器的触发精度。默认值是一分钟。定时器并不必然在所设置的精准时间点上启动匹配单元， 而是在所设置的精准时间点为起点的一小段时间窗口范围内的某个时间点上启动匹配单元， 这个时间窗口的起点由 OnCalendar=, OnActiveSec=, OnBootSec=, OnStartupSec=, OnUnitActiveSec= or OnUnitInactiveSec= 决定， 而这个时间窗口的长度则由该指令决定。 RandomizedDelaySec= 将此单元的定时器随机延迟一小段时间， 这一小段时间的长度介于零到该指令设置的时间长度之间， 以均匀概率分布。 如下是每月的1到4号12点周一和周二运行 foo，格式如OnCalendar=*-*-* 4:00:00代表每天4点</description>
+    </item>
+    
+    <item>
+      <title>Systemd中Service单元介绍</title>
+      <link>http://127.0.0.1:8000/posts/2018-07-08-systemd-service-unit/</link>
+      <pubDate>Sun, 08 Jul 2018 02:28:21 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2018-07-08-systemd-service-unit/</guid>
+      <description>.service 模板</description>
+    </item>
+    
+    <item>
+      <title>配置SSH agent 和 SSH agent forwarding转发</title>
+      <link>http://127.0.0.1:8000/posts/2017-12-27-ssh-agent-and-ssh-agent-forwarding/</link>
+      <pubDate>Wed, 27 Dec 2017 03:00:27 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2017-12-27-ssh-agent-and-ssh-agent-forwarding/</guid>
+      <description>SSH agent 和 SSH agent forwarding</description>
+    </item>
+    
+  </channel>
+</rss>

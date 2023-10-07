@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Bash 快捷操作 | Fython&#39;s Blog</title>
+<meta name="keywords" content="Shell, Bash">
+<meta name="description" content="Bash 快捷操作 GUN Bash 是现代操作系统一般都默认自带的Shell，它兼容sh并提供了更多的feature，如果我们常用命令行那么记住一些快捷键和trick能大大提高我们的工作效率，这篇文章就介绍下本人常用的快捷键和一些技巧。
+Bash默认的是emacs模式，这里的快捷键以默认的为准，可以使用set -o命令查看，使用set -o emacs设置。
+[TOC]
+移动光标 快捷键 描述 Ctrl &#43; a 移动光标到行首 Ctrl &#43; e 移动光标到行尾 Alt &#43; b 移动光标后退一个单词（词首） Alt &#43; f 移动光标前进一个单词（词首） Ctrl &#43; f 光标前进一个字母 Ctrl &#43; b 光标后退一个字母 Ctrl &#43; xx 当前位置与行首之间光标切换 一般配合Ctrl的是单字符移动，Alt是单词为边界。建议将键盘上的caps lock键改成Ctrl这样手指移动距离更短按起来也更加舒服方便。
+剪切（删除）粘贴 快捷键 描述 Ctrl &#43; k 剪切从光标到行尾 Ctrl &#43; u 剪切从光标到行首 Ctrl &#43; w 从光标向前剪切一个单词 Alt &#43; Backspace 与 Ctrl &#43; w 类似，但分隔符是一些特殊字符 Alt &#43; d 从光标向后剪切一个单词 Ctrl &#43; d 删除光标下一个字母，如果没有字符存在，ctrl&#43;d 则会登出该会话 Ctrl &#43; h 删除光标前一个字母 Alt &#43; t swap(当前单词, 上一个单词) Ctrl &#43; t swap(当前字母, 上一个字母) Ctrl &#43; y 粘贴上一次剪切的文本，配合 Ctrl-u、Ctrl-k 效果极好 大小写转换 快捷键 描述 Alt &#43; c 大写当前字母，并移动光标到单词尾 Alt &#43; u 大写从当光标到单词尾 Alt &#43; l 小写从当光标到单词尾 历史命令 快捷键 描述 Ctrl &#43; r 向后搜索历史命令 Ctrl &#43; g 退出搜索 Ctrl &#43; p 历史中上一个命令，代替向上方向键 Ctrl &#43; n 历史中下一个命令，代替乡下方向键 Alt &#43; .">
+<meta name="author" content="Fython">
+<link rel="canonical" href="http://127.0.0.1:8000/posts/2020-07-14-bash-tip-and-tricks/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.73c5f38ae8d9aaab6402bebf0c9459d0d8b9c7b018822bddcff46721198a28d5.css" integrity="sha256-c8XziujZqqtkAr6/DJRZ0Ni5x7AYgivdz/RnIRmKKNU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://127.0.0.1:8000/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://127.0.0.1:8000/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://127.0.0.1:8000/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://127.0.0.1:8000/apple-touch-icon.png">
+<link rel="mask-icon" href="http://127.0.0.1:8000/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Bash 快捷操作" />
+<meta property="og:description" content="Bash 快捷操作 GUN Bash 是现代操作系统一般都默认自带的Shell，它兼容sh并提供了更多的feature，如果我们常用命令行那么记住一些快捷键和trick能大大提高我们的工作效率，这篇文章就介绍下本人常用的快捷键和一些技巧。
+Bash默认的是emacs模式，这里的快捷键以默认的为准，可以使用set -o命令查看，使用set -o emacs设置。
+[TOC]
+移动光标 快捷键 描述 Ctrl &#43; a 移动光标到行首 Ctrl &#43; e 移动光标到行尾 Alt &#43; b 移动光标后退一个单词（词首） Alt &#43; f 移动光标前进一个单词（词首） Ctrl &#43; f 光标前进一个字母 Ctrl &#43; b 光标后退一个字母 Ctrl &#43; xx 当前位置与行首之间光标切换 一般配合Ctrl的是单字符移动，Alt是单词为边界。建议将键盘上的caps lock键改成Ctrl这样手指移动距离更短按起来也更加舒服方便。
+剪切（删除）粘贴 快捷键 描述 Ctrl &#43; k 剪切从光标到行尾 Ctrl &#43; u 剪切从光标到行首 Ctrl &#43; w 从光标向前剪切一个单词 Alt &#43; Backspace 与 Ctrl &#43; w 类似，但分隔符是一些特殊字符 Alt &#43; d 从光标向后剪切一个单词 Ctrl &#43; d 删除光标下一个字母，如果没有字符存在，ctrl&#43;d 则会登出该会话 Ctrl &#43; h 删除光标前一个字母 Alt &#43; t swap(当前单词, 上一个单词) Ctrl &#43; t swap(当前字母, 上一个字母) Ctrl &#43; y 粘贴上一次剪切的文本，配合 Ctrl-u、Ctrl-k 效果极好 大小写转换 快捷键 描述 Alt &#43; c 大写当前字母，并移动光标到单词尾 Alt &#43; u 大写从当光标到单词尾 Alt &#43; l 小写从当光标到单词尾 历史命令 快捷键 描述 Ctrl &#43; r 向后搜索历史命令 Ctrl &#43; g 退出搜索 Ctrl &#43; p 历史中上一个命令，代替向上方向键 Ctrl &#43; n 历史中下一个命令，代替乡下方向键 Alt &#43; ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://127.0.0.1:8000/posts/2020-07-14-bash-tip-and-tricks/" /><meta property="og:image" content="http://127.0.0.1:8000/blog-cover-1.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-07-14T03:47:53+08:00" />
+<meta property="article:modified_time" content="2022-07-25T13:56:53+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://127.0.0.1:8000/blog-cover-1.png"/>
+
+<meta name="twitter:title" content="Bash 快捷操作"/>
+<meta name="twitter:description" content="Bash 快捷操作 GUN Bash 是现代操作系统一般都默认自带的Shell，它兼容sh并提供了更多的feature，如果我们常用命令行那么记住一些快捷键和trick能大大提高我们的工作效率，这篇文章就介绍下本人常用的快捷键和一些技巧。
+Bash默认的是emacs模式，这里的快捷键以默认的为准，可以使用set -o命令查看，使用set -o emacs设置。
+[TOC]
+移动光标 快捷键 描述 Ctrl &#43; a 移动光标到行首 Ctrl &#43; e 移动光标到行尾 Alt &#43; b 移动光标后退一个单词（词首） Alt &#43; f 移动光标前进一个单词（词首） Ctrl &#43; f 光标前进一个字母 Ctrl &#43; b 光标后退一个字母 Ctrl &#43; xx 当前位置与行首之间光标切换 一般配合Ctrl的是单字符移动，Alt是单词为边界。建议将键盘上的caps lock键改成Ctrl这样手指移动距离更短按起来也更加舒服方便。
+剪切（删除）粘贴 快捷键 描述 Ctrl &#43; k 剪切从光标到行尾 Ctrl &#43; u 剪切从光标到行首 Ctrl &#43; w 从光标向前剪切一个单词 Alt &#43; Backspace 与 Ctrl &#43; w 类似，但分隔符是一些特殊字符 Alt &#43; d 从光标向后剪切一个单词 Ctrl &#43; d 删除光标下一个字母，如果没有字符存在，ctrl&#43;d 则会登出该会话 Ctrl &#43; h 删除光标前一个字母 Alt &#43; t swap(当前单词, 上一个单词) Ctrl &#43; t swap(当前字母, 上一个字母) Ctrl &#43; y 粘贴上一次剪切的文本，配合 Ctrl-u、Ctrl-k 效果极好 大小写转换 快捷键 描述 Alt &#43; c 大写当前字母，并移动光标到单词尾 Alt &#43; u 大写从当光标到单词尾 Alt &#43; l 小写从当光标到单词尾 历史命令 快捷键 描述 Ctrl &#43; r 向后搜索历史命令 Ctrl &#43; g 退出搜索 Ctrl &#43; p 历史中上一个命令，代替向上方向键 Ctrl &#43; n 历史中下一个命令，代替乡下方向键 Alt &#43; ."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://127.0.0.1:8000/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Bash 快捷操作",
+      "item": "http://127.0.0.1:8000/posts/2020-07-14-bash-tip-and-tricks/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Bash 快捷操作",
+  "name": "Bash 快捷操作",
+  "description": "Bash 快捷操作 GUN Bash 是现代操作系统一般都默认自带的Shell，它兼容sh并提供了更多的feature，如果我们常用命令行那么记住一些快捷键和trick能大大提高我们的工作效率，这篇文章就介绍下本人常用的快捷键和一些技巧。\nBash默认的是emacs模式，这里的快捷键以默认的为准，可以使用set -o命令查看，使用set -o emacs设置。\n[TOC]\n移动光标 快捷键 描述 Ctrl + a 移动光标到行首 Ctrl + e 移动光标到行尾 Alt + b 移动光标后退一个单词（词首） Alt + f 移动光标前进一个单词（词首） Ctrl + f 光标前进一个字母 Ctrl + b 光标后退一个字母 Ctrl + xx 当前位置与行首之间光标切换 一般配合Ctrl的是单字符移动，Alt是单词为边界。建议将键盘上的caps lock键改成Ctrl这样手指移动距离更短按起来也更加舒服方便。\n剪切（删除）粘贴 快捷键 描述 Ctrl + k 剪切从光标到行尾 Ctrl + u 剪切从光标到行首 Ctrl + w 从光标向前剪切一个单词 Alt + Backspace 与 Ctrl + w 类似，但分隔符是一些特殊字符 Alt + d 从光标向后剪切一个单词 Ctrl + d 删除光标下一个字母，如果没有字符存在，ctrl+d 则会登出该会话 Ctrl + h 删除光标前一个字母 Alt + t swap(当前单词, 上一个单词) Ctrl + t swap(当前字母, 上一个字母) Ctrl + y 粘贴上一次剪切的文本，配合 Ctrl-u、Ctrl-k 效果极好 大小写转换 快捷键 描述 Alt + c 大写当前字母，并移动光标到单词尾 Alt + u 大写从当光标到单词尾 Alt + l 小写从当光标到单词尾 历史命令 快捷键 描述 Ctrl + r 向后搜索历史命令 Ctrl + g 退出搜索 Ctrl + p 历史中上一个命令，代替向上方向键 Ctrl + n 历史中下一个命令，代替乡下方向键 Alt + .",
+  "keywords": [
+    "Shell", "Bash"
+  ],
+  "articleBody": "Bash 快捷操作 GUN Bash 是现代操作系统一般都默认自带的Shell，它兼容sh并提供了更多的feature，如果我们常用命令行那么记住一些快捷键和trick能大大提高我们的工作效率，这篇文章就介绍下本人常用的快捷键和一些技巧。\nBash默认的是emacs模式，这里的快捷键以默认的为准，可以使用set -o命令查看，使用set -o emacs设置。\n[TOC]\n移动光标 快捷键 描述 Ctrl + a 移动光标到行首 Ctrl + e 移动光标到行尾 Alt + b 移动光标后退一个单词（词首） Alt + f 移动光标前进一个单词（词首） Ctrl + f 光标前进一个字母 Ctrl + b 光标后退一个字母 Ctrl + xx 当前位置与行首之间光标切换 一般配合Ctrl的是单字符移动，Alt是单词为边界。建议将键盘上的caps lock键改成Ctrl这样手指移动距离更短按起来也更加舒服方便。\n剪切（删除）粘贴 快捷键 描述 Ctrl + k 剪切从光标到行尾 Ctrl + u 剪切从光标到行首 Ctrl + w 从光标向前剪切一个单词 Alt + Backspace 与 Ctrl + w 类似，但分隔符是一些特殊字符 Alt + d 从光标向后剪切一个单词 Ctrl + d 删除光标下一个字母，如果没有字符存在，ctrl+d 则会登出该会话 Ctrl + h 删除光标前一个字母 Alt + t swap(当前单词, 上一个单词) Ctrl + t swap(当前字母, 上一个字母) Ctrl + y 粘贴上一次剪切的文本，配合 Ctrl-u、Ctrl-k 效果极好 大小写转换 快捷键 描述 Alt + c 大写当前字母，并移动光标到单词尾 Alt + u 大写从当光标到单词尾 Alt + l 小写从当光标到单词尾 历史命令 快捷键 描述 Ctrl + r 向后搜索历史命令 Ctrl + g 退出搜索 Ctrl + p 历史中上一个命令，代替向上方向键 Ctrl + n 历史中下一个命令，代替乡下方向键 Alt + . 上一个命令的最后一个单词 终端指令 快捷键 描述 Ctrl + l 跳纸，换页，清屏 Ctrl + m 回车（Carriage return） Ctrl + s 停止输出（在Zsh中为向前搜索历史命令） Ctrl + q 继续输出 Ctrl + c 终止当前命令 Ctrl + z 挂起当前命令 Ctrl + d 结束输入（产生一个EOF） Bang (!) 命令 快捷键 描述 !n 执行第n条命令 !-n 执行倒数第n条命令 !xx 执行最近的以 xx 开头的命令 !xx:p 和上面一样，但仅打印输出，而不执行命令 !! 执行上一条命令, 与 !-1 相同 !$ 上一条命令的最后一个参数，与 Alt + .和$_相同 !:n 上一条命令的第n个参数，索引从0开始 !* 上一条命令的所有参数 !:1-$ 上一条命令的所有参数同 !* 相同 !-n:$ 倒数第n条命令的最后一个参数 !$:h 上一条命令参数的上一级 !#:1 当前行的第1个参数 !!:gs/aa/bb/ 替换上一条命令中所有的 aa 为 bb ^blah 删除上一条命令中的 blah ^blah^foo 将上一条命令中的 blah 替换为 foo 执行之前输入过的命令 经常我们会遇到当输入比较长的命令时执行了时，提示需要sudo运行，这个时候下面的技巧就很有用了\nsudo !! 只需上面!!两个感叹号，就可代表上一次执行的命令，我们也可以使用sudo !-1代替效果是一样的，!-1代表倒数第一条命令，如果是正数!n那就是执行第n条命令，顺序可从history命令获取\n打印而不执行 如果我们只想测试可以在以!开头的命令后面加:p，这只会打印输出而不真正执行\nls -al !!:p # ls -al 如果想要执行打印出来的命令直接使用Ctrl + p或者向上箭头就可以了\n复用历史命令的各参数 有时我们输命令的时候最后一个参数和上一条命令相同，比较常见的是如下情况\nmkdir dirA # 创建文件夹dirA cd !$ # 进入创建的目录 mkdir dirA \u0026\u0026 cd $_ # 或者使用$_在一行完成 !$表示上一条命令的最后一个参数（但我更喜欢用Alt + .快捷键），如果是倒数第二条那就是!-2:$，序列号写在:前。如果是第n个参数看如下例子\ntar -zcvf abc abc.tgz # 想打包abc为abc.tgz但参数顺序写反了，报No such file or directory tar -zcvf !:3 !:2 # 这就可以了 !:n代表上一条命令的第n个参数，注意n从0开始计数，例如!:0代表上一条shell的命令，全部参数用!*或者!:1-$表示\nmv a b !:1-$:p # 输出`a b`，或者使用`!*:p`结果一样，如果是用`!:0:p`会输出`mv` 上一级目录 当我们将文件a.txt移动并重命名/a/b/c.txt时，我们想进入/a/b目录查看文件，可以如下操作\nmv a.txt /a/b/c.txt cd !$:h echo a/b/c/d !-1:$:h:p # a/b/c 上面!$:h代表上一条命令最后一个参数的上一级主要是:h这个作用，!-1:$:h:p看起来很复杂其实是一样的代表倒数第一条命令最后一个参数的上一级目录并把它打印了出来\n顺便说下cd -和cd ~命令，cd -这是快速切换目录，代表马上切到上一次移动过来的目录，没用过的可以试试，使用起来超方便，cd ~是直接回到 home 目录\n当前行的参数 如果我们要复用当前输入行的参数咋办呢，可以用!#，比如备份配置文件cp a.conf a.conf.bak可以如下实现\ncp a.conf !#:1.bak 注意上面#后面不是注释的意思是一起的!#:1.bak，代表当前行第1个参数后面加.bak，其实备份可以不用这么麻烦，可以用更方便的，效果一样\ncp a.conf{,.bak} 替换 看下面的例子\necho cat cat cat !!:s/cat/dog/ # 替换首个出现的 cat 为 dog !!:gs/cat/dog/ # 把所有 cat 替换为 dog 替换主要使用:s/old/new/，如果要替换所有出现的就是:gs/old/new/\n!!:s/cat/dog/上面的替换还可以使用^cat^dog更加简单\n使用默认编辑器编辑长命令 在编辑长命令的时候可以按下 ctrl + x, ctrl + e 打开默认的 $EDITOR 编辑命令，编辑好后保存执行\n使用Aliases alias命令可以轻松自定义属于自己的快捷命令，例如\nalias vi=\"vim\" alias ll=\"ls -alFtr --color=auto\" 上面自定义了vi使用vim，ll命令是ls命令的加了参数版。\n像上面的设置只在当前会话有用，想永久有效可以把命令加入~/.bashrc。\n自定义快捷键 Bash支持自定义快捷键，使用bind命令就可以。Bash快捷键其实是GNU Readline快捷键， GNU Readline Library是一个来接受用户输入的GNU软件包。 它是包括Bash在内的绝大多数Shell的底层库， 甚至OSX/Windows/Linux下的绝大多数软件都采用与之兼容快捷键。快捷键的设置其实就是配置Readline，Readline中分两种快捷键，一种是Readline内部的函数快捷键，另外一种是执行Shell命令，设置的时候稍有不同：\nbind -l # 查看Readline中可以使用的内置函数名称 bind -v # 列出目前的按键配置与其功能 bind -p # 查看已经绑定的快捷键 # 自定义shell命令 bind -x '\"\\C-x\\C-l\":ls -al' # 绑定自定义执行命令shell命令的快捷键, 绑定后，按[C-x,C-l]就能执行ls -al bind -X # 列出刚-x绑定的命令 # 自定义内置函数快捷键 bind \"\\C-i\":backward-delete-char # 绑定内置函数backward-delete-char快捷键，现在可以使用\"\\C-i\"删除一个字符 bind -q backward-delete-char # 查询函数名称对应的快捷键，会发现多了一个刚才我们自定义的\"\\C-i\" 这种设置只是针对当前的会话有效，一旦会话丢失，这样设置的快捷键就会丢失，为了能够让设置的快捷键永久有效，我们就需要将快捷键的配置写入文件。在Linux系统中，能永久保存快捷键的地方有两个，全局和用户的配置文件，全局的是/etc/inputrc，而用户的是在用户的根目录下~/.inputrc，全局的会影响所有的用户，而用户根目录下的只会对相应的用户产生影响。\nReference www.codeceo.com mp.weixin.qq.com ",
+  "wordCount" : "398",
+  "inLanguage": "en",
+  "datePublished": "2020-07-14T03:47:53+08:00",
+  "dateModified": "2022-07-25T13:56:53+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Fython"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://127.0.0.1:8000/posts/2020-07-14-bash-tip-and-tricks/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Fython's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://127.0.0.1:8000/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://127.0.0.1:8000/" accesskey="h" title="Fython&#39;s Blog (Alt + H)">Fython&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://127.0.0.1:8000/archives" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://127.0.0.1:8000/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://127.0.0.1:8000/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://127.0.0.1:8000/">Home</a>&nbsp;»&nbsp;<a href="http://127.0.0.1:8000/posts/">Posts</a></div>
+    <h1 class="post-title">
+      Bash 快捷操作
+    </h1>
+    <div class="post-meta"><span title='2020-07-14 03:47:53 +0800 +0800'>July 14, 2020</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;398 words&nbsp;·&nbsp;Fython&nbsp;|&nbsp;<a href="https://github.com/fangjh13/hugo-blog/blob/main/content/posts/2020-07-14-bash-tip-and-tricks.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#移动光标">移动光标</a></li>
+    <li><a href="#剪切删除粘贴">剪切（删除）粘贴</a></li>
+    <li><a href="#大小写转换">大小写转换</a></li>
+    <li><a href="#历史命令">历史命令</a></li>
+    <li><a href="#终端指令">终端指令</a></li>
+    <li><a href="#bang--命令">Bang (!) 命令</a>
+      <ul>
+        <li><a href="#执行之前输入过的命令">执行之前输入过的命令</a></li>
+        <li><a href="#打印而不执行">打印而不执行</a></li>
+        <li><a href="#复用历史命令的各参数">复用历史命令的各参数</a></li>
+        <li><a href="#上一级目录">上一级目录</a></li>
+        <li><a href="#当前行的参数">当前行的参数</a></li>
+        <li><a href="#替换">替换</a></li>
+        <li><a href="#使用默认编辑器编辑长命令">使用默认编辑器编辑长命令</a></li>
+      </ul>
+    </li>
+    <li><a href="#使用aliases">使用Aliases</a></li>
+    <li><a href="#自定义快捷键">自定义快捷键</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h1 id="bash-快捷操作">Bash 快捷操作<a hidden class="anchor" aria-hidden="true" href="#bash-快捷操作">#</a></h1>
+<p><a href="https://www.gnu.org/software/bash/">GUN Bash</a> 是现代操作系统一般都默认自带的Shell，它兼容sh并提供了更多的feature，如果我们常用命令行那么记住一些快捷键和trick能大大提高我们的工作效率，这篇文章就介绍下本人常用的快捷键和一些技巧。</p>
+<p>Bash默认的是emacs模式，这里的快捷键以默认的为准，可以使用<code>set -o</code>命令查看，使用<code>set -o emacs</code>设置。</p>
+<p>[TOC]</p>
+<h2 id="移动光标">移动光标<a hidden class="anchor" aria-hidden="true" href="#移动光标">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ctrl + a</td>
+<td>移动光标到行首</td>
+</tr>
+<tr>
+<td>Ctrl + e</td>
+<td>移动光标到行尾</td>
+</tr>
+<tr>
+<td>Alt + b</td>
+<td>移动光标后退一个单词（词首）</td>
+</tr>
+<tr>
+<td>Alt + f</td>
+<td>移动光标前进一个单词（词首）</td>
+</tr>
+<tr>
+<td>Ctrl + f</td>
+<td>光标前进一个字母</td>
+</tr>
+<tr>
+<td>Ctrl + b</td>
+<td>光标后退一个字母</td>
+</tr>
+<tr>
+<td>Ctrl + xx</td>
+<td>当前位置与行首之间光标切换</td>
+</tr>
+</tbody>
+</table>
+<p>一般配合<code>Ctrl</code>的是单字符移动，<code>Alt</code>是单词为边界。建议将键盘上的<code>caps lock</code>键改成<code>Ctrl</code>这样手指移动距离更短按起来也更加舒服方便。</p>
+<h2 id="剪切删除粘贴">剪切（删除）粘贴<a hidden class="anchor" aria-hidden="true" href="#剪切删除粘贴">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ctrl + k</td>
+<td>剪切从光标到行尾</td>
+</tr>
+<tr>
+<td>Ctrl + u</td>
+<td>剪切从光标到行首</td>
+</tr>
+<tr>
+<td>Ctrl + w</td>
+<td>从光标向前剪切一个单词</td>
+</tr>
+<tr>
+<td>Alt + Backspace</td>
+<td>与 Ctrl + w 类似，但分隔符是一些特殊字符</td>
+</tr>
+<tr>
+<td>Alt + d</td>
+<td>从光标向后剪切一个单词</td>
+</tr>
+<tr>
+<td>Ctrl + d</td>
+<td>删除光标下一个字母，如果没有字符存在，ctrl+d 则会登出该会话</td>
+</tr>
+<tr>
+<td>Ctrl + h</td>
+<td>删除光标前一个字母</td>
+</tr>
+<tr>
+<td>Alt + t</td>
+<td>swap(当前单词, 上一个单词)</td>
+</tr>
+<tr>
+<td>Ctrl + t</td>
+<td>swap(当前字母, 上一个字母)</td>
+</tr>
+<tr>
+<td>Ctrl + y</td>
+<td>粘贴上一次剪切的文本，配合 Ctrl-u、Ctrl-k 效果极好</td>
+</tr>
+</tbody>
+</table>
+<h2 id="大小写转换">大小写转换<a hidden class="anchor" aria-hidden="true" href="#大小写转换">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alt + c</td>
+<td>大写当前字母，并移动光标到单词尾</td>
+</tr>
+<tr>
+<td>Alt + u</td>
+<td>大写从当光标到单词尾</td>
+</tr>
+<tr>
+<td>Alt + l</td>
+<td>小写从当光标到单词尾</td>
+</tr>
+</tbody>
+</table>
+<h2 id="历史命令">历史命令<a hidden class="anchor" aria-hidden="true" href="#历史命令">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ctrl + r</td>
+<td>向后搜索历史命令</td>
+</tr>
+<tr>
+<td>Ctrl + g</td>
+<td>退出搜索</td>
+</tr>
+<tr>
+<td>Ctrl + p</td>
+<td>历史中上一个命令，代替向上方向键</td>
+</tr>
+<tr>
+<td>Ctrl + n</td>
+<td>历史中下一个命令，代替乡下方向键</td>
+</tr>
+<tr>
+<td>Alt + .</td>
+<td>上一个命令的最后一个单词</td>
+</tr>
+</tbody>
+</table>
+<h2 id="终端指令">终端指令<a hidden class="anchor" aria-hidden="true" href="#终端指令">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ctrl + l</td>
+<td>跳纸，换页，清屏</td>
+</tr>
+<tr>
+<td>Ctrl + m</td>
+<td>回车（Carriage return）</td>
+</tr>
+<tr>
+<td>Ctrl + s</td>
+<td>停止输出（在Zsh中为向前搜索历史命令）</td>
+</tr>
+<tr>
+<td>Ctrl + q</td>
+<td>继续输出</td>
+</tr>
+<tr>
+<td>Ctrl + c</td>
+<td>终止当前命令</td>
+</tr>
+<tr>
+<td>Ctrl + z</td>
+<td>挂起当前命令</td>
+</tr>
+<tr>
+<td>Ctrl + d</td>
+<td>结束输入（产生一个EOF）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="bang--命令">Bang (!) 命令<a hidden class="anchor" aria-hidden="true" href="#bang--命令">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>!n</td>
+<td>执行第n条命令</td>
+</tr>
+<tr>
+<td>!-n</td>
+<td>执行倒数第n条命令</td>
+</tr>
+<tr>
+<td>!xx</td>
+<td>执行最近的以 xx 开头的命令</td>
+</tr>
+<tr>
+<td>!xx:p</td>
+<td>和上面一样，但仅打印输出，而不执行命令</td>
+</tr>
+<tr>
+<td>!!</td>
+<td>执行上一条命令, 与 !-1 相同</td>
+</tr>
+<tr>
+<td>!$</td>
+<td>上一条命令的最后一个参数，与 <code>Alt + .</code>和<code>$_</code>相同</td>
+</tr>
+<tr>
+<td>!:n</td>
+<td>上一条命令的第n个参数，索引从0开始</td>
+</tr>
+<tr>
+<td>!*</td>
+<td>上一条命令的所有参数</td>
+</tr>
+<tr>
+<td>!:1-$</td>
+<td>上一条命令的所有参数同 !* 相同</td>
+</tr>
+<tr>
+<td>!-n:$</td>
+<td>倒数第n条命令的最后一个参数</td>
+</tr>
+<tr>
+<td>!$:h</td>
+<td>上一条命令参数的上一级</td>
+</tr>
+<tr>
+<td>!#:1</td>
+<td>当前行的第1个参数</td>
+</tr>
+<tr>
+<td>!!:gs/aa/bb/</td>
+<td>替换上一条命令中所有的 aa 为 bb</td>
+</tr>
+<tr>
+<td>^blah</td>
+<td>删除上一条命令中的 blah</td>
+</tr>
+<tr>
+<td>^blah^foo</td>
+<td>将上一条命令中的 blah 替换为 foo</td>
+</tr>
+</tbody>
+</table>
+<h3 id="执行之前输入过的命令">执行之前输入过的命令<a hidden class="anchor" aria-hidden="true" href="#执行之前输入过的命令">#</a></h3>
+<p>经常我们会遇到当输入比较长的命令时执行了时，提示需要sudo运行，这个时候下面的技巧就很有用了</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo !!
+</span></span></code></pre></div><p>只需上面<code>!!</code>两个感叹号，就可代表上一次执行的命令，我们也可以使用<code>sudo !-1</code>代替效果是一样的，<code>!-1</code>代表倒数第一条命令，如果是正数<code>!n</code>那就是执行第n条命令，顺序可从<code>history</code>命令获取</p>
+<h3 id="打印而不执行">打印而不执行<a hidden class="anchor" aria-hidden="true" href="#打印而不执行">#</a></h3>
+<p>如果我们只想测试可以在以<code>!</code>开头的命令后面加<code>:p</code>，这只会打印输出而不真正执行</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ls -al
+</span></span><span class="line"><span class="cl">!!:p         <span class="c1"># ls -al</span>
+</span></span></code></pre></div><p>如果想要执行打印出来的命令直接使用<code>Ctrl + p</code>或者向上箭头就可以了</p>
+<h3 id="复用历史命令的各参数">复用历史命令的各参数<a hidden class="anchor" aria-hidden="true" href="#复用历史命令的各参数">#</a></h3>
+<p>有时我们输命令的时候最后一个参数和上一条命令相同，比较常见的是如下情况</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkdir dirA                     <span class="c1"># 创建文件夹dirA</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> !$                             <span class="c1"># 进入创建的目录</span>
+</span></span><span class="line"><span class="cl">mkdir dirA <span class="o">&amp;&amp;</span> <span class="nb">cd</span> <span class="nv">$_</span>     <span class="c1"># 或者使用$_在一行完成</span>
+</span></span></code></pre></div><p><code>!$</code>表示上一条命令的最后一个参数（但我更喜欢用<code>Alt + .</code>快捷键），如果是倒数第二条那就是<code>!-2:$</code>，序列号写在<code>:</code>前。如果是第n个参数看如下例子</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">tar -zcvf abc abc.tgz    <span class="c1"># 想打包abc为abc.tgz但参数顺序写反了，报No such file or directory</span>
+</span></span><span class="line"><span class="cl">tar -zcvf !:3 !:2        <span class="c1"># 这就可以了</span>
+</span></span></code></pre></div><p><code>!:n</code>代表上一条命令的第n个参数，注意n从0开始计数，例如<code>!:0</code>代表上一条shell的命令，全部参数用<code>!*</code>或者<code>!:1-$</code>表示</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mv a b
+</span></span><span class="line"><span class="cl">!:1-$:p      <span class="c1"># 输出`a b`，或者使用`!*:p`结果一样，如果是用`!:0:p`会输出`mv`</span>
+</span></span></code></pre></div><h3 id="上一级目录">上一级目录<a hidden class="anchor" aria-hidden="true" href="#上一级目录">#</a></h3>
+<p>当我们将文件<code>a.txt</code>移动并重命名<code>/a/b/c.txt</code>时，我们想进入<code>/a/b</code>目录查看文件，可以如下操作</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mv a.txt /a/b/c.txt
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> !$:h
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> a/b/c/d
+</span></span><span class="line"><span class="cl">!-1:$:h:p            <span class="c1">#   a/b/c</span>
+</span></span></code></pre></div><p>上面<code>!$:h</code>代表上一条命令最后一个参数的上一级主要是<code>:h</code>这个作用，<code>!-1:$:h:p</code>看起来很复杂其实是一样的代表倒数第一条命令最后一个参数的上一级目录并把它打印了出来</p>
+<p>顺便说下<code>cd -</code>和<code>cd ~</code>命令，<code>cd -</code>这是快速切换目录，代表马上切到上一次移动过来的目录，没用过的可以试试，使用起来超方便，<code>cd ~</code>是直接回到 home 目录</p>
+<h3 id="当前行的参数">当前行的参数<a hidden class="anchor" aria-hidden="true" href="#当前行的参数">#</a></h3>
+<p>如果我们要复用当前输入行的参数咋办呢，可以用<code>!#</code>，比如备份配置文件<code>cp a.conf a.conf.bak</code>可以如下实现</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cp a.conf !#:1.bak
+</span></span></code></pre></div><p>注意上面<code>#</code>后面不是注释的意思是一起的<code>!#:1.bak</code>，代表当前行第1个参数后面加<code>.bak</code>，其实备份可以不用这么麻烦，可以用更方便的，效果一样</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cp a.conf<span class="o">{</span>,.bak<span class="o">}</span>
+</span></span></code></pre></div><h3 id="替换">替换<a hidden class="anchor" aria-hidden="true" href="#替换">#</a></h3>
+<p>看下面的例子</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> cat cat cat
+</span></span><span class="line"><span class="cl">!!:s/cat/dog/        <span class="c1"># 替换首个出现的 cat 为 dog</span>
+</span></span><span class="line"><span class="cl">!!:gs/cat/dog/       <span class="c1"># 把所有 cat 替换为 dog</span>
+</span></span></code></pre></div><p>替换主要使用<code>:s/old/new/</code>，如果要替换所有出现的就是<code>:gs/old/new/</code></p>
+<p><code>!!:s/cat/dog/</code>上面的替换还可以使用<code>^cat^dog</code>更加简单</p>
+<h3 id="使用默认编辑器编辑长命令">使用默认编辑器编辑长命令<a hidden class="anchor" aria-hidden="true" href="#使用默认编辑器编辑长命令">#</a></h3>
+<p>在编辑长命令的时候可以按下 <code>ctrl + x, ctrl + e</code> 打开默认的 <code>$EDITOR</code> 编辑命令，编辑好后保存执行</p>
+<h2 id="使用aliases">使用Aliases<a hidden class="anchor" aria-hidden="true" href="#使用aliases">#</a></h2>
+<p><code>alias</code>命令可以轻松自定义属于自己的快捷命令，例如</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">alias</span> <span class="nv">vi</span><span class="o">=</span><span class="s2">&#34;vim&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">alias</span> <span class="nv">ll</span><span class="o">=</span><span class="s2">&#34;ls -alFtr --color=auto&#34;</span>
+</span></span></code></pre></div><p>上面自定义了<code>vi</code>使用<code>vim</code>，<code>ll</code>命令是<code>ls</code>命令的加了参数版。</p>
+<p>像上面的设置只在当前会话有用，想永久有效可以把命令加入<code>~/.bashrc</code>。</p>
+<h2 id="自定义快捷键">自定义快捷键<a hidden class="anchor" aria-hidden="true" href="#自定义快捷键">#</a></h2>
+<p>Bash支持自定义快捷键，使用<code>bind</code>命令就可以。Bash快捷键其实是GNU Readline快捷键， GNU Readline Library是一个来接受用户输入的GNU软件包。 它是包括Bash在内的绝大多数Shell的底层库， 甚至OSX/Windows/Linux下的绝大多数软件都采用与之兼容快捷键。快捷键的设置其实就是配置Readline，Readline中分两种快捷键，一种是Readline内部的函数快捷键，另外一种是执行Shell命令，设置的时候稍有不同：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">bind</span> -l          <span class="c1"># 查看Readline中可以使用的内置函数名称</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">bind</span> -v          <span class="c1"># 列出目前的按键配置与其功能</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">bind</span> -p          <span class="c1"># 查看已经绑定的快捷键</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 自定义shell命令</span>
+</span></span><span class="line"><span class="cl"><span class="nb">bind</span> -x <span class="s1">&#39;&#34;\C-x\C-l&#34;:ls -al&#39;</span>   <span class="c1"># 绑定自定义执行命令shell命令的快捷键, 绑定后，按[C-x,C-l]就能执行ls -al</span>
+</span></span><span class="line"><span class="cl"><span class="nb">bind</span> -X                       <span class="c1"># 列出刚-x绑定的命令</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 自定义内置函数快捷键</span>
+</span></span><span class="line"><span class="cl"><span class="nb">bind</span> <span class="s2">&#34;\C-i&#34;</span>:backward-delete-char   <span class="c1"># 绑定内置函数backward-delete-char快捷键，现在可以使用&#34;\C-i&#34;删除一个字符</span>
+</span></span><span class="line"><span class="cl"><span class="nb">bind</span> -q backward-delete-char       <span class="c1"># 查询函数名称对应的快捷键，会发现多了一个刚才我们自定义的&#34;\C-i&#34;</span>
+</span></span></code></pre></div><p>这种设置只是针对当前的会话有效，一旦会话丢失，这样设置的快捷键就会丢失，为了能够让设置的快捷键永久有效，我们就需要将快捷键的配置写入文件。在Linux系统中，能永久保存快捷键的地方有两个，全局和用户的配置文件，全局的是<code>/etc/inputrc</code>，而用户的是在用户的根目录下<code>~/.inputrc</code>，全局的会影响所有的用户，而用户根目录下的只会对相应的用户产生影响。</p>
+<h2 id="reference">Reference<a hidden class="anchor" aria-hidden="true" href="#reference">#</a></h2>
+<ol>
+<li><a href="http://www.codeceo.com/article/bash-shortcut.html">www.codeceo.com</a></li>
+<li><a href="https://mp.weixin.qq.com/s/p-cnn_RvbRveldpeqvvnLQ">mp.weixin.qq.com</a></li>
+</ol>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://127.0.0.1:8000/tags/shell/">Shell</a></li>
+      <li><a href="http://127.0.0.1:8000/tags/bash/">Bash</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://127.0.0.1:8000/posts/2020-10-27-regular-expression-lookarounds/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>正则表达式中的预查</span>
+  </a>
+  <a class="next" href="http://127.0.0.1:8000/posts/2020-07-09-uml-class-diagram/">
+    <span class="title">Next »</span>
+    <br>
+    <span>UML 类图</span>
+  </a>
+</nav>
+
+
+<div class="share-buttons">
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Bash 快捷操作 on twitter"
+        href="https://twitter.com/intent/tweet/?text=Bash%20%e5%bf%ab%e6%8d%b7%e6%93%8d%e4%bd%9c&amp;url=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2020-07-14-bash-tip-and-tricks%2f&amp;hashtags=Shell%2cBash">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Bash 快捷操作 on linkedin"
+        href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2020-07-14-bash-tip-and-tricks%2f&amp;title=Bash%20%e5%bf%ab%e6%8d%b7%e6%93%8d%e4%bd%9c&amp;summary=Bash%20%e5%bf%ab%e6%8d%b7%e6%93%8d%e4%bd%9c&amp;source=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2020-07-14-bash-tip-and-tricks%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Bash 快捷操作 on reddit"
+        href="https://reddit.com/submit?url=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2020-07-14-bash-tip-and-tricks%2f&title=Bash%20%e5%bf%ab%e6%8d%b7%e6%93%8d%e4%bd%9c">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Bash 快捷操作 on facebook"
+        href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2020-07-14-bash-tip-and-tricks%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Bash 快捷操作 on whatsapp"
+        href="https://api.whatsapp.com/send?text=Bash%20%e5%bf%ab%e6%8d%b7%e6%93%8d%e4%bd%9c%20-%20http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2020-07-14-bash-tip-and-tricks%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Bash 快捷操作 on telegram"
+        href="https://telegram.me/share/url?text=Bash%20%e5%bf%ab%e6%8d%b7%e6%93%8d%e4%bd%9c&amp;url=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2020-07-14-bash-tip-and-tricks%2f">
+        <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+            <path
+                d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Bash 快捷操作 on ycombinator"
+        href="https://news.ycombinator.com/submitlink?t=Bash%20%e5%bf%ab%e6%8d%b7%e6%93%8d%e4%bd%9c&u=http%3a%2f%2f127.0.0.1%3a8000%2fposts%2f2020-07-14-bash-tip-and-tricks%2f">
+        <svg version="1.1" xml:space="preserve" width="30px" height="30px" viewBox="0 0 512 512" fill="currentColor"
+            xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+            <path
+                d="M449.446 0C483.971 0 512 28.03 512 62.554L512 449.446C512 483.97 483.97 512 449.446 512L62.554 512C28.03 512 0 483.97 0 449.446L0 62.554C0 28.03 28.029 0 62.554 0L449.446 0ZM183.8767 87.9921H121.8427L230.6673 292.4508V424.0079H281.3328V292.4508L390.1575 87.9921H328.1233L256 238.2489z" />
+        </svg>
+    </a>
+</div>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://127.0.0.1:8000/">Fython&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

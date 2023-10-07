@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Kubernetes on Fython&#39;s Blog</title>
+    <link>http://127.0.0.1:8000/tags/kubernetes/</link>
+    <description>Recent content in Kubernetes on Fython&#39;s Blog</description>
+    <image>
+      <title>Fython&#39;s Blog</title>
+      <url>http://127.0.0.1:8000/blog-cover-1.png</url>
+      <link>http://127.0.0.1:8000/blog-cover-1.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 23 Dec 2020 13:16:29 +0800</lastBuildDate><atom:link href="http://127.0.0.1:8000/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用kubeadm在虚拟机本地搭建Kubernetes集群</title>
+      <link>http://127.0.0.1:8000/posts/2020-12-23-creating-a-kubernetes-cluster-with-kubeadm/</link>
+      <pubDate>Wed, 23 Dec 2020 13:16:29 +0800</pubDate>
+      
+      <guid>http://127.0.0.1:8000/posts/2020-12-23-creating-a-kubernetes-cluster-with-kubeadm/</guid>
+      <description>本地k8s集群</description>
+    </item>
+    
+  </channel>
+</rss>
