@@ -2,274 +2,274 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tags on Fython&#39;s Blog</title>
-    <link>http://127.0.0.1:8000/tags/</link>
+    <link>https://fangjh13.github.io/hugo-blog/tags/</link>
     <description>Recent content in Tags on Fython&#39;s Blog</description>
     <image>
       <title>Fython&#39;s Blog</title>
-      <url>http://127.0.0.1:8000/blog-cover-1.png</url>
-      <link>http://127.0.0.1:8000/blog-cover-1.png</link>
+      <url>https://fangjh13.github.io/hugo-blog/blog-cover-1.png</url>
+      <link>https://fangjh13.github.io/hugo-blog/blog-cover-1.png</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 11 Feb 2023 11:38:27 +0800</lastBuildDate><atom:link href="http://127.0.0.1:8000/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 11 Feb 2023 11:38:27 +0800</lastBuildDate><atom:link href="https://fangjh13.github.io/hugo-blog/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>PostgreSQL</title>
-      <link>http://127.0.0.1:8000/tags/postgresql/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/postgresql/</link>
       <pubDate>Sat, 11 Feb 2023 11:38:27 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/postgresql/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/postgresql/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Go</title>
-      <link>http://127.0.0.1:8000/tags/go/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/go/</link>
       <pubDate>Fri, 16 Dec 2022 10:51:46 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/go/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/go/</guid>
       <description></description>
     </item>
     
     <item>
       <title>openwrt</title>
-      <link>http://127.0.0.1:8000/tags/openwrt/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/openwrt/</link>
       <pubDate>Sat, 06 Aug 2022 10:47:16 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/openwrt/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/openwrt/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Arch</title>
-      <link>http://127.0.0.1:8000/tags/arch/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/arch/</link>
       <pubDate>Fri, 08 Oct 2021 07:47:40 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/arch/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/arch/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Python</title>
-      <link>http://127.0.0.1:8000/tags/python/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/python/</link>
       <pubDate>Wed, 05 May 2021 13:15:11 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/python/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/python/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Launchd</title>
-      <link>http://127.0.0.1:8000/tags/launchd/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/launchd/</link>
       <pubDate>Mon, 19 Apr 2021 03:25:09 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/launchd/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/launchd/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Mac</title>
-      <link>http://127.0.0.1:8000/tags/mac/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/mac/</link>
       <pubDate>Mon, 19 Apr 2021 03:25:09 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/mac/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/mac/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Bash</title>
-      <link>http://127.0.0.1:8000/tags/bash/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/bash/</link>
       <pubDate>Wed, 20 Jan 2021 07:50:48 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/bash/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/bash/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Linux</title>
-      <link>http://127.0.0.1:8000/tags/linux/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/linux/</link>
       <pubDate>Wed, 20 Jan 2021 07:50:48 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/linux/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/linux/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Docker</title>
-      <link>http://127.0.0.1:8000/tags/docker/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/docker/</link>
       <pubDate>Wed, 23 Dec 2020 13:16:29 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/docker/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/docker/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Kubernetes</title>
-      <link>http://127.0.0.1:8000/tags/kubernetes/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/kubernetes/</link>
       <pubDate>Wed, 23 Dec 2020 13:16:29 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/kubernetes/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/kubernetes/</guid>
       <description></description>
     </item>
     
     <item>
       <title>regex</title>
-      <link>http://127.0.0.1:8000/tags/regex/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/regex/</link>
       <pubDate>Tue, 27 Oct 2020 10:04:12 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/regex/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/regex/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Shell</title>
-      <link>http://127.0.0.1:8000/tags/shell/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/shell/</link>
       <pubDate>Tue, 14 Jul 2020 03:47:53 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/shell/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/shell/</guid>
       <description></description>
     </item>
     
     <item>
       <title>OOP</title>
-      <link>http://127.0.0.1:8000/tags/oop/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/oop/</link>
       <pubDate>Thu, 09 Jul 2020 06:10:47 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/oop/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/oop/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Celery</title>
-      <link>http://127.0.0.1:8000/tags/celery/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/celery/</link>
       <pubDate>Sun, 24 May 2020 10:20:01 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/celery/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/celery/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Network</title>
-      <link>http://127.0.0.1:8000/tags/network/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/network/</link>
       <pubDate>Thu, 13 Feb 2020 03:38:51 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/network/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/network/</guid>
       <description></description>
     </item>
     
     <item>
       <title>gRPC</title>
-      <link>http://127.0.0.1:8000/tags/grpc/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/grpc/</link>
       <pubDate>Tue, 31 Dec 2019 13:33:06 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/grpc/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/grpc/</guid>
       <description></description>
     </item>
     
     <item>
       <title>macOS</title>
-      <link>http://127.0.0.1:8000/tags/macos/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/macos/</link>
       <pubDate>Fri, 25 Jan 2019 08:59:14 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/macos/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/macos/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Database</title>
-      <link>http://127.0.0.1:8000/tags/database/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/database/</link>
       <pubDate>Thu, 08 Nov 2018 03:11:51 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/database/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/database/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Mariadb</title>
-      <link>http://127.0.0.1:8000/tags/mariadb/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/mariadb/</link>
       <pubDate>Thu, 08 Nov 2018 03:11:51 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/mariadb/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/mariadb/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Mysql</title>
-      <link>http://127.0.0.1:8000/tags/mysql/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/mysql/</link>
       <pubDate>Thu, 08 Nov 2018 03:11:51 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/mysql/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/mysql/</guid>
       <description></description>
     </item>
     
     <item>
       <title>读书</title>
-      <link>http://127.0.0.1:8000/tags/%E8%AF%BB%E4%B9%A6/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/%E8%AF%BB%E4%B9%A6/</link>
       <pubDate>Sun, 07 Oct 2018 14:15:27 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/%E8%AF%BB%E4%B9%A6/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/%E8%AF%BB%E4%B9%A6/</guid>
       <description></description>
     </item>
     
     <item>
       <title>iTerm</title>
-      <link>http://127.0.0.1:8000/tags/iterm/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/iterm/</link>
       <pubDate>Mon, 23 Jul 2018 12:50:27 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/iterm/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/iterm/</guid>
       <description></description>
     </item>
     
     <item>
       <title>W3C</title>
-      <link>http://127.0.0.1:8000/tags/w3c/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/w3c/</link>
       <pubDate>Fri, 01 Jun 2018 03:23:12 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/w3c/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/w3c/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Raspberry Pi</title>
-      <link>http://127.0.0.1:8000/tags/raspberry-pi/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/raspberry-pi/</link>
       <pubDate>Mon, 02 Apr 2018 12:41:09 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/raspberry-pi/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/raspberry-pi/</guid>
       <description></description>
     </item>
     
     <item>
       <title>SSH</title>
-      <link>http://127.0.0.1:8000/tags/ssh/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/ssh/</link>
       <pubDate>Wed, 27 Dec 2017 03:00:27 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/ssh/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/ssh/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Git</title>
-      <link>http://127.0.0.1:8000/tags/git/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/git/</link>
       <pubDate>Tue, 21 Nov 2017 07:18:51 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/git/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/git/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Markdown</title>
-      <link>http://127.0.0.1:8000/tags/markdown/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/markdown/</link>
       <pubDate>Sun, 19 Mar 2017 09:59:44 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/markdown/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/markdown/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Nginx</title>
-      <link>http://127.0.0.1:8000/tags/nginx/</link>
+      <link>https://fangjh13.github.io/hugo-blog/tags/nginx/</link>
       <pubDate>Sun, 19 Mar 2017 08:57:18 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/tags/nginx/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/tags/nginx/</guid>
       <description></description>
     </item>
     

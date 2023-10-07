@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Arch on Fython&#39;s Blog</title>
-    <link>http://127.0.0.1:8000/tags/arch/</link>
+    <link>https://fangjh13.github.io/hugo-blog/tags/arch/</link>
     <description>Recent content in Arch on Fython&#39;s Blog</description>
     <image>
       <title>Fython&#39;s Blog</title>
-      <url>http://127.0.0.1:8000/blog-cover-1.png</url>
-      <link>http://127.0.0.1:8000/blog-cover-1.png</link>
+      <url>https://fangjh13.github.io/hugo-blog/blog-cover-1.png</url>
+      <link>https://fangjh13.github.io/hugo-blog/blog-cover-1.png</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 08 Oct 2021 07:47:40 +0800</lastBuildDate><atom:link href="http://127.0.0.1:8000/tags/arch/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 08 Oct 2021 07:47:40 +0800</lastBuildDate><atom:link href="https://fangjh13.github.io/hugo-blog/tags/arch/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Manjaro Linux 安装 Emoji</title>
-      <link>http://127.0.0.1:8000/posts/2021-10-08-marjaro-arch-linxu-install-full-emoji/</link>
+      <link>https://fangjh13.github.io/hugo-blog/posts/2021-10-08-marjaro-arch-linxu-install-full-emoji/</link>
       <pubDate>Fri, 08 Oct 2021 07:47:40 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/posts/2021-10-08-marjaro-arch-linxu-install-full-emoji/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/posts/2021-10-08-marjaro-arch-linxu-install-full-emoji/</guid>
       <description>Manjaro 原生的字体没法覆盖全部的 Emojis 可能导致一些字体显示框框 可以通过安装 noto-fonts-emoji 将Noto Color Emoji 字体设置为默认表情符号字体来解决这个问题。Arch 应该也可以通过此方法解决
 1. 安装字体 sudo pacman -S noto-fonts-emoji 2. 在 /usr/share/fontconfig/conf.avail/ 中创建 75-noto-color-emoji.conf 文件 文件内容如下
 &amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;!DOCTYPE fontconfig SYSTEM &amp;#34;fonts.dtd&amp;#34;&amp;gt; &amp;lt;fontconfig&amp;gt; &amp;lt;!-- Add generic family. --&amp;gt; &amp;lt;match target=&amp;#34;pattern&amp;#34;&amp;gt; &amp;lt;test qual=&amp;#34;any&amp;#34; name=&amp;#34;family&amp;#34;&amp;gt;&amp;lt;string&amp;gt;emoji&amp;lt;/string&amp;gt;&amp;lt;/test&amp;gt; &amp;lt;edit name=&amp;#34;family&amp;#34; mode=&amp;#34;assign&amp;#34; binding=&amp;#34;same&amp;#34;&amp;gt;&amp;lt;string&amp;gt;Noto Color Emoji&amp;lt;/string&amp;gt;&amp;lt;/edit&amp;gt; &amp;lt;/match&amp;gt; &amp;lt;!-- This adds Noto Color Emoji as a final fallback font for the default font families. --&amp;gt; &amp;lt;match target=&amp;#34;pattern&amp;#34;&amp;gt; &amp;lt;test name=&amp;#34;family&amp;#34;&amp;gt;&amp;lt;string&amp;gt;sans&amp;lt;/string&amp;gt;&amp;lt;/test&amp;gt; &amp;lt;edit name=&amp;#34;family&amp;#34; mode=&amp;#34;append&amp;#34;&amp;gt;&amp;lt;string&amp;gt;Noto Color Emoji&amp;lt;/string&amp;gt;&amp;lt;/edit&amp;gt; &amp;lt;/match&amp;gt; &amp;lt;match target=&amp;#34;pattern&amp;#34;&amp;gt; &amp;lt;test name=&amp;#34;family&amp;#34;&amp;gt;&amp;lt;string&amp;gt;serif&amp;lt;/string&amp;gt;&amp;lt;/test&amp;gt; &amp;lt;edit name=&amp;#34;family&amp;#34; mode=&amp;#34;append&amp;#34;&amp;gt;&amp;lt;string&amp;gt;Noto Color Emoji&amp;lt;/string&amp;gt;&amp;lt;/edit&amp;gt; &amp;lt;/match&amp;gt; &amp;lt;match target=&amp;#34;pattern&amp;#34;&amp;gt; &amp;lt;test name=&amp;#34;family&amp;#34;&amp;gt;&amp;lt;string&amp;gt;sans-serif&amp;lt;/string&amp;gt;&amp;lt;/test&amp;gt; &amp;lt;edit name=&amp;#34;family&amp;#34; mode=&amp;#34;append&amp;#34;&amp;gt;&amp;lt;string&amp;gt;Noto Color Emoji&amp;lt;/string&amp;gt;&amp;lt;/edit&amp;gt; &amp;lt;/match&amp;gt; &amp;lt;match target=&amp;#34;pattern&amp;#34;&amp;gt; &amp;lt;test name=&amp;#34;family&amp;#34;&amp;gt;&amp;lt;string&amp;gt;monospace&amp;lt;/string&amp;gt;&amp;lt;/test&amp;gt; &amp;lt;edit name=&amp;#34;family&amp;#34; mode=&amp;#34;append&amp;#34;&amp;gt;&amp;lt;string&amp;gt;Noto Color Emoji&amp;lt;/string&amp;gt;&amp;lt;/edit&amp;gt; &amp;lt;/match&amp;gt; &amp;lt;!</description>

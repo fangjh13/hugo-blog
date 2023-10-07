@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>OOP on Fython&#39;s Blog</title>
-    <link>http://127.0.0.1:8000/tags/oop/</link>
+    <link>https://fangjh13.github.io/hugo-blog/tags/oop/</link>
     <description>Recent content in OOP on Fython&#39;s Blog</description>
     <image>
       <title>Fython&#39;s Blog</title>
-      <url>http://127.0.0.1:8000/blog-cover-1.png</url>
-      <link>http://127.0.0.1:8000/blog-cover-1.png</link>
+      <url>https://fangjh13.github.io/hugo-blog/blog-cover-1.png</url>
+      <link>https://fangjh13.github.io/hugo-blog/blog-cover-1.png</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 09 Jul 2020 06:10:47 +0800</lastBuildDate><atom:link href="http://127.0.0.1:8000/tags/oop/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 09 Jul 2020 06:10:47 +0800</lastBuildDate><atom:link href="https://fangjh13.github.io/hugo-blog/tags/oop/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>UML 类图</title>
-      <link>http://127.0.0.1:8000/posts/2020-07-09-uml-class-diagram/</link>
+      <link>https://fangjh13.github.io/hugo-blog/posts/2020-07-09-uml-class-diagram/</link>
       <pubDate>Thu, 09 Jul 2020 06:10:47 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/posts/2020-07-09-uml-class-diagram/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/posts/2020-07-09-uml-class-diagram/</guid>
       <description>UML 类图 统一建模语言（英语：Unified Modeling Language，缩写 UML）是非专利的第三代建模和规约语言。UML是一种开放的方法，用于说明、可视化、构建和编写一个正在开发的、面向对象的、软件密集系统的制品的开放方法。UML展现了一系列最佳工程实践，这些最佳实践在对大规模，复杂系统进行建模方面，特别是在软件架构层次已经被验证有效。
 以上是维基百科上对UML的定义，它定义了很多的图，本文主要介绍类图，是属于结构性图形中的静态图，本文所有图是通过OmniGraffle画的。
 结构性图形（Structure diagrams）强调的是系统式的建模：

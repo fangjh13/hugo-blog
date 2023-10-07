@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Shell on Fython&#39;s Blog</title>
-    <link>http://127.0.0.1:8000/tags/shell/</link>
+    <link>https://fangjh13.github.io/hugo-blog/tags/shell/</link>
     <description>Recent content in Shell on Fython&#39;s Blog</description>
     <image>
       <title>Fython&#39;s Blog</title>
-      <url>http://127.0.0.1:8000/blog-cover-1.png</url>
-      <link>http://127.0.0.1:8000/blog-cover-1.png</link>
+      <url>https://fangjh13.github.io/hugo-blog/blog-cover-1.png</url>
+      <link>https://fangjh13.github.io/hugo-blog/blog-cover-1.png</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 14 Jul 2020 03:47:53 +0800</lastBuildDate><atom:link href="http://127.0.0.1:8000/tags/shell/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 14 Jul 2020 03:47:53 +0800</lastBuildDate><atom:link href="https://fangjh13.github.io/hugo-blog/tags/shell/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Bash 快捷操作</title>
-      <link>http://127.0.0.1:8000/posts/2020-07-14-bash-tip-and-tricks/</link>
+      <link>https://fangjh13.github.io/hugo-blog/posts/2020-07-14-bash-tip-and-tricks/</link>
       <pubDate>Tue, 14 Jul 2020 03:47:53 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/posts/2020-07-14-bash-tip-and-tricks/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/posts/2020-07-14-bash-tip-and-tricks/</guid>
       <description>Bash 快捷操作 GUN Bash 是现代操作系统一般都默认自带的Shell，它兼容sh并提供了更多的feature，如果我们常用命令行那么记住一些快捷键和trick能大大提高我们的工作效率，这篇文章就介绍下本人常用的快捷键和一些技巧。
 Bash默认的是emacs模式，这里的快捷键以默认的为准，可以使用set -o命令查看，使用set -o emacs设置。
 [TOC]
@@ -27,29 +27,29 @@ Bash默认的是emacs模式，这里的快捷键以默认的为准，可以使�
     
     <item>
       <title>使用 Core dump 解密加密的sh脚本</title>
-      <link>http://127.0.0.1:8000/posts/2019-10-16-linux-core-dump-decrypt-script/</link>
+      <link>https://fangjh13.github.io/hugo-blog/posts/2019-10-16-linux-core-dump-decrypt-script/</link>
       <pubDate>Wed, 16 Oct 2019 15:31:21 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/posts/2019-10-16-linux-core-dump-decrypt-script/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/posts/2019-10-16-linux-core-dump-decrypt-script/</guid>
       <description>linux core dump 从内存中读取shell脚本</description>
     </item>
     
     <item>
       <title>Mysql数据库备份脚本(使用mysqldump)</title>
-      <link>http://127.0.0.1:8000/posts/2018-11-08-mysqldump-backup-script/</link>
+      <link>https://fangjh13.github.io/hugo-blog/posts/2018-11-08-mysqldump-backup-script/</link>
       <pubDate>Thu, 08 Nov 2018 03:11:51 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/posts/2018-11-08-mysqldump-backup-script/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/posts/2018-11-08-mysqldump-backup-script/</guid>
       <description>Mysql(mysqldump)备份脚本 记录下服务器上一个备份 mysql 数据库的脚本，使用 mysql 自带的mysqldump命令
 !/usr/bin/env bash USER=username PASSWORD=password MAXIMUM_BACKUP_FILES=10 BACKUP_FOLDER=/path/to/save/folder DATABASES=( db_name_0 db_name_1 ) # check mysqldump instlled _=$(command -v mysqldump) if [[ $? != 0 ]] then printf &amp;#34;You don&amp;#39;t seem to mysqldump installed, exit..\n&amp;#34; exit 1 fi # create backup folder if [ ! -d $BACKUP_FOLDER ] then mkdir $BACKUP_FOLDER fi # backup for DB in ${DATABASES[@]} do echo backing up ${DB} database ... if $(mysqldump --host=localhost --user=${USER} --password=${PASSWORD} ${DB} | gzip -9 &amp;gt; ${BACKUP_FOLDER}/db_${DB}_$(date +&amp;#34;%Y%m%d&amp;#34;).</description>
     </item>
     
     <item>
       <title>Systemd 中的timer单元</title>
-      <link>http://127.0.0.1:8000/posts/2018-08-16-systemd-timer-unit/</link>
+      <link>https://fangjh13.github.io/hugo-blog/posts/2018-08-16-systemd-timer-unit/</link>
       <pubDate>Thu, 16 Aug 2018 09:43:23 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/posts/2018-08-16-systemd-timer-unit/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/posts/2018-08-16-systemd-timer-unit/</guid>
       <description>Systemd 中的timer单元 上一篇讲了systemd 中的service单元，这次记录一下 timer 单元。timer 必须依赖 service 单元来配置，可以用来做替代 crontab 的选择。
 timer单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu下的apt-daily.timer，该目录下也存在一个apt-daily.service服务文件配合一起使用。
 [Unit] Description=Daily apt activities [Timer] OnCalendar=*-*-* 6,18:00 RandomizedDelaySec=12h AccuracySec=1h Persistent=true [Install] WantedBy=timers.target 上面的[Timer]块代表每天上午6点和下午6点都运行 apt 脚本，具体[Timer]块可配置以下参数
@@ -59,19 +59,19 @@ timer单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu下�
     
     <item>
       <title>Systemd中Service单元介绍</title>
-      <link>http://127.0.0.1:8000/posts/2018-07-08-systemd-service-unit/</link>
+      <link>https://fangjh13.github.io/hugo-blog/posts/2018-07-08-systemd-service-unit/</link>
       <pubDate>Sun, 08 Jul 2018 02:28:21 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/posts/2018-07-08-systemd-service-unit/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/posts/2018-07-08-systemd-service-unit/</guid>
       <description>.service 模板</description>
     </item>
     
     <item>
       <title>配置SSH agent 和 SSH agent forwarding转发</title>
-      <link>http://127.0.0.1:8000/posts/2017-12-27-ssh-agent-and-ssh-agent-forwarding/</link>
+      <link>https://fangjh13.github.io/hugo-blog/posts/2017-12-27-ssh-agent-and-ssh-agent-forwarding/</link>
       <pubDate>Wed, 27 Dec 2017 03:00:27 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/posts/2017-12-27-ssh-agent-and-ssh-agent-forwarding/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/posts/2017-12-27-ssh-agent-and-ssh-agent-forwarding/</guid>
       <description>SSH agent 和 SSH agent forwarding</description>
     </item>
     

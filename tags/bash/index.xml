@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Bash on Fython&#39;s Blog</title>
-    <link>http://127.0.0.1:8000/tags/bash/</link>
+    <link>https://fangjh13.github.io/hugo-blog/tags/bash/</link>
     <description>Recent content in Bash on Fython&#39;s Blog</description>
     <image>
       <title>Fython&#39;s Blog</title>
-      <url>http://127.0.0.1:8000/blog-cover-1.png</url>
-      <link>http://127.0.0.1:8000/blog-cover-1.png</link>
+      <url>https://fangjh13.github.io/hugo-blog/blog-cover-1.png</url>
+      <link>https://fangjh13.github.io/hugo-blog/blog-cover-1.png</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 20 Jan 2021 07:50:48 +0800</lastBuildDate><atom:link href="http://127.0.0.1:8000/tags/bash/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 20 Jan 2021 07:50:48 +0800</lastBuildDate><atom:link href="https://fangjh13.github.io/hugo-blog/tags/bash/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Bash备忘录</title>
-      <link>http://127.0.0.1:8000/posts/2021-01-20-bash-shell-cheat-sheet/</link>
+      <link>https://fangjh13.github.io/hugo-blog/posts/2021-01-20-bash-shell-cheat-sheet/</link>
       <pubDate>Wed, 20 Jan 2021 07:50:48 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/posts/2021-01-20-bash-shell-cheat-sheet/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/posts/2021-01-20-bash-shell-cheat-sheet/</guid>
       <description>BASH SHELL cheat sheet 记录一些 bash shell 脚本的奇技淫巧，都是从实际使用中 google 的。bash 各 Linux 发行版都自带方便好用特别是文本处理、一些运维之类的小脚本，但有些语法繁琐不好记容易忘整理一下方便查找。
 trap trap 命令 用于指定在接收到信号后将要采取的动作，常见的用途是在脚本程序被中断时完成清理工作。当 shell 接收到 sigspec 指定的信号时，arg 参数（命令）将会被读取，并被执行。例如：
 trap &amp;#34;exit 1&amp;#34; HUP INT PIPE QUIT TERM 表示当 shell 收到HUP,INT,PIPE,QUIT,TERM这几个信号时，当前执行的程序会读取参数&amp;quot;exit 1&amp;quot;，并将它作为命令执行。
@@ -29,10 +29,10 @@ echo 参数总个数 \$#: $# echo 第0个参数 \$0: $0 for a in $(seq 1 $#); do
     
     <item>
       <title>Bash 快捷操作</title>
-      <link>http://127.0.0.1:8000/posts/2020-07-14-bash-tip-and-tricks/</link>
+      <link>https://fangjh13.github.io/hugo-blog/posts/2020-07-14-bash-tip-and-tricks/</link>
       <pubDate>Tue, 14 Jul 2020 03:47:53 +0800</pubDate>
       
-      <guid>http://127.0.0.1:8000/posts/2020-07-14-bash-tip-and-tricks/</guid>
+      <guid>https://fangjh13.github.io/hugo-blog/posts/2020-07-14-bash-tip-and-tricks/</guid>
       <description>Bash 快捷操作 GUN Bash 是现代操作系统一般都默认自带的Shell，它兼容sh并提供了更多的feature，如果我们常用命令行那么记住一些快捷键和trick能大大提高我们的工作效率，这篇文章就介绍下本人常用的快捷键和一些技巧。
 Bash默认的是emacs模式，这里的快捷键以默认的为准，可以使用set -o命令查看，使用set -o emacs设置。
 [TOC]
