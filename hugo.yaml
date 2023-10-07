@@ -1,4 +1,4 @@
-baseURL: "http://blog.fangjiahui.me/"
+baseURL: "https://blog.fangjiahui.me/"
 languageCode: en-us
 title: Fython's Blog
 theme: "PaperMod"
