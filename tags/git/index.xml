@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Git on Fython&#39;s Blog</title>
-    <link>http://blog.fangjiahui.me/tags/git/</link>
+    <link>https://blog.fangjiahui.me/tags/git/</link>
     <description>Recent content in Git on Fython&#39;s Blog</description>
     <image>
       <title>Fython&#39;s Blog</title>
-      <url>http://blog.fangjiahui.me/blog-cover-1.png</url>
-      <link>http://blog.fangjiahui.me/blog-cover-1.png</link>
+      <url>https://blog.fangjiahui.me/blog-cover-1.png</url>
+      <link>https://blog.fangjiahui.me/blog-cover-1.png</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 21 Nov 2017 07:18:51 +0800</lastBuildDate><atom:link href="http://blog.fangjiahui.me/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 21 Nov 2017 07:18:51 +0800</lastBuildDate><atom:link href="https://blog.fangjiahui.me/tags/git/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Git工作流</title>
-      <link>http://blog.fangjiahui.me/posts/2017-11-21-git-workflow/</link>
+      <link>https://blog.fangjiahui.me/posts/2017-11-21-git-workflow/</link>
       <pubDate>Tue, 21 Nov 2017 07:18:51 +0800</pubDate>
       
-      <guid>http://blog.fangjiahui.me/posts/2017-11-21-git-workflow/</guid>
+      <guid>https://blog.fangjiahui.me/posts/2017-11-21-git-workflow/</guid>
       <description>Git工作流介绍与协同工作</description>
     </item>
     
