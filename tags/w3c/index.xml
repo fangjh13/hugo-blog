@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>W3C on Fython&#39;s Blog</title>
-    <link>https://fangjh13.github.io/hugo-blog/tags/w3c/</link>
+    <link>https://blog.fangjiahui.me/tags/w3c/</link>
     <description>Recent content in W3C on Fython&#39;s Blog</description>
     <image>
       <title>Fython&#39;s Blog</title>
-      <url>https://fangjh13.github.io/hugo-blog/blog-cover-1.png</url>
-      <link>https://fangjh13.github.io/hugo-blog/blog-cover-1.png</link>
+      <url>https://blog.fangjiahui.me/blog-cover-1.png</url>
+      <link>https://blog.fangjiahui.me/blog-cover-1.png</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 01 Jun 2018 03:23:12 +0800</lastBuildDate><atom:link href="https://fangjh13.github.io/hugo-blog/tags/w3c/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 01 Jun 2018 03:23:12 +0800</lastBuildDate><atom:link href="https://blog.fangjiahui.me/tags/w3c/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>XPath语法</title>
-      <link>https://fangjh13.github.io/hugo-blog/posts/2018-06-01-xpath-syntax/</link>
+      <link>https://blog.fangjiahui.me/posts/2018-06-01-xpath-syntax/</link>
       <pubDate>Fri, 01 Jun 2018 03:23:12 +0800</pubDate>
       
-      <guid>https://fangjh13.github.io/hugo-blog/posts/2018-06-01-xpath-syntax/</guid>
+      <guid>https://blog.fangjiahui.me/posts/2018-06-01-xpath-syntax/</guid>
       <description>XPath语法 XPath是在XML中检索信息的语言，也就是遍历XML文档，找出有用的信息。这里记录下XPath的语法
 选取节点 XPath 使用路径表达式在 XML 文档中选取节点。节点是通过沿着路径或者 step 来选取的。
 表达式 描述 nodename 选取此节点的所有子节点 / 从根节点选取 // 从整个文档选取，不考虑它们的位置 . 选取当前节点 .. 选取当前节点的父节点 @ 选取属性 实例 &amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;bookstore&amp;gt; &amp;lt;book category=&amp;#34;cooking&amp;#34;&amp;gt; &amp;lt;title lang=&amp;#34;en&amp;#34;&amp;gt;Everyday Italian&amp;lt;/title&amp;gt; &amp;lt;author&amp;gt;Giada De Laurentiis&amp;lt;/author&amp;gt; &amp;lt;year&amp;gt;2005&amp;lt;/year&amp;gt; &amp;lt;price&amp;gt;30.00&amp;lt;/price&amp;gt; &amp;lt;/book&amp;gt; &amp;lt;book category=&amp;#34;children&amp;#34;&amp;gt; &amp;lt;title lang=&amp;#34;zh&amp;#34;&amp;gt;哈利波特&amp;lt;/title&amp;gt; &amp;lt;author&amp;gt;J K. Rowling&amp;lt;/author&amp;gt; &amp;lt;year&amp;gt;2005&amp;lt;/year&amp;gt; &amp;lt;price&amp;gt;29.99&amp;lt;/price&amp;gt; &amp;lt;/book&amp;gt; &amp;lt;book category=&amp;#34;web&amp;#34;&amp;gt; &amp;lt;title lang=&amp;#34;en&amp;#34;&amp;gt;XQuery Kick Start&amp;lt;/title&amp;gt; &amp;lt;author&amp;gt;James McGovern&amp;lt;/author&amp;gt; &amp;lt;author&amp;gt;Per Bothner&amp;lt;/author&amp;gt; &amp;lt;author&amp;gt;Kurt Cagle&amp;lt;/author&amp;gt; &amp;lt;author&amp;gt;James Linn&amp;lt;/author&amp;gt; &amp;lt;author&amp;gt;Vaidyanathan Nagarajan&amp;lt;/author&amp;gt; &amp;lt;year&amp;gt;2003&amp;lt;/year&amp;gt; &amp;lt;price&amp;gt;49.99&amp;lt;/price&amp;gt; &amp;lt;/book&amp;gt; &amp;lt;book category=&amp;#34;web&amp;#34; cover=&amp;#34;paperback&amp;#34;&amp;gt; &amp;lt;title lang=&amp;#34;en&amp;#34;&amp;gt;Learning XML&amp;lt;/title&amp;gt; &amp;lt;author&amp;gt;Erik T.</description>

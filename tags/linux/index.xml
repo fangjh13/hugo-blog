@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Linux on Fython&#39;s Blog</title>
-    <link>https://fangjh13.github.io/hugo-blog/tags/linux/</link>
+    <link>https://blog.fangjiahui.me/tags/linux/</link>
     <description>Recent content in Linux on Fython&#39;s Blog</description>
     <image>
       <title>Fython&#39;s Blog</title>
-      <url>https://fangjh13.github.io/hugo-blog/blog-cover-1.png</url>
-      <link>https://fangjh13.github.io/hugo-blog/blog-cover-1.png</link>
+      <url>https://blog.fangjiahui.me/blog-cover-1.png</url>
+      <link>https://blog.fangjiahui.me/blog-cover-1.png</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 20 Jan 2021 07:50:48 +0800</lastBuildDate><atom:link href="https://fangjh13.github.io/hugo-blog/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 20 Jan 2021 07:50:48 +0800</lastBuildDate><atom:link href="https://blog.fangjiahui.me/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Bash备忘录</title>
-      <link>https://fangjh13.github.io/hugo-blog/posts/2021-01-20-bash-shell-cheat-sheet/</link>
+      <link>https://blog.fangjiahui.me/posts/2021-01-20-bash-shell-cheat-sheet/</link>
       <pubDate>Wed, 20 Jan 2021 07:50:48 +0800</pubDate>
       
-      <guid>https://fangjh13.github.io/hugo-blog/posts/2021-01-20-bash-shell-cheat-sheet/</guid>
+      <guid>https://blog.fangjiahui.me/posts/2021-01-20-bash-shell-cheat-sheet/</guid>
       <description>BASH SHELL cheat sheet 记录一些 bash shell 脚本的奇技淫巧，都是从实际使用中 google 的。bash 各 Linux 发行版都自带方便好用特别是文本处理、一些运维之类的小脚本，但有些语法繁琐不好记容易忘整理一下方便查找。
 trap trap 命令 用于指定在接收到信号后将要采取的动作，常见的用途是在脚本程序被中断时完成清理工作。当 shell 接收到 sigspec 指定的信号时，arg 参数（命令）将会被读取，并被执行。例如：
 trap &amp;#34;exit 1&amp;#34; HUP INT PIPE QUIT TERM 表示当 shell 收到HUP,INT,PIPE,QUIT,TERM这几个信号时，当前执行的程序会读取参数&amp;quot;exit 1&amp;quot;，并将它作为命令执行。
@@ -29,28 +29,28 @@ echo 参数总个数 \$#: $# echo 第0个参数 \$0: $0 for a in $(seq 1 $#); do
     
     <item>
       <title>TCP连接和各状态浅析</title>
-      <link>https://fangjh13.github.io/hugo-blog/posts/2020-02-13-tcp-handshake-process-and-state-trainsition/</link>
+      <link>https://blog.fangjiahui.me/posts/2020-02-13-tcp-handshake-process-and-state-trainsition/</link>
       <pubDate>Thu, 13 Feb 2020 03:38:51 +0800</pubDate>
       
-      <guid>https://fangjh13.github.io/hugo-blog/posts/2020-02-13-tcp-handshake-process-and-state-trainsition/</guid>
+      <guid>https://blog.fangjiahui.me/posts/2020-02-13-tcp-handshake-process-and-state-trainsition/</guid>
       <description>详解linux中TCP连接与断开与其中的状态</description>
     </item>
     
     <item>
       <title>使用 Core dump 解密加密的sh脚本</title>
-      <link>https://fangjh13.github.io/hugo-blog/posts/2019-10-16-linux-core-dump-decrypt-script/</link>
+      <link>https://blog.fangjiahui.me/posts/2019-10-16-linux-core-dump-decrypt-script/</link>
       <pubDate>Wed, 16 Oct 2019 15:31:21 +0800</pubDate>
       
-      <guid>https://fangjh13.github.io/hugo-blog/posts/2019-10-16-linux-core-dump-decrypt-script/</guid>
+      <guid>https://blog.fangjiahui.me/posts/2019-10-16-linux-core-dump-decrypt-script/</guid>
       <description>linux core dump 从内存中读取shell脚本</description>
     </item>
     
     <item>
       <title>Systemd 中的timer单元</title>
-      <link>https://fangjh13.github.io/hugo-blog/posts/2018-08-16-systemd-timer-unit/</link>
+      <link>https://blog.fangjiahui.me/posts/2018-08-16-systemd-timer-unit/</link>
       <pubDate>Thu, 16 Aug 2018 09:43:23 +0800</pubDate>
       
-      <guid>https://fangjh13.github.io/hugo-blog/posts/2018-08-16-systemd-timer-unit/</guid>
+      <guid>https://blog.fangjiahui.me/posts/2018-08-16-systemd-timer-unit/</guid>
       <description>Systemd 中的timer单元 上一篇讲了systemd 中的service单元，这次记录一下 timer 单元。timer 必须依赖 service 单元来配置，可以用来做替代 crontab 的选择。
 timer单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu下的apt-daily.timer，该目录下也存在一个apt-daily.service服务文件配合一起使用。
 [Unit] Description=Daily apt activities [Timer] OnCalendar=*-*-* 6,18:00 RandomizedDelaySec=12h AccuracySec=1h Persistent=true [Install] WantedBy=timers.target 上面的[Timer]块代表每天上午6点和下午6点都运行 apt 脚本，具体[Timer]块可配置以下参数
@@ -60,10 +60,10 @@ timer单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu下�
     
     <item>
       <title>Systemd中Service单元介绍</title>
-      <link>https://fangjh13.github.io/hugo-blog/posts/2018-07-08-systemd-service-unit/</link>
+      <link>https://blog.fangjiahui.me/posts/2018-07-08-systemd-service-unit/</link>
       <pubDate>Sun, 08 Jul 2018 02:28:21 +0800</pubDate>
       
-      <guid>https://fangjh13.github.io/hugo-blog/posts/2018-07-08-systemd-service-unit/</guid>
+      <guid>https://blog.fangjiahui.me/posts/2018-07-08-systemd-service-unit/</guid>
       <description>.service 模板</description>
     </item>
     

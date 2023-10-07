@@ -2,32 +2,32 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Mysql on Fython&#39;s Blog</title>
-    <link>https://fangjh13.github.io/hugo-blog/tags/mysql/</link>
+    <link>https://blog.fangjiahui.me/tags/mysql/</link>
     <description>Recent content in Mysql on Fython&#39;s Blog</description>
     <image>
       <title>Fython&#39;s Blog</title>
-      <url>https://fangjh13.github.io/hugo-blog/blog-cover-1.png</url>
-      <link>https://fangjh13.github.io/hugo-blog/blog-cover-1.png</link>
+      <url>https://blog.fangjiahui.me/blog-cover-1.png</url>
+      <link>https://blog.fangjiahui.me/blog-cover-1.png</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 08 Nov 2018 03:11:51 +0800</lastBuildDate><atom:link href="https://fangjh13.github.io/hugo-blog/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 08 Nov 2018 03:11:51 +0800</lastBuildDate><atom:link href="https://blog.fangjiahui.me/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Mysql数据库备份脚本(使用mysqldump)</title>
-      <link>https://fangjh13.github.io/hugo-blog/posts/2018-11-08-mysqldump-backup-script/</link>
+      <link>https://blog.fangjiahui.me/posts/2018-11-08-mysqldump-backup-script/</link>
       <pubDate>Thu, 08 Nov 2018 03:11:51 +0800</pubDate>
       
-      <guid>https://fangjh13.github.io/hugo-blog/posts/2018-11-08-mysqldump-backup-script/</guid>
+      <guid>https://blog.fangjiahui.me/posts/2018-11-08-mysqldump-backup-script/</guid>
       <description>Mysql(mysqldump)备份脚本 记录下服务器上一个备份 mysql 数据库的脚本，使用 mysql 自带的mysqldump命令
 !/usr/bin/env bash USER=username PASSWORD=password MAXIMUM_BACKUP_FILES=10 BACKUP_FOLDER=/path/to/save/folder DATABASES=( db_name_0 db_name_1 ) # check mysqldump instlled _=$(command -v mysqldump) if [[ $? != 0 ]] then printf &amp;#34;You don&amp;#39;t seem to mysqldump installed, exit..\n&amp;#34; exit 1 fi # create backup folder if [ ! -d $BACKUP_FOLDER ] then mkdir $BACKUP_FOLDER fi # backup for DB in ${DATABASES[@]} do echo backing up ${DB} database ... if $(mysqldump --host=localhost --user=${USER} --password=${PASSWORD} ${DB} | gzip -9 &amp;gt; ${BACKUP_FOLDER}/db_${DB}_$(date +&amp;#34;%Y%m%d&amp;#34;).</description>
     </item>
     
     <item>
       <title>Mariadb Mysql 字符集设置</title>
-      <link>https://fangjh13.github.io/hugo-blog/posts/2017-03-18-mysql-mariadb-character-sets-and-collations/</link>
+      <link>https://blog.fangjiahui.me/posts/2017-03-18-mysql-mariadb-character-sets-and-collations/</link>
       <pubDate>Sat, 18 Mar 2017 05:23:25 +0800</pubDate>
       
-      <guid>https://fangjh13.github.io/hugo-blog/posts/2017-03-18-mysql-mariadb-character-sets-and-collations/</guid>
+      <guid>https://blog.fangjiahui.me/posts/2017-03-18-mysql-mariadb-character-sets-and-collations/</guid>
       <description>Character Sets and Collations</description>
     </item>
     
