@@ -27,7 +27,7 @@ title: TCP连接和各状态浅析
 
 TCP是面向连接的所以传输双方在传输前要建立一条连接后才能通信，建立连接后TCP协议提供全双⼯(就是可以同时发送和接收不影响)的通信服务。建立连接的过程我们给它取了个生动的名字叫“三次握手”，因为从发起到建立连接一共有三个步骤也就是双方会发三个包，先看下面的图
 
-![3-way-handshake](https://img.fythonfang.com/3-way-handshake.jpg)
+![3-way-handshake](../images/3-way-handshake.jpg)
 
 1. 首先客户端发送`SYN`(Synchronous)包到服务端告诉服务器开始建立连接，包里面会包含一个随机数(`j`)序列号(Sequence Number)，此时客户端进入`SYC-SENT`状态。当然最初服务器是处于`LISTEN`状态监听某一个端口，本文图片以绿底黑框的都代表TCP状态。
 2. 服务端收到`SYN`发送应答`SYN-ACK(Acknowledgement)`携带确认号码(Acknowledge Number)为收到的序列号+1也就是`j+1`，加上一个自己的`SYC`序列号随机数(`k`)，服务端把状态置为`SYN-RECEIVED`
@@ -35,7 +35,7 @@ TCP是面向连接的所以传输双方在传输前要建立一条连接后才�
 
 以下是wireshake抓包后TCP连接的三次握手，这里序列号码`j`和`k`都为`0`。
 
-![wireshake-3-handshake](https://img.fythonfang.com/wireshark-3-way-handshake.png)
+![wireshake-3-handshake](../images/wireshark-3-way-handshake.png)
 
 ```
     TCP A (port 65525)                                     TCP B (port 443)
@@ -54,7 +54,7 @@ TCP是面向连接的所以传输双方在传输前要建立一条连接后才�
 
 断开连接称为“挥手”一共有四步每一方向占两步，由于TCP是全双工的所以关闭连接需要双方都完成关闭(close)才算结束，其中会涉及状态也就比握手多。客户端和服务端都可以发起挥手动作，先发送`FIN`包的动作叫主动关闭(active close)然后另一方回应`ACK`包叫执行被动关闭(passive colse)，双方各完成一次主动和被动关闭一共四次。
 
-![4-way-handshake](https://img.fythonfang.com/4-way-handshake.jpg)
+![4-way-handshake](../images/4-way-handshake.jpg)
 
 1. 客户端数据传输完毕发起断开连接(主动关闭)，发送`FIN`包携带一个序列号(`x`)到服务端并更新自己的状态为`FIN-WAIT-1`
 2. 服务端收到`FIN`包返回`ACK`包(被动关闭)，应答ACK确认序号为`x+1`，服务端此时的状态为`CLOSE-WAIT`。另一边客户端收到`ACK`更新状态为`FIN-WAIT-2`
@@ -64,7 +64,7 @@ TCP是面向连接的所以传输双方在传输前要建立一条连接后才�
 
 看一个现实中的例子ssh连接退出
 
-![wireshake-4-handshake](https://img.fythonfang.com/wireshark-4-way-handshake.png)
+![wireshake-4-handshake](../images/wireshark-4-way-handshake.png)
 
 ```
     TCP A (port 49612)                                     TCP B (port 22)
@@ -89,7 +89,7 @@ TCP是面向连接的所以传输双方在传输前要建立一条连接后才�
 
 TCP一共有11种状态，虚线箭头表示客户端状态转换轨迹，实线表示服务端，但这里的客户端和服务端不是绝对的可以互换。
 
-![TCP state transition diagram](https://img.fythonfang.com/TCP-state-transition-diagram.gif)
+![TCP state transition diagram](../images/TCP-state-transition-diagram.gif)
 
 ### CLOSING状态
 

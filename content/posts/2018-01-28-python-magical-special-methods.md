@@ -6,21 +6,19 @@ ShowRssButtonInSectionTermList: true
 ShowWordCount: true
 TocOpen: false
 UseHugoToc: true
-date: '2018-01-28T05:36:12+08:00'
+date: "2018-01-28T05:36:12+08:00"
 description: 整理类定义时的特殊方法
-lastmod: '2020-04-21T07:57:04+08:00'
+lastmod: "2020-04-21T07:57:04+08:00"
 showToc: true
 tags: [Python]
 title: Python中的特殊方法
 ---
 
-# Python中的特殊方法
+# Python 中的特殊方法
 
-python在定义class时有很多特殊方法可以定义，它们一般都是以双下划线开头和结尾如`__init__`、`__call__`、`__lt__`、`__iter__`、`__setattr__`、`__setitem__`等，下面将对这些常用方法作一些总结。
+python 在定义 class 时有很多特殊方法可以定义，它们一般都是以双下划线开头和结尾如`__init__`、`__call__`、`__lt__`、`__iter__`、`__setattr__`、`__setitem__`等，下面将对这些常用方法作一些总结。
 
-[TOC]
-
-## class基本方法
+## class 基本方法
 
 ### `__new__(cls[, ...])`
 
@@ -42,7 +40,7 @@ class A:
 a = A()
 ```
 
-返回如下，注意这是Python3的写法默认`A`继承自`object`，如果使用Python2的需要指定`A`继承自`object`基类，使用新类。不然`__new__`是不会被调用的。
+返回如下，注意这是 Python3 的写法默认`A`继承自`object`，如果使用 Python2 的需要指定`A`继承自`object`基类，使用新类。不然`__new__`是不会被调用的。
 
 ```shell
 __new__ called
@@ -57,7 +55,7 @@ __init__ called
 
 ### `__repr__(self)`
 
-调用`repr(obj)`或``obj``返回的字符串，比较偏向机器。
+调用`repr(obj)`或`obj`返回的字符串，比较偏向机器。
 
 ### `__format__(self, format_spec)`
 
@@ -95,7 +93,7 @@ this is Labrador
 
 ### `__bool__(self)`
 
-调用`bool(obj)`时返回，返回值是`True`或者`False`，在python2中方法名为`__nonzero__`。如果调用`bool(obj)`时，没有定义`__boo__`时会会去调用`__len__`方法返回非零为`True`，如果这两个方法都没有定义那么默认返回`True`。
+调用`bool(obj)`时返回，返回值是`True`或者`False`，在 python2 中方法名为`__nonzero__`。如果调用`bool(obj)`时，没有定义`__boo__`时会会去调用`__len__`方法返回非零为`True`，如果这两个方法都没有定义那么默认返回`True`。
 
 ## 比较(comparison)
 
@@ -123,19 +121,19 @@ this is Labrador
 
 大于等于
 
-Python2中有`__cmp__`方法和`cmp()`函数，在Python3中已经废弃没有了代替的是以上6个方法分别对应`<`，`<=`，`==`，`!=`，`>`，`>=`操作符时返回的值，通常情况下要求返回`True`或`False`，但其实可以返回任何值。在`if`语句中如果返回非`True`或`False`，会自动对返回调用`bool`来判断。
+Python2 中有`__cmp__`方法和`cmp()`函数，在 Python3 中已经废弃没有了代替的是以上 6 个方法分别对应`<`，`<=`，`==`，`!=`，`>`，`>=`操作符时返回的值，通常情况下要求返回`True`或`False`，但其实可以返回任何值。在`if`语句中如果返回非`True`或`False`，会自动对返回调用`bool`来判断。
 
 ## 哈希
 
 ### `__hash__(self)`
 
-调用`hash(obj)`时返回的值，是一个整数。当两个对象是相等(`==`)时，他们的hash值也必定相等也就是`hash(obj) == hash(obj)`为`True`。
+调用`hash(obj)`时返回的值，是一个整数。当两个对象是相等(`==`)时，他们的 hash 值也必定相等也就是`hash(obj) == hash(obj)`为`True`。
 
-> 使用__hash__时记得定义__eq__方法
+> 使用**hash**时记得定义**eq**方法
 
 ## 描述符(descriptor)
 
-> 描述符属于py中比较高级的主题，单独记录了一篇[文章](https://www.fythonfang.com/blog/2019/12/17/python-descriptor)，以下只列出特殊方法
+> 描述符属于 py 中比较高级的主题，单独记录了一篇[文章](../2019-12-17-python-descriptor/)，以下只列出特殊方法
 
 ### `__get__(self, instance, owner=None)`
 
@@ -151,7 +149,7 @@ Python2中有`__cmp__`方法和`cmp()`函数，在Python3中已经废弃没有�
 
 ### `__set_name__(self, owner, name)`
 
-Python3.6中对描述符新增的方法，在`owner`创建时被调用，给描述符命名。
+Python3.6 中对描述符新增的方法，在`owner`创建时被调用，给描述符命名。
 
 ## 属性(attribute)
 
@@ -268,7 +266,7 @@ print(a.foo)  # 返回"foo_suffix"
 
 ### `__init_subclass__(cls)`
 
-这是python3.6中新加的方法，它会在以这个类为基类创建子类时被调用。`cls`是新的子类。
+这是 python3.6 中新加的方法，它会在以这个类为基类创建子类时被调用。`cls`是新的子类。
 
 ```python
 class Philosopher:
@@ -301,7 +299,7 @@ a('a', 'b', c='d')  # 可被调用  输出('a', 'b') {'c': 'd'}
 
 ## 容器(container)类型
 
-容器类代表的是sequences(list, tuples)，mappings(dict, set)
+容器类代表的是 sequences(list, tuples)，mappings(dict, set)
 
 ### `__len__(self)`
 
@@ -309,7 +307,7 @@ a('a', 'b', c='d')  # 可被调用  输出('a', 'b') {'c': 'd'}
 
 ### `__getitem__(self, key)`
 
-当调用`self[key]`时会调用，对于sequences类来说key是索引值
+当调用`self[key]`时会调用，对于 sequences 类来说 key 是索引值
 
 ### `__setitem__(self, key, value)`
 
@@ -354,7 +352,7 @@ print(a['foo'])  # rasie KeyError
 
 ### `__contains__(self, item)`
 
-当调用`in`或`not in`时返回的值，检测元素或者key是否存在于列表或字典中。返回`True`或`False`。
+当调用`in`或`not in`时返回的值，检测元素或者 key 是否存在于列表或字典中。返回`True`或`False`。
 
 ### `__iter__(self)`
 
@@ -362,7 +360,7 @@ print(a['foo'])  # rasie KeyError
 
 ### `__next__(self)`
 
-当一个对象即定义了`__iter__`又定义了`__next__`方法后，我们称它为迭代器(iterator)，注意与上面iterable的区别。本质上是iterator可以使用`next(obj)`来调用而iterable对象不可以。但双方都可以用`for`循环迭代。
+当一个对象即定义了`__iter__`又定义了`__next__`方法后，我们称它为迭代器(iterator)，注意与上面 iterable 的区别。本质上是 iterator 可以使用`next(obj)`来调用而 iterable 对象不可以。但双方都可以用`for`循环迭代。
 
 ```python
 class MyIterator:
@@ -401,15 +399,15 @@ print(next(n))  # raise StopIteration
 ### `__doc__`
 
 用户定义的文档，没有就返回`None`
-    
+
 ### `__name__`
 
 函数名
-    
+
 ### `__closure__`
 
 用户定义的函数都有一个`__closure__`属性，如果这个函数是一个闭包的话，那么它返回的是一个由`cell`对象组成的元组对象。`cell`对象的`cell_contents`属性就是闭包中的自由变量。
-    
+
 ```python
 def foo():
     a = 'hello world'
@@ -422,7 +420,7 @@ x = foo()  # closure
 print([i.cell_contents for i in x.__closure__])  # ['hello world', 1.0]
 ```
 
-上面x就是一个闭包里面包含了`bar`函数和`a`,`b`变量。
+上面 x 就是一个闭包里面包含了`bar`函数和`a`,`b`变量。
 
 ## Reference
 

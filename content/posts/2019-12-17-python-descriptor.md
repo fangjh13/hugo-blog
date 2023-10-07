@@ -6,16 +6,16 @@ ShowRssButtonInSectionTermList: true
 ShowWordCount: true
 TocOpen: false
 UseHugoToc: true
-date: '2019-12-17T11:38:45+08:00'
-lastmod: '2020-04-17T14:06:42+08:00'
+date: "2019-12-17T11:38:45+08:00"
+lastmod: "2020-04-17T14:06:42+08:00"
 showToc: true
 tags: [Python]
 title: Python描述符(descriptor)
 ---
 
-# Python描述符(descriptor)
+# Python 描述符(descriptor)
 
-Python中有一个很少被使用或者用户自定义的特性，那就是描述符(descriptor)，但它是`@property`, `@classmethod`, `@staticmethod`和`super`的底层实现机制，我今天就扒一扒它，[官方文档](https://docs.python.org/3/reference/datamodel.html#invoking-descriptors)对描述符的介绍如下
+Python 中有一个很少被使用或者用户自定义的特性，那就是描述符(descriptor)，但它是`@property`, `@classmethod`, `@staticmethod`和`super`的底层实现机制，我今天就扒一扒它，[官方文档](https://docs.python.org/3/reference/datamodel.html#invoking-descriptors)对描述符的介绍如下
 
 > In general, a descriptor is an object attribute with “binding behavior”, one whose attribute access has been overridden by methods in the descriptor protocol: `__get__()`, `__set__()`, and `__delete__()`. If any of those methods are defined for an object, it is said to be a descriptor.
 
@@ -36,20 +36,20 @@ Python中有一个很少被使用或者用户自定义的特性，那就是描�
 ```python
 >>> class A:
 ...     x = 8
-...     
-... 
+...
+...
 >>> class B(A):
 ...     pass
-... 
+...
 >>> class C(B):
 ...     def __getattr__(self, name):
 ...         if name == 'y':
 ...             print("call getattr method")
 ...         else:
 ...             raise AttributeError
-...         
-...     
-... 
+...
+...
+...
 >>> C.__mro__
 (<class '__main__.C'>, <class '__main__.B'>, <class '__main__.A'>, <class 'object'>)
 >>> a = C()
@@ -66,7 +66,7 @@ call getattr method
 {'x': 99}
 ```
 
-> `__getattr__`是实例访问没有定义的属性时调用的方法，[需要特别定义](https://www.fythonfang.com/blog/2018/1/28/python-magical-special-methods#__getattr__self-name)
+> `__getattr__`是实例访问没有定义的属性时调用的方法，[需要特别定义](../2018-01-28-python-magical-special-methods/#__getattr__self-name)
 
 ## 描述符协议
 
@@ -90,7 +90,7 @@ call getattr method
 
 `object.__set_name__(self, owner, name)`
 
-- 在`owner`类创建时被调用，给描述符命名，python3.6新增
+- 在`owner`类创建时被调用，给描述符命名，python3.6 新增
 - `name`为使用描述符的类的类属性的名字
 - 无返回值
 
@@ -102,7 +102,6 @@ call getattr method
 - 如果`a`中的实例字典有同名的`x`描述符，且为非数据描述符，则实例字典里面的优先访问
 
 所以在有描述符的情况下实例属性的查找顺序：**数据描述符 > 实例字典 > 非数据描述符**
-
 
 ## 描述符实例
 
@@ -132,8 +131,8 @@ class DataDescriptor:
 ```python
 >>> class Person:
 ...     age = DataDescriptor(10)
-...     
-... 
+...
+...
 >>> p = Person()
 >>> p.__dict__
 {}
@@ -157,25 +156,26 @@ get ... instance: <__main__.Person object at 0x110a68590>, owner: <class '__main
 ```python
 >>> class Person:
 ...     age = DataDescriptor(10)
-...     
+...
 ...     def __init__(self):
 ...         self.weight = DataDescriptor(50)
-...         
-...     
-... 
+...
+...
+...
 >>> p = Person()
 >>> p.weight
 <__main__.DataDescriptor object at 0x1085a2250>
 ```
+
 上面`age`是描述符，`weight`不是。访问`p.weight`属性只返回`DataDescriptor`的实例对象
 
-还有一个问题是`age`其实是一个类属性，`Person`的所有实例共享`age`这个实例变量，任何一个实例修改会导致所有的实例都更改。具体参看[Python中的类变量(class variables)和实例变量(instance variables)](https://www.fythonfang.com/blog/2017/3/25/difference-between-class-and-instance-variables)
+还有一个问题是`age`其实是一个类属性，`Person`的所有实例共享`age`这个实例变量，任何一个实例修改会导致所有的实例都更改。具体参看[Python 中的类变量(class variables)和实例变量(instance variables)](../2017-03-20-python-different-with-staticmethod-and-classmethod/)
 
 ```python
 >>> class Person:
 ...     age = DataDescriptor(10)
-...     
-... 
+...
+...
 >>> p1 = Person()
 >>> p2 = Person()
 >>> p1.age
@@ -218,8 +218,8 @@ class DataDescriptor:
 ```python
 >>> class Person:
 ...     age = DataDescriptor(1)
-...     
-... 
+...
+...
 >>> p1 = Person()
 >>> p2 = Person()
 >>> p1.age
@@ -238,8 +238,8 @@ class DataDescriptor:
 ```python
 >>> class MyList(list):
 ...     x = DataDescriptor(10)
-...     
-... 
+...
+...
 >>> m = MyList()
 >>> m.x
 Traceback (most recent call last):
@@ -272,7 +272,7 @@ m.x = 8
 print(m.x)     # 8
 ```
 
-用一开始传入的`name`作为键，就避免了有可能键是不可哈希的问题，另一方面此方法涉及到每个实例的字典`__dict__`，因为这是一个数据描述符访问属性的时候优先调用`__get__`或者`__set__`方法，查找顺序优先于实例字典，然后我们在方法里面可以安全的访问对象的实例字典`instance.__dict__`，这有点绕但没有问题。把值存储在各对象的实例字典里面即解决不同实例相互影响问题又解决内存问题。但每次传`name`会有点麻烦可不可以不传呢，python3.6中对描述符协议新增了`__set_name__`特殊方法可以轻松获取描述符的名字，所以也可以这么写
+用一开始传入的`name`作为键，就避免了有可能键是不可哈希的问题，另一方面此方法涉及到每个实例的字典`__dict__`，因为这是一个数据描述符访问属性的时候优先调用`__get__`或者`__set__`方法，查找顺序优先于实例字典，然后我们在方法里面可以安全的访问对象的实例字典`instance.__dict__`，这有点绕但没有问题。把值存储在各对象的实例字典里面即解决不同实例相互影响问题又解决内存问题。但每次传`name`会有点麻烦可不可以不传呢，python3.6 中对描述符协议新增了`__set_name__`特殊方法可以轻松获取描述符的名字，所以也可以这么写
 
 ```python
 class DataDescriptor:
@@ -297,8 +297,8 @@ class DataDescriptor:
 ```python
 >>> class MyList(list):
 ...     x = DataDescriptor(10)
-...     
-... 
+...
+...
 set name called owner: <class '__main__.MyList'>, name: 'x'
 >>> m1 = MyList()
 >>> m2 = MyList()
@@ -338,8 +338,8 @@ class NonDataDescriptor:
 ```python
 >>> class Student:
 ...     age = NonDataDescriptor(13)
-...     
-... 
+...
+...
 >>> s = Student()
 >>> s.age
 get ... instance: <__main__.Student object at 0x1109c3e10>, owner: <class '__main__.Student'>
@@ -355,6 +355,7 @@ get ... instance: <__main__.Student object at 0x1109c3e10>, owner: <class '__mai
 get ... instance: None, owner: <class '__main__.Student'>
 13
 ```
+
 可以看出非数据描述符的优先级比实例字典低，赋值会存放到`__dict__`中，也是这个原因如果有多个实例相互之间赋值也不影响，不需要像上面那样单独为每个实例保存一份值，`Student.age`访问的是类变量所以`instance`为`None`
 
 ## 描述符的调用
@@ -373,7 +374,7 @@ get ... instance: None, owner: <class '__main__.Student'>
 
 ### 通过使用`property()`创建
 
-python提供了[`property()`](https://docs.python.org/3/library/functions.html#property)函数，可以用来创建描述符
+python 提供了[`property()`](https://docs.python.org/3/library/functions.html#property)函数，可以用来创建描述符
 
 ```python
 class Person:
@@ -417,7 +418,7 @@ get ...
 18
 ```
 
-此方法可以看到`age`是`property object`，`property()`函数实现为*数据描述符*。因此，实例字典是无法覆盖的(`name`不在`__dict__`中)，但从上面发现其实我们引入了`_x`私有变量。这种方法对某个属性的定义非常好用，python还特地提供了语法糖`@property`写起来更加方便，以前文章也有介绍 [Python中@propery 使用](https://www.fythonfang.com/blog/2017/10/8/python-property-tutorial)
+此方法可以看到`age`是`property object`，`property()`函数实现为*数据描述符*。因此，实例字典是无法覆盖的(`name`不在`__dict__`中)，但从上面发现其实我们引入了`_x`私有变量。这种方法对某个属性的定义非常好用，python 还特地提供了语法糖`@property`写起来更加方便，以前文章也有介绍 [Python 中@propery 使用](../2017-10-08-python-property-tutorial)
 
 ```python
 class Person:
@@ -509,7 +510,7 @@ y = Circle(3)
 y.area             # 28.26
 ```
 
-`ReadonlyNumber`描述符实现了只读属性，`LazyProperty`实现了属性值缓存这里用到了[装饰器](https://www.fythonfang.com/blog/2017/4/10/python-decorators)
+`ReadonlyNumber`描述符实现了只读属性，`LazyProperty`实现了属性值缓存这里用到了[装饰器](../2017-04-10-python-decorators/)
 
 ### 函数与方法
 
@@ -521,8 +522,8 @@ y.area             # 28.26
 >>> class D:
 ...     def f(self, x):
 ...         return x
-...     
-... 
+...
+...
 >>> d = D()
 >>> D.__dict__['f']             # 通过类字典访问f，不调用__get__
 <function D.f at 0x108b17e60>
@@ -550,15 +551,15 @@ y.area             # 28.26
 100
 ```
 
-我们知道类方法就是定义在类内部的函数只是第一个参数(`self`)接收自身实例对象，当使用dot notation(`.`)访问时，把实例对象传给第一个参数。因为函数`f`是一个非数据描述符，当调用`d.f(*args)`时，内部的`__get__`方法会把`d.f(*args)`转化成`f(d, *args)`，当调用`D.f(*args)`是转化成`f(*args)`，这就是非数据描述符干的事情。
+我们知道类方法就是定义在类内部的函数只是第一个参数(`self`)接收自身实例对象，当使用 dot notation(`.`)访问时，把实例对象传给第一个参数。因为函数`f`是一个非数据描述符，当调用`d.f(*args)`时，内部的`__get__`方法会把`d.f(*args)`转化成`f(d, *args)`，当调用`D.f(*args)`是转化成`f(*args)`，这就是非数据描述符干的事情。
 
 ### 静态方法和类方法
 
 没错静态方法和类方法也是和上面函数调用同样的原理，如类方法调用（从类调用）内部`__get__`就是把`OneClass.f(*args)`转化成`f(OneClass, *args)`，静态方法同理，官方文档提供了如下的转化表格
 
-|  转型   |     从实例对象调用      |      从类调用       |
-| ------- | -------------------- | ------------------ |
-| 函数    | `f(ojb, *args)`       | `f(*args)`         |
+| 转型     | 从实例对象调用        | 从类调用           |
+| -------- | --------------------- | ------------------ |
+| 函数     | `f(ojb, *args)`       | `f(*args)`         |
 | 静态方法 | `f(*args)`            | `f(*args)`         |
 | 类方法   | `f(type(obj), *args)` | `f(kclass, *args)` |
 
@@ -567,7 +568,6 @@ y.area             # 28.26
 1. 描述符要实现描述符协议（实现`__set__`, `__get__`, `__delete__`, `__set_name__`方法）
 2. 描述符必须作为对象属性（类属性）
 3. 描述符的查找顺序：数据描述符 > 实例字典 > 非数据描述符
-
 
 ## Reference
 

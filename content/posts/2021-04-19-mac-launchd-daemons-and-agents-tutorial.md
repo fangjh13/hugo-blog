@@ -6,8 +6,8 @@ ShowRssButtonInSectionTermList: true
 ShowWordCount: true
 TocOpen: false
 UseHugoToc: true
-date: '2021-04-19T03:25:09+08:00'
-lastmod: '2023-05-31T11:25:36+08:00'
+date: "2021-04-19T03:25:09+08:00"
+lastmod: "2023-05-31T11:25:36+08:00"
 showToc: true
 tags: [Mac, Launchd]
 title: Mac Launchd 介绍和使用
@@ -15,7 +15,7 @@ title: Mac Launchd 介绍和使用
 
 ## Mac Launchd 介绍和使用
 
-Linux 上如果想开机开机启动一个服务或者定时运行一个服务有很多的选择比如之前介绍过的[Systemd](https://www.fythonfang.com/blog/2018/8/16/systemd-timer-unit)或者用crontab也可以，而在 Mac 不同它有一个类似的叫 Launchd 的系统，对应使用`launchctl`命令控制
+Linux 上如果想开机开机启动一个服务或者定时运行一个服务有很多的选择比如之前介绍过的[Systemd](../2018-08-16-systemd-timer-unit/)或者用 crontab 也可以，而在 Mac 不同它有一个类似的叫 Launchd 的系统，对应使用`launchctl`命令控制
 
 ### Daemons and Agents
 
@@ -123,9 +123,9 @@ hello world
 一个任务首先需要被加载(load)，然后启动(start)正常运行完退出，所以我们查看`/tmp`目录下会有日志输出
 
 1. 任务一般都要手动启动(start)，如果设置了`RunAtLoad`或者`KeepAlive`则在`launchctl load`时就启动
-2. 使用`launchctl list`列出当前加载的任务，第一列代表进程id，因为上面的程序运行一次就退出了所以显示`-`，第二列是程序上次运行退出的code，`0`代表正常退出，如果是正数代表退出的时候是有错误的，负数代表是接收到信号被终止的
+2. 使用`launchctl list`列出当前加载的任务，第一列代表进程 id，因为上面的程序运行一次就退出了所以显示`-`，第二列是程序上次运行退出的 code，`0`代表正常退出，如果是正数代表退出的时候是有错误的，负数代表是接收到信号被终止的
 3. `launchctl stop <service_name>`可以终止一个在运行中的任务，`launchctl unload <path>`指定路径卸载一个任务，`launchctl remove <service_name>`通过服务名卸载任务
-4. `launchctl load <path>`只会加载没有被**disable**的任务，可以加`-w`参数 `launchctl load -w <path>`覆盖如果设置了disable的，下次开机启动一定会起来。`launchctl unload <path>`只会停止和卸载这个任务，但下次启动还会加载，可以使用`-w`参数`launchctl unload -w <path>`停止任务，下次启动也不会起来，也就是标记了**disable**
+4. `launchctl load <path>`只会加载没有被**disable**的任务，可以加`-w`参数 `launchctl load -w <path>`覆盖如果设置了 disable 的，下次开机启动一定会起来。`launchctl unload <path>`只会停止和卸载这个任务，但下次启动还会加载，可以使用`-w`参数`launchctl unload -w <path>`停止任务，下次启动也不会起来，也就是标记了**disable**
 5. 调试一个任务可以配合使用`plutil`命令检查语法，设置`StandardOutPath`、`StandardErrorPath`、`Debug`键，也可以看看苹果自带的`Console.app`应用中的`system.log`
 
 ### 一些例子
@@ -146,7 +146,7 @@ hello world
 
     <key>RunAtLoad</key>
     <true/>
-    
+
     <key>ProgramArguments</key>
     <array>
         <string>/usr/bin/hidutil</string>
@@ -212,7 +212,7 @@ hello world
 </plist>
 ```
 
-因为要监听53端口所以需要root用户启动，而且需要用户登录前就运行所以存放在`/Library/LaunchDaemons/`目录下，配置了`KeepAlive`和`UserName`，也设置了工作目录`WorkingDirectory`，日志也存在这目录下。这个任务加载和其他操作都需要加sudo，`sudo launchctl load /Library/LaunchDaemons/com.fython.clash.plist`因为配置了`RunAtLoad`它会自动启动，不需要在 start 了
+因为要监听 53 端口所以需要 root 用户启动，而且需要用户登录前就运行所以存放在`/Library/LaunchDaemons/`目录下，配置了`KeepAlive`和`UserName`，也设置了工作目录`WorkingDirectory`，日志也存在这目录下。这个任务加载和其他操作都需要加 sudo，`sudo launchctl load /Library/LaunchDaemons/com.fython.clash.plist`因为配置了`RunAtLoad`它会自动启动，不需要在 start 了
 
 ### Reference
 

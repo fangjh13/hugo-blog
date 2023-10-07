@@ -15,7 +15,7 @@ title: 破解滑块验证码（geetest极验）
 
 #  破解滑块验证码（geetest极验）
 
-![](https://img.fythonfang.com/2021-05-01-103607_439x430_scrot.png)
+![](../images/2021-05-01-103607_439x430_scrot.png)
 
 最近写爬虫遇到极验（geetest）的滑块验证码，首先想到的是用[Selenium](https://selenium-python.readthedocs.io/)模拟人拖动滑块，那么问题来了其实主要解决下面两个问题
 
@@ -48,15 +48,15 @@ with open('./temp_bg.png', 'wb') as f:
     f.write(im_bg_bytes)
 ```
 
-![](https://img.fythonfang.com/temp_bg.png)
+![](../images/temp_bg.png)
 
 然后第二张 *geetest_canvas_slice* 根据上面相同的方法保存到本地是这样的，就是一个滑块
 
-![](https://img.fythonfang.com/temp_slice.png)
+![](../images/temp_slice.png)
 
 第三张 *geetest_canvas_fullbg* 猜名称也能猜到是图片的全景
 
-![](https://img.fythonfang.com/temp_fullbg.png)
+![](../images/temp_fullbg.png)
 
 有上面三张图片，怎么计算滑动的距离呢，发现只要找到第一张缺口的位置坐标 x1 和第二张滑块的坐标 x2 那么 x1 - x2 就是我们要的距离，主要是找到 x1 的位置可以通过对比第一张和第三张得到，具体的方法是对比两张图像素点不同时即为 x1 的位置。因为 x2 的位置一直在左边差不多固定的位置假设离最左边为 10 个像素所以我们不需要计算 x2，以下是实现两张图片确定 x1 的代码，图片处理使用的是[pillow](https://pillow.readthedocs.io/en/stable/)库
 

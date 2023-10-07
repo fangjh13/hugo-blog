@@ -16,7 +16,7 @@ title: Git工作流
 
 [Git](https://git-scm.com/)是当今最流行的开源版本控制系统，使用git的每个团队应该也有固定的工作流。今天就介绍一个现有普遍使用的工作流**git-flow**。
 
-![git-flow](https://img.fythonfang.com/GitFlowHotfixBranch.png)
+![git-flow](../images/GitFlowHotfixBranch.png)
 
 ## 分支（branch）
 
@@ -30,7 +30,7 @@ title: Git工作流
 
 *`develop`*开发主分支，所有新功能的分支从这里`checkout`，所以这是开发的基础分支。该分支也是汇集所有开发新功能后最后`merge`到*`master`*的分支。
 
-![master-develop-branch](https://img.fythonfang.com/01-master-develop.png)
+![master-develop-branch](../images/01-master-develop.png)
 
 
 
@@ -44,7 +44,7 @@ title: Git工作流
 
 *`hotfixes`*紧急修复bug的分支基于*`master`*分支，修复完后一定要合并到*`master`*分支和*`develop`*分支。
 
-![feature-hotfix-branch](https://img.fythonfang.com/02-features-hotfix.png)
+![feature-hotfix-branch](../images/02-features-hotfix.png)
 
 ## Git-flow工作流程
 

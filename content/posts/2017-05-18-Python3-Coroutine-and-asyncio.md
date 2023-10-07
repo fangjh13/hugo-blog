@@ -6,9 +6,9 @@ ShowRssButtonInSectionTermList: true
 ShowWordCount: true
 TocOpen: false
 UseHugoToc: true
-date: '2017-05-18T03:27:34+08:00'
+date: "2017-05-18T03:27:34+08:00"
 description: 协程、asyncio、async/await
-lastmod: '2018-04-25T06:06:49+08:00'
+lastmod: "2018-04-25T06:06:49+08:00"
 showToc: true
 tags: [Python]
 title: Python3 协程(Coroutine) 与 asyncio
@@ -16,18 +16,19 @@ title: Python3 协程(Coroutine) 与 asyncio
 
 ## Python3 Coroutine(协程) 与 asyncio
 
-> 协程，又称微线程，纤程，英文名Coroutine。协程的作用，是在执行函数A时，可以随时中断，去执行函数B，然后中断继续执行函数A（可以自由切换）。但这一过程并不是函数调用（没有调用语句），这一整个过程看似像多线程，然而协程只有一个线程执行。
+> 协程，又称微线程，纤程，英文名 Coroutine。协程的作用，是在执行函数 A 时，可以随时中断，去执行函数 B，然后中断继续执行函数 A（可以自由切换）。但这一过程并不是函数调用（没有调用语句），这一整个过程看似像多线程，然而协程只有一个线程执行。
 
 **优势**
 
 - 执行效率极高，因为子程序切换（函数）不是线程切换，由程序自身控制，没有切换线程的开销。所以与多线程相比，线程的数量越多，协程性能的优势越明显。
 - 不需要多线程的锁机制，因为只有一个线程，也不存在同时写变量冲突，在控制共享资源时也不需要加锁，因此执行效率高很多。
- 
-*说明：协程可以处理IO密集型程序的效率问题，但是处理CPU密集型不是它的长处，如要充分发挥CPU利用率可以结合多进程加协程。*
+
+_说明：协程可以处理 IO 密集型程序的效率问题，但是处理 CPU 密集型不是它的长处，如要充分发挥 CPU 利用率可以结合多进程加协程。_
 
 有一篇*David Beazley*的课程[A Curious Course on Coroutines and Concurrency](http://www.dabeaz.com/coroutines/)详细讲解了协程和并发的用法，强烈推荐。本篇文章多处参考与此。
 
-### 0x01. Generator与Coroutine的区别
+### 0x01. Generator 与 Coroutine 的区别
+
 一开始我总是傻傻分不清`Generator`和`Coroutine`的区别感觉这两个东西差不多不一样吗，最近查了点资料并学习了下。在此做记录，我们先来看`Generator`。
 
     def countdown(n):
@@ -41,7 +42,7 @@ title: Python3 协程(Coroutine) 与 asyncio
     for i in c:
     	print(i)
 
-返回一个`generator object`并且可以迭代，详细参考[上一篇文章](http://www.fythonfang.com/blog/post/11)
+返回一个`generator object`并且可以迭代，详细参考[上一篇文章](../2017-04-28-python3-yield/)
 
     <generator object countdown at 0x7f82a41739e8>
     5
@@ -63,20 +64,22 @@ title: Python3 协程(Coroutine) 与 asyncio
     cp.send(1)
     cp.send(2)
     cp.send(3)
- `send(None)`或者`next()`方法初始化一个协程。`send`可以传递一个对象给`cp`处理遇到`yield`停止等待下一个`send`并继续运行。`next()`方法或者`send`可以传递一个对象给`cp`处理遇到`yield`停止等待下一个`send`
+
+`send(None)`或者`next()`方法初始化一个协程。`send`可以传递一个对象给`cp`处理遇到`yield`停止等待下一个`send`并继续运行。`next()`方法或者`send`可以传递一个对象给`cp`处理遇到`yield`停止等待下一个`send`
 
 对比可以发现虽然他们有很多相同之处但也是有区别的：
 
--  `generator`是生成器顾名思义它负责生产对象，也就是`yield`后跟着的值。
--  `generator`可以迭代用于`for`循环等。
+- `generator`是生成器顾名思义它负责生产对象，也就是`yield`后跟着的值。
+- `generator`可以迭代用于`for`循环等。
 - `coroutine`协程是一个消费者，消费`send`给协程的值（`yield`的左边）
 - `coroutine`不能用于迭代，主要用于内部消费处理操作
 
 ### 0x02. 协程(Corountine)管道(Pipeline)的运用
+
 先来实现一个使用协程版的`tail -f`命令。
 
     def follow(f, target):
-	    f.seek(0, 2)
+        f.seek(0, 2)
     	while True:
     	    last_line = f.readline()
     		if last_line is not None:
@@ -129,10 +132,11 @@ title: Python3 协程(Coroutine) 与 asyncio
 
 上面的效果等同于`tail -f access-log | grep python`，`filter`也是一个协程并且数据可以传递所以先`send`到`filter`然后再到`printer`显示出来。这就是协程的管道。你还可以像这样的`follow(f, filter('python', filter('string', printer())))`就两次过滤等于用了两次`grep`。
 
-![](https://img.fythonfang.com/Screenshot%20from%202017-05-16%2019-24-22.png)
+![](../images/19-24-22.png)
 
 ### 0x03. asyncio
-`asyncio`是Python 3.4中新增的模块，是一个基于事件循环的实现异步I/O的模块，它提供了一种机制，使得你可以用协程（coroutines）、IO复用（multiplexing I/O）在单线程环境中编写并发模型。
+
+`asyncio`是 Python 3.4 中新增的模块，是一个基于事件循环的实现异步 I/O 的模块，它提供了一种机制，使得你可以用协程（coroutines）、IO 复用（multiplexing I/O）在单线程环境中编写并发模型。
 
     import asyncio
 
@@ -183,12 +187,13 @@ title: Python3 协程(Coroutine) 与 asyncio
     1 + 2 = 3
     [Finished in 1.1s]
 
-这是`coroutine`嵌套的例子，当事件循环(`EventLoop`)开始运行时，它会在Task中寻找coroutine来执行调度，因为事件循环注册了`print_sum()`，然后`print_sum()`被调用，执行`result = yield from compute(x, y)`这条语句，因为`compute()`自身就是一个`coroutine`，因此`print_sum()`这个协程就会暂时被挂起，`compute()`被加入到事件循环中，程序流执行`compute()`中的print语句，打印”Compute %s + %s …”，然后执行了`yield from asyncio.sleep(1.0)`，因为`asyncio.sleep()`也是一个`coroutine`，接着`compute()`就会被挂起，等待计时器读秒，在这1秒的过程中，事件循环会在队列中查询可以被调度的`coroutine`，而因为此前`print_sum()`与`compute()`都被挂起了没有其余的`coroutine`，因此事件循环会停下来等待协程的调度，当计时器读秒结束后，程序流便会返回到`compute()`中执行`return`语句，结果会返回到`print_sum()`中的`result`中，最后打印`result`，事件队列中没有可以调度的任务了，此时`loop.close()`把事件队列关闭，程序结束。
+这是`coroutine`嵌套的例子，当事件循环(`EventLoop`)开始运行时，它会在 Task 中寻找 coroutine 来执行调度，因为事件循环注册了`print_sum()`，然后`print_sum()`被调用，执行`result = yield from compute(x, y)`这条语句，因为`compute()`自身就是一个`coroutine`，因此`print_sum()`这个协程就会暂时被挂起，`compute()`被加入到事件循环中，程序流执行`compute()`中的 print 语句，打印”Compute %s + %s …”，然后执行了`yield from asyncio.sleep(1.0)`，因为`asyncio.sleep()`也是一个`coroutine`，接着`compute()`就会被挂起，等待计时器读秒，在这 1 秒的过程中，事件循环会在队列中查询可以被调度的`coroutine`，而因为此前`print_sum()`与`compute()`都被挂起了没有其余的`coroutine`，因此事件循环会停下来等待协程的调度，当计时器读秒结束后，程序流便会返回到`compute()`中执行`return`语句，结果会返回到`print_sum()`中的`result`中，最后打印`result`，事件队列中没有可以调度的任务了，此时`loop.close()`把事件队列关闭，程序结束。
 
-![](https://img.fythonfang.com/coroutine_chain.png)
+![](../images/coroutine_chain.png)
 
 ### 0x04. one more thing
-Python3.5中又添加了` async def`、`await`这样就使得协程变得更加易用了。[PEP 492](https://www.python.org/dev/peps/pep-0492/)中详细说明了使用`async`、`await`来定义`coroutine`避免和`generator`混淆。
+
+Python3.5 中又添加了` async def`、`await`这样就使得协程变得更加易用了。[PEP 492](https://www.python.org/dev/peps/pep-0492/)中详细说明了使用`async`、`await`来定义`coroutine`避免和`generator`混淆。
 
 只要把`@asyncio.coroutine`替换成`async`加在函数头，把`yield from`替换成`await`，其余不变就好了。但不能在同一个`coroutine`混用，就是用了`@asyncio.coroutine`而里面却用`yield from`中断。
 
@@ -201,7 +206,7 @@ Python3.5中又添加了` async def`、`await`这样就使得协程变得更加�
     	result = await compute(x, y)
     	print("%s + %s = %s" % (x, y, result))
 
-还有就是`await`之后必须接支持协程的函数或语句上面`asyncio.sleep(1)`就是一个模拟异步IO的过程，否者程序会同步执行看下面例子
+还有就是`await`之后必须接支持协程的函数或语句上面`asyncio.sleep(1)`就是一个模拟异步 IO 的过程，否者程序会同步执行看下面例子
 
 ```python
 import time
@@ -302,7 +307,7 @@ Total time 6.01s
 ```
 
 程序也共一个线程，当遇到`asyncio.sleep(1)`时会被挂起，`EventLoop`去处理另一个任务并等待返回结果，总的运行时间大大减小，异步非阻塞，这看起来像是多线程在执行，这就是协程的最大特点。
-   
+
 **参考**
 
 [http://www.dabeaz.com](http://www.dabeaz.com/coroutines/)

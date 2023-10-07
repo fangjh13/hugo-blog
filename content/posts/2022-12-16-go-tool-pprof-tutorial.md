@@ -41,7 +41,7 @@ go func() {
 
 然后浏览器访问`http://localhost:6060/debug/pprof/`，显示如下页面
 
-![](https://img.fythonfang.com/pprof_index.png)
+![](../images/pprof_index.png)
 
 如上如果服务是 http 服务且使用的是 `http.DefaultServeMux` 不需要做任何路由注册默认会注册相关路由，初始化调用了[`init `函数](https://github.com/golang/go/blob/f865b5fefeafaf76ce6ff99e44d41c52cb6b884b/src/net/http/pprof/pprof.go#L72-L76)会自动注册，路径为 `/debug/pprof/`，显示上图，能大概看个当前 goroutine 数目、堆分配情况、锁的情况，具体分析还是要使用下文的 `go tool pprof` 工具。
 
@@ -211,7 +211,7 @@ Showing nodes accounting for 4.02s, 100% of 4.02s total
 
 `web` 命令显示 svg 图，能更直观的展示，前提是需要安装 [graphviz](http://www.graphviz.org/)，权重越大方框越大，颜色越明显，箭头是调用图
 
-![](https://img.fythonfang.com/pprof_cpu_profile.png)
+![](../images/pprof_cpu_profile.png)
 
 ### 服务型应用
 
@@ -330,7 +330,7 @@ Serving web UI on http://localhost:8080
 
 访问网页，在左上角 view 中切换 Flame Graph 可以以火焰图的方式展示
 
-![](https://img.fythonfang.com/pprof_flame_graph.png)
+![](../images/pprof_flame_graph.png)
 
 如果应用比较复杂，生成的调用图特别大，看起来很乱，有两个办法可以优化：
 
