@@ -145,6 +145,25 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>《我们仨》杨绛先生回忆录
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>《我们仨》—— 我一个人思念我们仨 世间好物不坚牢，彩云易散琉璃脆。
+这个清明时节没有雨纷纷，三天假期阳光都很好。没有出远门，只回家和家人待了两天，见了几个想见的朋友玩伴。偷空放松下不想学习也看了这本书。
+前段时间看《洗澡》当时感觉这书还比他丈夫的《围城》还精彩易读，有可能看《围城》时功力不够不懂钱老师深厚的多国文学基础，有些精细文字也都理解不了，那是一个很遥远的暑假了。看完《洗澡》之后意犹未尽，只想着姚宓与徐彦成精神恋爱的结局，就去看了《洗澡之后》杨绛说“假如我去世以后有人擅写续集，我就无法阻挡了。现在趁我还健在，把故事结束了吧。”多俏皮的话，看完后，还是觉得不要看的好，这部作品就当是百岁老人给我们的开的一个玩笑吧。《我们仨》是杨绛先生在先生和女儿去世之后写的回忆录，是一位孤独老人思念的产物，的确真真实实，历历在目。
+书中记录了钱媛先与一九九七年早春去世，一九九八年岁末，钟书去世。她说从此他们三人就此失散了。在短短两年内先后失去两位至亲之人，这悲痛只有当事人能感受得到。并在此后整理钱钟书书信文件出版，并从事文学工作到最后一刻，这就是老一辈知识分子典型代表。
+全书一共分为三个部分，前两部是写一个梦。
+我曾做过一个小梦，怪他一声不响的走了。他现在故意慢慢儿走，让我一程一程送，尽量多聚聚，把一个小梦拉成一个万里长梦。 我还是比较喜欢第三部，记录他们一家人分分合合，朴实的生活，温暖与亲切。他们都是从剑桥和巴黎留学归来的大学者，也见过大世面，一生不追名逐利，与世无争，与人无求，只求平淡生活。不变的是到哪都会学习、读书和创作。
+钟书是坐冷板凳的，他的学问也是冷门。他曾和我说：“有名气就是多些不相识的人。” 我们希望有几个知己， 不求有名有声。 给钟书虚名他都能推就推，只专心做学问。我想正是因为如此他们也躲过了新中国几个困难时期。
+比较有趣的是读着读着会想起《洗澡》里的情节阿瑗对我说：“妈妈，我不想结婚了，我陪着爸爸妈妈。”像极了姚蜜说的话。</p>
+  </div>
+  <footer class="entry-footer"><span title='2017-04-06 15:55:53 +0800 +0800'>April 6, 2017</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;14 words&nbsp;·&nbsp;Fython</footer>
+  <a class="entry-link" aria-label="post link to 《我们仨》杨绛先生回忆录" href="https://blog.fangjiahui.me/posts/2017-04-06-wo-men-san/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>Python中的类变量(class variables)和实例变量(instance variables)
     </h2>
   </header>
@@ -217,28 +236,12 @@ location /secret { autoindex on; autoindex_exact_size off; autoindex_localtime o
   <footer class="entry-footer"><span title='2017-03-19 08:57:18 +0800 +0800'>March 19, 2017</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;76 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Nginx局域网搭建静态文件下载服务器" href="https://blog.fangjiahui.me/posts/2017-03-19-nginx-static-files-download-server-config/"></a>
 </article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Mariadb Mysql 字符集设置
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Mariadb Mysql Character Sets and Collations MariaDB数据库管理系统是 MySQL 的一个分支，主要由开源社区在维护，采用 GPL 授权许可。开发这个分支的原因之一是：甲骨文公司收购了 MySQL 后，有将 MySQL 闭源的潜在风险，因此社区采用分支的方式来避开这个风险。
-所以说mariadb完全兼容mysql的设置，完全可以用mariadb代替mysql。
-初次安装完 mariadb 后运行mysql_secure_installation
-本人centos7编辑/etc/my.cnf添加如下配置(utf8mb4支持 4 个字节的emoji表情完全兼容utf8，当然也可以换成utf8不使用表情)
-[mysqld] init_connect=&#39;SET collation_connection = utf8mb4_unicode_ci&#39; init_connect=&#39;SET NAMES utf8mb4&#39; skip-character-set-client-handshake # 服务端默认字符集 character-set-server=utf8mb4 # 连接层默认字符集 collation-server=utf8mb4_unicode_ci [client] # 客户端来源数据默认字符集 default-character-set=utf8mb4 [mysql] # 客户端来源数据默认字符集 default-character-set=utf8mb4 重启 mariadb 服务，运行systemctl restart marriadb.service
-登录后show variables like &#39;%char%&#39;和show variables like &#39;%collation%&#39;查看是否和如下相同。
-MariaDB [(none)]&gt; show global variables like &#39;%char%&#39;; &#43;--------------------------&#43;----------------------------&#43; | Variable_name | Value | &#43;--------------------------&#43;----------------------------&#43; | character_set_client | utf8mb4 | | character_set_connection | utf8mb4 | | character_set_database | utf8mb4 | | character_set_filesystem | binary | | character_set_results | utf8mb4 | | character_set_server | utf8mb4 | | character_set_system | utf8 | | character_sets_dir | /usr/share/mysql/charsets/ | &#43;--------------------------&#43;----------------------------&#43; 8 rows in set (0....</p>
-  </div>
-  <footer class="entry-footer"><span title='2017-03-18 05:23:25 +0800 +0800'>March 18, 2017</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;154 words&nbsp;·&nbsp;Fython</footer>
-  <a class="entry-link" aria-label="post link to Mariadb Mysql 字符集设置" href="https://blog.fangjiahui.me/posts/2017-03-18-mysql-mariadb-character-sets-and-collations/"></a>
-</article>
 <footer class="page-footer">
   <nav class="pagination">
     <a class="prev" href="https://blog.fangjiahui.me/page/8/">
       «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="https://blog.fangjiahui.me/page/10/">Next&nbsp;&nbsp;»
     </a>
   </nav>
 </footer>

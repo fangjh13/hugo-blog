@@ -11,7 +11,16 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 11 Feb 2023 11:38:27 +0800</lastBuildDate><atom:link href="https://blog.fangjiahui.me/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 26 Nov 2023 18:34:20 +0800</lastBuildDate><atom:link href="https://blog.fangjiahui.me/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bash</title>
+      <link>https://blog.fangjiahui.me/tags/bash/</link>
+      <pubDate>Sun, 26 Nov 2023 18:34:20 +0800</pubDate>
+      
+      <guid>https://blog.fangjiahui.me/tags/bash/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>PostgreSQL</title>
       <link>https://blog.fangjiahui.me/tags/postgresql/</link>
@@ -72,15 +81,6 @@
       <pubDate>Mon, 19 Apr 2021 03:25:09 +0800</pubDate>
       
       <guid>https://blog.fangjiahui.me/tags/mac/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Bash</title>
-      <link>https://blog.fangjiahui.me/tags/bash/</link>
-      <pubDate>Wed, 20 Jan 2021 07:50:48 +0800</pubDate>
-      
-      <guid>https://blog.fangjiahui.me/tags/bash/</guid>
       <description></description>
     </item>
     

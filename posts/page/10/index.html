@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Bash | Fython&#39;s Blog</title>
+<title>Posts | Fython&#39;s Blog</title>
 <meta name="keywords" content="">
-<meta name="description" content="My Personal Blog Site">
+<meta name="description" content="Posts - Fython&#39;s Blog">
 <meta name="author" content="Fython">
-<link rel="canonical" href="https://blog.fangjiahui.me/tags/bash/">
+<link rel="canonical" href="https://blog.fangjiahui.me/posts/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.73c5f38ae8d9aaab6402bebf0c9459d0d8b9c7b018822bddcff46721198a28d5.css" integrity="sha256-c8XziujZqqtkAr6/DJRZ0Ni5x7AYgivdz/RnIRmKKNU=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
@@ -18,7 +18,7 @@
 <link rel="mask-icon" href="https://blog.fangjiahui.me/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://blog.fangjiahui.me/tags/bash/index.xml">
+<link rel="alternate" type="application/rss+xml" href="https://blog.fangjiahui.me/posts/index.xml">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,17 +55,32 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Bash" />
+</noscript><meta property="og:title" content="Posts" />
 <meta property="og:description" content="My Personal Blog Site" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://blog.fangjiahui.me/tags/bash/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
+<meta property="og:url" content="https://blog.fangjiahui.me/posts/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
 
-<meta name="twitter:title" content="Bash"/>
+<meta name="twitter:title" content="Posts"/>
 <meta name="twitter:description" content="My Personal Blog Site"/>
 
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog.fangjiahui.me/posts/"
+    }
+  ]
+}
+</script>
 </head>
 
 <body class="list" id="top">
@@ -127,10 +142,10 @@
     </nav>
 </header>
 <main class="main"> 
-<header class="page-header"><div class="breadcrumbs"><a href="https://blog.fangjiahui.me/">Home</a>&nbsp;»&nbsp;<a href="https://blog.fangjiahui.me/tags/">Tags</a></div>
+<header class="page-header"><div class="breadcrumbs"><a href="https://blog.fangjiahui.me/">Home</a></div>
   <h1>
-    Bash
-    <a href="/tags/bash/index.xml" title="RSS" aria-label="RSS">
+    Posts
+    <a href="/posts/index.xml" title="RSS" aria-label="RSS">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
         stroke-linecap="round" stroke-linejoin="round" height="23">
         <path d="M4 11a9 9 0 0 1 9 9" />
@@ -141,53 +156,30 @@
   </h1>
 </header>
 
-<article class="post-entry tag-entry"> 
+<article class="post-entry"> 
   <header class="entry-header">
-    <h2>cURL 命令 查看请求响应时间
+    <h2>Mariadb Mysql 字符集设置
     </h2>
   </header>
   <div class="entry-content">
-    <p>cURL 是我们常用的 http 命令行请求工具，它支持显示请求开始到响应结束各阶段的耗时，以便于开发中排查问题是网络原因还是服务器处理慢原因，主要是利用 -w 参数
-curl -L -w &#34;time_namelookup: %{time_namelookup} time_connect: %{time_connect} time_appconnect: %{time_appconnect} time_pretransfer: %{time_pretransfer} time_redirect: %{time_redirect} time_starttransfer: %{time_starttransfer} time_total: %{time_total} http_code: %{http_code} content_type: %{content_type} speed_download: %{speed_download} (byte/s) &#34; https://example.com/ 如果使用单行方便拷贝
-curl -L -w &#34;time_namelookup: %{time_namelookup}\ntime_connect: %{time_connect}\ntime_appconnect: %{time_appconnect}\ntime_pretransfer: %{time_pretransfer}\ntime_redirect: %{time_redirect}\ntime_starttransfer: %{time_starttransfer}\ntime_total: %{time_total}\nhttp_code: %{http_code}\ncontent_type: %{content_type}\nspeed_download: %{speed_download} (byte/s)\n&#34; https://example.com/ 返回如下
-&lt;!doctype html&gt; &lt;html&gt; ..... &lt;/html&gt; time_namelookup: 0.007911 time_connect: 0.008221 time_appconnect: 0.415794 time_pretransfer: 0.415880 time_redirect: 0.000000 time_starttransfer: 0.618522 time_total: 0.618948 http_code: 200 content_type: text/html; charset=UTF-8 speed_download: 2034 (byte/s) 返回的各参数如下，这是官方文档上的截图...</p>
+    <p>Mariadb Mysql Character Sets and Collations MariaDB数据库管理系统是 MySQL 的一个分支，主要由开源社区在维护，采用 GPL 授权许可。开发这个分支的原因之一是：甲骨文公司收购了 MySQL 后，有将 MySQL 闭源的潜在风险，因此社区采用分支的方式来避开这个风险。
+所以说mariadb完全兼容mysql的设置，完全可以用mariadb代替mysql。
+初次安装完 mariadb 后运行mysql_secure_installation
+本人centos7编辑/etc/my.cnf添加如下配置(utf8mb4支持 4 个字节的emoji表情完全兼容utf8，当然也可以换成utf8不使用表情)
+[mysqld] init_connect=&#39;SET collation_connection = utf8mb4_unicode_ci&#39; init_connect=&#39;SET NAMES utf8mb4&#39; skip-character-set-client-handshake # 服务端默认字符集 character-set-server=utf8mb4 # 连接层默认字符集 collation-server=utf8mb4_unicode_ci [client] # 客户端来源数据默认字符集 default-character-set=utf8mb4 [mysql] # 客户端来源数据默认字符集 default-character-set=utf8mb4 重启 mariadb 服务，运行systemctl restart marriadb.service
+登录后show variables like &#39;%char%&#39;和show variables like &#39;%collation%&#39;查看是否和如下相同。
+MariaDB [(none)]&gt; show global variables like &#39;%char%&#39;; &#43;--------------------------&#43;----------------------------&#43; | Variable_name | Value | &#43;--------------------------&#43;----------------------------&#43; | character_set_client | utf8mb4 | | character_set_connection | utf8mb4 | | character_set_database | utf8mb4 | | character_set_filesystem | binary | | character_set_results | utf8mb4 | | character_set_server | utf8mb4 | | character_set_system | utf8 | | character_sets_dir | /usr/share/mysql/charsets/ | &#43;--------------------------&#43;----------------------------&#43; 8 rows in set (0....</p>
   </div>
-  <footer class="entry-footer"><span title='2023-11-26 18:34:20 +0800 +0800'>November 26, 2023</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;135 words&nbsp;·&nbsp;Fython</footer>
-  <a class="entry-link" aria-label="post link to cURL 命令 查看请求响应时间" href="https://blog.fangjiahui.me/posts/2023-11-26-curl-http-timing/"></a>
+  <footer class="entry-footer"><span title='2017-03-18 05:23:25 +0800 +0800'>March 18, 2017</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;154 words&nbsp;·&nbsp;Fython</footer>
+  <a class="entry-link" aria-label="post link to Mariadb Mysql 字符集设置" href="https://blog.fangjiahui.me/posts/2017-03-18-mysql-mariadb-character-sets-and-collations/"></a>
 </article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>Bash备忘录
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>BASH SHELL cheat sheet 记录一些 bash shell 脚本的奇技淫巧，都是从实际使用中 google 的。bash 各 Linux 发行版都自带方便好用特别是文本处理、一些运维之类的小脚本，但有些语法繁琐不好记容易忘整理一下方便查找。
-trap trap 命令 用于指定在接收到信号后将要采取的动作，常见的用途是在脚本程序被中断时完成清理工作。当 shell 接收到 sigspec 指定的信号时，arg 参数（命令）将会被读取，并被执行。例如：
-trap &#34;exit 1&#34; HUP INT PIPE QUIT TERM 表示当 shell 收到HUP,INT,PIPE,QUIT,TERM这几个信号时，当前执行的程序会读取参数&#34;exit 1&#34;，并将它作为命令执行。
-如果要忽略某个信号就参数使用单引号就可以&#39;&#39;
-trap &#39;&#39; signals 如果启动的时候忽略了信号比如使用了nohup，trap 命令是无效的。具体信号可使用man 7 signal或者kill -l查阅
-$*、$@、$# 直接上例子看，如下脚本test.sh
-echo 参数总个数 \$#: $# echo 第0个参数 \$0: $0 for a in $(seq 1 $#); do eval b=\$$a echo 第&#34;$a&#34;个参数 \$&#34;$a&#34;: $b done echo -e &#34;\nUsing \&#34;\$#\&#34;:&#34; echo &#34;$#&#34; echo -e &#34;\nUsing \$#:&#34; echo $# echo -e &#34;\nUsing \&#34;\$*\&#34;:&#34; for a in &#34;$*&#34;; do echo $a; done echo -e &#34;\nUsing \$*:&#34; for a in $*; do echo $a; done echo -e &#34;\nUsing \&#34;\$@\&#34;:&#34; for a in &#34;$@&#34;; do echo $a; done echo -e &#34;\nUsing \$@:&#34; for a in $@; do echo $a; done 然后运行此脚本，注意最后3 4用了双引号...</p>
-  </div>
-  <footer class="entry-footer"><span title='2021-01-20 07:50:48 +0800 +0800'>January 20, 2021</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;337 words&nbsp;·&nbsp;Fython</footer>
-  <a class="entry-link" aria-label="post link to Bash备忘录" href="https://blog.fangjiahui.me/posts/2021-01-20-bash-shell-cheat-sheet/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>Bash 快捷操作
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Bash 快捷操作 GUN Bash 是现代操作系统一般都默认自带的 Shell，它兼容 sh 并提供了更多的 feature，如果我们常用命令行那么记住一些快捷键和 trick 能大大提高我们的工作效率，这篇文章就介绍下本人常用的快捷键和一些技巧。
-Bash 默认的是 emacs 模式，这里的快捷键以默认的为准，可以使用set -o命令查看，使用set -o emacs设置。
-移动光标 快捷键 描述 Ctrl &#43; a 移动光标到行首 Ctrl &#43; e 移动光标到行尾 Alt &#43; b 移动光标后退一个单词（词首） Alt &#43; f 移动光标前进一个单词（词首） Ctrl &#43; f 光标前进一个字母 Ctrl &#43; b 光标后退一个字母 Ctrl &#43; xx 当前位置与行首之间光标切换 一般配合Ctrl的是单字符移动，Alt是单词为边界。建议将键盘上的caps lock键改成Ctrl这样手指移动距离更短按起来也更加舒服方便。
-剪切（删除）粘贴 快捷键 描述 Ctrl &#43; k 剪切从光标到行尾 Ctrl &#43; u 剪切从光标到行首 Ctrl &#43; w 从光标向前剪切一个单词 Alt &#43; Backspace 与 Ctrl &#43; w 类似，但分隔符是一些特殊字符 Alt &#43; d 从光标向后剪切一个单词 Ctrl &#43; d 删除光标下一个字母，如果没有字符存在，ctrl&#43;d 则会登出该会话 Ctrl &#43; h 删除光标前一个字母 Alt &#43; t swap(当前单词, 上一个单词) Ctrl &#43; t swap(当前字母, 上一个字母) Ctrl &#43; y 粘贴上一次剪切的文本，配合 Ctrl-u、Ctrl-k 效果极好 大小写转换 快捷键 描述 Alt &#43; c 大写当前字母，并移动光标到单词尾 Alt &#43; u 大写从当光标到单词尾 Alt &#43; l 小写从当光标到单词尾 历史命令 快捷键 描述 Ctrl &#43; r 向后搜索历史命令 Ctrl &#43; g 退出搜索 Ctrl &#43; p 历史中上一个命令，代替向上方向键 Ctrl &#43; n 历史中下一个命令，代替乡下方向键 Alt &#43; ....</p>
-  </div>
-  <footer class="entry-footer"><span title='2020-07-14 03:47:53 +0800 +0800'>July 14, 2020</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;459 words&nbsp;·&nbsp;Fython</footer>
-  <a class="entry-link" aria-label="post link to Bash 快捷操作" href="https://blog.fangjiahui.me/posts/2020-07-14-bash-tip-and-tricks/"></a>
-</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="https://blog.fangjiahui.me/posts/page/9/">
+      «&nbsp;Prev&nbsp;
+    </a>
+  </nav>
+</footer>
     </main>
     
 <footer class="footer">

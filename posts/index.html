@@ -158,6 +158,21 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>cURL 命令 查看请求响应时间
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>cURL 是我们常用的 http 命令行请求工具，它支持显示请求开始到响应结束各阶段的耗时，以便于开发中排查问题是网络原因还是服务器处理慢原因，主要是利用 -w 参数
+curl -L -w &#34;time_namelookup: %{time_namelookup} time_connect: %{time_connect} time_appconnect: %{time_appconnect} time_pretransfer: %{time_pretransfer} time_redirect: %{time_redirect} time_starttransfer: %{time_starttransfer} time_total: %{time_total} http_code: %{http_code} content_type: %{content_type} speed_download: %{speed_download} (byte/s) &#34; https://example.com/ 如果使用单行方便拷贝
+curl -L -w &#34;time_namelookup: %{time_namelookup}\ntime_connect: %{time_connect}\ntime_appconnect: %{time_appconnect}\ntime_pretransfer: %{time_pretransfer}\ntime_redirect: %{time_redirect}\ntime_starttransfer: %{time_starttransfer}\ntime_total: %{time_total}\nhttp_code: %{http_code}\ncontent_type: %{content_type}\nspeed_download: %{speed_download} (byte/s)\n&#34; https://example.com/ 返回如下
+&lt;!doctype html&gt; &lt;html&gt; ..... &lt;/html&gt; time_namelookup: 0.007911 time_connect: 0.008221 time_appconnect: 0.415794 time_pretransfer: 0.415880 time_redirect: 0.000000 time_starttransfer: 0.618522 time_total: 0.618948 http_code: 200 content_type: text/html; charset=UTF-8 speed_download: 2034 (byte/s) 返回的各参数如下，这是官方文档上的截图...</p>
+  </div>
+  <footer class="entry-footer"><span title='2023-11-26 18:34:20 +0800 +0800'>November 26, 2023</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;135 words&nbsp;·&nbsp;Fython</footer>
+  <a class="entry-link" aria-label="post link to cURL 命令 查看请求响应时间" href="https://blog.fangjiahui.me/posts/2023-11-26-curl-http-timing/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>PostgreSQL 全文搜索
     </h2>
   </header>
@@ -231,21 +246,6 @@ string
   </div>
   <footer class="entry-footer"><span title='2022-05-29 13:53:54 +0800 +0800'>May 29, 2022</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;730 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Go 中的类型和比较" href="https://blog.fangjiahui.me/posts/2022-05-29-go-types-and-comparisons/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Chrome  继续访问证书错误的网页
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Chrome 继续访问证书错误的网页 chrome 有时访问 https 网页会出现警告 NET::ERR_CERT_DATE_INVALID
-Your connection is not private Attackers might be trying to steal your information from xxx.example.com (for example, passwords, messages, or credit cards). Learn more NET::ERR_CERT_DATE_INVALID 有个彩蛋 如果要继续访问只需要点击页面然后键盘输入 thisisunsafe 就可以继续访问了
-或者打开控制台粘贴以下命令
-sendCommand(SecurityInterstitialCommandId.CMD_PROCEED); Reference https://stackoverflow.com/questions/58802767/no-proceed-anyway-option-on-neterr-cert-invalid-in-chrome-on-macos</p>
-  </div>
-  <footer class="entry-footer"><span title='2021-12-21 03:31:55 +0800 +0800'>December 21, 2021</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;40 words&nbsp;·&nbsp;Fython</footer>
-  <a class="entry-link" aria-label="post link to Chrome  继续访问证书错误的网页" href="https://blog.fangjiahui.me/posts/2021-12-21-chrome-proceed-anyway/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

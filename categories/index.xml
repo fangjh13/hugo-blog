@@ -10,6 +10,16 @@
       <link>https://blog.fangjiahui.me/blog-cover-1.png</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="https://blog.fangjiahui.me/categories/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Sun, 26 Nov 2023 18:34:20 +0800</lastBuildDate><atom:link href="https://blog.fangjiahui.me/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bash</title>
+      <link>https://blog.fangjiahui.me/categories/bash/</link>
+      <pubDate>Sun, 26 Nov 2023 18:34:20 +0800</pubDate>
+      
+      <guid>https://blog.fangjiahui.me/categories/bash/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

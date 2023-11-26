@@ -11,7 +11,16 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 11 Feb 2023 11:38:27 +0800</lastBuildDate><atom:link href="https://blog.fangjiahui.me/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 26 Nov 2023 18:34:20 +0800</lastBuildDate><atom:link href="https://blog.fangjiahui.me/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>cURL 命令 查看请求响应时间</title>
+      <link>https://blog.fangjiahui.me/posts/2023-11-26-curl-http-timing/</link>
+      <pubDate>Sun, 26 Nov 2023 18:34:20 +0800</pubDate>
+      
+      <guid>https://blog.fangjiahui.me/posts/2023-11-26-curl-http-timing/</guid>
+      <description>使用 cURL 命令调试 http 请求响应时间</description>
+    </item>
+    
     <item>
       <title>PostgreSQL 全文搜索</title>
       <link>https://blog.fangjiahui.me/posts/2023-02-11-postgresql-full-text-search/</link>

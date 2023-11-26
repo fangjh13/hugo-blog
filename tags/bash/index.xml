@@ -11,7 +11,16 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 20 Jan 2021 07:50:48 +0800</lastBuildDate><atom:link href="https://blog.fangjiahui.me/tags/bash/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 26 Nov 2023 18:34:20 +0800</lastBuildDate><atom:link href="https://blog.fangjiahui.me/tags/bash/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>cURL 命令 查看请求响应时间</title>
+      <link>https://blog.fangjiahui.me/posts/2023-11-26-curl-http-timing/</link>
+      <pubDate>Sun, 26 Nov 2023 18:34:20 +0800</pubDate>
+      
+      <guid>https://blog.fangjiahui.me/posts/2023-11-26-curl-http-timing/</guid>
+      <description>使用 cURL 命令调试 http 请求响应时间</description>
+    </item>
+    
     <item>
       <title>Bash备忘录</title>
       <link>https://blog.fangjiahui.me/posts/2021-01-20-bash-shell-cheat-sheet/</link>

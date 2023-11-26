@@ -158,6 +158,23 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>Flask项目中集成Celery
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Flask项目中集成Celery Celery是一个简单高效的实时分布式任务队列系统，我们可以将一些耗时比较长或者计算密集的任务交给celery处理，它也支持定时任务类似于crontab。而web应用中可以将一些任务丢给celery异步处理，比如发邮件消息推送、模型推理等。简单的Flask应用集成Celery比简单，有官方文档可做参考，可较复杂的flask应用如使用了蓝图(blueprint)分了很多模块的怎么组织celery和各种任务就比较复杂官方也没有说明文档，一不小心就会陷入循环导入。下面就介绍一种celery集成方法。
+官方文档demo中有一个make_celery的函数
+def make_celery(app): celery = Celery( app.import_name, backend=app.config[&#39;CELERY_RESULT_BACKEND&#39;], broker=app.config[&#39;CELERY_BROKER_URL&#39;] ) celery.conf.update(app.config) class ContextTask(celery.Task): def __call__(self, *args, **kwargs): with app.app_context(): return self.run(*args, **kwargs) celery.Task = ContextTask return celery 这个函数主要用来创建Celery对象，并从flask上更新一些配置加入上下文环境，像文档上单文件是不会出问题的返回的celery对象直接在下面定义任务，然后集成到路由中。如果你flask app是使用app factories和蓝图(blueprint)，那在这里定义的task又怎么在路由中引用呢，这就会导致循环引用问题。
+我们可以把make_celery拆开来，首先创建celery对象然后等flask app初始化完成后在更新配置，这就解决问题了，任务单独放在tasks.py文件中也便于管理和查看
+先来看最终项目结构图，就是flask web项目加入了celery
+flask-celery-demo ├── app │ ├── api │ │ ├── __init__.py │ │ └── views.py # 视图 │ ├── __init__.py │ └── tasks.py # celery任务 ├── config.py ├── requirements.txt ├── run.sh └── service.py # 应用入口 先解释下主要service....</p>
+  </div>
+  <footer class="entry-footer"><span title='2020-05-24 10:20:01 +0800 +0800'>May 24, 2020</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;238 words&nbsp;·&nbsp;Fython</footer>
+  <a class="entry-link" aria-label="post link to Flask项目中集成Celery" href="https://blog.fangjiahui.me/posts/2020-05-24-flask-celery-integrated/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>TCP连接和各状态浅析
     </h2>
   </header>
@@ -223,20 +240,6 @@ sleep 15 &amp; killall -SIGSEGV sleep 正常情况下core_dump文件夹下会有
   </div>
   <footer class="entry-footer"><span title='2019-10-16 15:31:21 +0800 +0800'>October 16, 2019</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;40 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to 使用 Core dump 解密加密的sh脚本" href="https://blog.fangjiahui.me/posts/2019-10-16-linux-core-dump-decrypt-script/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Python实现单例(Singleton)的几种方法
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Python实现单例(Singleton)的几种方法 单例是一种比较简单的设计模式，每次实例化只提供一个相同的实例对象，对于保证实例唯一和节约系统资源的时候十分有用，下面就看看python中实现单例的几种方法
-使用__new__方法 因为在类的实例化过程中__new__方法会比__init__提前调用，我们在类属性中保存一个_singleton每次只返回这个。
-class Singleton: def __new__(cls, *args, **kwargs): if not getattr(cls, &#39;_singleton&#39;, None): cls._singleton = super().__new__(cls, *args, **kwargs) return cls._singleton class MyClass(Singleton): pass a = MyClass() b = MyClass() print(id(a)) # 4433117872 print(id(b)) # 4433117872 print(a is b) # True 使用装饰器 from functools import wraps def singleton(cls): _singleton = {} @wraps(cls) def wrapper(*args, **kwargs): if not _singleton.get(cls): _singleton[cls] = cls(*args, **kwargs) return _singleton[cls] return wrapper @singleton class MyClass: pass 利用装饰器中的_singleton变量存储所有类的实例...</p>
-  </div>
-  <footer class="entry-footer"><span title='2019-02-27 09:07:17 +0800 +0800'>February 27, 2019</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;96 words&nbsp;·&nbsp;Fython</footer>
-  <a class="entry-link" aria-label="post link to Python实现单例(Singleton)的几种方法" href="https://blog.fangjiahui.me/posts/2019-02-27-python-singleton/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
