@@ -7,7 +7,7 @@ ShowWordCount: true
 TocOpen: false
 UseHugoToc: true
 date: "2021-01-20T07:50:48+08:00"
-lastmod: "2022-03-10T04:01:52+08:00"
+lastmod: "2023-12-07T11:34:52+08:00"
 showToc: true
 tags: [Bash, Linux]
 title: Bash备忘录
@@ -177,7 +177,14 @@ echo "$INPUT"
 
 ## fd 命令
 
-取代`find`
+取代`find`, 如下一次性把所有当前目录及子目录下的所有apk移动到特定目录
+
+```bash
+find . -type f -name '*.apk' -exec mv -t /target/path {} +
+
+# replace use fd
+fd -t f -e apk --exec-batch mv -t ./target/path
+```
 
 ## ack/ag/rg 命令
 
@@ -197,7 +204,7 @@ echo "$INPUT"
 
 1. `nmap -p- -v -A -T4 xxx.xxx.xxx.xxx`
 
-   全范围端口扫描，`-p`指定端口范围，`-A -T4`指定探测系统和各端口对应的服务`-T4`设定速度但耗时还是会比较长，想要快可以不加参数`nmap -v xxx.xxx.xxx.xxx`
+   全范围端口扫描，`-p`指定端口范围`-p-`为全部范围，`-A`指定探测系统和各端口对应的服务`-T4`设定速度但耗时还是会比较长，想要快可以不加参数`nmap -v xxx.xxx.xxx.xxx`
 
 2. `nmap -sT xxx.xxx.xxx.xxx`
 
@@ -206,6 +213,32 @@ echo "$INPUT"
 3. `nmap -sn 192.168.2.0/24`
 
    ping 扫描不做端口扫描，上面检测`192.168.2.0/24`网段所有可以 ping 通的机器，检测有多少机器在线很有用
+
+## TCP连接
+
+### 状态统计
+
+```bash
+ss -nat | awk 'NR > 1 { ++counts[$1] } END { for (c in counts) print c, counts[c] }'
+```
+
+### 特定端口连接查看
+
+```bash
+ss -o state established '( dport = :22 or sport = :22 )'`
+```
+
+## 远程机器执行本地脚本
+
+```bash
+ssh user@machine "$(< script.sh)"
+```
+
+## 备份远程机器磁盘
+
+```bash
+ssh user@machine "dd if=/dev/sda | gzip -1 -" | dd of=backup.gz
+```
 
 ## Reference
 
