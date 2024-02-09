@@ -11,12 +11,12 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 20 Jan 2021 07:50:48 +0800</lastBuildDate><atom:link href="https://blog.fangjiahui.me/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 20 Jan 2021 07:50:48 +0800</lastBuildDate>
+    <atom:link href="https://blog.fangjiahui.me/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Bash备忘录</title>
       <link>https://blog.fangjiahui.me/posts/2021-01-20-bash-shell-cheat-sheet/</link>
       <pubDate>Wed, 20 Jan 2021 07:50:48 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2021-01-20-bash-shell-cheat-sheet/</guid>
       <description>BASH SHELL cheat sheet 记录一些 bash shell 脚本的奇技淫巧，都是从实际使用中 google 的。bash 各 Linux 发行版都自带方便好用特别是文本处理、一些运维之类的小脚本，但有些语法繁琐不好记容易忘整理一下方便查找。
 trap trap 命令 用于指定在接收到信号后将要采取的动作，常见的用途是在脚本程序被中断时完成清理工作。当 shell 接收到 sigspec 指定的信号时，arg 参数（命令）将会被读取，并被执行。例如：
@@ -26,30 +26,24 @@ trap &amp;#39;&amp;#39; signals 如果启动的时候忽略了信号比如使用
 $*、$@、$# 直接上例子看，如下脚本test.sh
 echo 参数总个数 \$#: $# echo 第0个参数 \$0: $0 for a in $(seq 1 $#); do eval b=\$$a echo 第&amp;#34;$a&amp;#34;个参数 \$&amp;#34;$a&amp;#34;: $b done echo -e &amp;#34;\nUsing \&amp;#34;\$#\&amp;#34;:&amp;#34; echo &amp;#34;$#&amp;#34; echo -e &amp;#34;\nUsing \$#:&amp;#34; echo $# echo -e &amp;#34;\nUsing \&amp;#34;\$*\&amp;#34;:&amp;#34; for a in &amp;#34;$*&amp;#34;; do echo $a; done echo -e &amp;#34;\nUsing \$*:&amp;#34; for a in $*; do echo $a; done echo -e &amp;#34;\nUsing \&amp;#34;\$@\&amp;#34;:&amp;#34; for a in &amp;#34;$@&amp;#34;; do echo $a; done echo -e &amp;#34;\nUsing \$@:&amp;#34; for a in $@; do echo $a; done 然后运行此脚本，注意最后3 4用了双引号</description>
     </item>
-    
     <item>
       <title>TCP连接和各状态浅析</title>
       <link>https://blog.fangjiahui.me/posts/2020-02-13-tcp-handshake-process-and-state-trainsition/</link>
       <pubDate>Thu, 13 Feb 2020 03:38:51 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2020-02-13-tcp-handshake-process-and-state-trainsition/</guid>
       <description>详解linux中TCP连接与断开与其中的状态</description>
     </item>
-    
     <item>
       <title>使用 Core dump 解密加密的sh脚本</title>
       <link>https://blog.fangjiahui.me/posts/2019-10-16-linux-core-dump-decrypt-script/</link>
       <pubDate>Wed, 16 Oct 2019 15:31:21 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2019-10-16-linux-core-dump-decrypt-script/</guid>
       <description>linux core dump 从内存中读取shell脚本</description>
     </item>
-    
     <item>
       <title>Systemd 中的timer单元</title>
       <link>https://blog.fangjiahui.me/posts/2018-08-16-systemd-timer-unit/</link>
       <pubDate>Thu, 16 Aug 2018 09:43:23 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2018-08-16-systemd-timer-unit/</guid>
       <description>Systemd 中的 timer 单元 上一篇讲了 systemd 中的 service 单元，这次记录一下 timer 单元。timer 必须依赖 service 单元来配置，可以用来做替代 crontab 的选择。
 timer 单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu 下的apt-daily.timer，该目录下也存在一个apt-daily.service服务文件配合一起使用。
@@ -57,15 +51,12 @@ timer 单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu �
 单调定时器(Monotonic timer) Option Description OnActiveSec= 相对计时器开始后多少时间执行，格式如 2h、2s、2w、2d OnBootSec= 相对系统启动后多少时间执行 OnStartupSec= 相对 systemd 启动多少时间后执行 OnUnitActiveSec= 每隔多少时间再次运行一次 OnUnitInactiveSec= 服务在最后一次停止后，隔多久再执行一次 可以两个参数一起使用，如下每周开机 15 分钟后执行 foo
 [Unit] Description=Run foo weekly and on boot [Timer] OnBootSec=15min OnUnitActiveSec=1w [Install] WantedBy=timers.</description>
     </item>
-    
     <item>
       <title>Systemd中Service单元介绍</title>
       <link>https://blog.fangjiahui.me/posts/2018-07-08-systemd-service-unit/</link>
       <pubDate>Sun, 08 Jul 2018 02:28:21 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2018-07-08-systemd-service-unit/</guid>
       <description>.service 模板</description>
     </item>
-    
   </channel>
 </rss>

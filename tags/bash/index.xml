@@ -11,21 +11,19 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 26 Nov 2023 18:34:20 +0800</lastBuildDate><atom:link href="https://blog.fangjiahui.me/tags/bash/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 26 Nov 2023 18:34:20 +0800</lastBuildDate>
+    <atom:link href="https://blog.fangjiahui.me/tags/bash/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>cURL 命令 查看请求响应时间</title>
       <link>https://blog.fangjiahui.me/posts/2023-11-26-curl-http-timing/</link>
       <pubDate>Sun, 26 Nov 2023 18:34:20 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2023-11-26-curl-http-timing/</guid>
       <description>使用 cURL 命令调试 http 请求响应时间</description>
     </item>
-    
     <item>
       <title>Bash备忘录</title>
       <link>https://blog.fangjiahui.me/posts/2021-01-20-bash-shell-cheat-sheet/</link>
       <pubDate>Wed, 20 Jan 2021 07:50:48 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2021-01-20-bash-shell-cheat-sheet/</guid>
       <description>BASH SHELL cheat sheet 记录一些 bash shell 脚本的奇技淫巧，都是从实际使用中 google 的。bash 各 Linux 发行版都自带方便好用特别是文本处理、一些运维之类的小脚本，但有些语法繁琐不好记容易忘整理一下方便查找。
 trap trap 命令 用于指定在接收到信号后将要采取的动作，常见的用途是在脚本程序被中断时完成清理工作。当 shell 接收到 sigspec 指定的信号时，arg 参数（命令）将会被读取，并被执行。例如：
@@ -35,18 +33,15 @@ trap &amp;#39;&amp;#39; signals 如果启动的时候忽略了信号比如使用
 $*、$@、$# 直接上例子看，如下脚本test.sh
 echo 参数总个数 \$#: $# echo 第0个参数 \$0: $0 for a in $(seq 1 $#); do eval b=\$$a echo 第&amp;#34;$a&amp;#34;个参数 \$&amp;#34;$a&amp;#34;: $b done echo -e &amp;#34;\nUsing \&amp;#34;\$#\&amp;#34;:&amp;#34; echo &amp;#34;$#&amp;#34; echo -e &amp;#34;\nUsing \$#:&amp;#34; echo $# echo -e &amp;#34;\nUsing \&amp;#34;\$*\&amp;#34;:&amp;#34; for a in &amp;#34;$*&amp;#34;; do echo $a; done echo -e &amp;#34;\nUsing \$*:&amp;#34; for a in $*; do echo $a; done echo -e &amp;#34;\nUsing \&amp;#34;\$@\&amp;#34;:&amp;#34; for a in &amp;#34;$@&amp;#34;; do echo $a; done echo -e &amp;#34;\nUsing \$@:&amp;#34; for a in $@; do echo $a; done 然后运行此脚本，注意最后3 4用了双引号</description>
     </item>
-    
     <item>
       <title>Bash 快捷操作</title>
       <link>https://blog.fangjiahui.me/posts/2020-07-14-bash-tip-and-tricks/</link>
       <pubDate>Tue, 14 Jul 2020 03:47:53 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2020-07-14-bash-tip-and-tricks/</guid>
       <description>Bash 快捷操作 GUN Bash 是现代操作系统一般都默认自带的 Shell，它兼容 sh 并提供了更多的 feature，如果我们常用命令行那么记住一些快捷键和 trick 能大大提高我们的工作效率，这篇文章就介绍下本人常用的快捷键和一些技巧。
 Bash 默认的是 emacs 模式，这里的快捷键以默认的为准，可以使用set -o命令查看，使用set -o emacs设置。
 移动光标 快捷键 描述 Ctrl + a 移动光标到行首 Ctrl + e 移动光标到行尾 Alt + b 移动光标后退一个单词（词首） Alt + f 移动光标前进一个单词（词首） Ctrl + f 光标前进一个字母 Ctrl + b 光标后退一个字母 Ctrl + xx 当前位置与行首之间光标切换 一般配合Ctrl的是单字符移动，Alt是单词为边界。建议将键盘上的caps lock键改成Ctrl这样手指移动距离更短按起来也更加舒服方便。
 剪切（删除）粘贴 快捷键 描述 Ctrl + k 剪切从光标到行尾 Ctrl + u 剪切从光标到行首 Ctrl + w 从光标向前剪切一个单词 Alt + Backspace 与 Ctrl + w 类似，但分隔符是一些特殊字符 Alt + d 从光标向后剪切一个单词 Ctrl + d 删除光标下一个字母，如果没有字符存在，ctrl+d 则会登出该会话 Ctrl + h 删除光标前一个字母 Alt + t swap(当前单词, 上一个单词) Ctrl + t swap(当前字母, 上一个字母) Ctrl + y 粘贴上一次剪切的文本，配合 Ctrl-u、Ctrl-k 效果极好 大小写转换 快捷键 描述 Alt + c 大写当前字母，并移动光标到单词尾 Alt + u 大写从当光标到单词尾 Alt + l 小写从当光标到单词尾 历史命令 快捷键 描述 Ctrl + r 向后搜索历史命令 Ctrl + g 退出搜索 Ctrl + p 历史中上一个命令，代替向上方向键 Ctrl + n 历史中下一个命令，代替乡下方向键 Alt + .</description>
     </item>
-    
   </channel>
 </rss>

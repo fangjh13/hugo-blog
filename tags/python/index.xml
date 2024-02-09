@@ -11,42 +11,36 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 05 May 2021 13:15:11 +0800</lastBuildDate><atom:link href="https://blog.fangjiahui.me/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 05 May 2021 13:15:11 +0800</lastBuildDate>
+    <atom:link href="https://blog.fangjiahui.me/tags/python/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>破解滑块验证码（geetest极验）</title>
       <link>https://blog.fangjiahui.me/posts/2021-05-05-crack-geetest-captcha/</link>
       <pubDate>Wed, 05 May 2021 13:15:11 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2021-05-05-crack-geetest-captcha/</guid>
       <description>破解滑块验证码（geetest极验） 最近写爬虫遇到极验（geetest）的滑块验证码，首先想到的是用Selenium模拟人拖动滑块，那么问题来了其实主要解决下面两个问题
 拖动的距离是多少 怎么模拟出像人一样再滑动 滑动距离 先来解决第一个问题，我们怎么计算拖动距离，打开chrome的审查元素查看需要拖动的图片
 &amp;lt;div class=&amp;#34;geetest_canvas_img geetest_absolute&amp;#34; style=&amp;#34;display: block;&amp;#34;&amp;gt; &amp;lt;div class=&amp;#34;geetest_slicebg geetest_absolute&amp;#34;&amp;gt; &amp;lt;canvas class=&amp;#34;geetest_canvas_bg geetest_absolute&amp;#34; height=&amp;#34;160&amp;#34; width=&amp;#34;260&amp;#34;&amp;gt;&amp;lt;/canvas&amp;gt; &amp;lt;canvas class=&amp;#34;geetest_canvas_slice geetest_absolute&amp;#34; width=&amp;#34;260&amp;#34; height=&amp;#34;160&amp;#34;&amp;gt;&amp;lt;/canvas&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;canvas class=&amp;#34;geetest_canvas_fullbg geetest_fade geetest_absolute&amp;#34; height=&amp;#34;160&amp;#34; width=&amp;#34;260&amp;#34; style=&amp;#34;display: none;&amp;#34;&amp;gt;&amp;lt;/canvas&amp;gt; &amp;lt;/div&amp;gt; 发现有三个canvas 对应三张图片大小都是 260* 160 ，我们使用selenium执行 js 转成 base64 后再转成图片都保存下来看一下，第一张 geetest_canvas_bg 是有缺口的图片
 im_bg_b64 = driver.execute_script( &amp;#39;return document.getElementsByClassName(&amp;#34;geetest_canvas_bg geetest_absolute&amp;#34;)[0].toDataURL(&amp;#34;image/png&amp;#34;);&amp;#39;) # base64 encoded image im_bg_b64 = im_bg_b64.split(&amp;#39;,&amp;#39;)[-1] im_bg_bytes = base64.b64decode(im_bg_b64) with open(&amp;#39;./temp_bg.png&amp;#39;, &amp;#39;wb&amp;#39;) as f: f.write(im_bg_bytes) 然后第二张 geetest_canvas_slice 根据上面相同的方法保存到本地是这样的，就是一个滑块</description>
     </item>
-    
     <item>
       <title>Flask项目中集成Celery</title>
       <link>https://blog.fangjiahui.me/posts/2020-05-24-flask-celery-integrated/</link>
       <pubDate>Sun, 24 May 2020 10:20:01 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2020-05-24-flask-celery-integrated/</guid>
       <description>flask web项目使用celery任务队列</description>
     </item>
-    
     <item>
       <title>通过谷歌gRPC部署线上机器学习模型</title>
       <link>https://blog.fangjiahui.me/posts/2019-12-31-python-web-grpc-inference/</link>
       <pubDate>Tue, 31 Dec 2019 13:33:06 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2019-12-31-python-web-grpc-inference/</guid>
       <description>python gRPC 在Flask中远程调用</description>
     </item>
-    
     <item>
       <title>Python描述符(descriptor)</title>
       <link>https://blog.fangjiahui.me/posts/2019-12-17-python-descriptor/</link>
       <pubDate>Tue, 17 Dec 2019 11:38:45 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2019-12-17-python-descriptor/</guid>
       <description>Python 描述符(descriptor) Python 中有一个很少被使用或者用户自定义的特性，那就是描述符(descriptor)，但它是@property, @classmethod, @staticmethod和super的底层实现机制，我今天就扒一扒它，官方文档对描述符的介绍如下
 In general, a descriptor is an object attribute with “binding behavior”, one whose attribute access has been overridden by methods in the descriptor protocol: __get__(), __set__(), and __delete__(). If any of those methods are defined for an object, it is said to be a descriptor.
@@ -55,32 +49,26 @@ In general, a descriptor is an object attribute with “binding behavior”, one
 默认查找属性 在没有描述符定义情况下，我们访问属性的顺序如下，以a.x为例
 查找实例字典里的属性就是a.__dict__[&#39;x&#39;]有就返回 往上查找父类的字典就是a.__class__.__dict__[&#39;x&#39;]有就返回 上面都没有就查找父类的基类(不包括元类(metaclass)) 如果定义了__getattr__就会返回此方法 最后都没有抛出AttributeError &amp;gt;&amp;gt;&amp;gt; class A: ... x = 8 ... .</description>
     </item>
-    
     <item>
       <title>Python实现单例(Singleton)的几种方法</title>
       <link>https://blog.fangjiahui.me/posts/2019-02-27-python-singleton/</link>
       <pubDate>Wed, 27 Feb 2019 09:07:17 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2019-02-27-python-singleton/</guid>
       <description>Python实现单例(Singleton)的几种方法 单例是一种比较简单的设计模式，每次实例化只提供一个相同的实例对象，对于保证实例唯一和节约系统资源的时候十分有用，下面就看看python中实现单例的几种方法
 使用__new__方法 因为在类的实例化过程中__new__方法会比__init__提前调用，我们在类属性中保存一个_singleton每次只返回这个。
 class Singleton: def __new__(cls, *args, **kwargs): if not getattr(cls, &amp;#39;_singleton&amp;#39;, None): cls._singleton = super().__new__(cls, *args, **kwargs) return cls._singleton class MyClass(Singleton): pass a = MyClass() b = MyClass() print(id(a)) # 4433117872 print(id(b)) # 4433117872 print(a is b) # True 使用装饰器 from functools import wraps def singleton(cls): _singleton = {} @wraps(cls) def wrapper(*args, **kwargs): if not _singleton.get(cls): _singleton[cls] = cls(*args, **kwargs) return _singleton[cls] return wrapper @singleton class MyClass: pass 利用装饰器中的_singleton变量存储所有类的实例</description>
     </item>
-    
     <item>
       <title>使用 Cython 加密 Python 项目</title>
       <link>https://blog.fangjiahui.me/posts/2018-11-03-encrypt-protect-python-code/</link>
       <pubDate>Sat, 03 Nov 2018 08:32:22 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2018-11-03-encrypt-protect-python-code/</guid>
       <description>保护 Python 代码</description>
     </item>
-    
     <item>
       <title>collections模块中的namedtuple和defaultdict</title>
       <link>https://blog.fangjiahui.me/posts/2018-02-09-python-collections-namedtuple-and-defaultdict/</link>
       <pubDate>Fri, 09 Feb 2018 15:17:02 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2018-02-09-python-collections-namedtuple-and-defaultdict/</guid>
       <description>collections模块中的namedtuple和defaultdict collections模块是Python中对内置类型(dict, list, tuple)的拓展。就是说它们本身具有普通内置类型的所有特性，并添加了新的功能。
 namedtuple() namedtuple(typename, field_names)是tuple的子类，定义的元组可以通过属性访问，也易于理解，self-document。field_names可以是列表或者是通过空格或者逗号分隔的字符串。
@@ -88,21 +76,17 @@ namedtuple() namedtuple(typename, field_names)是tuple的子类，定义的元�
 SomeNamedTuple._make(iterable)类方法，从可迭代对象中取值，长度必须和传入的field_names一致，返回一个新的对象 somenamedtuple._asdict()方法返回一个有序字典(OrderedDict) somenamedtuple._replace(**kwargs)方法替换值，返回一个新的对象，原来的不变 somenamedtuple._fields属性返回键名(field name)，可用于创建新的named tuple 再来看两个官方文档上的例子读取csv文件或者从sqlite读取
 EmployeeRecord = namedtuple(&amp;#39;EmployeeRecord&amp;#39;, &amp;#39;name, age, title, department, paygrade&amp;#39;) import csv for emp in map(EmployeeRecord._make, csv.reader(open(&amp;#34;employees.csv&amp;#34;, &amp;#34;rb&amp;#34;))): print(emp.name, emp.title) import sqlite3 conn = sqlite3.</description>
     </item>
-    
     <item>
       <title>Python中的特殊方法</title>
       <link>https://blog.fangjiahui.me/posts/2018-01-28-python-magical-special-methods/</link>
       <pubDate>Sun, 28 Jan 2018 05:36:12 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2018-01-28-python-magical-special-methods/</guid>
       <description>整理类定义时的特殊方法</description>
     </item>
-    
     <item>
       <title>Python中@propery 使用</title>
       <link>https://blog.fangjiahui.me/posts/2017-10-08-python-property-tutorial/</link>
       <pubDate>Sun, 08 Oct 2017 07:26:02 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2017-10-08-python-property-tutorial/</guid>
       <description>Python中@propery 装饰器的使用 python是面向对象的语言，当我们想在类中封装一个变量，并提供设置和获取值的时候，往往会使用如下方法。
 class Student: def __init__(self, score): self.__score = score def get_score(self): return self.__score def set_score(self, score): self.__score = score 然后如下输出
@@ -111,54 +95,43 @@ class Student: def __init__(self, score): self.score = score 没错就是__init_
 &amp;gt;&amp;gt;&amp;gt; s = Student(99) &amp;gt;&amp;gt;&amp;gt; s.score 99 &amp;gt;&amp;gt;&amp;gt; s.score = 100 &amp;gt;&amp;gt;&amp;gt; s.score 100 以上的方法没有封装，而且如果我想要判断score的值范围（0~100）也无法做到，使用第一种set_score倒是可以做到。
 class Student: def __init__(self, score): self.set_score(score) def get_score(self): return self.</description>
     </item>
-    
     <item>
       <title>Python3 协程(Coroutine) 与 asyncio</title>
       <link>https://blog.fangjiahui.me/posts/2017-05-18-python3-coroutine-and-asyncio/</link>
       <pubDate>Thu, 18 May 2017 03:27:34 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2017-05-18-python3-coroutine-and-asyncio/</guid>
       <description>协程、asyncio、async/await</description>
     </item>
-    
     <item>
       <title>深入理解 Python中的yield</title>
       <link>https://blog.fangjiahui.me/posts/2017-04-28-python3-yield/</link>
       <pubDate>Fri, 28 Apr 2017 12:48:40 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2017-04-28-python3-yield/</guid>
       <description>Python中的yield</description>
     </item>
-    
     <item>
       <title>Python装饰器(decorators)</title>
       <link>https://blog.fangjiahui.me/posts/2017-04-10-python-decorators/</link>
       <pubDate>Mon, 10 Apr 2017 18:12:51 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2017-04-10-python-decorators/</guid>
       <description>装饰器介绍</description>
     </item>
-    
     <item>
       <title>Python中的类变量(class variables)和实例变量(instance variables)</title>
       <link>https://blog.fangjiahui.me/posts/2017-03-25-difference-between-class-and-instance-variables/</link>
       <pubDate>Sat, 25 Mar 2017 14:38:27 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2017-03-25-difference-between-class-and-instance-variables/</guid>
       <description>Python中的类变量(class variables)和实例变量(instance variables) 类变量(Class Variables) 类变量是所有实例共享的变量，类和实例都能访问。也就是说类创建了之后类变量就已经初始化了之后所有的实例都共享这个变量不会单独创建。类变量需要定义在类的里面方法的外面
 class Foo: cls_var = &amp;#34;this is class method&amp;#34; def __init__(self): pass f0 = Foo() f1 = Foo() print(f0.cls_var, id(f0.cls_var)) print(f1.cls_var, id(f1.cls_var)) print(Foo.cls_var, id(Foo.cls_var)) Foo.cls_var = &amp;#34;changed&amp;#34; print(f0.cls_var, id(f0.cls_var)) print(f1.cls_var, id(f1.cls_var)) print(Foo.cls_var, id(Foo.cls_var)) 输出
 this is class method 4328472272 this is class method 4328472272 this is class method 4328472272 changed 4328412136 changed 4328412136 changed 4328412136 类Foo定义了cls_var类变量没有绑定到任何实例，类Foo和实例f0,f1它们引用的变量cls_var都是同一个地址，所以共享一个类变量，只要改变了所有引用的都会影响。以下是统计一共创建了多少实例的例子
 class Person: count = 0 # class variable def __init__(self, name): self.</description>
     </item>
-    
     <item>
       <title>Python类方法与静态方法的区别 | different between staticmethod and classmethod</title>
       <link>https://blog.fangjiahui.me/posts/2017-03-20-python-different-with-staticmethod-and-classmethod/</link>
       <pubDate>Mon, 20 Mar 2017 06:32:24 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2017-03-20-python-different-with-staticmethod-and-classmethod/</guid>
       <description>Python中的装饰器@staticmethod和@classmethod的区别</description>
     </item>
-    
   </channel>
 </rss>

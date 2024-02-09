@@ -11,17 +11,16 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 06 Aug 2022 10:47:16 +0800</lastBuildDate><atom:link href="https://blog.fangjiahui.me/tags/openwrt/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 06 Aug 2022 10:47:16 +0800</lastBuildDate>
+    <atom:link href="https://blog.fangjiahui.me/tags/openwrt/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>openwrt 自动重拨</title>
       <link>https://blog.fangjiahui.me/posts/2022-08-06-openwrt-auto-pppoe/</link>
       <pubDate>Sat, 06 Aug 2022 10:47:16 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2022-08-06-openwrt-auto-pppoe/</guid>
       <description>有的 openwrt 固件不会断网自动重播，检查 /etc/ppp/options 文件是否存在如下参数，没有的话自己加上一般就好了
 maxfail 0 persist 或者使用 crotab 重启接口，每天 3 点重新拨号
 0 3 * * * ifdown wan &amp;amp;&amp;amp; sleep 3 &amp;amp;&amp;amp; ifup wan Reference: https://www.right.com.cn/FORUM/thread-4107089-1-1.html </description>
     </item>
-    
   </channel>
 </rss>

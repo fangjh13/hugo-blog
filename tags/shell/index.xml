@@ -11,43 +11,37 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 14 Jul 2020 03:47:53 +0800</lastBuildDate><atom:link href="https://blog.fangjiahui.me/tags/shell/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 14 Jul 2020 03:47:53 +0800</lastBuildDate>
+    <atom:link href="https://blog.fangjiahui.me/tags/shell/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Bash 快捷操作</title>
       <link>https://blog.fangjiahui.me/posts/2020-07-14-bash-tip-and-tricks/</link>
       <pubDate>Tue, 14 Jul 2020 03:47:53 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2020-07-14-bash-tip-and-tricks/</guid>
       <description>Bash 快捷操作 GUN Bash 是现代操作系统一般都默认自带的 Shell，它兼容 sh 并提供了更多的 feature，如果我们常用命令行那么记住一些快捷键和 trick 能大大提高我们的工作效率，这篇文章就介绍下本人常用的快捷键和一些技巧。
 Bash 默认的是 emacs 模式，这里的快捷键以默认的为准，可以使用set -o命令查看，使用set -o emacs设置。
 移动光标 快捷键 描述 Ctrl + a 移动光标到行首 Ctrl + e 移动光标到行尾 Alt + b 移动光标后退一个单词（词首） Alt + f 移动光标前进一个单词（词首） Ctrl + f 光标前进一个字母 Ctrl + b 光标后退一个字母 Ctrl + xx 当前位置与行首之间光标切换 一般配合Ctrl的是单字符移动，Alt是单词为边界。建议将键盘上的caps lock键改成Ctrl这样手指移动距离更短按起来也更加舒服方便。
 剪切（删除）粘贴 快捷键 描述 Ctrl + k 剪切从光标到行尾 Ctrl + u 剪切从光标到行首 Ctrl + w 从光标向前剪切一个单词 Alt + Backspace 与 Ctrl + w 类似，但分隔符是一些特殊字符 Alt + d 从光标向后剪切一个单词 Ctrl + d 删除光标下一个字母，如果没有字符存在，ctrl+d 则会登出该会话 Ctrl + h 删除光标前一个字母 Alt + t swap(当前单词, 上一个单词) Ctrl + t swap(当前字母, 上一个字母) Ctrl + y 粘贴上一次剪切的文本，配合 Ctrl-u、Ctrl-k 效果极好 大小写转换 快捷键 描述 Alt + c 大写当前字母，并移动光标到单词尾 Alt + u 大写从当光标到单词尾 Alt + l 小写从当光标到单词尾 历史命令 快捷键 描述 Ctrl + r 向后搜索历史命令 Ctrl + g 退出搜索 Ctrl + p 历史中上一个命令，代替向上方向键 Ctrl + n 历史中下一个命令，代替乡下方向键 Alt + .</description>
     </item>
-    
     <item>
       <title>使用 Core dump 解密加密的sh脚本</title>
       <link>https://blog.fangjiahui.me/posts/2019-10-16-linux-core-dump-decrypt-script/</link>
       <pubDate>Wed, 16 Oct 2019 15:31:21 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2019-10-16-linux-core-dump-decrypt-script/</guid>
       <description>linux core dump 从内存中读取shell脚本</description>
     </item>
-    
     <item>
       <title>Mysql数据库备份脚本(使用mysqldump)</title>
       <link>https://blog.fangjiahui.me/posts/2018-11-08-mysqldump-backup-script/</link>
       <pubDate>Thu, 08 Nov 2018 03:11:51 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2018-11-08-mysqldump-backup-script/</guid>
       <description>Mysql(mysqldump)备份脚本 记录下服务器上一个备份 mysql 数据库的脚本，使用 mysql 自带的mysqldump命令
 !/usr/bin/env bash USER=username PASSWORD=password MAXIMUM_BACKUP_FILES=10 BACKUP_FOLDER=/path/to/save/folder DATABASES=( db_name_0 db_name_1 ) # check mysqldump instlled _=$(command -v mysqldump) if [[ $? != 0 ]] then printf &amp;#34;You don&amp;#39;t seem to mysqldump installed, exit..\n&amp;#34; exit 1 fi # create backup folder if [ ! -d $BACKUP_FOLDER ] then mkdir $BACKUP_FOLDER fi # backup for DB in ${DATABASES[@]} do echo backing up ${DB} database ... if $(mysqldump --host=localhost --user=${USER} --password=${PASSWORD} ${DB} | gzip -9 &amp;gt; ${BACKUP_FOLDER}/db_${DB}_$(date +&amp;#34;%Y%m%d&amp;#34;).</description>
     </item>
-    
     <item>
       <title>Systemd 中的timer单元</title>
       <link>https://blog.fangjiahui.me/posts/2018-08-16-systemd-timer-unit/</link>
       <pubDate>Thu, 16 Aug 2018 09:43:23 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2018-08-16-systemd-timer-unit/</guid>
       <description>Systemd 中的 timer 单元 上一篇讲了 systemd 中的 service 单元，这次记录一下 timer 单元。timer 必须依赖 service 单元来配置，可以用来做替代 crontab 的选择。
 timer 单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu 下的apt-daily.timer，该目录下也存在一个apt-daily.service服务文件配合一起使用。
@@ -55,24 +49,19 @@ timer 单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu �
 单调定时器(Monotonic timer) Option Description OnActiveSec= 相对计时器开始后多少时间执行，格式如 2h、2s、2w、2d OnBootSec= 相对系统启动后多少时间执行 OnStartupSec= 相对 systemd 启动多少时间后执行 OnUnitActiveSec= 每隔多少时间再次运行一次 OnUnitInactiveSec= 服务在最后一次停止后，隔多久再执行一次 可以两个参数一起使用，如下每周开机 15 分钟后执行 foo
 [Unit] Description=Run foo weekly and on boot [Timer] OnBootSec=15min OnUnitActiveSec=1w [Install] WantedBy=timers.</description>
     </item>
-    
     <item>
       <title>Systemd中Service单元介绍</title>
       <link>https://blog.fangjiahui.me/posts/2018-07-08-systemd-service-unit/</link>
       <pubDate>Sun, 08 Jul 2018 02:28:21 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2018-07-08-systemd-service-unit/</guid>
       <description>.service 模板</description>
     </item>
-    
     <item>
       <title>配置SSH agent 和 SSH agent forwarding转发</title>
       <link>https://blog.fangjiahui.me/posts/2017-12-27-ssh-agent-and-ssh-agent-forwarding/</link>
       <pubDate>Wed, 27 Dec 2017 03:00:27 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2017-12-27-ssh-agent-and-ssh-agent-forwarding/</guid>
       <description>SSH agent 和 SSH agent forwarding</description>
     </item>
-    
   </channel>
 </rss>

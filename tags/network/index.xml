@@ -11,15 +11,14 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 13 Feb 2020 03:38:51 +0800</lastBuildDate><atom:link href="https://blog.fangjiahui.me/tags/network/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 13 Feb 2020 03:38:51 +0800</lastBuildDate>
+    <atom:link href="https://blog.fangjiahui.me/tags/network/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>TCP连接和各状态浅析</title>
       <link>https://blog.fangjiahui.me/posts/2020-02-13-tcp-handshake-process-and-state-trainsition/</link>
       <pubDate>Thu, 13 Feb 2020 03:38:51 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2020-02-13-tcp-handshake-process-and-state-trainsition/</guid>
       <description>详解linux中TCP连接与断开与其中的状态</description>
     </item>
-    
   </channel>
 </rss>

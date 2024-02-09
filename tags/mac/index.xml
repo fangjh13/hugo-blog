@@ -11,12 +11,12 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 19 Apr 2021 03:25:09 +0800</lastBuildDate><atom:link href="https://blog.fangjiahui.me/tags/mac/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 19 Apr 2021 03:25:09 +0800</lastBuildDate>
+    <atom:link href="https://blog.fangjiahui.me/tags/mac/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Mac Launchd 介绍和使用</title>
       <link>https://blog.fangjiahui.me/posts/2021-04-19-mac-launchd-daemons-and-agents-tutorial/</link>
       <pubDate>Mon, 19 Apr 2021 03:25:09 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2021-04-19-mac-launchd-daemons-and-agents-tutorial/</guid>
       <description>Mac Launchd 介绍和使用 Linux 上如果想开机开机启动一个服务或者定时运行一个服务有很多的选择比如之前介绍过的Systemd或者用 crontab 也可以，而在 Mac 不同它有一个类似的叫 Launchd 的系统，对应使用launchctl命令控制
 Daemons and Agents Launchd 管理 Daemons 和 Agents 两种类型分别存放在不同的文件夹下，主要的区别是
@@ -24,33 +24,27 @@ Agents 是用户登录后执行的 Daemons 是开机后就执行，可以通过U
 类型 路径 说明 User Agents ~/Library/LaunchAgents 用户 Agents 当前用户登录时运行 Global Agents /Library/LaunchAgents 全局 Agents 任何用户登录时都会运行 System Agents /System/Library/LaunchAgents 系统 Agents 任何用户登录时都会运行 Global Daemons /Library/LaunchDaemons 全局 Daemons 内核初始化加载完后就运行 System Daemons /System/Library/LaunchDaemons 系统 Daemons 内核初始化加载完后就运行 系统运行开机首先会加载内核启动kernel_tas(0)，然后启动launchd(1)好后去启动指定好的 Daemons 最后用户登录再运行相应的 Agents 任务
 一般文件名都以com.domain.programName.plist格式命名，不管是 Daemons 还是 Agents 格式都是一样的，只是存放位置不同。看下面一个 hello world 的例子 ~/Library/LaunchAgents/com.</description>
     </item>
-    
     <item>
       <title>Mac不安装第三方应用读写NTFS格式硬盘</title>
       <link>https://blog.fangjiahui.me/posts/2019-01-25-mac-mount-ntfs/</link>
       <pubDate>Fri, 25 Jan 2019 08:59:14 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2019-01-25-mac-mount-ntfs/</guid>
       <description>Mac不安装第三方应用读写NTFS格式硬盘 首先插入硬盘或者U盘，现在的盘只能读取，我们先umount以/dev/disk3s2分区为例
 ❯ mount # 列出挂载分区 /dev/disk1s5 on / (apfs, local, read-only, journaled) devfs on /dev (devfs, local, nobrowse) /dev/disk1s1 on /System/Volumes/Data (apfs, local, journaled, nobrowse) /dev/disk1s4 on /private/var/vm (apfs, local, journaled, nobrowse) /dev/disk3s2 on /Volumes/TOSHIBA EXT (ntfs, local, nodev, nosuid, read-only, noowners) ❯ sudo umount /Volumes/TOSHIBA\ EXT 创建挂在路径，然后手动挂载
 sudo mkdir /Volumes/mount sudo mount -t ntfs -o rw,auto,nobrowse /dev/disk3s2 /Volumes/mount cd /Volumes/mount 就这样移动硬盘可读写了，也可以打开Finder试试</description>
     </item>
-    
     <item>
       <title>Mac终端(Terminal)配置</title>
       <link>https://blog.fangjiahui.me/posts/2018-07-23-mac-config-terminal/</link>
       <pubDate>Mon, 23 Jul 2018 12:50:27 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2018-07-23-mac-config-terminal/</guid>
       <description>Mac 终端(Terminal)配置 平时工作中命令行用的比图形界面多，所以有必要配置一个赏心悦目的终端界面来提高工作效率(^_^)。
-iTerm 第一步就是替换原来的自带终端(Terminal)，换成iTerm。iTerm 是一个深受广大开发者欢迎的终端 App，代码托管在Github，可以直接在官网下载安装。最新版为 Build 3.4.14
+iTerm 第一步就是替换原来的自带终端(Terminal)，换成iTerm。iTerm 是一个深受广大开发者欢迎的终端 App，代码托管在Github，可以直接在官网下载安装。最新版为 Build 3.4.23
 打开iTerm2 &amp;gt; Preferences &amp;gt; General，在Selection下勾上Applications in terminal may access clipboard使在iTerm中鼠标选中就能复制到系统剪切板使用command+v粘贴
 打开iTerm2 &amp;gt; Preferences &amp;gt; Profiles，右边点Keys把左右 option 键设为Esc+，取消勾选Apps can change this来启用 Unix 的Alt + B和Alt + F前进和后退一个单词。
+打开iTerm2 &amp;gt; Preferences &amp;gt; Terminal，底部 Shell Integration 取消勾选 Show mark indicators 不然每次执行命令会出现一个小箭头影响美观
 Zsh &amp;amp; Oh My Zsh 打开 iTerm 安装Homebrew
-/bin/bash -c &amp;#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&amp;#34; 使用 Homebrew 安装 zsh，设为默认的终端。从 Big Sur 已经设置 zsh 为默认的终端了，可以跳过此步骤，可以使用echo $SHELL检查
-brew install zsh oh-my-zsh是 zsh 的配置文件，使用下面命令安装
-sh -c &amp;#34;$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)&amp;#34; 打开 iTerm 会耐看很多，应该长成这个样子了</description>
+/bin/bash -c &amp;#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&amp;#34; 使用 Homebrew 安装 zsh，设为默认的终端。从 Big Sur 已经设置 zsh 为默认的终端了，可以跳过此步骤，可以使用echo $SHELL检查</description>
     </item>
-    
   </channel>
 </rss>

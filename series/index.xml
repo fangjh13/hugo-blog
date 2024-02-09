@@ -10,6 +10,7 @@
       <link>https://blog.fangjiahui.me/blog-cover-1.png</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="https://blog.fangjiahui.me/series/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <atom:link href="https://blog.fangjiahui.me/series/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

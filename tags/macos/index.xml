@@ -11,17 +11,16 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 25 Jan 2019 08:59:14 +0800</lastBuildDate><atom:link href="https://blog.fangjiahui.me/tags/macos/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 25 Jan 2019 08:59:14 +0800</lastBuildDate>
+    <atom:link href="https://blog.fangjiahui.me/tags/macos/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Mac不安装第三方应用读写NTFS格式硬盘</title>
       <link>https://blog.fangjiahui.me/posts/2019-01-25-mac-mount-ntfs/</link>
       <pubDate>Fri, 25 Jan 2019 08:59:14 +0800</pubDate>
-      
       <guid>https://blog.fangjiahui.me/posts/2019-01-25-mac-mount-ntfs/</guid>
       <description>Mac不安装第三方应用读写NTFS格式硬盘 首先插入硬盘或者U盘，现在的盘只能读取，我们先umount以/dev/disk3s2分区为例
 ❯ mount # 列出挂载分区 /dev/disk1s5 on / (apfs, local, read-only, journaled) devfs on /dev (devfs, local, nobrowse) /dev/disk1s1 on /System/Volumes/Data (apfs, local, journaled, nobrowse) /dev/disk1s4 on /private/var/vm (apfs, local, journaled, nobrowse) /dev/disk3s2 on /Volumes/TOSHIBA EXT (ntfs, local, nodev, nosuid, read-only, noowners) ❯ sudo umount /Volumes/TOSHIBA\ EXT 创建挂在路径，然后手动挂载
 sudo mkdir /Volumes/mount sudo mount -t ntfs -o rw,auto,nobrowse /dev/disk3s2 /Volumes/mount cd /Volumes/mount 就这样移动硬盘可读写了，也可以打开Finder试试</description>
     </item>
-    
   </channel>
 </rss>

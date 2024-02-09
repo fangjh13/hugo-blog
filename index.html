@@ -11,7 +11,7 @@
 <meta name="description" content="My Personal Blog Site">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.73c5f38ae8d9aaab6402bebf0c9459d0d8b9c7b018822bddcff46721198a28d5.css" integrity="sha256-c8XziujZqqtkAr6/DJRZ0Ni5x7AYgivdz/RnIRmKKNU=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -38,7 +38,7 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -156,8 +156,9 @@
 
     </div>
     <footer class="entry-footer">
-        <div class="social-icons">
-    <a href="https://github.com/fangjh13" target="_blank" rel="noopener noreferrer me" title="Github">
+        <div class="social-icons" >
+    <a href="https://github.com/fangjh13" target="_blank" rel="noopener noreferrer me"
+        title="Github">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
     stroke-linecap="round" stroke-linejoin="round">
     <path
@@ -165,7 +166,8 @@
     </path>
 </svg>
     </a>
-    <a href="index.xml" target="_blank" rel="noopener noreferrer me" title="Rss">
+    <a href="index.xml" target="_blank" rel="noopener noreferrer me"
+        title="Rss">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
     stroke-linecap="round" stroke-linejoin="round">
     <path d="M4 11a9 9 0 0 1 9 9" />
@@ -180,7 +182,7 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>cURL 命令 查看请求响应时间
+    <h2 class="entry-hint-parent">cURL 命令 查看请求响应时间
     </h2>
   </header>
   <div class="entry-content">
@@ -195,7 +197,7 @@ curl -L -w &#34;time_namelookup: %{time_namelookup}\ntime_connect: %{time_connec
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>PostgreSQL 全文搜索
+    <h2 class="entry-hint-parent">PostgreSQL 全文搜索
     </h2>
   </header>
   <div class="entry-content">
@@ -210,7 +212,7 @@ postgres=&gt; \dF List of text search configurations Schema | Name | Description
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Go 服务性能分析 pprof 的使用
+    <h2 class="entry-hint-parent">Go 服务性能分析 pprof 的使用
     </h2>
   </header>
   <div class="entry-content">
@@ -226,7 +228,7 @@ import _ &#34;net/http/pprof&#34; ··· go func() { log.Println(http.ListenAndS
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>openwrt 自动重拨
+    <h2 class="entry-hint-parent">openwrt 自动重拨
     </h2>
   </header>
   <div class="entry-content">
@@ -240,7 +242,7 @@ maxfail 0 persist 或者使用 crotab 重启接口，每天 3 点重新拨号
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Go 中的类型和比较
+    <h2 class="entry-hint-parent">Go 中的类型和比较
     </h2>
   </header>
   <div class="entry-content">
@@ -278,7 +280,7 @@ string
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
