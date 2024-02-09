@@ -7,7 +7,7 @@ ShowWordCount: true
 TocOpen: false
 UseHugoToc: true
 date: "2018-07-23T12:50:27+08:00"
-lastmod: "2022-05-09T13:54:57+08:00"
+lastmod: "2024-02-09T13:54:57+08:00"
 showToc: true
 tags: [Mac, iTerm]
 title: Mac终端(Terminal)配置
@@ -21,7 +21,7 @@ title: Mac终端(Terminal)配置
 
 ### iTerm
 
-第一步就是替换原来的自带终端(Terminal)，换成[iTerm](https://www.iterm2.com/)。iTerm 是一个深受广大开发者欢迎的终端 App，代码托管在[Github](https://github.com/gnachman/iTerm2)，可以直接在官网下载安装。最新版为 `Build 3.4.14`
+第一步就是替换原来的自带终端(Terminal)，换成[iTerm](https://www.iterm2.com/)。iTerm 是一个深受广大开发者欢迎的终端 App，代码托管在[Github](https://github.com/gnachman/iTerm2)，可以直接在官网下载安装。最新版为 `Build 3.4.23`
 
 打开*iTerm2 > Preferences > General*，在`Selection`下勾上`Applications in terminal may access clipboard`使在`iTerm`中鼠标选中就能复制到系统剪切板使用`command+v`粘贴
 
@@ -29,6 +29,7 @@ title: Mac终端(Terminal)配置
 
 ![](../images/ScreenShot-2018-07-20-09-34-18.png)
 
+打开*iTerm2 > Preferences > Terminal*，底部 `Shell Integration` 取消勾选 `Show mark indicators` 不然每次执行命令会出现一个小箭头影响美观
 ### Zsh & Oh My Zsh
 
 打开 iTerm 安装[Homebrew](https://brew.sh/)
@@ -77,13 +78,27 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
-最后加入到`.zshrc`启用
+  - [_zsh-history-substring-search_](https://github.com/zsh-users/zsh-history-substring-search) 高亮查找匹配前缀的历史输入
+
+```shell
+git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
+```
+
+配置 `ctrl+p` 和 `ctrl+n` 触发，在 `.zshrc` 增加如下配置
+
+```shell
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down
+```
+
+最后加入到`plugins`启用
 
 ```shell
 plugins=(
   git
   zsh-autosuggestions
   zsh-syntax-highlighting
+  zsh-history-substring-search
 )
 ```
 
@@ -117,6 +132,9 @@ brew install pure
 在`.zshrc`后添加
 
 ```shell
+...
+fpath+=("$(brew --prefix)/share/zsh/site-functions")
+...
 autoload -U promptinit; promptinit
 prompt pure
 ```
