@@ -143,6 +143,23 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Arch Sway 安装 Fcitx5
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>主力机 wm 我之前一直使用的是 i3 最近切换到了 Wayland 桌面环境，使用的是 Manjaro Sway 的发行版，在 Wayland 的生态中 Sway 是之前 X11 上 i3 窗口管理器的直接替代选择
+发展了好几年，现在 Wayland 下开发环境逐渐成熟，在输入法这方面 Fcitx5 也已支持，下面是 Sway 安装 Fcitx5 的一些经验，应该所有 Wayland 环境都可参考
+安装社区版 sway-im sway 已经合并了实现 text-input-v3 协议的分支，但是仍然没有完全实现 input-method-v2 协议，因此仍然无法显示弹出窗口。有个支持 v2 的 AUR 包 sway-im 修复了这个问题，使用 sway-im 替换自带的 sway
+yay -S sway-im 相关包安装 安装 Fcitx5 相关的包，我使用的是双拼所以还安装了双拼相关的插件
+pacman -S fcitx5 fcitx5-chinese-addons fcitx5-qt fcitx5-gtk fcitx5-config-qt qt5-wayland 配置 Fcitx5 参考文档编辑 /etc/environment 并添加以下几行
+GTK_IM_MODULE=fcitx QT_IM_MODULE=fcitx XMODIFIERS=@im=fcitx SDL_IM_MODULE=fcitx GLFW_IM_MODULE=ibus SDL_IM_MODULE 是为了让一些使用特定版本 SDL2 库的游戏能正常使用输入法。 GLFW_IM_MODULE 是为了让 kitty 启用输入法支持。此环境变量的值只能为 ibus。 按 Fcitx5 上游推荐，环境变量的值一般设置为 fcitx。部分并非由 Arch 从源码编译打包的应用程序因兼容性的需求而需要将之临时设置为 fcitx5...</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-02-20 21:14:17 +0800 +0800'>February 20, 2024</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;164 words&nbsp;·&nbsp;Fython</footer>
+  <a class="entry-link" aria-label="post link to Arch Sway 安装 Fcitx5" href="https://blog.fangjiahui.me/posts/2024-02-20-arch-wayland-sway-install-fcitx5/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Manjaro Linux 安装 Emoji
     </h2>
   </header>

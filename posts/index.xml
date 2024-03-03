@@ -11,8 +11,15 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 26 Nov 2023 18:34:20 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 20 Feb 2024 21:14:17 +0800</lastBuildDate>
     <atom:link href="https://blog.fangjiahui.me/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Arch Sway 安装 Fcitx5</title>
+      <link>https://blog.fangjiahui.me/posts/2024-02-20-arch-wayland-sway-install-fcitx5/</link>
+      <pubDate>Tue, 20 Feb 2024 21:14:17 +0800</pubDate>
+      <guid>https://blog.fangjiahui.me/posts/2024-02-20-arch-wayland-sway-install-fcitx5/</guid>
+      <description>manjaro sway wayland 环境安装 Fcitx5</description>
+    </item>
     <item>
       <title>cURL 命令 查看请求响应时间</title>
       <link>https://blog.fangjiahui.me/posts/2023-11-26-curl-http-timing/</link>

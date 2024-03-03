@@ -145,6 +145,21 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">使用usb转TTL(PL2303模块) 串口连接树莓派3B
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>使用 usb 转 TTL(PL2303 模块) 串口连接树莓派 3B By default, on Raspberry Pis equipped with the wireless/Bluetooth module (Raspberry Pi 3 and Raspberry Pi Zero W), the PL011 UART is connected to the BT module, while the mini UART is used for Linux console output. On all other models the PL011 is used for the Linux console output.
+在树莓派 3 以前，官方是将“硬件串口”分配给 GPIO 中的 UART(GPIO14&amp;GPIO15)，因此可以独立调整串口的速率和模式，直接连接就可以。而在 3 以后的树莓派中因为新增了蓝牙使用掉了 UART。这样默认就不开启了，以下是手动开启的方法。
+使用 HDMI 启动树莓派编辑/boot/config.txt在后面新增以下两行
+# 激活串口输出 enable_uart=1 # 禁用蓝牙 dtoverlay=pi3-disable-bt 运行sudo systemctl disable hciuart禁用蓝牙服务，然后重启...</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-04-02 12:41:09 +0800 +0800'>April 2, 2018</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;120 words&nbsp;·&nbsp;Fython</footer>
+  <a class="entry-link" aria-label="post link to 使用usb转TTL(PL2303模块) 串口连接树莓派3B" href="https://blog.fangjiahui.me/posts/2018-04-02-raspberry-pi-3b-uart-serial-connect/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">collections模块中的namedtuple和defaultdict
     </h2>
   </header>
@@ -222,23 +237,6 @@ Fork到自己帐号下并Clone到本地 git remote add upstream https://github.c
   </div>
   <footer class="entry-footer"><span title='2017-11-21 07:18:51 +0800 +0800'>November 21, 2017</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;82 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Git工作流" href="https://blog.fangjiahui.me/posts/2017-11-21-git-workflow/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Python中@propery 使用
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Python中@propery 装饰器的使用 python是面向对象的语言，当我们想在类中封装一个变量，并提供设置和获取值的时候，往往会使用如下方法。
-class Student: def __init__(self, score): self.__score = score def get_score(self): return self.__score def set_score(self, score): self.__score = score 然后如下输出
-&gt;&gt;&gt; s = Student(99) &gt;&gt;&gt; s.get_score() 99 &gt;&gt;&gt; s.set_score(100) &gt;&gt;&gt; s.get_score() 100 这是最简单的封装，但有没有像s.score这样属性直接调用s.score = 100直接赋值的呢，有！而且很简单。
-class Student: def __init__(self, score): self.score = score 没错就是__init__方法直接设置。
-&gt;&gt;&gt; s = Student(99) &gt;&gt;&gt; s.score 99 &gt;&gt;&gt; s.score = 100 &gt;&gt;&gt; s.score 100 以上的方法没有封装，而且如果我想要判断score的值范围（0~100）也无法做到，使用第一种set_score倒是可以做到。
-class Student: def __init__(self, score): self.set_score(score) def get_score(self): return self....</p>
-  </div>
-  <footer class="entry-footer"><span title='2017-10-08 07:26:02 +0800 +0800'>October 8, 2017</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;204 words&nbsp;·&nbsp;Fython</footer>
-  <a class="entry-link" aria-label="post link to Python中@propery 使用" href="https://blog.fangjiahui.me/posts/2017-10-08-python-property-tutorial/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

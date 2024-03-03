@@ -158,6 +158,24 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">读《亲爱的安德烈》
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>今年的中秋和国庆只隔了一周的工作日，故中秋没回老家和两朋友去了东极岛看看海和吃了点海鲜惶惶三日，途中大巴车上用 kobo（类似 kindle）看了一半，国庆长假回乡见父母同学抽空书架上取出又看了一半。我可能守旧，能用实体书看的时候还是喜欢实体书的质感，捧着本书比 kobo 感觉更真实，但 kobo 能装下我书架上的所有书也方便易带和搜索，或许多年后实体书也会成为奢侈品吧。
+这是本两代人中间差了 30 年的一共 36 封家书，但读来会惊讶母亲和儿子竟可以如此像朋友般对话沟通，涵盖了政治、艺术、人生、生活等等。于儿子更能明白为人父母的殷切期望不是能成才取得多大多大的成就而是只要你过得开心。当安德烈说我这辈子可能达不到父母的成就，可能只是一个平庸人时。龙妈妈这样回答
+对我最重要的，安德烈，不是你有否成就，而是你是否快乐。而在现代的生活架构里，什么样的工作比较可能给你快乐？第一，它给你意义；第二，它给你时间。你的工作是你觉得有意义的，你的工作不绑架你使你成为工作的俘虏，容许你去充分体验生活，你就比较可能是快乐的。至于金钱和名声，哪里是快乐的核心元素呢？……我也要求你读书用功，不是因为我要你跟别人比成就，而是因为，我希望你将来有选择的权利，选择有意义、有时间的工作，而不是被迫谋生。……『平庸』是跟别人比，心灵的安适是跟自己比。我们最终极的负责对象，安德烈，千山万水走到最后，还是『自己』二字。
+而在儿子为情所困时，妈妈等了好久既激动又兴奋
+我愿意和你分享的是我自己的『心得报告』，那就是，人生就像条大河，可能风景清丽，更可能惊涛骇浪。你需要的伴侣，最好是那能够和你并肩而立在船头，浅吟低唱两岸风光，同时更能在惊涛骇浪中紧紧握住你的手不放的人。换句话说，最好她本身不是你必须应付的惊涛骇浪。
+于父母时要明白当孩子已经 18 岁成人时他已经是一个独立的个体，他要为自己做的事情付全部的责任。如安德烈常抽烟，而且在母亲面前抽。每次见到妈妈恨不得跑过去抽两个耳光但你不能马上上去制止，因为他已成人已是一个独立的个体。
+父母也会认识到孩子慢慢的长大，像小鸟一样终会飞走。当父母五六十岁孩子就会意识到回国头来慢慢看看，我还有父母这个窝。</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-10-07 14:15:27 +0800 +0800'>October 7, 2018</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;19 words&nbsp;·&nbsp;Fython</footer>
+  <a class="entry-link" aria-label="post link to 读《亲爱的安德烈》" href="https://blog.fangjiahui.me/posts/2018-10-07-read-dear-andreas-walther/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Systemd 中的timer单元
     </h2>
   </header>
@@ -223,21 +241,6 @@ Option Description WantedBy= 指定该单元如何开机启动(enable)，依赖�
   </div>
   <footer class="entry-footer"><span title='2018-06-01 03:23:12 +0800 +0800'>June 1, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;372 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to XPath语法" href="https://blog.fangjiahui.me/posts/2018-06-01-xpath-syntax/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">使用usb转TTL(PL2303模块) 串口连接树莓派3B
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>使用 usb 转 TTL(PL2303 模块) 串口连接树莓派 3B By default, on Raspberry Pis equipped with the wireless/Bluetooth module (Raspberry Pi 3 and Raspberry Pi Zero W), the PL011 UART is connected to the BT module, while the mini UART is used for Linux console output. On all other models the PL011 is used for the Linux console output.
-在树莓派 3 以前，官方是将“硬件串口”分配给 GPIO 中的 UART(GPIO14&amp;GPIO15)，因此可以独立调整串口的速率和模式，直接连接就可以。而在 3 以后的树莓派中因为新增了蓝牙使用掉了 UART。这样默认就不开启了，以下是手动开启的方法。
-使用 HDMI 启动树莓派编辑/boot/config.txt在后面新增以下两行
-# 激活串口输出 enable_uart=1 # 禁用蓝牙 dtoverlay=pi3-disable-bt 运行sudo systemctl disable hciuart禁用蓝牙服务，然后重启...</p>
-  </div>
-  <footer class="entry-footer"><span title='2018-04-02 12:41:09 +0800 +0800'>April 2, 2018</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;120 words&nbsp;·&nbsp;Fython</footer>
-  <a class="entry-link" aria-label="post link to 使用usb转TTL(PL2303模块) 串口连接树莓派3B" href="https://blog.fangjiahui.me/posts/2018-04-02-raspberry-pi-3b-uart-serial-connect/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

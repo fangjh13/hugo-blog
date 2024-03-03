@@ -158,6 +158,35 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">UML 类图
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>UML 类图 统一建模语言（英语：Unified Modeling Language，缩写 UML）是非专利的第三代建模和规约语言。UML是一种开放的方法，用于说明、可视化、构建和编写一个正在开发的、面向对象的、软件密集系统的制品的开放方法。UML展现了一系列最佳工程实践，这些最佳实践在对大规模，复杂系统进行建模方面，特别是在软件架构层次已经被验证有效。
+以上是维基百科上对UML的定义，它定义了很多的图，本文主要介绍类图，是属于结构性图形中的静态图，本文所有图是通过OmniGraffle画的。
+结构性图形（Structure diagrams）强调的是系统式的建模：
+静态图（static diagram） 类图 对象图 包图 实现图（implementation diagram） 组件图 部署图 剖面图 复合结构图 行为式图形（Behavior diagrams）强调系统模型中触发的事件：
+活动图 状态图 用例图 交互性图形（Interaction diagrams），属于行为图形的子集合，强调系统模型中的资料流程：
+通信图 交互概述图（UML 2.0） 时序图（UML 2.0） 时间图（UML 2.0） 定义 UML类图是描述类的内部结构（属性, 方法等）和类与类之间的关系（泛化, 实现，组合, 聚合，关联，依赖），是一种静态结构图。是在面向对象程序设计中建模的常用方法，不仅是系统编码和测试的重要模型，以图的形式展示还可以简化人们对系统的理解。
+格式 一般是用三层矩形框表示，第一层表示类的名称，第二层表示的是字段和属性，第三层则是类的方法，如果某一层没有则可以省略。第一层中，如果是抽象类，名称需用斜体显示。
+属性和方法前面的符号（&#43;、#、-等）代表可见性
+Public(&#43;) Protected(#) Private(-) Package(~) 第二层属性的格式是
+可见性 名称 : 类型 [= 默认值]
+第三层方法的格式是
+可见性 名称(参数类型 参数, …) : 返回类型
+类与类之间的关系 类图中类与类之间的关系主要由：继承、实现、依赖、关联、聚合、组合这六大类型。表示方式如下图：
+泛化（generalization/extens） 泛化又称继承，是IS-A的关系，两个对象之间如果可以用IS-A来表示，就是继承关系：（..是..)
+泛化关系用一条带空心箭头的实线表示；如下图表示（猫继承自动物）猫是（IS-A）动物
+实现（realization/implements) 实现关系指的是一个class类实现interface接口（可以是多个）的功能，在Java中可以直接用关键字implements表示，在C&#43;&#43;中目标类可用抽象类表示
+实现关系用一条带空心箭头的虚线表示；如下图自行车必须实现车这个抽象类 注意这个车类是斜体代表抽象类
+各种关系的强弱顺序： 泛化 = 实现 &gt; 组合 &gt; 聚合 &gt; 关联 &gt; 依赖...</p>
+  </div>
+  <footer class="entry-footer"><span title='2020-07-09 06:10:47 +0800 +0800'>July 9, 2020</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;105 words&nbsp;·&nbsp;Fython</footer>
+  <a class="entry-link" aria-label="post link to UML 类图" href="https://blog.fangjiahui.me/posts/2020-07-09-uml-class-diagram/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Flask项目中集成Celery
     </h2>
   </header>
@@ -223,23 +252,6 @@ In general, a descriptor is an object attribute with “binding behavior”, one
   </div>
   <footer class="entry-footer"><span title='2019-12-17 11:38:45 +0800 +0800'>December 17, 2019</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;1135 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Python描述符(descriptor)" href="https://blog.fangjiahui.me/posts/2019-12-17-python-descriptor/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">使用 Core dump 解密加密的sh脚本
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>使用 Core dump 解密加密的脚本 之前遇到网上的集成的shell脚本有点问题想手动修改下，发现脚本是加密的，网上找了好久发现有gzexe、shc加密方法都尝试了一遍，可惜解密都不成功，最后用了一个粗暴的办法就是任何程序总要加载到内存运行的吧，那就直接中断coredump查看内存里的内容，以下是具体方法。
-root用户执行如下命令
-ulimit -c unlimited echo &#34;/core_dump/%e-%p-%t.core&#34; &gt; /proc/sys/kernel/core_pattern mkdir /core_dump 以上第一句是设置内核coredump大小，这里设置不限制。第二句是设置coredump存储位置和格式，%e代表可执行程序名，%p代表pid， %t代表生成时间。然后去执行脚本如xxx.sh
-./xxx.sh 6 start &amp; (sleep 0.01 &amp;&amp; kill -SIGSEGV $!) 之后会输出类似[1]&#43; Segmentation fault (core dumped)...的提示，然后查看/core_dump文件夹下，就会有dump出来的文件了，直接vim打开查看会有一些乱码手动处理一下就可以了。
-如果在core_dump文件夹下没有dump出来的文件，可使用如下命令测试然后查看是否有文件生成。
-sleep 15 &amp; killall -SIGSEGV sleep 正常情况下core_dump文件夹下会有以sleep开头的文件。</p>
-  </div>
-  <footer class="entry-footer"><span title='2019-10-16 15:31:21 +0800 +0800'>October 16, 2019</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;40 words&nbsp;·&nbsp;Fython</footer>
-  <a class="entry-link" aria-label="post link to 使用 Core dump 解密加密的sh脚本" href="https://blog.fangjiahui.me/posts/2019-10-16-linux-core-dump-decrypt-script/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

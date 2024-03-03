@@ -145,6 +145,21 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent"> Go 中的 Arrays 和 Slices
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Golang 中的 Arrays 和 Slices 在 go 语言中，我们经常使用Slices类型因为它的方便和灵活，它和另一个Arrays类型有着密切的关系，Slices 是建立在 Arrays 的基础上的，搞明白它们的原理能使我们更加的轻松的使用它们
+Arrays Arrays 和别的语言(C、Java)的类型一样，有固定的长度，在内存里是一块连续的空间，用以存储相同类型的 types。用如下方式申明
+var array [5]int 像[size]T在 go 中申明array，size 是 type 的一部分 如上面的[5]int代表 5 个 int 元素的 Arrays，和另一个如[10]int是不同的类型，Arrays 有确定的长度。并且申明之后带默认值(各类型的零值)。也可以使用[...]符号省略 size 申明，编译器自动计算 如array := [...]int{1, 2, 3, 4, 5} 变量array引用的是整个 Array 而不是 Array 的第一个元素，如果将一个数组另外赋值是将这个数组拷贝了一份，数组作为函数参数也是将整个数组拷贝一份，非引用数组的指针 Slices 就是因为 Arrays 比较难用，go 在此基础上建立了 Slices，它是可以动态调整长度(dynamically-sized)的描述 Arrays 一部分的 types，Slices 可以使用切片数组的方式得到
+array := [5]int{1, 2, 3, 4, 5} // Arrays var slice = array[1:4] // same as `var slice []int = array[1:4]` fmt....</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-04-08 03:17:59 +0800 +0800'>April 8, 2021</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;507 words&nbsp;·&nbsp;Fython</footer>
+  <a class="entry-link" aria-label="post link to  Go 中的 Arrays 和 Slices" href="https://blog.fangjiahui.me/posts/2021-04-08-go-arrays-and-slices/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Bash备忘录
     </h2>
   </header>
@@ -213,35 +228,6 @@ Bash 默认的是 emacs 模式，这里的快捷键以默认的为准，可以�
   </div>
   <footer class="entry-footer"><span title='2020-07-14 03:47:53 +0800 +0800'>July 14, 2020</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;459 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Bash 快捷操作" href="https://blog.fangjiahui.me/posts/2020-07-14-bash-tip-and-tricks/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">UML 类图
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>UML 类图 统一建模语言（英语：Unified Modeling Language，缩写 UML）是非专利的第三代建模和规约语言。UML是一种开放的方法，用于说明、可视化、构建和编写一个正在开发的、面向对象的、软件密集系统的制品的开放方法。UML展现了一系列最佳工程实践，这些最佳实践在对大规模，复杂系统进行建模方面，特别是在软件架构层次已经被验证有效。
-以上是维基百科上对UML的定义，它定义了很多的图，本文主要介绍类图，是属于结构性图形中的静态图，本文所有图是通过OmniGraffle画的。
-结构性图形（Structure diagrams）强调的是系统式的建模：
-静态图（static diagram） 类图 对象图 包图 实现图（implementation diagram） 组件图 部署图 剖面图 复合结构图 行为式图形（Behavior diagrams）强调系统模型中触发的事件：
-活动图 状态图 用例图 交互性图形（Interaction diagrams），属于行为图形的子集合，强调系统模型中的资料流程：
-通信图 交互概述图（UML 2.0） 时序图（UML 2.0） 时间图（UML 2.0） 定义 UML类图是描述类的内部结构（属性, 方法等）和类与类之间的关系（泛化, 实现，组合, 聚合，关联，依赖），是一种静态结构图。是在面向对象程序设计中建模的常用方法，不仅是系统编码和测试的重要模型，以图的形式展示还可以简化人们对系统的理解。
-格式 一般是用三层矩形框表示，第一层表示类的名称，第二层表示的是字段和属性，第三层则是类的方法，如果某一层没有则可以省略。第一层中，如果是抽象类，名称需用斜体显示。
-属性和方法前面的符号（&#43;、#、-等）代表可见性
-Public(&#43;) Protected(#) Private(-) Package(~) 第二层属性的格式是
-可见性 名称 : 类型 [= 默认值]
-第三层方法的格式是
-可见性 名称(参数类型 参数, …) : 返回类型
-类与类之间的关系 类图中类与类之间的关系主要由：继承、实现、依赖、关联、聚合、组合这六大类型。表示方式如下图：
-泛化（generalization/extens） 泛化又称继承，是IS-A的关系，两个对象之间如果可以用IS-A来表示，就是继承关系：（..是..)
-泛化关系用一条带空心箭头的实线表示；如下图表示（猫继承自动物）猫是（IS-A）动物
-实现（realization/implements) 实现关系指的是一个class类实现interface接口（可以是多个）的功能，在Java中可以直接用关键字implements表示，在C&#43;&#43;中目标类可用抽象类表示
-实现关系用一条带空心箭头的虚线表示；如下图自行车必须实现车这个抽象类 注意这个车类是斜体代表抽象类
-各种关系的强弱顺序： 泛化 = 实现 &gt; 组合 &gt; 聚合 &gt; 关联 &gt; 依赖...</p>
-  </div>
-  <footer class="entry-footer"><span title='2020-07-09 06:10:47 +0800 +0800'>July 9, 2020</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;105 words&nbsp;·&nbsp;Fython</footer>
-  <a class="entry-link" aria-label="post link to UML 类图" href="https://blog.fangjiahui.me/posts/2020-07-09-uml-class-diagram/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
