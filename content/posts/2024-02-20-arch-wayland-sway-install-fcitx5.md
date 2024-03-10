@@ -1,7 +1,7 @@
 ---
 title: "Arch Sway 安装 Fcitx5"
 date: "2024-02-20T21:14:17+08:00"
-lastmod: "2024-02-20T21:14:17+08:00"
+lastmod: "2024-03-10T21:14:17+08:00"
 description: manjaro sway wayland 环境安装 Fcitx5
 tags: [Arch, Sway, Fcitx5]
 categories: [Arch, Sway, Fcitx5]
@@ -89,6 +89,23 @@ chrome内核的浏览器现在 Wayland 上还不支持 GTK IM [^1] ，启动的�
 增加环境变量 `GLFW_IM_MODULE=ibus` 上面有提到 [^2]
 
 [^2]: https://wiki.archlinux.org/title/Fcitx5#Fcitx5_not_available_in_kitty
+
+## 配置皮肤
+
+这里推荐两个主题
+
+- [ Fcitx5-Material-Color ](https://github.com/hosxy/Fcitx5-Material-Color)
+- [ fcitx5-themes ](https://github.com/thep0y/fcitx5-themes)
+
+我使用的是第一个主题可以直接用 `pacman` 安装，具体可参考文档
+
+```shell
+pacman -S fcitx5-material-color
+```
+
+安装完后在图形界面配置 `Configure - Addons - Classic User Interface` 中 theme 和 dark-theme 中选择 `Material-Color-Indigo` 即可，顺便还可配置喜欢的字体
+
+![](../images/fcitx5_theme.png#center)
 
 ## 使用 RIME 输入法
 
