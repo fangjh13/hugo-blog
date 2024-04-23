@@ -8,7 +8,7 @@ TocOpen: false
 UseHugoToc: true
 date: '2018-07-08T02:28:21+08:00'
 description: .service 模板
-lastmod: '2020-12-05T14:41:54+08:00'
+lastmod: '2024-04-23T16:41:54+08:00'
 showToc: true
 tags: [Linux, Shell]
 title: Systemd中Service单元介绍
@@ -49,7 +49,7 @@ Alias=sshd.service
 
 如上所示一般每个Unit都有各个块(section)组成，由`[]`包裹就是块名。下面的就是配置，直到另一个块开始为止。
 
-**[Unit] section**
+### **[Unit] section**
 
 `[Unit]`一般是第一个块文件配置，配置各种元数据(metadata)和其他单元的关系
 
@@ -67,7 +67,7 @@ Alias=sshd.service
 
 还有很多的如`Condition...`和`Assert...`配置详情可以查看手册`man 5 systemd.unit`
 
-**[Install] section**
+### **[Install] section**
 
 `[Install]`一般是最后一个块文件配置，这个是可选项，也就是说可以不配置。只有在开机启动激活(enable)时触发。
 
@@ -79,7 +79,7 @@ Alias=sshd.service
 | `Also=`       | 列在此的单元，会随着本单元一起激活。                         |
 
 
-**[Service] section**
+### **[Service] section**
 
 以上`[Unit]`,`[Install]`一般是通用的，`[Service]`是单独的服务配置一般在`[Unit]`和`[Install]`之间，只用来配置服务(.service)。
 
@@ -119,7 +119,21 @@ Alias=sshd.service
 
 更具体可参考`systemd.service(5)`
 
-**实例**
+### Specifiers
+
+配置文件中可以使用一些以`%`开头的特殊参数(specifier)，这些参数会在加载单元文件时被替换为相应的参数。
+
+
+| Specifier             | Meaning                                                  |
+| ------------------ | ------------------------------------------------------------ |
+| `%i`            |  以`@`结尾的单元文件，启动时传`@`后`.`前面的参数，参考下面的示例 |
+| `%I`            |  同上但不转义一些特殊符号 |
+| `%h`            |  用户主目录，root 用户为 `/root` |
+| `%T`            |  临时文件目录 |
+
+更多请参考[手册](https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html#Specifiers)
+
+### **实例**
 
 如下一个最简单启动脚本的例子，依赖是`network-online.target`
 
@@ -166,3 +180,27 @@ WantedBy=multi-user.target
 Environment="PATH=/new/path"
 Environment="LD_LIBRARY_PATH=/new/path"
 ```
+
+使用`@`传参，如文件名为 `gpu_worker@.service` 要以 `@` 结尾
+
+```shell
+[Unit]
+Description=Inference Service on GPU [%i]
+
+[Service]
+Restart=always
+Environment="CONFIG_FILE=xxxx.yaml"
+Environment="CUDA_VISIBLE_DEVICES=%i"
+WorkingDirectory=/path/to/dir
+ExecStart=/path/to/bin/file
+
+[Install]
+WantedBy=multi-user.target
+```
+
+启动时如 `systemctl start gpu_worker@0.service` 则 `%i` 会被 `0` 替换
+
+### Reference
+
+[https://man7.org/linux/man-pages/man5/systemd.unit.5.html](https://man7.org/linux/man-pages/man5/systemd.unit.5.html)
+[https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html](https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html#Specifiers)
