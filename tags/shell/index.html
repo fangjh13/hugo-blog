@@ -212,14 +212,12 @@ timer 单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu �
 Systemd分为多个单元（unit）如服务（.service），挂载点（.mount），套接口（.socket）和设备（.device）等，这里记录使用最多的服务（service）文件的编写。用户自定义的一般存放在/etc/systemd/sytem/文件夹下，还有另外的文件夹类debian系列的如下。
 Directory Description /lib/systemd/system/ 系统自带的或者程序自带安装的单元存放在此 /etc/systemd/system/ 用户自定义的，此文件夹优先级最高，可以覆盖上面文件夹的内容 下面是系统安装openssh-server后，在/lib/systemd/system/ssh.service下的服务。
 [Unit] Description=OpenBSD Secure Shell server After=network.target auditd.service ConditionPathExists=!/etc/ssh/sshd_not_to_be_run [Service] EnvironmentFile=-/etc/default/ssh ExecStart=/usr/sbin/sshd -D $SSHD_OPTS ExecReload=/bin/kill -HUP $MAINPID KillMode=process Restart=on-failure RestartPreventExitStatus=255 Type=notify [Install] WantedBy=multi-user.target Alias=sshd.service 如上所示一般每个Unit都有各个块(section)组成，由[]包裹就是块名。下面的就是配置，直到另一个块开始为止。
-[Unit] section
-[Unit]一般是第一个块文件配置，配置各种元数据(metadata)和其他单元的关系
+[Unit] section [Unit]一般是第一个块文件配置，配置各种元数据(metadata)和其他单元的关系
 Option Description Description= 这个单元的描述字符串 Documentation= 文档链接 Requires= 运行这个单元所需要的依赖单元，否则启动失败 Wants= 和上面Requires相似，但是非强限制。如果列出在此的单元没有启动，本单元也还是能启动持续运行 BindsTo= 和上面Requires相似，区别是列出在此的单元终止了，本单元也会停止 Before= 在此列出的单元，只有在本单元启动后才会启动。但不是依赖关系，如需依赖配置上述Requires命令 After= 在启动本单元之前，先要启动在此列出的单元。但不是依赖关系，如需依赖配置上述Requires命令 Conflicts= 在此列出的单元，不能和本单元同时运行，和Requires相反 OnFailure= 在此列出的单元将会在本单元失败后激活 还有很多的如Condition...和Assert...配置详情可以查看手册man 5 systemd.unit
-[Install] section
-[Install]一般是最后一个块文件配置，这个是可选项，也就是说可以不配置。只有在开机启动激活(enable)时触发。
+[Install] section [Install]一般是最后一个块文件配置，这个是可选项，也就是说可以不配置。只有在开机启动激活(enable)时触发。
 Option Description WantedBy= 指定该单元如何开机启动(enable)，依赖在此列出的单元，有点类似[Unit]块中的Wants，不同的是它会创建软链接到.wants文件夹，如上sshd如果被enable，该单元会创建一个软链接到/etc/systemd/system/multi-user.target.wants文件夹下，如果文件夹不存在则创建文件夹再软链接。 RequiredBy= 和上面WantedBy类似，但如果在此列出的单元没有激活，本单元会激活失败，同样在.requires文件夹下创建软链接。 Alias= 设置改单元的别名，可以给systemctl使用，例如上面sshd的开机启动可以使用 systemctl enable ssh....</p>
   </div>
-  <footer class="entry-footer"><span title='2018-07-08 02:28:21 +0800 +0800'>July 8, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;248 words&nbsp;·&nbsp;Fython</footer>
+  <footer class="entry-footer"><span title='2018-07-08 02:28:21 +0800 +0800'>July 8, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;294 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Systemd中Service单元介绍" href="https://blog.fangjiahui.me/posts/2018-07-08-systemd-service-unit/"></a>
 </article>
 <footer class="page-footer">
