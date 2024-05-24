@@ -8,7 +8,7 @@ TocOpen: false
 UseHugoToc: true
 date: "2018-07-08T02:28:21+08:00"
 description: .service 模板
-lastmod: "2024-04-23T16:41:54+08:00"
+lastmod: "2024-05-24T11:35:54+08:00"
 showToc: true
 tags: [Linux, Shell]
 title: Systemd中Service单元介绍
@@ -200,8 +200,11 @@ WantedBy=multi-user.target
 
 启动时如 `systemctl start gpu_worker@0.service` 则 `%i` 会被 `0` 替换
 
+> 如果参数是带有特殊字符的可以使用 `systemd-escape` 命令转义。 如要传 `1,2` 则使用 `systemctl start "gpu_worker@$(systemd-escape "1,2").service"
+` 启动，记得将 service 文件中的 `%i` 换成 `%I` 不开启转义
+
 ### Reference
 
-[https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html](https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html)
-[https://man7.org/linux/man-pages/man5/systemd.unit.5.html](https://man7.org/linux/man-pages/man5/systemd.unit.5.html)
-[https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html](https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html#Specifiers)
+1. [https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html](https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html)
+2. [https://man7.org/linux/man-pages/man5/systemd.unit.5.html](https://man7.org/linux/man-pages/man5/systemd.unit.5.html)
+3. [https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html](https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html#Specifiers)
