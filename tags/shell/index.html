@@ -217,7 +217,7 @@ Option Description Description= 这个单元的描述字符串 Documentation= �
 [Install] section [Install]一般是最后一个块文件配置，这个是可选项，也就是说可以不配置。只有在开机启动激活(enable)时触发。
 Option Description WantedBy= 指定该单元如何开机启动(enable)，依赖在此列出的单元，有点类似[Unit]块中的Wants，不同的是它会创建软链接到.wants文件夹，如上sshd如果被enable，该单元会创建一个软链接到/etc/systemd/system/multi-user.target.wants文件夹下，如果文件夹不存在则创建文件夹再软链接。 RequiredBy= 和上面WantedBy类似，但如果在此列出的单元没有激活，本单元会激活失败，同样在.requires文件夹下创建软链接。 Alias= 设置改单元的别名，可以给systemctl使用，例如上面sshd的开机启动可以使用 systemctl enable ssh....</p>
   </div>
-  <footer class="entry-footer"><span title='2018-07-08 02:28:21 +0800 +0800'>July 8, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;298 words&nbsp;·&nbsp;Fython</footer>
+  <footer class="entry-footer"><span title='2018-07-08 02:28:21 +0800 +0800'>July 8, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;315 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Systemd中Service单元介绍" href="https://blog.fangjiahui.me/posts/2018-07-08-systemd-service-unit/"></a>
 </article>
 <footer class="page-footer">
