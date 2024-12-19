@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>iTerm on Fython&#39;s Blog</title>
+    <title>ITerm on Fython&#39;s Blog</title>
     <link>https://blog.fangjiahui.me/tags/iterm/</link>
-    <description>Recent content in iTerm on Fython&#39;s Blog</description>
+    <description>Recent content in ITerm on Fython&#39;s Blog</description>
     <image>
       <title>Fython&#39;s Blog</title>
       <url>https://blog.fangjiahui.me/blog-cover-1.png</url>
       <link>https://blog.fangjiahui.me/blog-cover-1.png</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.140.0</generator>
     <language>en</language>
     <lastBuildDate>Fri, 09 Feb 2024 13:54:57 +0800</lastBuildDate>
     <atom:link href="https://blog.fangjiahui.me/tags/iterm/index.xml" rel="self" type="application/rss+xml" />
@@ -18,13 +18,19 @@
       <link>https://blog.fangjiahui.me/posts/2018-07-23-mac-config-terminal/</link>
       <pubDate>Mon, 23 Jul 2018 12:50:27 +0800</pubDate>
       <guid>https://blog.fangjiahui.me/posts/2018-07-23-mac-config-terminal/</guid>
-      <description>Mac 终端(Terminal)配置 平时工作中命令行用的比图形界面多，所以有必要配置一个赏心悦目的终端界面来提高工作效率(^_^)。
-iTerm 第一步就是替换原来的自带终端(Terminal)，换成iTerm。iTerm 是一个深受广大开发者欢迎的终端 App，代码托管在Github，可以直接在官网下载安装。最新版为 Build 3.4.23
-打开iTerm2 &amp;gt; Preferences &amp;gt; General，在Selection下勾上Applications in terminal may access clipboard使在iTerm中鼠标选中就能复制到系统剪切板使用command+v粘贴
-打开iTerm2 &amp;gt; Preferences &amp;gt; Profiles，右边点Keys把左右 option 键设为Esc+，取消勾选Apps can change this来启用 Unix 的Alt + B和Alt + F前进和后退一个单词。
-打开iTerm2 &amp;gt; Preferences &amp;gt; Terminal，底部 Shell Integration 取消勾选 Show mark indicators 不然每次执行命令会出现一个小箭头影响美观
-Zsh &amp;amp; Oh My Zsh 打开 iTerm 安装Homebrew
-/bin/bash -c &amp;#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&amp;#34; 使用 Homebrew 安装 zsh，设为默认的终端。从 Big Sur 已经设置 zsh 为默认的终端了，可以跳过此步骤，可以使用echo $SHELL检查</description>
+      <description>&lt;h2 id=&#34;mac-终端terminal配置&#34;&gt;Mac 终端(Terminal)配置&lt;/h2&gt;
+&lt;p&gt;平时工作中命令行用的比图形界面多，所以有必要配置一个赏心悦目的终端界面来提高工作效率(^_^)。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;../images/MacScreenShot-2018-07-20-5-35-35.png&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;iterm&#34;&gt;iTerm&lt;/h3&gt;
+&lt;p&gt;第一步就是替换原来的自带终端(Terminal)，换成&lt;a href=&#34;https://www.iterm2.com/&#34;&gt;iTerm&lt;/a&gt;。iTerm 是一个深受广大开发者欢迎的终端 App，代码托管在&lt;a href=&#34;https://github.com/gnachman/iTerm2&#34;&gt;Github&lt;/a&gt;，可以直接在官网下载安装。最新版为 &lt;code&gt;Build 3.4.23&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;打开&lt;em&gt;iTerm2 &amp;gt; Preferences &amp;gt; General&lt;/em&gt;，在&lt;code&gt;Selection&lt;/code&gt;下勾上&lt;code&gt;Applications in terminal may access clipboard&lt;/code&gt;使在&lt;code&gt;iTerm&lt;/code&gt;中鼠标选中就能复制到系统剪切板使用&lt;code&gt;command+v&lt;/code&gt;粘贴&lt;/p&gt;
+&lt;p&gt;打开&lt;em&gt;iTerm2 &amp;gt; Preferences &amp;gt; Profiles&lt;/em&gt;，右边点&lt;code&gt;Keys&lt;/code&gt;把左右 option 键设为&lt;code&gt;Esc+&lt;/code&gt;，取消勾选&lt;code&gt;Apps can change this&lt;/code&gt;来启用 Unix 的&lt;code&gt;Alt + B&lt;/code&gt;和&lt;code&gt;Alt + F&lt;/code&gt;前进和后退一个单词。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;../images/ScreenShot-2018-07-20-09-34-18.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;打开&lt;em&gt;iTerm2 &amp;gt; Preferences &amp;gt; Terminal&lt;/em&gt;，底部 &lt;code&gt;Shell Integration&lt;/code&gt; 取消勾选 &lt;code&gt;Show mark indicators&lt;/code&gt; 不然每次执行命令会出现一个小箭头影响美观&lt;/p&gt;
+&lt;h3 id=&#34;zsh--oh-my-zsh&#34;&gt;Zsh &amp;amp; Oh My Zsh&lt;/h3&gt;
+&lt;p&gt;打开 iTerm 安装&lt;a href=&#34;https://brew.sh/&#34;&gt;Homebrew&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/bin/bash -c &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用 Homebrew 安装 zsh，设为默认的终端。从 Big Sur 已经设置 zsh 为默认的终端了，可以跳过此步骤，可以使用&lt;code&gt;echo $SHELL&lt;/code&gt;检查&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

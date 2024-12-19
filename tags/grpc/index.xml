@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>gRPC on Fython&#39;s Blog</title>
+    <title>GRPC on Fython&#39;s Blog</title>
     <link>https://blog.fangjiahui.me/tags/grpc/</link>
-    <description>Recent content in gRPC on Fython&#39;s Blog</description>
+    <description>Recent content in GRPC on Fython&#39;s Blog</description>
     <image>
       <title>Fython&#39;s Blog</title>
       <url>https://blog.fangjiahui.me/blog-cover-1.png</url>
       <link>https://blog.fangjiahui.me/blog-cover-1.png</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.140.0</generator>
     <language>en</language>
     <lastBuildDate>Mon, 06 Jan 2020 09:19:23 +0800</lastBuildDate>
     <atom:link href="https://blog.fangjiahui.me/tags/grpc/index.xml" rel="self" type="application/rss+xml" />

@@ -10,7 +10,7 @@
 <meta name="description" content="flask web项目使用celery任务队列">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/2020-05-24-flask-celery-integrated/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -18,6 +18,7 @@
 <link rel="mask-icon" href="https://blog.fangjiahui.me/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/2020-05-24-flask-celery-integrated/">
 <noscript>
     <style>
         #theme-toggle,
@@ -54,18 +55,22 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Flask项目中集成Celery" />
-<meta property="og:description" content="flask web项目使用celery任务队列" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/2020-05-24-flask-celery-integrated/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2020-05-24T10:20:01+08:00" />
-<meta property="article:modified_time" content="2020-05-24T10:20:01+08:00" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:title" content="Flask项目中集成Celery"/>
-<meta name="twitter:description" content="flask web项目使用celery任务队列"/>
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/2020-05-24-flask-celery-integrated/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="Flask项目中集成Celery">
+  <meta property="og:description" content="flask web项目使用celery任务队列">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-05-24T10:20:01+08:00">
+    <meta property="article:modified_time" content="2020-05-24T10:20:01+08:00">
+    <meta property="article:tag" content="Celery">
+    <meta property="article:tag" content="Python">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="Flask项目中集成Celery">
+<meta name="twitter:description" content="flask web项目使用celery任务队列">
 
 
 <script type="application/ld+json">
@@ -101,7 +106,7 @@
   "articleBody": "Flask项目中集成Celery Celery是一个简单高效的实时分布式任务队列系统，我们可以将一些耗时比较长或者计算密集的任务交给celery处理，它也支持定时任务类似于crontab。而web应用中可以将一些任务丢给celery异步处理，比如发邮件消息推送、模型推理等。简单的Flask应用集成Celery比简单，有官方文档可做参考，可较复杂的flask应用如使用了蓝图(blueprint)分了很多模块的怎么组织celery和各种任务就比较复杂官方也没有说明文档，一不小心就会陷入循环导入。下面就介绍一种celery集成方法。\n官方文档demo中有一个make_celery的函数\ndef make_celery(app): celery = Celery( app.import_name, backend=app.config['CELERY_RESULT_BACKEND'], broker=app.config['CELERY_BROKER_URL'] ) celery.conf.update(app.config) class ContextTask(celery.Task): def __call__(self, *args, **kwargs): with app.app_context(): return self.run(*args, **kwargs) celery.Task = ContextTask return celery 这个函数主要用来创建Celery对象，并从flask上更新一些配置加入上下文环境，像文档上单文件是不会出问题的返回的celery对象直接在下面定义任务，然后集成到路由中。如果你flask app是使用app factories和蓝图(blueprint)，那在这里定义的task又怎么在路由中引用呢，这就会导致循环引用问题。\n我们可以把make_celery拆开来，首先创建celery对象然后等flask app初始化完成后在更新配置，这就解决问题了，任务单独放在tasks.py文件中也便于管理和查看\n先来看最终项目结构图，就是flask web项目加入了celery\nflask-celery-demo ├── app │ ├── api │ │ ├── __init__.py │ │ └── views.py # 视图 │ ├── __init__.py │ └── tasks.py # celery任务 ├── config.py ├── requirements.txt ├── run.sh └── service.py # 应用入口 先解释下主要service.py创建celery对象，然后把对象传入app/__init__.py文件中的create_app函数在里面更新celery配置。app/tasks.py单独存放给celery的任务，视图函数也可以方便导入。下面一个个文件说明\n先来看service.py文件也是整个应用的主入口\nfrom app import create_app def make_celery(app_name): broker = getattr(config[os.getenv('FLASK_ENV') or 'default'], \"CELERY_BROKER_URL\") backend = getattr(config[os.getenv('FLASK_ENV') or 'default'], \"CELERY_BACKEND_URL\") celery = Celery( app_name, broker=broker, backend=backend ) return celery # share celery object my_celery = make_celery(__name__) flask_app = create_app(os.getenv('FLASK_ENV') or 'default', celery=my_celery) 这里的make_celery函数只返回celery对象未更新配置，供tasks.py导入，并传给create_app，接下来看app/__init__.py文件\ndef create_app(config_name, **kwargs): app = Flask(__name__) app.config.from_object(config[config_name]) config[config_name].init_app(app) # initial celery if kwargs.get('celery'): init_celery(kwargs['celery'], app) from .api import api as api_blueprint app.register_blueprint(api_blueprint, url_prefix='/api/v1') return app def init_celery(celery: Celery, app: Flask) -\u003e None: \"\"\" initial celery object wraps the task execution in an application context \"\"\" celery.conf.update(app.config) class ContextTask(celery.Task): def __call__(self, *args, **kwargs): with app.app_context(): return self.run(*args, **kwargs) celery.Task = ContextTask init_celery函数就是最上面官方文档中make_celery中剩下的部分，用于更新配置加入上下文， create_app函数已经很熟悉了不多做介绍，只增加了一个celery参数在里面调用init_celery初始化celery对象\n然后看tasks.py\nfrom service import my_celery as celery @celery.task() def log(message: Any) -\u003e Any: return message 这个文件单独定义各celery任务，最后看视图函数怎么调用app/api/views.py文件\nfrom app.tasks import log @api.route(\"/hello-world\") def hello_world(): result = log.delay('hello world') try: r = result.get(timeout=3) except TimeoutError: r = 'celery run failed' return jsonify({\"info\": r}) 以上就是所有需要注意的地方了，整套代码托管在github可查阅\n运行demo 本示例中包含了docker文件，可以在docker环境方便的启动\n首先clone项目，docker-compose启动就可以\ngit clone https://github.com/fangjh13/flask-celery-demo.git docker-compose build docker-compose up 这里消息代理使用的是redis在config.py中配置，还写了个定时任务也在config.py中启动后每隔1分钟有输出信息，docker-compose会启动四个容器分别是flask服务、celery worker、celery beat和redis服务。当然也可以启动多个celery worker如\ndocker-compose up --scale worker=2 Reference flask.palletsprojects.com medium.com ",
   "wordCount" : "238",
   "inLanguage": "en",
-  "datePublished": "2020-05-24T10:20:01+08:00",
+  "image": "https://blog.fangjiahui.me/blog-cover-1.png","datePublished": "2020-05-24T10:20:01+08:00",
   "dateModified": "2020-05-24T10:20:01+08:00",
   "author":{
     "@type": "Person",
@@ -435,16 +440,15 @@
 
 
 <div id="tcomment"></div>
-<script src="https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.40/dist/twikoo.all.min.js"></script>
 <script>
   twikoo.init({
     envId: "https://twikoo-kbp3p7wxh-fythons-projects.vercel.app", 
     el: "#tcomment", 
     
-    region: "",
     
     path: "",
-    lang: "zh-CN", 
+    
   });
 </script>
 
@@ -452,7 +456,8 @@
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

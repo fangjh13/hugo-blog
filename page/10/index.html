@@ -2,7 +2,7 @@
 <html lang="en" dir="auto">
 
 <head>
-	<meta name="generator" content="Hugo 0.119.0"><meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.140.0"><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -11,7 +11,7 @@
 <meta name="description" content="My Personal Blog Site">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -21,6 +21,7 @@
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" type="application/rss+xml" href="https://blog.fangjiahui.me/index.xml">
 <link rel="alternate" type="application/json" href="https://blog.fangjiahui.me/index.json">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/">
 <noscript>
     <style>
         #theme-toggle,
@@ -57,16 +58,17 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Fython&#39;s Blog" />
-<meta property="og:description" content="My Personal Blog Site" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://blog.fangjiahui.me/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:title" content="Fython&#39;s Blog"/>
-<meta name="twitter:description" content="My Personal Blog Site"/>
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="Fython&#39;s Blog">
+  <meta property="og:description" content="My Personal Blog Site">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="website">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="Fython&#39;s Blog">
+<meta name="twitter:description" content="My Personal Blog Site">
 
 <script type="application/ld+json">
 {
@@ -75,7 +77,7 @@
   "name": "Fython's Blog",
   "url": "https://blog.fangjiahui.me/",
   "description": "My Personal Blog Site",
-  "thumbnailUrl": "https://blog.fangjiahui.me/favicon.ico",
+  "logo": "https://blog.fangjiahui.me/favicon.ico",
   "sameAs": [
       "https://github.com/fangjh13", "index.xml"
   ]
@@ -145,6 +147,27 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Markdown 语法说明
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Markdown quick reference See the Markdown page for instructions on enabling Markdown for posts, pages and comments on your blog, and for more detailed information about using Markdown.
+Syntax Emphasis *This text will be italic*
+This text will be italic
+_This will also be italic_
+This will also be italic
+**This text will be bold**
+This text will be bold
+__This will also be bold__
+This will also be bold
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2017-03-19 09:59:44 +0800 +0800'>March 19, 2017</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;782 words&nbsp;·&nbsp;Fython</footer>
+  <a class="entry-link" aria-label="post link to Markdown 语法说明" href="https://blog.fangjiahui.me/posts/2017-03-19-markdown-syntax-reference/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Nginx局域网搭建静态文件下载服务器
     </h2>
   </header>
@@ -159,7 +182,8 @@ nginx需要有进入下载文件夹读取的权限
 配置Basic Auth认证 可以为某一目录设置basic auth密码认证
 htpasswd -c /etc/nginx/passwd username输入密码创建一个passwd文件用于认证
 在server部分下增加一个location，设/var/www/html/secret目录为需要密码进入
-location /secret { autoindex on; autoindex_exact_size off; autoindex_localtime on; auth_basic &#34;Restricted&#34;; auth_basic_user_file /etc/nginx/passwd; } 测试配置文件通过和重启nginx现在文件夹/var/www/html/secret是需要密码访问下载的</p>
+location /secret { autoindex on; autoindex_exact_size off; autoindex_localtime on; auth_basic &#34;Restricted&#34;; auth_basic_user_file /etc/nginx/passwd; } 测试配置文件通过和重启nginx现在文件夹/var/www/html/secret是需要密码访问下载的
+...</p>
   </div>
   <footer class="entry-footer"><span title='2017-03-19 08:57:18 +0800 +0800'>March 19, 2017</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;76 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Nginx局域网搭建静态文件下载服务器" href="https://blog.fangjiahui.me/posts/2017-03-19-nginx-static-files-download-server-config/"></a>
@@ -177,7 +201,7 @@ location /secret { autoindex on; autoindex_exact_size off; autoindex_localtime o
 本人centos7编辑/etc/my.cnf添加如下配置(utf8mb4支持 4 个字节的emoji表情完全兼容utf8，当然也可以换成utf8不使用表情)
 [mysqld] init_connect=&#39;SET collation_connection = utf8mb4_unicode_ci&#39; init_connect=&#39;SET NAMES utf8mb4&#39; skip-character-set-client-handshake # 服务端默认字符集 character-set-server=utf8mb4 # 连接层默认字符集 collation-server=utf8mb4_unicode_ci [client] # 客户端来源数据默认字符集 default-character-set=utf8mb4 [mysql] # 客户端来源数据默认字符集 default-character-set=utf8mb4 重启 mariadb 服务，运行systemctl restart marriadb.service
 登录后show variables like &#39;%char%&#39;和show variables like &#39;%collation%&#39;查看是否和如下相同。
-MariaDB [(none)]&gt; show global variables like &#39;%char%&#39;; &#43;--------------------------&#43;----------------------------&#43; | Variable_name | Value | &#43;--------------------------&#43;----------------------------&#43; | character_set_client | utf8mb4 | | character_set_connection | utf8mb4 | | character_set_database | utf8mb4 | | character_set_filesystem | binary | | character_set_results | utf8mb4 | | character_set_server | utf8mb4 | | character_set_system | utf8 | | character_sets_dir | /usr/share/mysql/charsets/ | &#43;--------------------------&#43;----------------------------&#43; 8 rows in set (0....</p>
+MariaDB [(none)]&gt; show global variables like &#39;%char%&#39;; &#43;--------------------------&#43;----------------------------&#43; | Variable_name | Value | &#43;--------------------------&#43;----------------------------&#43; | character_set_client | utf8mb4 | | character_set_connection | utf8mb4 | | character_set_database | utf8mb4 | | character_set_filesystem | binary | | character_set_results | utf8mb4 | | character_set_server | utf8mb4 | | character_set_system | utf8 | | character_sets_dir | /usr/share/mysql/charsets/ | &#43;--------------------------&#43;----------------------------&#43; 8 rows in set (0.00 sec) MariaDB [(none)]&gt; show global variables like &#39;%collation%&#39;; &#43;----------------------&#43;--------------------&#43; | Variable_name | Value | &#43;----------------------&#43;--------------------&#43; | collation_connection | utf8mb4_unicode_ci | | collation_database | utf8mb4_unicode_ci | | collation_server | utf8mb4_unicode_ci | &#43;----------------------&#43;--------------------&#43; 3 rows in set (0.00 sec) </p>
   </div>
   <footer class="entry-footer"><span title='2017-03-18 05:23:25 +0800 +0800'>March 18, 2017</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;154 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Mariadb Mysql 字符集设置" href="https://blog.fangjiahui.me/posts/2017-03-18-mysql-mariadb-character-sets-and-collations/"></a>
@@ -192,7 +216,8 @@ MariaDB [(none)]&gt; show global variables like &#39;%char%&#39;; &#43;---------
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

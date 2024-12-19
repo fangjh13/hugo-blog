@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>regex on Fython&#39;s Blog</title>
+    <title>Regex on Fython&#39;s Blog</title>
     <link>https://blog.fangjiahui.me/tags/regex/</link>
-    <description>Recent content in regex on Fython&#39;s Blog</description>
+    <description>Recent content in Regex on Fython&#39;s Blog</description>
     <image>
       <title>Fython&#39;s Blog</title>
       <url>https://blog.fangjiahui.me/blog-cover-1.png</url>
       <link>https://blog.fangjiahui.me/blog-cover-1.png</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.140.0</generator>
     <language>en</language>
     <lastBuildDate>Tue, 27 Oct 2020 10:04:12 +0800</lastBuildDate>
     <atom:link href="https://blog.fangjiahui.me/tags/regex/index.xml" rel="self" type="application/rss+xml" />
@@ -18,15 +18,22 @@
       <link>https://blog.fangjiahui.me/posts/2020-10-27-regular-expression-lookarounds/</link>
       <pubDate>Tue, 27 Oct 2020 10:04:12 +0800</pubDate>
       <guid>https://blog.fangjiahui.me/posts/2020-10-27-regular-expression-lookarounds/</guid>
-      <description>正则表达式中的预查 有时候使用正则会用到非获取匹配，就是不进行存储供以后使用，也就是正则中的预查，预查分为正向预查(lookahead)和反向预查(lookbehind)。
-正向预查
-(?=pattern)正向肯定预查(Positive lookahead)。如Python(?=3)匹配Python后跟3的语句，如输入Python3但其中最后的3不算进结果，返回Python
-(?!pattern)正向否定预查(Negative lookahead)。和上面的类似只是否定的，Python(?!3)匹配后面不带3的句子，输入Python2，也是返回Python
-反向预查
-(?&amp;lt;=pattern)反向肯定预查(Positive lookbehind)。如(?&amp;lt;=2)Python其实和上面也差不多反向就是向左匹配就是匹配Python前面是2的语句，如输入2Python，返回Python
-(?&amp;lt;!pattern)反向否定预查(Negative lookbehind)。如(?&amp;lt;!3)Python匹配Python前面不是3的输入，如输入2Python，返回Python
-还有一个长的挺像的这里也记录下
-(?:pattern) 匹配pattern但不获取匹配结果。 (?:t|b)oy只匹配boy或者toy，和toy|boy一样但更简洁，当然如果使用(t|b)oy就会多一个group</description>
+      <description>&lt;h1 id=&#34;正则表达式中的预查&#34;&gt;正则表达式中的预查&lt;/h1&gt;
+&lt;p&gt;有时候使用正则会用到非获取匹配，就是不进行存储供以后使用，也就是正则中的预查，预查分为正向预查(lookahead)和反向预查(lookbehind)。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;正向预查&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;(?=pattern)&lt;/code&gt;正向肯定预查(Positive lookahead)。如&lt;code&gt;Python(?=3)&lt;/code&gt;匹配Python后跟3的语句，如输入&lt;code&gt;Python3&lt;/code&gt;但其中最后的&lt;code&gt;3&lt;/code&gt;不算进结果，返回&lt;code&gt;Python&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;(?!pattern)&lt;/code&gt;正向否定预查(Negative lookahead)。和上面的类似只是否定的，&lt;code&gt;Python(?!3)&lt;/code&gt;匹配后面不带&lt;code&gt;3&lt;/code&gt;的句子，输入&lt;code&gt;Python2&lt;/code&gt;，也是返回&lt;code&gt;Python&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;反向预查&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;(?&amp;lt;=pattern)&lt;/code&gt;反向肯定预查(Positive lookbehind)。如&lt;code&gt;(?&amp;lt;=2)Python&lt;/code&gt;其实和上面也差不多反向就是向左匹配就是匹配Python前面是2的语句，如输入&lt;code&gt;2Python&lt;/code&gt;，返回&lt;code&gt;Python&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;(?&amp;lt;!pattern)&lt;/code&gt;反向否定预查(Negative lookbehind)。如&lt;code&gt;(?&amp;lt;!3)Python&lt;/code&gt;匹配Python前面不是3的输入，如输入&lt;code&gt;2Python&lt;/code&gt;，返回&lt;code&gt;Python&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;还有一个长的挺像的这里也记录下&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;(?:pattern)&lt;/code&gt; 匹配pattern但不获取匹配结果。 &lt;code&gt;(?:t|b)oy&lt;/code&gt;只匹配boy或者toy，和&lt;code&gt;toy|boy&lt;/code&gt;一样但更简洁，当然如果使用&lt;code&gt;(t|b)oy&lt;/code&gt;就会多一个group&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

@@ -7,14 +7,65 @@
 <meta name="robots" content="index, follow">
 <title>collections模块中的namedtuple和defaultdict | Fython&#39;s Blog</title>
 <meta name="keywords" content="Python">
-<meta name="description" content="collections模块中的namedtuple和defaultdict collections模块是Python中对内置类型(dict, list, tuple)的拓展。就是说它们本身具有普通内置类型的所有特性，并添加了新的功能。
-namedtuple() namedtuple(typename, field_names)是tuple的子类，定义的元组可以通过属性访问，也易于理解，self-document。field_names可以是列表或者是通过空格或者逗号分隔的字符串。
-&gt;&gt;&gt; from collections import namedtuple &gt;&gt;&gt; Point = namedtuple(&#39;point&#39;, &#39;x, y&#39;) &gt;&gt;&gt; p = Point(3, y=4) &gt;&gt;&gt; p point(x=3, y=4) &gt;&gt;&gt; p[0] 3 &gt;&gt;&gt; p.x 3 &gt;&gt;&gt; x, y = p &gt;&gt;&gt; print(x, y) 3 4 namedtuple有几个比较有用的方法和属性
-SomeNamedTuple._make(iterable)类方法，从可迭代对象中取值，长度必须和传入的field_names一致，返回一个新的对象 somenamedtuple._asdict()方法返回一个有序字典(OrderedDict) somenamedtuple._replace(**kwargs)方法替换值，返回一个新的对象，原来的不变 somenamedtuple._fields属性返回键名(field name)，可用于创建新的named tuple 再来看两个官方文档上的例子读取csv文件或者从sqlite读取
-EmployeeRecord = namedtuple(&#39;EmployeeRecord&#39;, &#39;name, age, title, department, paygrade&#39;) import csv for emp in map(EmployeeRecord._make, csv.reader(open(&#34;employees.csv&#34;, &#34;rb&#34;))): print(emp.name, emp.title) import sqlite3 conn = sqlite3.">
+<meta name="description" content="collections模块中的namedtuple和defaultdict
+collections模块是Python中对内置类型(dict, list, tuple)的拓展。就是说它们本身具有普通内置类型的所有特性，并添加了新的功能。
+namedtuple()
+namedtuple(typename, field_names)是tuple的子类，定义的元组可以通过属性访问，也易于理解，self-document。field_names可以是列表或者是通过空格或者逗号分隔的字符串。
+&gt;&gt;&gt; from collections import namedtuple
+&gt;&gt;&gt; Point = namedtuple(&#39;point&#39;, &#39;x, y&#39;)
+&gt;&gt;&gt; p = Point(3, y=4)
+&gt;&gt;&gt; p
+point(x=3, y=4)
+&gt;&gt;&gt; p[0]
+3
+&gt;&gt;&gt; p.x
+3
+&gt;&gt;&gt; x, y = p
+&gt;&gt;&gt; print(x, y)
+3 4
+namedtuple有几个比较有用的方法和属性
+
+SomeNamedTuple._make(iterable)类方法，从可迭代对象中取值，长度必须和传入的field_names一致，返回一个新的对象
+somenamedtuple._asdict()方法返回一个有序字典(OrderedDict)
+somenamedtuple._replace(**kwargs)方法替换值，返回一个新的对象，原来的不变
+somenamedtuple._fields属性返回键名(field name)，可用于创建新的named tuple
+
+再来看两个官方文档上的例子读取csv文件或者从sqlite读取
+EmployeeRecord = namedtuple(&#39;EmployeeRecord&#39;, &#39;name, age, title, department, paygrade&#39;)
+
+import csv
+for emp in map(EmployeeRecord._make, csv.reader(open(&#34;employees.csv&#34;, &#34;rb&#34;))):
+    print(emp.name, emp.title)
+
+import sqlite3
+conn = sqlite3.connect(&#39;/companydata&#39;)
+cursor = conn.cursor()
+cursor.execute(&#39;SELECT name, age, title, department, paygrade FROM employees&#39;)
+for emp in map(EmployeeRecord._make, cursor.fetchall()):
+    print(emp.name, emp.title)
+defaultdict
+defaultdict([default_factory[,...]])顾名思义继承自dict它接收一个函数(default_factory)作为参数但它除了dict所有的属性和方法外，另外加了__missing__方法和default_factory属性。这两个的作用就是访问不存在的key时它会新增一个key，value为调用default_factory的值。
+&gt;&gt;&gt; from collections import defaultdict
+&gt;&gt;&gt; d = defaultdict(list) # 默认函数为list
+&gt;&gt;&gt; print(d.items())  # 创建空字典
+dict_items([])
+&gt;&gt;&gt; d.default_factory
+&lt;class &#39;list&#39;&gt;
+&gt;&gt;&gt; d[&#39;key&#39;]  # 调用会设置该key的值为空list并返回
+[]
+&gt;&gt;&gt; print(d.items())
+dict_items([(&#39;key&#39;, [])])
+我们可以利用这个特性来做很多事，比如说给一个包含元组的的列表分类整理。
+&gt;&gt;&gt; s = [(&#39;yellow&#39;, 1), (&#39;blue&#39;, 2), (&#39;yellow&#39;, 3), (&#39;blue&#39;, 4), (&#39;red&#39;, 1)]
+&gt;&gt;&gt; d = defaultdict(list)
+&gt;&gt;&gt; for k, v in s:
+...     d[k].append(v)
+&gt;&gt;&gt; sorted(d.items())
+[(&#39;blue&#39;, [2, 4]), (&#39;red&#39;, [1]), (&#39;yellow&#39;, [1, 3])]
+上面的代码其实可以用dict的setdefault实现，但效率和可读性差点，如下">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/2018-02-09-python-collections-namedtuple-and-defaultdict/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -22,6 +73,7 @@ EmployeeRecord = namedtuple(&#39;EmployeeRecord&#39;, &#39;name, age, title, dep
 <link rel="mask-icon" href="https://blog.fangjiahui.me/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/2018-02-09-python-collections-namedtuple-and-defaultdict/">
 <noscript>
     <style>
         #theme-toggle,
@@ -58,26 +110,82 @@ EmployeeRecord = namedtuple(&#39;EmployeeRecord&#39;, &#39;name, age, title, dep
         }
 
     </style>
-</noscript><meta property="og:title" content="collections模块中的namedtuple和defaultdict" />
-<meta property="og:description" content="collections模块中的namedtuple和defaultdict collections模块是Python中对内置类型(dict, list, tuple)的拓展。就是说它们本身具有普通内置类型的所有特性，并添加了新的功能。
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/2018-02-09-python-collections-namedtuple-and-defaultdict/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="collections模块中的namedtuple和defaultdict">
+  <meta property="og:description" content="collections模块中的namedtuple和defaultdict collections模块是Python中对内置类型(dict, list, tuple)的拓展。就是说它们本身具有普通内置类型的所有特性，并添加了新的功能。
 namedtuple() namedtuple(typename, field_names)是tuple的子类，定义的元组可以通过属性访问，也易于理解，self-document。field_names可以是列表或者是通过空格或者逗号分隔的字符串。
 &gt;&gt;&gt; from collections import namedtuple &gt;&gt;&gt; Point = namedtuple(&#39;point&#39;, &#39;x, y&#39;) &gt;&gt;&gt; p = Point(3, y=4) &gt;&gt;&gt; p point(x=3, y=4) &gt;&gt;&gt; p[0] 3 &gt;&gt;&gt; p.x 3 &gt;&gt;&gt; x, y = p &gt;&gt;&gt; print(x, y) 3 4 namedtuple有几个比较有用的方法和属性
 SomeNamedTuple._make(iterable)类方法，从可迭代对象中取值，长度必须和传入的field_names一致，返回一个新的对象 somenamedtuple._asdict()方法返回一个有序字典(OrderedDict) somenamedtuple._replace(**kwargs)方法替换值，返回一个新的对象，原来的不变 somenamedtuple._fields属性返回键名(field name)，可用于创建新的named tuple 再来看两个官方文档上的例子读取csv文件或者从sqlite读取
-EmployeeRecord = namedtuple(&#39;EmployeeRecord&#39;, &#39;name, age, title, department, paygrade&#39;) import csv for emp in map(EmployeeRecord._make, csv.reader(open(&#34;employees.csv&#34;, &#34;rb&#34;))): print(emp.name, emp.title) import sqlite3 conn = sqlite3." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/2018-02-09-python-collections-namedtuple-and-defaultdict/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2018-02-09T15:17:02+08:00" />
-<meta property="article:modified_time" content="2020-04-17T03:25:30+08:00" />
+EmployeeRecord = namedtuple(&#39;EmployeeRecord&#39;, &#39;name, age, title, department, paygrade&#39;) import csv for emp in map(EmployeeRecord._make, csv.reader(open(&#34;employees.csv&#34;, &#34;rb&#34;))): print(emp.name, emp.title) import sqlite3 conn = sqlite3.connect(&#39;/companydata&#39;) cursor = conn.cursor() cursor.execute(&#39;SELECT name, age, title, department, paygrade FROM employees&#39;) for emp in map(EmployeeRecord._make, cursor.fetchall()): print(emp.name, emp.title) defaultdict defaultdict([default_factory[,...]])顾名思义继承自dict它接收一个函数(default_factory)作为参数但它除了dict所有的属性和方法外，另外加了__missing__方法和default_factory属性。这两个的作用就是访问不存在的key时它会新增一个key，value为调用default_factory的值。
+&gt;&gt;&gt; from collections import defaultdict &gt;&gt;&gt; d = defaultdict(list) # 默认函数为list &gt;&gt;&gt; print(d.items()) # 创建空字典 dict_items([]) &gt;&gt;&gt; d.default_factory &lt;class &#39;list&#39;&gt; &gt;&gt;&gt; d[&#39;key&#39;] # 调用会设置该key的值为空list并返回 [] &gt;&gt;&gt; print(d.items()) dict_items([(&#39;key&#39;, [])]) 我们可以利用这个特性来做很多事，比如说给一个包含元组的的列表分类整理。
+&gt;&gt;&gt; s = [(&#39;yellow&#39;, 1), (&#39;blue&#39;, 2), (&#39;yellow&#39;, 3), (&#39;blue&#39;, 4), (&#39;red&#39;, 1)] &gt;&gt;&gt; d = defaultdict(list) &gt;&gt;&gt; for k, v in s: ... d[k].append(v) &gt;&gt;&gt; sorted(d.items()) [(&#39;blue&#39;, [2, 4]), (&#39;red&#39;, [1]), (&#39;yellow&#39;, [1, 3])] 上面的代码其实可以用dict的setdefault实现，但效率和可读性差点，如下">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2018-02-09T15:17:02+08:00">
+    <meta property="article:modified_time" content="2020-04-17T03:25:30+08:00">
+    <meta property="article:tag" content="Python">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="collections模块中的namedtuple和defaultdict">
+<meta name="twitter:description" content="collections模块中的namedtuple和defaultdict
+collections模块是Python中对内置类型(dict, list, tuple)的拓展。就是说它们本身具有普通内置类型的所有特性，并添加了新的功能。
+namedtuple()
+namedtuple(typename, field_names)是tuple的子类，定义的元组可以通过属性访问，也易于理解，self-document。field_names可以是列表或者是通过空格或者逗号分隔的字符串。
+&gt;&gt;&gt; from collections import namedtuple
+&gt;&gt;&gt; Point = namedtuple(&#39;point&#39;, &#39;x, y&#39;)
+&gt;&gt;&gt; p = Point(3, y=4)
+&gt;&gt;&gt; p
+point(x=3, y=4)
+&gt;&gt;&gt; p[0]
+3
+&gt;&gt;&gt; p.x
+3
+&gt;&gt;&gt; x, y = p
+&gt;&gt;&gt; print(x, y)
+3 4
+namedtuple有几个比较有用的方法和属性
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
+SomeNamedTuple._make(iterable)类方法，从可迭代对象中取值，长度必须和传入的field_names一致，返回一个新的对象
+somenamedtuple._asdict()方法返回一个有序字典(OrderedDict)
+somenamedtuple._replace(**kwargs)方法替换值，返回一个新的对象，原来的不变
+somenamedtuple._fields属性返回键名(field name)，可用于创建新的named tuple
 
-<meta name="twitter:title" content="collections模块中的namedtuple和defaultdict"/>
-<meta name="twitter:description" content="collections模块中的namedtuple和defaultdict collections模块是Python中对内置类型(dict, list, tuple)的拓展。就是说它们本身具有普通内置类型的所有特性，并添加了新的功能。
-namedtuple() namedtuple(typename, field_names)是tuple的子类，定义的元组可以通过属性访问，也易于理解，self-document。field_names可以是列表或者是通过空格或者逗号分隔的字符串。
-&gt;&gt;&gt; from collections import namedtuple &gt;&gt;&gt; Point = namedtuple(&#39;point&#39;, &#39;x, y&#39;) &gt;&gt;&gt; p = Point(3, y=4) &gt;&gt;&gt; p point(x=3, y=4) &gt;&gt;&gt; p[0] 3 &gt;&gt;&gt; p.x 3 &gt;&gt;&gt; x, y = p &gt;&gt;&gt; print(x, y) 3 4 namedtuple有几个比较有用的方法和属性
-SomeNamedTuple._make(iterable)类方法，从可迭代对象中取值，长度必须和传入的field_names一致，返回一个新的对象 somenamedtuple._asdict()方法返回一个有序字典(OrderedDict) somenamedtuple._replace(**kwargs)方法替换值，返回一个新的对象，原来的不变 somenamedtuple._fields属性返回键名(field name)，可用于创建新的named tuple 再来看两个官方文档上的例子读取csv文件或者从sqlite读取
-EmployeeRecord = namedtuple(&#39;EmployeeRecord&#39;, &#39;name, age, title, department, paygrade&#39;) import csv for emp in map(EmployeeRecord._make, csv.reader(open(&#34;employees.csv&#34;, &#34;rb&#34;))): print(emp.name, emp.title) import sqlite3 conn = sqlite3."/>
+再来看两个官方文档上的例子读取csv文件或者从sqlite读取
+EmployeeRecord = namedtuple(&#39;EmployeeRecord&#39;, &#39;name, age, title, department, paygrade&#39;)
+
+import csv
+for emp in map(EmployeeRecord._make, csv.reader(open(&#34;employees.csv&#34;, &#34;rb&#34;))):
+    print(emp.name, emp.title)
+
+import sqlite3
+conn = sqlite3.connect(&#39;/companydata&#39;)
+cursor = conn.cursor()
+cursor.execute(&#39;SELECT name, age, title, department, paygrade FROM employees&#39;)
+for emp in map(EmployeeRecord._make, cursor.fetchall()):
+    print(emp.name, emp.title)
+defaultdict
+defaultdict([default_factory[,...]])顾名思义继承自dict它接收一个函数(default_factory)作为参数但它除了dict所有的属性和方法外，另外加了__missing__方法和default_factory属性。这两个的作用就是访问不存在的key时它会新增一个key，value为调用default_factory的值。
+&gt;&gt;&gt; from collections import defaultdict
+&gt;&gt;&gt; d = defaultdict(list) # 默认函数为list
+&gt;&gt;&gt; print(d.items())  # 创建空字典
+dict_items([])
+&gt;&gt;&gt; d.default_factory
+&lt;class &#39;list&#39;&gt;
+&gt;&gt;&gt; d[&#39;key&#39;]  # 调用会设置该key的值为空list并返回
+[]
+&gt;&gt;&gt; print(d.items())
+dict_items([(&#39;key&#39;, [])])
+我们可以利用这个特性来做很多事，比如说给一个包含元组的的列表分类整理。
+&gt;&gt;&gt; s = [(&#39;yellow&#39;, 1), (&#39;blue&#39;, 2), (&#39;yellow&#39;, 3), (&#39;blue&#39;, 4), (&#39;red&#39;, 1)]
+&gt;&gt;&gt; d = defaultdict(list)
+&gt;&gt;&gt; for k, v in s:
+...     d[k].append(v)
+&gt;&gt;&gt; sorted(d.items())
+[(&#39;blue&#39;, [2, 4]), (&#39;red&#39;, [1]), (&#39;yellow&#39;, [1, 3])]
+上面的代码其实可以用dict的setdefault实现，但效率和可读性差点，如下">
 
 
 <script type="application/ld+json">
@@ -106,14 +214,14 @@ EmployeeRecord = namedtuple(&#39;EmployeeRecord&#39;, &#39;name, age, title, dep
   "@type": "BlogPosting",
   "headline": "collections模块中的namedtuple和defaultdict",
   "name": "collections模块中的namedtuple和defaultdict",
-  "description": "collections模块中的namedtuple和defaultdict collections模块是Python中对内置类型(dict, list, tuple)的拓展。就是说它们本身具有普通内置类型的所有特性，并添加了新的功能。\nnamedtuple() namedtuple(typename, field_names)是tuple的子类，定义的元组可以通过属性访问，也易于理解，self-document。field_names可以是列表或者是通过空格或者逗号分隔的字符串。\n\u0026gt;\u0026gt;\u0026gt; from collections import namedtuple \u0026gt;\u0026gt;\u0026gt; Point = namedtuple(\u0026#39;point\u0026#39;, \u0026#39;x, y\u0026#39;) \u0026gt;\u0026gt;\u0026gt; p = Point(3, y=4) \u0026gt;\u0026gt;\u0026gt; p point(x=3, y=4) \u0026gt;\u0026gt;\u0026gt; p[0] 3 \u0026gt;\u0026gt;\u0026gt; p.x 3 \u0026gt;\u0026gt;\u0026gt; x, y = p \u0026gt;\u0026gt;\u0026gt; print(x, y) 3 4 namedtuple有几个比较有用的方法和属性\nSomeNamedTuple._make(iterable)类方法，从可迭代对象中取值，长度必须和传入的field_names一致，返回一个新的对象 somenamedtuple._asdict()方法返回一个有序字典(OrderedDict) somenamedtuple._replace(**kwargs)方法替换值，返回一个新的对象，原来的不变 somenamedtuple._fields属性返回键名(field name)，可用于创建新的named tuple 再来看两个官方文档上的例子读取csv文件或者从sqlite读取\nEmployeeRecord = namedtuple(\u0026#39;EmployeeRecord\u0026#39;, \u0026#39;name, age, title, department, paygrade\u0026#39;) import csv for emp in map(EmployeeRecord._make, csv.reader(open(\u0026#34;employees.csv\u0026#34;, \u0026#34;rb\u0026#34;))): print(emp.name, emp.title) import sqlite3 conn = sqlite3.",
+  "description": "collections模块中的namedtuple和defaultdict collections模块是Python中对内置类型(dict, list, tuple)的拓展。就是说它们本身具有普通内置类型的所有特性，并添加了新的功能。\nnamedtuple() namedtuple(typename, field_names)是tuple的子类，定义的元组可以通过属性访问，也易于理解，self-document。field_names可以是列表或者是通过空格或者逗号分隔的字符串。\n\u0026gt;\u0026gt;\u0026gt; from collections import namedtuple \u0026gt;\u0026gt;\u0026gt; Point = namedtuple(\u0026#39;point\u0026#39;, \u0026#39;x, y\u0026#39;) \u0026gt;\u0026gt;\u0026gt; p = Point(3, y=4) \u0026gt;\u0026gt;\u0026gt; p point(x=3, y=4) \u0026gt;\u0026gt;\u0026gt; p[0] 3 \u0026gt;\u0026gt;\u0026gt; p.x 3 \u0026gt;\u0026gt;\u0026gt; x, y = p \u0026gt;\u0026gt;\u0026gt; print(x, y) 3 4 namedtuple有几个比较有用的方法和属性\nSomeNamedTuple._make(iterable)类方法，从可迭代对象中取值，长度必须和传入的field_names一致，返回一个新的对象 somenamedtuple._asdict()方法返回一个有序字典(OrderedDict) somenamedtuple._replace(**kwargs)方法替换值，返回一个新的对象，原来的不变 somenamedtuple._fields属性返回键名(field name)，可用于创建新的named tuple 再来看两个官方文档上的例子读取csv文件或者从sqlite读取\nEmployeeRecord = namedtuple(\u0026#39;EmployeeRecord\u0026#39;, \u0026#39;name, age, title, department, paygrade\u0026#39;) import csv for emp in map(EmployeeRecord._make, csv.reader(open(\u0026#34;employees.csv\u0026#34;, \u0026#34;rb\u0026#34;))): print(emp.name, emp.title) import sqlite3 conn = sqlite3.connect(\u0026#39;/companydata\u0026#39;) cursor = conn.cursor() cursor.execute(\u0026#39;SELECT name, age, title, department, paygrade FROM employees\u0026#39;) for emp in map(EmployeeRecord._make, cursor.fetchall()): print(emp.name, emp.title) defaultdict defaultdict([default_factory[,...]])顾名思义继承自dict它接收一个函数(default_factory)作为参数但它除了dict所有的属性和方法外，另外加了__missing__方法和default_factory属性。这两个的作用就是访问不存在的key时它会新增一个key，value为调用default_factory的值。\n\u0026gt;\u0026gt;\u0026gt; from collections import defaultdict \u0026gt;\u0026gt;\u0026gt; d = defaultdict(list) # 默认函数为list \u0026gt;\u0026gt;\u0026gt; print(d.items()) # 创建空字典 dict_items([]) \u0026gt;\u0026gt;\u0026gt; d.default_factory \u0026lt;class \u0026#39;list\u0026#39;\u0026gt; \u0026gt;\u0026gt;\u0026gt; d[\u0026#39;key\u0026#39;] # 调用会设置该key的值为空list并返回 [] \u0026gt;\u0026gt;\u0026gt; print(d.items()) dict_items([(\u0026#39;key\u0026#39;, [])]) 我们可以利用这个特性来做很多事，比如说给一个包含元组的的列表分类整理。\n\u0026gt;\u0026gt;\u0026gt; s = [(\u0026#39;yellow\u0026#39;, 1), (\u0026#39;blue\u0026#39;, 2), (\u0026#39;yellow\u0026#39;, 3), (\u0026#39;blue\u0026#39;, 4), (\u0026#39;red\u0026#39;, 1)] \u0026gt;\u0026gt;\u0026gt; d = defaultdict(list) \u0026gt;\u0026gt;\u0026gt; for k, v in s: ... d[k].append(v) \u0026gt;\u0026gt;\u0026gt; sorted(d.items()) [(\u0026#39;blue\u0026#39;, [2, 4]), (\u0026#39;red\u0026#39;, [1]), (\u0026#39;yellow\u0026#39;, [1, 3])] 上面的代码其实可以用dict的setdefault实现，但效率和可读性差点，如下\n",
   "keywords": [
     "Python"
   ],
   "articleBody": "collections模块中的namedtuple和defaultdict collections模块是Python中对内置类型(dict, list, tuple)的拓展。就是说它们本身具有普通内置类型的所有特性，并添加了新的功能。\nnamedtuple() namedtuple(typename, field_names)是tuple的子类，定义的元组可以通过属性访问，也易于理解，self-document。field_names可以是列表或者是通过空格或者逗号分隔的字符串。\n\u003e\u003e\u003e from collections import namedtuple \u003e\u003e\u003e Point = namedtuple('point', 'x, y') \u003e\u003e\u003e p = Point(3, y=4) \u003e\u003e\u003e p point(x=3, y=4) \u003e\u003e\u003e p[0] 3 \u003e\u003e\u003e p.x 3 \u003e\u003e\u003e x, y = p \u003e\u003e\u003e print(x, y) 3 4 namedtuple有几个比较有用的方法和属性\nSomeNamedTuple._make(iterable)类方法，从可迭代对象中取值，长度必须和传入的field_names一致，返回一个新的对象 somenamedtuple._asdict()方法返回一个有序字典(OrderedDict) somenamedtuple._replace(**kwargs)方法替换值，返回一个新的对象，原来的不变 somenamedtuple._fields属性返回键名(field name)，可用于创建新的named tuple 再来看两个官方文档上的例子读取csv文件或者从sqlite读取\nEmployeeRecord = namedtuple('EmployeeRecord', 'name, age, title, department, paygrade') import csv for emp in map(EmployeeRecord._make, csv.reader(open(\"employees.csv\", \"rb\"))): print(emp.name, emp.title) import sqlite3 conn = sqlite3.connect('/companydata') cursor = conn.cursor() cursor.execute('SELECT name, age, title, department, paygrade FROM employees') for emp in map(EmployeeRecord._make, cursor.fetchall()): print(emp.name, emp.title) defaultdict defaultdict([default_factory[,...]])顾名思义继承自dict它接收一个函数(default_factory)作为参数但它除了dict所有的属性和方法外，另外加了__missing__方法和default_factory属性。这两个的作用就是访问不存在的key时它会新增一个key，value为调用default_factory的值。\n\u003e\u003e\u003e from collections import defaultdict \u003e\u003e\u003e d = defaultdict(list) # 默认函数为list \u003e\u003e\u003e print(d.items()) # 创建空字典 dict_items([]) \u003e\u003e\u003e d.default_factory \u003cclass 'list'\u003e \u003e\u003e\u003e d['key'] # 调用会设置该key的值为空list并返回 [] \u003e\u003e\u003e print(d.items()) dict_items([('key', [])]) 我们可以利用这个特性来做很多事，比如说给一个包含元组的的列表分类整理。\n\u003e\u003e\u003e s = [('yellow', 1), ('blue', 2), ('yellow', 3), ('blue', 4), ('red', 1)] \u003e\u003e\u003e d = defaultdict(list) \u003e\u003e\u003e for k, v in s: ... d[k].append(v) \u003e\u003e\u003e sorted(d.items()) [('blue', [2, 4]), ('red', [1]), ('yellow', [1, 3])] 上面的代码其实可以用dict的setdefault实现，但效率和可读性差点，如下\n\u003e\u003e\u003e d = {} \u003e\u003e\u003e for k, v in s: ... d.setdefault(k, []).append(v) \u003e\u003e\u003e sorted(d.items()) [('blue', [2, 4]), ('red', [1]), ('yellow', [1, 3])] 最后看一下自定义default_factory参数\n\u003e\u003e\u003e def constant_factory(value): ... return lambda: value \u003e\u003e\u003e d = defaultdict(constant_factory('')) \u003e\u003e\u003e d.update(name='John', action='ran') \u003e\u003e\u003e '%(name)s %(action)s to %(object)s' % d 'John ran to ' 一个是比较讨巧的例子，利用了递归。\n\u003e\u003e\u003e tree = lambda: defaultdict(tree) \u003e\u003e\u003e d = tree() \u003e\u003e\u003e d['colours']['favourite'] = 'yellow' \u003e\u003e\u003e d['animals']['pets']['name'] = ['cat', 'dog'] \u003e\u003e\u003e import json \u003e\u003e\u003e print(json.dumps(d)) {\"colours\": {\"favourite\": \"yellow\"}, \"animals\": {\"pets\": {\"name\": [\"cat\", \"dog\"]}}} References https://docs.python.org/ https://github.com/ ",
   "wordCount" : "244",
   "inLanguage": "en",
-  "datePublished": "2018-02-09T15:17:02+08:00",
+  "image": "https://blog.fangjiahui.me/blog-cover-1.png","datePublished": "2018-02-09T15:17:02+08:00",
   "dateModified": "2020-04-17T03:25:30+08:00",
   "author":{
     "@type": "Person",
@@ -415,16 +523,15 @@ EmployeeRecord = namedtuple(&#39;EmployeeRecord&#39;, &#39;name, age, title, dep
 
 
 <div id="tcomment"></div>
-<script src="https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.40/dist/twikoo.all.min.js"></script>
 <script>
   twikoo.init({
     envId: "https://twikoo-kbp3p7wxh-fythons-projects.vercel.app", 
     el: "#tcomment", 
     
-    region: "",
     
     path: "",
-    lang: "zh-CN", 
+    
   });
 </script>
 
@@ -432,7 +539,8 @@ EmployeeRecord = namedtuple(&#39;EmployeeRecord&#39;, &#39;name, age, title, dep
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

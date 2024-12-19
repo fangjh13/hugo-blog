@@ -10,7 +10,7 @@
 <meta name="description" content="Python中的yield">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/2017-04-28-python3-yield/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -18,6 +18,7 @@
 <link rel="mask-icon" href="https://blog.fangjiahui.me/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/2017-04-28-python3-yield/">
 <noscript>
     <style>
         #theme-toggle,
@@ -54,18 +55,21 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="深入理解 Python中的yield" />
-<meta property="og:description" content="Python中的yield" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/2017-04-28-python3-yield/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2017-04-28T12:48:40+08:00" />
-<meta property="article:modified_time" content="2017-06-02T04:01:32+08:00" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:title" content="深入理解 Python中的yield"/>
-<meta name="twitter:description" content="Python中的yield"/>
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/2017-04-28-python3-yield/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="深入理解 Python中的yield">
+  <meta property="og:description" content="Python中的yield">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2017-04-28T12:48:40+08:00">
+    <meta property="article:modified_time" content="2017-06-02T04:01:32+08:00">
+    <meta property="article:tag" content="Python">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="深入理解 Python中的yield">
+<meta name="twitter:description" content="Python中的yield">
 
 
 <script type="application/ld+json">
@@ -101,7 +105,7 @@
   "articleBody": "深入理解 Python3 yield yield是 python 内置的关键字，它能产生一个生成器（Generator）。\n0x01. Generators 只要函数中有yield就会变成一个generator object生成器对象，生成器对象可以迭代，但与iterable不同的是它只能迭代一次。先来看一个简单的例子\n\u003e\u003e\u003e def foo(): ... yield 1 ... yield 2 ... yield 3 ... \u003e\u003e\u003e g = foo() \u003e\u003e\u003e g \u003cgenerator object foo at 0x7ffb08326ca8\u003e \u003e\u003e\u003e for i in g: ... print(i) ... ... 1 2 3 \u003e\u003e\u003e for i in g: ... print(i) ... ... \u003e\u003e\u003e 当你调用foo这个函数的时候，函数内部的代码并不立马执行 ，这个函数只返回一个生成器对象，如果有庞大的数据它不像iterable占用内存，会每次调用时才计算产生值。\n其实for循环隐式的调用__next__()方法，直到遇到StopIteration停止。\n\u003e\u003e\u003e def bar(): ... yield 'a' # 第一次调用next()代码运行到这，产生'a' ... yield 'b' # 第二次调用next()代码运行到这，产生'b' ... yield 'c' # 第三次调用next()代码运行到这，产生'c' ... \u003e\u003e\u003e g = bar() \u003e\u003e\u003e next(g) 'a' \u003e\u003e\u003e next(g) 'b' \u003e\u003e\u003e next(g) 'c' \u003e\u003e\u003e next(g) Traceback (most recent call last): File \"\", line 1, in \u003cmodule\u003e next(g) StopIteration 也可以使用 Python3 内置的next()函数调用，直到产生StopIteration错误。\n下面是一个斐波那契数列的例子\n\u003e\u003e\u003e def fib(n): ... a, b = 0, 1 ... while n \u003e= 0: ... b, a = a, a+b ... n -= 1 ... yield b ... ... \u003e\u003e\u003e for i in fib(5): ... print(i) ... ... 0 1 1 2 3 5 0x02. send Method /Coroutines yield不仅可以通过next()取得产生的值，还可以通过send()接受值。\n\u003e\u003e\u003e def simple_coroutine(): ... print('coroutine has been started!') ... x = yield ... print('coroutine received:', x) ... ... \u003e\u003e\u003e cr = simple_coroutine() \u003e\u003e\u003e cr \u003cgenerator object simple_coroutine at 0x7ffb08337a40\u003e \u003e\u003e\u003e next(cr) # 等于send(None) coroutine has been started! \u003e\u003e\u003e cr.send('Hi') coroutine received: Hi Traceback (most recent call last): File \"\", line 1, in \u003cmodule\u003e cr.send('Hi') StopIteration 首先必须调用next()或send(None)开始这个生成器，程序运行到x = yield暂停，这就是yield神奇的地方可以中断和恢复。因为yield后面没有值，默认为None，之后send('Hi')，生成器接受'Hi'并把它赋值给左边的x继续运行。由于没有下一个yield就抛出了StopIteration错误。\nsend(value)会传递 value 给yield，并且返回下一个yield右边的值。next()也会传递给yield值只是值为None，返回yield右边的值，这个和send一样。所以第一次调用next()等同于send(None)开始一个生成器。\n具体什么是协程，我记录在了这里，欢迎参阅。\n0x03. throw / close Method throw(type)方法会在yield暂停的地方直接抛出一个为type的异常，程序退出。如果被try...except..捕获了就继续执行返回下一个yield值，之后没有yield的话就会抛出一个StopIteration错误。\nclose()是一个优雅地退出generator的方法，本质是抛出一个GeneratorExit异常。\n\u003e\u003e\u003e def echo(value=None): ... print(\"Execution starts when 'next()' is called for the first time.\") ... try: ... while True: ... try: ... value = (yield value) ... except Exception as e: ... value = e ... finally: ... print(\"Don't forget to clean up when 'close()' is called.\") ... ... ... \u003e\u003e\u003e generator = echo(1) \u003e\u003e\u003e print(generator) \u003cgenerator object echo at 0x7ffb0822ec50\u003e \u003e\u003e\u003e print(generator.send(None)) Execution starts when 'next()' is called for the first time. 1 \u003e\u003e\u003e print(next(generator)) None \u003e\u003e\u003e print(generator.send(2)) 2 \u003e\u003e\u003e generator.throw(TypeError, \"spam\") TypeError('spam',) \u003e\u003e\u003e generator.close() Don't forget to clean up when 'close()' is called. 这个是官方文档上的例子，首先send(None)开始这个生成器，输出右边的value 1 ，调用next()后输出None是因为next()默认传递None给左边的value然后到下一个yield value所以是None。send(2)只是传给value的值为2其他同理，所以输出是2。throw()会抛出一个异常，而被except捕获并赋值给了value。close()关闭了generator退出当前块代码运行finally代码块。\n0x04. yield from yield from是从Python 3.3之后加入的。\n\u003e\u003e\u003e def gen1(): ... for char in \"Python\": ... yield char ... for i in range(5): ... yield i ... ... \u003e\u003e\u003e def gen2(): ... yield from \"Python\" ... yield from range(5) ... \u003e\u003e\u003e g1 = gen1() \u003e\u003e\u003e g2 = gen2() \u003e\u003e\u003e for i in g1: ... print(i, end=',') ... ... P,y,t,h,o,n,0,1,2,3,4, \u003e\u003e\u003e for i in g2: ... print(i, end=',') ... ... P,y,t,h,o,n,0,1,2,3,4, 上面的gen1和gen2是等价的但代码看上去更加的整洁。yield from后接可迭代对象(iterable)。然后我们看一个后面接生成器的例子。\n\u003e\u003e\u003e def accumulate(): ... tally = 0 ... while True: ... next = yield ... if next == None: ... return tally ... tally += next ... ... ... \u003e\u003e\u003e def gather_tallies_verbose(tallies): ... acc = accumulate() ... next(acc) ... while True: ... try: ... value = yield ... acc.send(value) ... except StopIteration as tally: ... tallies.append(tally.value) ... acc = accumulate() ... next(acc) ... except Exception as e: ... print(e.value) ... acc.throw(e) ... ... ... ... \u003e\u003e\u003e def gather_tallies(tallies): ... while True: ... tally = yield from accumulate() ... tallies.append(tally) ... ... ... \u003e\u003e\u003e tallies = [] \u003e\u003e\u003e acc = gather_tallies(tallies) \u003e\u003e\u003e next(acc) \u003e\u003e\u003e for i in range(4): ... acc.send(i) ... ... \u003e\u003e\u003e tallies [] \u003e\u003e\u003e acc.send(None) \u003e\u003e\u003e tallies [6] \u003e\u003e\u003e for i in range(5): ... acc.send(i) ... ... \u003e\u003e\u003e acc.send(None) \u003e\u003e\u003e tallies [6, 10] 这个例子原来是官方文档上的例子我改了下。gather_tallies_verbose和gather_tallies两个是等价的，但gather_tallies使用了yield from对比发现更加简洁易懂，magic。\naccumulate()是一个生成器对象，gather_tallies()也是一个生成器。子生成器accumulate能接受gather_tallies的send()过来的值，子生成器接受到None后return的值会传递给调用者(gather_tallies)并赋值在左边也就是tally然后继续运行，子生成器return其实会抛出一个StopIteration错误而捕获到错误的value值也就是tally。\n具体可查看如下规则PEP 380 - Syntax for Delegating to a Subgenerator\nAny values that the iterator yields are passed directly to the caller. Any values sent to the delegating generator using send() are passed directly to the iterator. If the sent value is None, the iterator’s __next__ method is called. If the sent value is not None, the iterator’s send() method is called. If the call raises StopIteration, the delegating generator is resumed. Any other exception is propagated to the delegating generator. Exceptions other than GeneratorExit thrown into the delegating generator are passed to the throw() method of the iterator. If the call raises StopIteration, the delegating generator is resumed. Any other exception is propagated to the delegating generator. If a GeneratorExit exception is thrown into the delegating generator, or the close() method of the delegating generator is called, then the close() method of the iterator is called if it has one. If this call results in an exception, it is propagated to the delegating generator. Otherwise, GeneratorExit is raised in the delegating generator. The value of the yield from expression is the first argument to the StopIteration exception raised by the iterator when it terminates. return expr in a generator causes StopIteration(expr) to be raised upon exit from the generator. 参考\nhttp://www.python-course.eu\nhttps://docs.python.org\nhttps://docs.python.org\n",
   "wordCount" : "748",
   "inLanguage": "en",
-  "datePublished": "2017-04-28T12:48:40+08:00",
+  "image": "https://blog.fangjiahui.me/blog-cover-1.png","datePublished": "2017-04-28T12:48:40+08:00",
   "dateModified": "2017-06-02T04:01:32+08:00",
   "author":{
     "@type": "Person",
@@ -542,16 +546,15 @@
 
 
 <div id="tcomment"></div>
-<script src="https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.40/dist/twikoo.all.min.js"></script>
 <script>
   twikoo.init({
     envId: "https://twikoo-kbp3p7wxh-fythons-projects.vercel.app", 
     el: "#tcomment", 
     
-    region: "",
     
     path: "",
-    lang: "zh-CN", 
+    
   });
 </script>
 
@@ -559,7 +562,8 @@
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

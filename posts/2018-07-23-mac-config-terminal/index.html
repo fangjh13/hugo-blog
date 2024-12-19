@@ -7,16 +7,22 @@
 <meta name="robots" content="index, follow">
 <title>Mac终端(Terminal)配置 | Fython&#39;s Blog</title>
 <meta name="keywords" content="Mac, iTerm">
-<meta name="description" content="Mac 终端(Terminal)配置 平时工作中命令行用的比图形界面多，所以有必要配置一个赏心悦目的终端界面来提高工作效率(^_^)。
-iTerm 第一步就是替换原来的自带终端(Terminal)，换成iTerm。iTerm 是一个深受广大开发者欢迎的终端 App，代码托管在Github，可以直接在官网下载安装。最新版为 Build 3.4.23
+<meta name="description" content="Mac 终端(Terminal)配置
+平时工作中命令行用的比图形界面多，所以有必要配置一个赏心悦目的终端界面来提高工作效率(^_^)。
+
+iTerm
+第一步就是替换原来的自带终端(Terminal)，换成iTerm。iTerm 是一个深受广大开发者欢迎的终端 App，代码托管在Github，可以直接在官网下载安装。最新版为 Build 3.4.23
 打开iTerm2 &gt; Preferences &gt; General，在Selection下勾上Applications in terminal may access clipboard使在iTerm中鼠标选中就能复制到系统剪切板使用command&#43;v粘贴
 打开iTerm2 &gt; Preferences &gt; Profiles，右边点Keys把左右 option 键设为Esc&#43;，取消勾选Apps can change this来启用 Unix 的Alt &#43; B和Alt &#43; F前进和后退一个单词。
+
 打开iTerm2 &gt; Preferences &gt; Terminal，底部 Shell Integration 取消勾选 Show mark indicators 不然每次执行命令会出现一个小箭头影响美观
-Zsh &amp; Oh My Zsh 打开 iTerm 安装Homebrew
-/bin/bash -c &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&#34; 使用 Homebrew 安装 zsh，设为默认的终端。从 Big Sur 已经设置 zsh 为默认的终端了，可以跳过此步骤，可以使用echo $SHELL检查">
+Zsh &amp; Oh My Zsh
+打开 iTerm 安装Homebrew
+/bin/bash -c &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&#34;
+使用 Homebrew 安装 zsh，设为默认的终端。从 Big Sur 已经设置 zsh 为默认的终端了，可以跳过此步骤，可以使用echo $SHELL检查">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/2018-07-23-mac-config-terminal/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -24,6 +30,7 @@ Zsh &amp; Oh My Zsh 打开 iTerm 安装Homebrew
 <link rel="mask-icon" href="https://blog.fangjiahui.me/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/2018-07-23-mac-config-terminal/">
 <noscript>
     <style>
         #theme-toggle,
@@ -60,30 +67,40 @@ Zsh &amp; Oh My Zsh 打开 iTerm 安装Homebrew
         }
 
     </style>
-</noscript><meta property="og:title" content="Mac终端(Terminal)配置" />
-<meta property="og:description" content="Mac 终端(Terminal)配置 平时工作中命令行用的比图形界面多，所以有必要配置一个赏心悦目的终端界面来提高工作效率(^_^)。
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/2018-07-23-mac-config-terminal/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="Mac终端(Terminal)配置">
+  <meta property="og:description" content="Mac 终端(Terminal)配置 平时工作中命令行用的比图形界面多，所以有必要配置一个赏心悦目的终端界面来提高工作效率(^_^)。
 iTerm 第一步就是替换原来的自带终端(Terminal)，换成iTerm。iTerm 是一个深受广大开发者欢迎的终端 App，代码托管在Github，可以直接在官网下载安装。最新版为 Build 3.4.23
 打开iTerm2 &gt; Preferences &gt; General，在Selection下勾上Applications in terminal may access clipboard使在iTerm中鼠标选中就能复制到系统剪切板使用command&#43;v粘贴
 打开iTerm2 &gt; Preferences &gt; Profiles，右边点Keys把左右 option 键设为Esc&#43;，取消勾选Apps can change this来启用 Unix 的Alt &#43; B和Alt &#43; F前进和后退一个单词。
 打开iTerm2 &gt; Preferences &gt; Terminal，底部 Shell Integration 取消勾选 Show mark indicators 不然每次执行命令会出现一个小箭头影响美观
 Zsh &amp; Oh My Zsh 打开 iTerm 安装Homebrew
-/bin/bash -c &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&#34; 使用 Homebrew 安装 zsh，设为默认的终端。从 Big Sur 已经设置 zsh 为默认的终端了，可以跳过此步骤，可以使用echo $SHELL检查" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/2018-07-23-mac-config-terminal/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2018-07-23T12:50:27+08:00" />
-<meta property="article:modified_time" content="2024-02-09T13:54:57+08:00" />
+/bin/bash -c &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&#34; 使用 Homebrew 安装 zsh，设为默认的终端。从 Big Sur 已经设置 zsh 为默认的终端了，可以跳过此步骤，可以使用echo $SHELL检查">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2018-07-23T12:50:27+08:00">
+    <meta property="article:modified_time" content="2024-02-09T13:54:57+08:00">
+    <meta property="article:tag" content="Mac">
+    <meta property="article:tag" content="ITerm">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="Mac终端(Terminal)配置">
+<meta name="twitter:description" content="Mac 终端(Terminal)配置
+平时工作中命令行用的比图形界面多，所以有必要配置一个赏心悦目的终端界面来提高工作效率(^_^)。
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:title" content="Mac终端(Terminal)配置"/>
-<meta name="twitter:description" content="Mac 终端(Terminal)配置 平时工作中命令行用的比图形界面多，所以有必要配置一个赏心悦目的终端界面来提高工作效率(^_^)。
-iTerm 第一步就是替换原来的自带终端(Terminal)，换成iTerm。iTerm 是一个深受广大开发者欢迎的终端 App，代码托管在Github，可以直接在官网下载安装。最新版为 Build 3.4.23
+iTerm
+第一步就是替换原来的自带终端(Terminal)，换成iTerm。iTerm 是一个深受广大开发者欢迎的终端 App，代码托管在Github，可以直接在官网下载安装。最新版为 Build 3.4.23
 打开iTerm2 &gt; Preferences &gt; General，在Selection下勾上Applications in terminal may access clipboard使在iTerm中鼠标选中就能复制到系统剪切板使用command&#43;v粘贴
 打开iTerm2 &gt; Preferences &gt; Profiles，右边点Keys把左右 option 键设为Esc&#43;，取消勾选Apps can change this来启用 Unix 的Alt &#43; B和Alt &#43; F前进和后退一个单词。
+
 打开iTerm2 &gt; Preferences &gt; Terminal，底部 Shell Integration 取消勾选 Show mark indicators 不然每次执行命令会出现一个小箭头影响美观
-Zsh &amp; Oh My Zsh 打开 iTerm 安装Homebrew
-/bin/bash -c &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&#34; 使用 Homebrew 安装 zsh，设为默认的终端。从 Big Sur 已经设置 zsh 为默认的终端了，可以跳过此步骤，可以使用echo $SHELL检查"/>
+Zsh &amp; Oh My Zsh
+打开 iTerm 安装Homebrew
+/bin/bash -c &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&#34;
+使用 Homebrew 安装 zsh，设为默认的终端。从 Big Sur 已经设置 zsh 为默认的终端了，可以跳过此步骤，可以使用echo $SHELL检查">
 
 
 <script type="application/ld+json">
@@ -112,14 +129,14 @@ Zsh &amp; Oh My Zsh 打开 iTerm 安装Homebrew
   "@type": "BlogPosting",
   "headline": "Mac终端(Terminal)配置",
   "name": "Mac终端(Terminal)配置",
-  "description": "Mac 终端(Terminal)配置 平时工作中命令行用的比图形界面多，所以有必要配置一个赏心悦目的终端界面来提高工作效率(^_^)。\niTerm 第一步就是替换原来的自带终端(Terminal)，换成iTerm。iTerm 是一个深受广大开发者欢迎的终端 App，代码托管在Github，可以直接在官网下载安装。最新版为 Build 3.4.23\n打开iTerm2 \u0026gt; Preferences \u0026gt; General，在Selection下勾上Applications in terminal may access clipboard使在iTerm中鼠标选中就能复制到系统剪切板使用command+v粘贴\n打开iTerm2 \u0026gt; Preferences \u0026gt; Profiles，右边点Keys把左右 option 键设为Esc+，取消勾选Apps can change this来启用 Unix 的Alt + B和Alt + F前进和后退一个单词。\n打开iTerm2 \u0026gt; Preferences \u0026gt; Terminal，底部 Shell Integration 取消勾选 Show mark indicators 不然每次执行命令会出现一个小箭头影响美观\nZsh \u0026amp; Oh My Zsh 打开 iTerm 安装Homebrew\n/bin/bash -c \u0026#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\u0026#34; 使用 Homebrew 安装 zsh，设为默认的终端。从 Big Sur 已经设置 zsh 为默认的终端了，可以跳过此步骤，可以使用echo $SHELL检查",
+  "description": "Mac 终端(Terminal)配置 平时工作中命令行用的比图形界面多，所以有必要配置一个赏心悦目的终端界面来提高工作效率(^_^)。\niTerm 第一步就是替换原来的自带终端(Terminal)，换成iTerm。iTerm 是一个深受广大开发者欢迎的终端 App，代码托管在Github，可以直接在官网下载安装。最新版为 Build 3.4.23\n打开iTerm2 \u0026gt; Preferences \u0026gt; General，在Selection下勾上Applications in terminal may access clipboard使在iTerm中鼠标选中就能复制到系统剪切板使用command+v粘贴\n打开iTerm2 \u0026gt; Preferences \u0026gt; Profiles，右边点Keys把左右 option 键设为Esc+，取消勾选Apps can change this来启用 Unix 的Alt + B和Alt + F前进和后退一个单词。\n打开iTerm2 \u0026gt; Preferences \u0026gt; Terminal，底部 Shell Integration 取消勾选 Show mark indicators 不然每次执行命令会出现一个小箭头影响美观\nZsh \u0026amp; Oh My Zsh 打开 iTerm 安装Homebrew\n/bin/bash -c \u0026#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\u0026#34; 使用 Homebrew 安装 zsh，设为默认的终端。从 Big Sur 已经设置 zsh 为默认的终端了，可以跳过此步骤，可以使用echo $SHELL检查\n",
   "keywords": [
     "Mac", "iTerm"
   ],
   "articleBody": "Mac 终端(Terminal)配置 平时工作中命令行用的比图形界面多，所以有必要配置一个赏心悦目的终端界面来提高工作效率(^_^)。\niTerm 第一步就是替换原来的自带终端(Terminal)，换成iTerm。iTerm 是一个深受广大开发者欢迎的终端 App，代码托管在Github，可以直接在官网下载安装。最新版为 Build 3.4.23\n打开iTerm2 \u003e Preferences \u003e General，在Selection下勾上Applications in terminal may access clipboard使在iTerm中鼠标选中就能复制到系统剪切板使用command+v粘贴\n打开iTerm2 \u003e Preferences \u003e Profiles，右边点Keys把左右 option 键设为Esc+，取消勾选Apps can change this来启用 Unix 的Alt + B和Alt + F前进和后退一个单词。\n打开iTerm2 \u003e Preferences \u003e Terminal，底部 Shell Integration 取消勾选 Show mark indicators 不然每次执行命令会出现一个小箭头影响美观\nZsh \u0026 Oh My Zsh 打开 iTerm 安装Homebrew\n/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\" 使用 Homebrew 安装 zsh，设为默认的终端。从 Big Sur 已经设置 zsh 为默认的终端了，可以跳过此步骤，可以使用echo $SHELL检查\nbrew install zsh oh-my-zsh是 zsh 的配置文件，使用下面命令安装\nsh -c \"$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\" 打开 iTerm 会耐看很多，应该长成这个样子了\n配置.zshrc文件可以更改主题或者增加插件，默认启用 robbyrussell 主题和开启了 git 插件，可以根据需要更改主题和插件。\nSH_THEME=\"robbyrussell\" ... plugins=( git ) 然后加第三方插件\nzsh-autosuggestions 自动提示插件，根据你输入的历史命令给出提示 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions zsh-syntax-highlighting 高亮不同的命令插件 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting zsh-history-substring-search 高亮查找匹配前缀的历史输入 git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search 配置 ctrl+p 和 ctrl+n 触发，在 .zshrc 增加如下配置\nbindkey -M emacs '^P' history-substring-search-up bindkey -M emacs '^N' history-substring-search-down 最后加入到plugins启用\nplugins=( git zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search ) zsh-completions 原生 zsh 功能补充，可以认为某些功能的尝鲜版稳定了会被加入的官方版本中 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions 这个插件安装方式有些不同不能加到 plugins 需要在 source \"$ZSH/oh-my-zsh.sh\" 之前添加下面这一行\n... fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src ... source $ZSH/oh-my-zsh.sh 效果图\nPure Pure是一个 zsh 提示，使用brew安装\nbrew install pure 在.zshrc后添加\n... fpath+=(\"$(brew --prefix)/share/zsh/site-functions\") ... autoload -U promptinit; promptinit prompt pure iterm2-snazzy \u0026 Menlo-for-Powerline fonts iterm2-snazzy是一个 iTerm 配色方案 下载Github页上的Snazzy.itermcolors到本地，iTerm2 \u003e Profiles \u003e Colors Tab页右下角在Color Presets...导入Snazzy并选择启用。\nMenlo-for-Powerline 是 Menlo 的 Powerline 的字体。 下载到本地并双击安装字体。iTerm2 \u003e Profiles \u003e Text Tab修改字体为menlo for powerline，字体大小选13。\n也可以选 Nerd Fonts 为字体它打得补钉支持更多得图标和符号\n最终效果\nPS: 上面第一张图是Hyper加hyper-snazzy插件的效果\n",
   "wordCount" : "210",
   "inLanguage": "en",
-  "datePublished": "2018-07-23T12:50:27+08:00",
+  "image": "https://blog.fangjiahui.me/blog-cover-1.png","datePublished": "2018-07-23T12:50:27+08:00",
   "dateModified": "2024-02-09T13:54:57+08:00",
   "author":{
     "@type": "Person",
@@ -234,14 +251,12 @@ Zsh &amp; Oh My Zsh 打开 iTerm 安装Homebrew
 
   <div class="post-content"><h2 id="mac-终端terminal配置">Mac 终端(Terminal)配置<a hidden class="anchor" aria-hidden="true" href="#mac-终端terminal配置">#</a></h2>
 <p>平时工作中命令行用的比图形界面多，所以有必要配置一个赏心悦目的终端界面来提高工作效率(^_^)。</p>
-<p><img loading="lazy" src="../images/MacScreenShot-2018-07-20-5-35-35.png" alt=""  />
-</p>
+<p><img loading="lazy" src="../images/MacScreenShot-2018-07-20-5-35-35.png"></p>
 <h3 id="iterm">iTerm<a hidden class="anchor" aria-hidden="true" href="#iterm">#</a></h3>
 <p>第一步就是替换原来的自带终端(Terminal)，换成<a href="https://www.iterm2.com/">iTerm</a>。iTerm 是一个深受广大开发者欢迎的终端 App，代码托管在<a href="https://github.com/gnachman/iTerm2">Github</a>，可以直接在官网下载安装。最新版为 <code>Build 3.4.23</code></p>
 <p>打开<em>iTerm2 &gt; Preferences &gt; General</em>，在<code>Selection</code>下勾上<code>Applications in terminal may access clipboard</code>使在<code>iTerm</code>中鼠标选中就能复制到系统剪切板使用<code>command+v</code>粘贴</p>
 <p>打开<em>iTerm2 &gt; Preferences &gt; Profiles</em>，右边点<code>Keys</code>把左右 option 键设为<code>Esc+</code>，取消勾选<code>Apps can change this</code>来启用 Unix 的<code>Alt + B</code>和<code>Alt + F</code>前进和后退一个单词。</p>
-<p><img loading="lazy" src="../images/ScreenShot-2018-07-20-09-34-18.png" alt=""  />
-</p>
+<p><img loading="lazy" src="../images/ScreenShot-2018-07-20-09-34-18.png"></p>
 <p>打开<em>iTerm2 &gt; Preferences &gt; Terminal</em>，底部 <code>Shell Integration</code> 取消勾选 <code>Show mark indicators</code> 不然每次执行命令会出现一个小箭头影响美观</p>
 <h3 id="zsh--oh-my-zsh">Zsh &amp; Oh My Zsh<a hidden class="anchor" aria-hidden="true" href="#zsh--oh-my-zsh">#</a></h3>
 <p>打开 iTerm 安装<a href="https://brew.sh/">Homebrew</a></p>
@@ -251,8 +266,7 @@ Zsh &amp; Oh My Zsh 打开 iTerm 安装Homebrew
 </span></span></code></pre></div><p><a href="https://github.com/robbyrussell/oh-my-zsh">oh-my-zsh</a>是 zsh 的配置文件，使用下面命令安装</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sh -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="k">)</span><span class="s2">&#34;</span>
 </span></span></code></pre></div><p>打开 iTerm 会耐看很多，应该长成这个样子了</p>
-<p><img loading="lazy" src="../images/MacScreenShot-2018-07-20-8-13.png" alt=""  />
-</p>
+<p><img loading="lazy" src="../images/MacScreenShot-2018-07-20-8-13.png"></p>
 <p>配置<code>.zshrc</code>文件可以更改主题或者增加插件，默认启用 robbyrussell 主题和开启了 git 插件，可以根据需要更改<a href="https://github.com/robbyrussell/oh-my-zsh/wiki/Themes">主题</a>和<a href="https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins">插件</a>。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">SH_THEME</span><span class="o">=</span><span class="s2">&#34;robbyrussell&#34;</span>
 </span></span><span class="line"><span class="cl">...
@@ -292,8 +306,7 @@ Zsh &amp; Oh My Zsh 打开 iTerm 安装Homebrew
 </span></span><span class="line"><span class="cl">...
 </span></span><span class="line"><span class="cl"><span class="nb">source</span> <span class="nv">$ZSH</span>/oh-my-zsh.sh
 </span></span></code></pre></div><p>效果图</p>
-<p><img loading="lazy" src="../images/ScreenShot-2018-07-20-8-47.png" alt=""  />
-</p>
+<p><img loading="lazy" src="../images/ScreenShot-2018-07-20-8-47.png"></p>
 <h3 id="pure">Pure<a hidden class="anchor" aria-hidden="true" href="#pure">#</a></h3>
 <p><a href="https://github.com/sindresorhus/pure">Pure</a>是一个 zsh 提示，使用<code>brew</code>安装</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">brew install pure
@@ -316,8 +329,7 @@ Zsh &amp; Oh My Zsh 打开 iTerm 安装Homebrew
 <p>也可以选 <a href="https://www.nerdfonts.com/">Nerd Fonts</a> 为字体它打得补钉支持更多得图标和符号</p>
 </blockquote>
 <p>最终效果</p>
-<p><img loading="lazy" src="../images/ScreenShot-2018-07-20-9-25-43.png" alt=""  />
-</p>
+<p><img loading="lazy" src="../images/ScreenShot-2018-07-20-9-25-43.png"></p>
 <p>PS: 上面第一张图是<a href="https://hyper.is/">Hyper</a>加<a href="https://github.com/sindresorhus/hyper-snazzy">hyper-snazzy</a>插件的效果</p>
 
 
@@ -326,7 +338,7 @@ Zsh &amp; Oh My Zsh 打开 iTerm 安装Homebrew
   <footer class="post-footer">
     <ul class="post-tags">
       <li><a href="https://blog.fangjiahui.me/tags/mac/">Mac</a></li>
-      <li><a href="https://blog.fangjiahui.me/tags/iterm/">iTerm</a></li>
+      <li><a href="https://blog.fangjiahui.me/tags/iterm/">ITerm</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://blog.fangjiahui.me/posts/2018-08-16-systemd-timer-unit/">
@@ -430,16 +442,15 @@ Zsh &amp; Oh My Zsh 打开 iTerm 安装Homebrew
 
 
 <div id="tcomment"></div>
-<script src="https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.40/dist/twikoo.all.min.js"></script>
 <script>
   twikoo.init({
     envId: "https://twikoo-kbp3p7wxh-fythons-projects.vercel.app", 
     el: "#tcomment", 
     
-    region: "",
     
     path: "",
-    lang: "zh-CN", 
+    
   });
 </script>
 
@@ -447,7 +458,8 @@ Zsh &amp; Oh My Zsh 打开 iTerm 安装Homebrew
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

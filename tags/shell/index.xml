@@ -9,7 +9,7 @@
       <url>https://blog.fangjiahui.me/blog-cover-1.png</url>
       <link>https://blog.fangjiahui.me/blog-cover-1.png</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.140.0</generator>
     <language>en</language>
     <lastBuildDate>Fri, 24 May 2024 11:35:54 +0800</lastBuildDate>
     <atom:link href="https://blog.fangjiahui.me/tags/shell/index.xml" rel="self" type="application/rss+xml" />
@@ -18,10 +18,266 @@
       <link>https://blog.fangjiahui.me/posts/2020-07-14-bash-tip-and-tricks/</link>
       <pubDate>Tue, 14 Jul 2020 03:47:53 +0800</pubDate>
       <guid>https://blog.fangjiahui.me/posts/2020-07-14-bash-tip-and-tricks/</guid>
-      <description>Bash 快捷操作 GUN Bash 是现代操作系统一般都默认自带的 Shell，它兼容 sh 并提供了更多的 feature，如果我们常用命令行那么记住一些快捷键和 trick 能大大提高我们的工作效率，这篇文章就介绍下本人常用的快捷键和一些技巧。
-Bash 默认的是 emacs 模式，这里的快捷键以默认的为准，可以使用set -o命令查看，使用set -o emacs设置。
-移动光标 快捷键 描述 Ctrl + a 移动光标到行首 Ctrl + e 移动光标到行尾 Alt + b 移动光标后退一个单词（词首） Alt + f 移动光标前进一个单词（词首） Ctrl + f 光标前进一个字母 Ctrl + b 光标后退一个字母 Ctrl + xx 当前位置与行首之间光标切换 一般配合Ctrl的是单字符移动，Alt是单词为边界。建议将键盘上的caps lock键改成Ctrl这样手指移动距离更短按起来也更加舒服方便。
-剪切（删除）粘贴 快捷键 描述 Ctrl + k 剪切从光标到行尾 Ctrl + u 剪切从光标到行首 Ctrl + w 从光标向前剪切一个单词 Alt + Backspace 与 Ctrl + w 类似，但分隔符是一些特殊字符 Alt + d 从光标向后剪切一个单词 Ctrl + d 删除光标下一个字母，如果没有字符存在，ctrl+d 则会登出该会话 Ctrl + h 删除光标前一个字母 Alt + t swap(当前单词, 上一个单词) Ctrl + t swap(当前字母, 上一个字母) Ctrl + y 粘贴上一次剪切的文本，配合 Ctrl-u、Ctrl-k 效果极好 大小写转换 快捷键 描述 Alt + c 大写当前字母，并移动光标到单词尾 Alt + u 大写从当光标到单词尾 Alt + l 小写从当光标到单词尾 历史命令 快捷键 描述 Ctrl + r 向后搜索历史命令 Ctrl + g 退出搜索 Ctrl + p 历史中上一个命令，代替向上方向键 Ctrl + n 历史中下一个命令，代替乡下方向键 Alt + .</description>
+      <description>&lt;h1 id=&#34;bash-快捷操作&#34;&gt;Bash 快捷操作&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.gnu.org/software/bash/&#34;&gt;GUN Bash&lt;/a&gt; 是现代操作系统一般都默认自带的 Shell，它兼容 sh 并提供了更多的 feature，如果我们常用命令行那么记住一些快捷键和 trick 能大大提高我们的工作效率，这篇文章就介绍下本人常用的快捷键和一些技巧。&lt;/p&gt;
+&lt;p&gt;Bash 默认的是 emacs 模式，这里的快捷键以默认的为准，可以使用&lt;code&gt;set -o&lt;/code&gt;命令查看，使用&lt;code&gt;set -o emacs&lt;/code&gt;设置。&lt;/p&gt;
+&lt;h2 id=&#34;移动光标&#34;&gt;移动光标&lt;/h2&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;快捷键&lt;/th&gt;
+          &lt;th&gt;描述&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + a&lt;/td&gt;
+          &lt;td&gt;移动光标到行首&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + e&lt;/td&gt;
+          &lt;td&gt;移动光标到行尾&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Alt + b&lt;/td&gt;
+          &lt;td&gt;移动光标后退一个单词（词首）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Alt + f&lt;/td&gt;
+          &lt;td&gt;移动光标前进一个单词（词首）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + f&lt;/td&gt;
+          &lt;td&gt;光标前进一个字母&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + b&lt;/td&gt;
+          &lt;td&gt;光标后退一个字母&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + xx&lt;/td&gt;
+          &lt;td&gt;当前位置与行首之间光标切换&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;一般配合&lt;code&gt;Ctrl&lt;/code&gt;的是单字符移动，&lt;code&gt;Alt&lt;/code&gt;是单词为边界。建议将键盘上的&lt;code&gt;caps lock&lt;/code&gt;键改成&lt;code&gt;Ctrl&lt;/code&gt;这样手指移动距离更短按起来也更加舒服方便。&lt;/p&gt;
+&lt;h2 id=&#34;剪切删除粘贴&#34;&gt;剪切（删除）粘贴&lt;/h2&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;快捷键&lt;/th&gt;
+          &lt;th&gt;描述&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + k&lt;/td&gt;
+          &lt;td&gt;剪切从光标到行尾&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + u&lt;/td&gt;
+          &lt;td&gt;剪切从光标到行首&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + w&lt;/td&gt;
+          &lt;td&gt;从光标向前剪切一个单词&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Alt + Backspace&lt;/td&gt;
+          &lt;td&gt;与 Ctrl + w 类似，但分隔符是一些特殊字符&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Alt + d&lt;/td&gt;
+          &lt;td&gt;从光标向后剪切一个单词&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + d&lt;/td&gt;
+          &lt;td&gt;删除光标下一个字母，如果没有字符存在，ctrl+d 则会登出该会话&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + h&lt;/td&gt;
+          &lt;td&gt;删除光标前一个字母&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Alt + t&lt;/td&gt;
+          &lt;td&gt;swap(当前单词, 上一个单词)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + t&lt;/td&gt;
+          &lt;td&gt;swap(当前字母, 上一个字母)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + y&lt;/td&gt;
+          &lt;td&gt;粘贴上一次剪切的文本，配合 Ctrl-u、Ctrl-k 效果极好&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;大小写转换&#34;&gt;大小写转换&lt;/h2&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;快捷键&lt;/th&gt;
+          &lt;th&gt;描述&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Alt + c&lt;/td&gt;
+          &lt;td&gt;大写当前字母，并移动光标到单词尾&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Alt + u&lt;/td&gt;
+          &lt;td&gt;大写从当光标到单词尾&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Alt + l&lt;/td&gt;
+          &lt;td&gt;小写从当光标到单词尾&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;历史命令&#34;&gt;历史命令&lt;/h2&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;快捷键&lt;/th&gt;
+          &lt;th&gt;描述&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + r&lt;/td&gt;
+          &lt;td&gt;向后搜索历史命令&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + g&lt;/td&gt;
+          &lt;td&gt;退出搜索&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + p&lt;/td&gt;
+          &lt;td&gt;历史中上一个命令，代替向上方向键&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + n&lt;/td&gt;
+          &lt;td&gt;历史中下一个命令，代替乡下方向键&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Alt + .&lt;/td&gt;
+          &lt;td&gt;上一个命令的最后一个单词&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;终端指令&#34;&gt;终端指令&lt;/h2&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;快捷键&lt;/th&gt;
+          &lt;th&gt;描述&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + l&lt;/td&gt;
+          &lt;td&gt;跳纸，换页，清屏&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + m&lt;/td&gt;
+          &lt;td&gt;回车（Carriage return）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + s&lt;/td&gt;
+          &lt;td&gt;停止输出（在 Zsh 中为向前搜索历史命令）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + q&lt;/td&gt;
+          &lt;td&gt;继续输出&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + c&lt;/td&gt;
+          &lt;td&gt;终止当前命令&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + z&lt;/td&gt;
+          &lt;td&gt;挂起当前命令&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + d&lt;/td&gt;
+          &lt;td&gt;结束输入（产生一个 EOF）&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;bang--命令&#34;&gt;Bang (!) 命令&lt;/h2&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;快捷键&lt;/th&gt;
+          &lt;th&gt;描述&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!n&lt;/td&gt;
+          &lt;td&gt;执行第 n 条命令&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!-n&lt;/td&gt;
+          &lt;td&gt;执行倒数第 n 条命令&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!xx&lt;/td&gt;
+          &lt;td&gt;执行最近的以 xx 开头的命令&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!xx:p&lt;/td&gt;
+          &lt;td&gt;和上面一样，但仅打印输出，而不执行命令&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!!&lt;/td&gt;
+          &lt;td&gt;执行上一条命令, 与 !-1 相同&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!$&lt;/td&gt;
+          &lt;td&gt;上一条命令的最后一个参数，与 &lt;code&gt;Alt + .&lt;/code&gt;和&lt;code&gt;$_&lt;/code&gt;相同&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!:n&lt;/td&gt;
+          &lt;td&gt;上一条命令的第 n 个参数，索引从 0 开始&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!*&lt;/td&gt;
+          &lt;td&gt;上一条命令的所有参数&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!:1-$&lt;/td&gt;
+          &lt;td&gt;上一条命令的所有参数同 !* 相同&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!-n:$&lt;/td&gt;
+          &lt;td&gt;倒数第 n 条命令的最后一个参数&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!$:h&lt;/td&gt;
+          &lt;td&gt;上一条命令参数的上一级&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!#:1&lt;/td&gt;
+          &lt;td&gt;当前行的第 1 个参数&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!!:gs/aa/bb/&lt;/td&gt;
+          &lt;td&gt;替换上一条命令中所有的 aa 为 bb&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;^blah&lt;/td&gt;
+          &lt;td&gt;删除上一条命令中的 blah&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;^blah^foo&lt;/td&gt;
+          &lt;td&gt;将上一条命令中的 blah 替换为 foo&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;执行之前输入过的命令&#34;&gt;执行之前输入过的命令&lt;/h3&gt;
+&lt;p&gt;经常我们会遇到当输入比较长的命令时执行了时，提示需要 sudo 运行，这个时候下面的技巧就很有用了&lt;/p&gt;</description>
     </item>
     <item>
       <title>使用 Core dump 解密加密的sh脚本</title>
@@ -35,19 +291,140 @@ Bash 默认的是 emacs 模式，这里的快捷键以默认的为准，可以�
       <link>https://blog.fangjiahui.me/posts/2018-11-08-mysqldump-backup-script/</link>
       <pubDate>Thu, 08 Nov 2018 03:11:51 +0800</pubDate>
       <guid>https://blog.fangjiahui.me/posts/2018-11-08-mysqldump-backup-script/</guid>
-      <description>Mysql(mysqldump)备份脚本 记录下服务器上一个备份 mysql 数据库的脚本，使用 mysql 自带的mysqldump命令
-!/usr/bin/env bash USER=username PASSWORD=password MAXIMUM_BACKUP_FILES=10 BACKUP_FOLDER=/path/to/save/folder DATABASES=( db_name_0 db_name_1 ) # check mysqldump instlled _=$(command -v mysqldump) if [[ $? != 0 ]] then printf &amp;#34;You don&amp;#39;t seem to mysqldump installed, exit..\n&amp;#34; exit 1 fi # create backup folder if [ ! -d $BACKUP_FOLDER ] then mkdir $BACKUP_FOLDER fi # backup for DB in ${DATABASES[@]} do echo backing up ${DB} database ... if $(mysqldump --host=localhost --user=${USER} --password=${PASSWORD} ${DB} | gzip -9 &amp;gt; ${BACKUP_FOLDER}/db_${DB}_$(date +&amp;#34;%Y%m%d&amp;#34;).</description>
+      <description>&lt;h2 id=&#34;mysqlmysqldump备份脚本&#34;&gt;Mysql(mysqldump)备份脚本&lt;/h2&gt;
+&lt;p&gt;记录下服务器上一个备份 mysql 数据库的脚本，使用 mysql 自带的&lt;code&gt;mysqldump&lt;/code&gt;命令&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;!/usr/bin/env bash
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;USER&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;username
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;PASSWORD&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;password
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;MAXIMUM_BACKUP_FILES&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;BACKUP_FOLDER&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/path/to/save/folder
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;DATABASES&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;db_name_0
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;db_name_1
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# check mysqldump instlled&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;_&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;command&lt;/span&gt; -v mysqldump&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[[&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$?&lt;/span&gt; !&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;printf&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;You don&amp;#39;t seem to mysqldump installed, exit..\n&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;exit&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# create backup folder&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt; ! -d &lt;span class=&#34;nv&#34;&gt;$BACKUP_FOLDER&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    mkdir &lt;span class=&#34;nv&#34;&gt;$BACKUP_FOLDER&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# backup&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; DB in &lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;DATABASES&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[@]&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; backing up &lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;DB&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt; database ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;mysqldump --host&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;localhost --user&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;USER&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt; --password&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;PASSWORD&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;DB&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; gzip -9 &amp;gt; &lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;BACKUP_FOLDER&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;/db_&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;DB&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;_&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;date +&lt;span class=&#34;s2&#34;&gt;&amp;#34;%Y%m%d&amp;#34;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;.sql.gz&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; dump db_&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;DB&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;_&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;date +&lt;span class=&#34;s2&#34;&gt;&amp;#34;%Y%m%d&amp;#34;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;.sql.gz &lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; dump db_&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;DB&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;_&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;date +&lt;span class=&#34;s2&#34;&gt;&amp;#34;%Y%m%d&amp;#34;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;.sql.gz failed.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# remove older files&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;find &lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;BACKUP_FOLDER&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt; -type f -name *.sql.gz -mtime +&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;MAXIMUM_BACKUP_FILES&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt; -delete
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;脚本就是使用 mysqldump 备份指定的数据库（在 DATABASES 使用空格分隔）然后 gzip 压缩保存到指定目录，使用系统自带的 find 命令删除旧文件&lt;/p&gt;</description>
     </item>
     <item>
       <title>Systemd 中的timer单元</title>
       <link>https://blog.fangjiahui.me/posts/2018-08-16-systemd-timer-unit/</link>
       <pubDate>Thu, 16 Aug 2018 09:43:23 +0800</pubDate>
       <guid>https://blog.fangjiahui.me/posts/2018-08-16-systemd-timer-unit/</guid>
-      <description>Systemd 中的 timer 单元 上一篇讲了 systemd 中的 service 单元，这次记录一下 timer 单元。timer 必须依赖 service 单元来配置，可以用来做替代 crontab 的选择。
-timer 单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu 下的apt-daily.timer，该目录下也存在一个apt-daily.service服务文件配合一起使用。
-[Unit] Description=Daily apt activities [Timer] OnCalendar=*-*-* 6,18:00 RandomizedDelaySec=12h AccuracySec=1h Persistent=true [Install] WantedBy=timers.target 上面的[Timer]块代表每天上午 6 点和下午 6 点都运行 apt 脚本，具体[Timer]块可配置以下参数
-单调定时器(Monotonic timer) Option Description OnActiveSec= 相对计时器开始后多少时间执行，格式如 2h、2s、2w、2d OnBootSec= 相对系统启动后多少时间执行 OnStartupSec= 相对 systemd 启动多少时间后执行 OnUnitActiveSec= 每隔多少时间再次运行一次 OnUnitInactiveSec= 服务在最后一次停止后，隔多久再执行一次 可以两个参数一起使用，如下每周开机 15 分钟后执行 foo
-[Unit] Description=Run foo weekly and on boot [Timer] OnBootSec=15min OnUnitActiveSec=1w [Install] WantedBy=timers.</description>
+      <description>&lt;h2 id=&#34;systemd-中的-timer-单元&#34;&gt;Systemd 中的 timer 单元&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;../2018-07-08-systemd-service-unit&#34;&gt;上一篇&lt;/a&gt;讲了 systemd 中的 service 单元，这次记录一下 timer 单元。timer 必须依赖 service 单元来配置，可以用来做替代 crontab 的选择。&lt;/p&gt;
+&lt;p&gt;timer 单元以&lt;code&gt;.timer&lt;/code&gt;结尾，中间包含&lt;code&gt;[Timer]&lt;/code&gt;块如下面所示是 Ubuntu 下的&lt;code&gt;apt-daily.timer&lt;/code&gt;，该目录下也存在一个&lt;code&gt;apt-daily.service&lt;/code&gt;服务文件配合一起使用。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;Unit&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;Description&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;Daily apt activities
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;Timer&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;OnCalendar&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;*-*-* 6,18:00
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;RandomizedDelaySec&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;12h
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;AccuracySec&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;1h
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;Persistent&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;Install&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;WantedBy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;timers.target
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;上面的[Timer]块代表每天上午 6 点和下午 6 点都运行 apt 脚本，具体[Timer]块可配置以下参数&lt;/p&gt;
+&lt;h4 id=&#34;单调定时器monotonic-timer&#34;&gt;单调定时器(Monotonic timer)&lt;/h4&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;Option&lt;/th&gt;
+          &lt;th&gt;Description&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;OnActiveSec=&lt;/td&gt;
+          &lt;td&gt;相对计时器开始后多少时间执行，格式如 2h、2s、2w、2d&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;OnBootSec=&lt;/td&gt;
+          &lt;td&gt;相对系统启动后多少时间执行&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;OnStartupSec=&lt;/td&gt;
+          &lt;td&gt;相对 systemd 启动多少时间后执行&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;OnUnitActiveSec=&lt;/td&gt;
+          &lt;td&gt;每隔多少时间再次运行一次&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;OnUnitInactiveSec=&lt;/td&gt;
+          &lt;td&gt;服务在最后一次停止后，隔多久再执行一次&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;可以两个参数一起使用，如下每周开机 15 分钟后执行 foo&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;Unit&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;Description&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;Run foo weekly and on boot
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;Timer&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;OnBootSec&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;15min
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;OnUnitActiveSec&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;1w
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;Install&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;WantedBy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;timers.target
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;实时定时器realtime-timer&#34;&gt;实时定时器(Realtime timer)&lt;/h4&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;Option&lt;/th&gt;
+          &lt;th&gt;Description&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;OnCalendar=&lt;/td&gt;
+          &lt;td&gt;相对系统时间指定特定时刻运行，它接受如 2h、2s 的格式也可以是 &lt;code&gt;星期 年-月-日 时:分:秒&lt;/code&gt;的格式，&lt;code&gt;..&lt;/code&gt;指定区间，&lt;code&gt;*&lt;/code&gt;代表所有的。可参考 systemd.time(7)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Persistent=&lt;/td&gt;
+          &lt;td&gt;是一个布尔值，默认为 no，当使用 OnCalendar 的设置时，指定该功能要不要持续进行。如断电恢复后是不是要执行上次没执行的&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;AccuracySec=&lt;/td&gt;
+          &lt;td&gt;设置定时器的触发精度。默认值是一分钟。定时器并不必然在所设置的精准时间点上启动匹配单元， 而是在所设置的精准时间点为起点的一小段时间窗口范围内的某个时间点上启动匹配单元， 这个时间窗口的起点由 OnCalendar=, OnActiveSec=, OnBootSec=, OnStartupSec=, OnUnitActiveSec= or OnUnitInactiveSec= 决定， 而这个时间窗口的长度则由该指令决定。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;RandomizedDelaySec=&lt;/td&gt;
+          &lt;td&gt;将此单元的定时器随机延迟一小段时间， 这一小段时间的长度介于零到该指令设置的时间长度之间， 以均匀概率分布。&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;如下是每月的 1 到 4 号 12 点周一和周二运行 foo，格式如&lt;code&gt;OnCalendar=*-*-* 4:00:00&lt;/code&gt;代表每天 4 点&lt;/p&gt;</description>
     </item>
     <item>
       <title>Systemd中Service单元介绍</title>

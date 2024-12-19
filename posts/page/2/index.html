@@ -10,7 +10,7 @@
 <meta name="description" content="Posts - Fython&#39;s Blog">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -19,6 +19,7 @@
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" type="application/rss+xml" href="https://blog.fangjiahui.me/posts/index.xml">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,16 +56,17 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Posts" />
-<meta property="og:description" content="My Personal Blog Site" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:title" content="Posts"/>
-<meta name="twitter:description" content="My Personal Blog Site"/>
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="Posts">
+  <meta property="og:description" content="My Personal Blog Site">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="website">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="Posts">
+<meta name="twitter:description" content="My Personal Blog Site">
 
 
 <script type="application/ld+json">
@@ -158,6 +160,20 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">openwrt 自动重拨
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>有的 openwrt 固件不会断网自动重播，检查 /etc/ppp/options 文件是否存在如下参数，没有的话自己加上一般就好了
+maxfail 0 persist 或者使用 crotab 重启接口，每天 3 点重新拨号
+0 3 * * * ifdown wan &amp;&amp; sleep 3 &amp;&amp; ifup wan Reference: https://www.right.com.cn/FORUM/thread-4107089-1-1.html </p>
+  </div>
+  <footer class="entry-footer"><span title='2022-08-06 10:47:16 +0800 +0800'>August 6, 2022</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;28 words&nbsp;·&nbsp;Fython</footer>
+  <a class="entry-link" aria-label="post link to openwrt 自动重拨" href="https://blog.fangjiahui.me/posts/2022-08-06-openwrt-auto-pppoe/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Go 中的类型和比较
     </h2>
   </header>
@@ -182,7 +198,8 @@ string
 管道(channel)
 接口类型(interface)
 类型重定义(Type Definitions)和类型别名(Type Alias Declarations) 讲完了类型再来看看用户可以创建自己的类型（类型重定义）和创建别名，先看类型定义
-// Define a solo new type. // type NewTypeName SourceType type MyInt int type Num int 上面定义了 MyInt , Num 两个类型，虽然他们的源类型都是 int 但他们是不同的类型，所以他们是不可以比较的，但可以通过转换成相同类型的再比较如...</p>
+// Define a solo new type. // type NewTypeName SourceType type MyInt int type Num int 上面定义了 MyInt , Num 两个类型，虽然他们的源类型都是 int 但他们是不同的类型，所以他们是不可以比较的，但可以通过转换成相同类型的再比较如
+...</p>
   </div>
   <footer class="entry-footer"><span title='2022-05-29 13:53:54 +0800 +0800'>May 29, 2022</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;730 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Go 中的类型和比较" href="https://blog.fangjiahui.me/posts/2022-05-29-go-types-and-comparisons/"></a>
@@ -197,7 +214,8 @@ string
     <p>Chrome 继续访问证书错误的网页 chrome 有时访问 https 网页会出现警告 NET::ERR_CERT_DATE_INVALID
 Your connection is not private Attackers might be trying to steal your information from xxx.example.com (for example, passwords, messages, or credit cards). Learn more NET::ERR_CERT_DATE_INVALID 有个彩蛋 如果要继续访问只需要点击页面然后键盘输入 thisisunsafe 就可以继续访问了
 或者打开控制台粘贴以下命令
-sendCommand(SecurityInterstitialCommandId.CMD_PROCEED); Reference https://stackoverflow.com/questions/58802767/no-proceed-anyway-option-on-neterr-cert-invalid-in-chrome-on-macos</p>
+sendCommand(SecurityInterstitialCommandId.CMD_PROCEED); Reference https://stackoverflow.com/questions/58802767/no-proceed-anyway-option-on-neterr-cert-invalid-in-chrome-on-macos
+</p>
   </div>
   <footer class="entry-footer"><span title='2021-12-21 03:31:55 +0800 +0800'>December 21, 2021</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;40 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Chrome  继续访问证书错误的网页" href="https://blog.fangjiahui.me/posts/2021-12-21-chrome-proceed-anyway/"></a>
@@ -211,7 +229,8 @@ sendCommand(SecurityInterstitialCommandId.CMD_PROCEED); Reference https://stacko
   <div class="entry-content">
     <p>Manjaro 原生的字体没法覆盖全部的 Emojis 可能导致一些字体显示框框 可以通过安装 noto-fonts-emoji 将Noto Color Emoji 字体设置为默认表情符号字体来解决这个问题。Arch 应该也可以通过此方法解决
 1. 安装字体 sudo pacman -S noto-fonts-emoji 2. 在 /usr/share/fontconfig/conf.avail/ 中创建 75-noto-color-emoji.conf 文件 文件内容如下
-&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt; &lt;!DOCTYPE fontconfig SYSTEM &#34;fonts.dtd&#34;&gt; &lt;fontconfig&gt; &lt;!-- Add generic family. --&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;emoji&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;!-- This adds Noto Color Emoji as a final fallback font for the default font families. --&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;sans&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;serif&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;sans-serif&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;monospace&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;!...</p>
+&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt; &lt;!DOCTYPE fontconfig SYSTEM &#34;fonts.dtd&#34;&gt; &lt;fontconfig&gt; &lt;!-- Add generic family. --&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;emoji&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;!-- This adds Noto Color Emoji as a final fallback font for the default font families. --&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;sans&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;serif&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;sans-serif&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;monospace&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;!-- Block Symbola from the list of fallback fonts. --&gt; &lt;selectfont&gt; &lt;rejectfont&gt; &lt;pattern&gt; &lt;patelt name=&#34;family&#34;&gt; &lt;string&gt;Symbola&lt;/string&gt; &lt;/patelt&gt; &lt;/pattern&gt; &lt;/rejectfont&gt; &lt;/selectfont&gt; &lt;!-- Use Noto Color Emoji when other popular fonts are being specifically requested. --&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Apple Color Emoji&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Segoe UI Emoji&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Segoe UI Symbol&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Android Emoji&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Twitter Color Emoji&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Twemoji&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Twemoji Mozilla&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;TwemojiMozilla&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;EmojiTwo&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Emoji Two&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;EmojiSymbols&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Symbola&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;/fontconfig&gt; 3. 配置文件 sudo ln -sf /usr/share/fontconfig/conf.avail/75-noto-color-emoji.conf /etc/fonts/conf.d sudo fc-cache -f -v 然后重启电脑应该就可以了
+...</p>
   </div>
   <footer class="entry-footer"><span title='2021-10-08 07:47:40 +0800 +0800'>October 8, 2021</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;308 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Manjaro Linux 安装 Emoji" href="https://blog.fangjiahui.me/posts/2021-10-08-marjaro-arch-linxu-install-full-emoji/"></a>
@@ -226,26 +245,13 @@ sendCommand(SecurityInterstitialCommandId.CMD_PROCEED); Reference https://stacko
     <p>破解滑块验证码（geetest极验） 最近写爬虫遇到极验（geetest）的滑块验证码，首先想到的是用Selenium模拟人拖动滑块，那么问题来了其实主要解决下面两个问题
 拖动的距离是多少 怎么模拟出像人一样再滑动 滑动距离 先来解决第一个问题，我们怎么计算拖动距离，打开chrome的审查元素查看需要拖动的图片
 &lt;div class=&#34;geetest_canvas_img geetest_absolute&#34; style=&#34;display: block;&#34;&gt; &lt;div class=&#34;geetest_slicebg geetest_absolute&#34;&gt; &lt;canvas class=&#34;geetest_canvas_bg geetest_absolute&#34; height=&#34;160&#34; width=&#34;260&#34;&gt;&lt;/canvas&gt; &lt;canvas class=&#34;geetest_canvas_slice geetest_absolute&#34; width=&#34;260&#34; height=&#34;160&#34;&gt;&lt;/canvas&gt; &lt;/div&gt; &lt;canvas class=&#34;geetest_canvas_fullbg geetest_fade geetest_absolute&#34; height=&#34;160&#34; width=&#34;260&#34; style=&#34;display: none;&#34;&gt;&lt;/canvas&gt; &lt;/div&gt; 发现有三个canvas 对应三张图片大小都是 260* 160 ，我们使用selenium执行 js 转成 base64 后再转成图片都保存下来看一下，第一张 geetest_canvas_bg 是有缺口的图片
-im_bg_b64 = driver.execute_script( &#39;return document.getElementsByClassName(&#34;geetest_canvas_bg geetest_absolute&#34;)[0].toDataURL(&#34;image/png&#34;);&#39;) # base64 encoded image im_bg_b64 = im_bg_b64.split(&#39;,&#39;)[-1] im_bg_bytes = base64.b64decode(im_bg_b64) with open(&#39;./temp_bg.png&#39;, &#39;wb&#39;) as f: f.write(im_bg_bytes) 然后第二张 geetest_canvas_slice 根据上面相同的方法保存到本地是这样的，就是一个滑块...</p>
+im_bg_b64 = driver.execute_script( &#39;return document.getElementsByClassName(&#34;geetest_canvas_bg geetest_absolute&#34;)[0].toDataURL(&#34;image/png&#34;);&#39;) # base64 encoded image im_bg_b64 = im_bg_b64.split(&#39;,&#39;)[-1] im_bg_bytes = base64.b64decode(im_bg_b64) with open(&#39;./temp_bg.png&#39;, &#39;wb&#39;) as f: f.write(im_bg_bytes) 然后第二张 geetest_canvas_slice 根据上面相同的方法保存到本地是这样的，就是一个滑块
+第三张 geetest_canvas_fullbg 猜名称也能猜到是图片的全景
+有上面三张图片，怎么计算滑动的距离呢，发现只要找到第一张缺口的位置坐标 x1 和第二张滑块的坐标 x2 那么 x1 - x2 就是我们要的距离，主要是找到 x1 的位置可以通过对比第一张和第三张得到，具体的方法是对比两张图像素点不同时即为 x1 的位置。因为 x2 的位置一直在左边差不多固定的位置假设离最左边为 10 个像素所以我们不需要计算 x2，以下是实现两张图片确定 x1 的代码，图片处理使用的是pillow库
+...</p>
   </div>
   <footer class="entry-footer"><span title='2021-05-05 13:15:11 +0800 +0800'>May 5, 2021</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;579 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to 破解滑块验证码（geetest极验）" href="https://blog.fangjiahui.me/posts/2021-05-05-crack-geetest-captcha/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Mac Launchd 介绍和使用
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Mac Launchd 介绍和使用 Linux 上如果想开机开机启动一个服务或者定时运行一个服务有很多的选择比如之前介绍过的Systemd或者用 crontab 也可以，而在 Mac 不同它有一个类似的叫 Launchd 的系统，对应使用launchctl命令控制
-Daemons and Agents Launchd 管理 Daemons 和 Agents 两种类型分别存放在不同的文件夹下，主要的区别是
-Agents 是用户登录后执行的 Daemons 是开机后就执行，可以通过UserName指定用户比如root用户 配置文件 Launchd 配置文件以.plist结尾，本质上是xml格式的文件，Daemons 和 Agents 各存放的路径也不同
-类型 路径 说明 User Agents ~/Library/LaunchAgents 用户 Agents 当前用户登录时运行 Global Agents /Library/LaunchAgents 全局 Agents 任何用户登录时都会运行 System Agents /System/Library/LaunchAgents 系统 Agents 任何用户登录时都会运行 Global Daemons /Library/LaunchDaemons 全局 Daemons 内核初始化加载完后就运行 System Daemons /System/Library/LaunchDaemons 系统 Daemons 内核初始化加载完后就运行 系统运行开机首先会加载内核启动kernel_tas(0)，然后启动launchd(1)好后去启动指定好的 Daemons 最后用户登录再运行相应的 Agents 任务
-一般文件名都以com.domain.programName.plist格式命名，不管是 Daemons 还是 Agents 格式都是一样的，只是存放位置不同。看下面一个 hello world 的例子 ~/Library/LaunchAgents/com....</p>
-  </div>
-  <footer class="entry-footer"><span title='2021-04-19 03:25:09 +0800 +0800'>April 19, 2021</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;334 words&nbsp;·&nbsp;Fython</footer>
-  <a class="entry-link" aria-label="post link to Mac Launchd 介绍和使用" href="https://blog.fangjiahui.me/posts/2021-04-19-mac-launchd-daemons-and-agents-tutorial/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
@@ -259,7 +265,8 @@ Agents 是用户登录后执行的 Daemons 是开机后就执行，可以通过U
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

@@ -7,13 +7,20 @@
 <meta name="robots" content="index, follow">
 <title>使用usb转TTL(PL2303模块) 串口连接树莓派3B | Fython&#39;s Blog</title>
 <meta name="keywords" content="Raspberry Pi">
-<meta name="description" content="使用 usb 转 TTL(PL2303 模块) 串口连接树莓派 3B By default, on Raspberry Pis equipped with the wireless/Bluetooth module (Raspberry Pi 3 and Raspberry Pi Zero W), the PL011 UART is connected to the BT module, while the mini UART is used for Linux console output. On all other models the PL011 is used for the Linux console output.
+<meta name="description" content="使用 usb 转 TTL(PL2303 模块) 串口连接树莓派 3B
+
+By default, on Raspberry Pis equipped with the wireless/Bluetooth module (Raspberry Pi 3 and Raspberry Pi Zero W), the PL011 UART is connected to the BT module, while the mini UART is used for Linux console output. On all other models the PL011 is used for the Linux console output.
+
 在树莓派 3 以前，官方是将“硬件串口”分配给 GPIO 中的 UART(GPIO14&amp;GPIO15)，因此可以独立调整串口的速率和模式，直接连接就可以。而在 3 以后的树莓派中因为新增了蓝牙使用掉了 UART。这样默认就不开启了，以下是手动开启的方法。
 使用 HDMI 启动树莓派编辑/boot/config.txt在后面新增以下两行
-# 激活串口输出 enable_uart=1 # 禁用蓝牙 dtoverlay=pi3-disable-bt 运行sudo systemctl disable hciuart禁用蓝牙服务，然后重启">
+# 激活串口输出
+enable_uart=1
+# 禁用蓝牙
+dtoverlay=pi3-disable-bt
+运行sudo systemctl disable hciuart禁用蓝牙服务，然后重启">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/2018-04-02-raspberry-pi-3b-uart-serial-connect/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -21,6 +28,7 @@
 <link rel="mask-icon" href="https://blog.fangjiahui.me/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/2018-04-02-raspberry-pi-3b-uart-serial-connect/">
 <noscript>
     <style>
         #theme-toggle,
@@ -57,24 +65,34 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="使用usb转TTL(PL2303模块) 串口连接树莓派3B" />
-<meta property="og:description" content="使用 usb 转 TTL(PL2303 模块) 串口连接树莓派 3B By default, on Raspberry Pis equipped with the wireless/Bluetooth module (Raspberry Pi 3 and Raspberry Pi Zero W), the PL011 UART is connected to the BT module, while the mini UART is used for Linux console output. On all other models the PL011 is used for the Linux console output.
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/2018-04-02-raspberry-pi-3b-uart-serial-connect/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="使用usb转TTL(PL2303模块) 串口连接树莓派3B">
+  <meta property="og:description" content="使用 usb 转 TTL(PL2303 模块) 串口连接树莓派 3B By default, on Raspberry Pis equipped with the wireless/Bluetooth module (Raspberry Pi 3 and Raspberry Pi Zero W), the PL011 UART is connected to the BT module, while the mini UART is used for Linux console output. On all other models the PL011 is used for the Linux console output.
 在树莓派 3 以前，官方是将“硬件串口”分配给 GPIO 中的 UART(GPIO14&amp;GPIO15)，因此可以独立调整串口的速率和模式，直接连接就可以。而在 3 以后的树莓派中因为新增了蓝牙使用掉了 UART。这样默认就不开启了，以下是手动开启的方法。
 使用 HDMI 启动树莓派编辑/boot/config.txt在后面新增以下两行
-# 激活串口输出 enable_uart=1 # 禁用蓝牙 dtoverlay=pi3-disable-bt 运行sudo systemctl disable hciuart禁用蓝牙服务，然后重启" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/2018-04-02-raspberry-pi-3b-uart-serial-connect/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2018-04-02T12:41:09+08:00" />
-<meta property="article:modified_time" content="2018-04-02T12:51:42+08:00" />
+# 激活串口输出 enable_uart=1 # 禁用蓝牙 dtoverlay=pi3-disable-bt 运行sudo systemctl disable hciuart禁用蓝牙服务，然后重启">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2018-04-02T12:41:09+08:00">
+    <meta property="article:modified_time" content="2018-04-02T12:51:42+08:00">
+    <meta property="article:tag" content="Raspberry Pi">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="使用usb转TTL(PL2303模块) 串口连接树莓派3B">
+<meta name="twitter:description" content="使用 usb 转 TTL(PL2303 模块) 串口连接树莓派 3B
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
+By default, on Raspberry Pis equipped with the wireless/Bluetooth module (Raspberry Pi 3 and Raspberry Pi Zero W), the PL011 UART is connected to the BT module, while the mini UART is used for Linux console output. On all other models the PL011 is used for the Linux console output.
 
-<meta name="twitter:title" content="使用usb转TTL(PL2303模块) 串口连接树莓派3B"/>
-<meta name="twitter:description" content="使用 usb 转 TTL(PL2303 模块) 串口连接树莓派 3B By default, on Raspberry Pis equipped with the wireless/Bluetooth module (Raspberry Pi 3 and Raspberry Pi Zero W), the PL011 UART is connected to the BT module, while the mini UART is used for Linux console output. On all other models the PL011 is used for the Linux console output.
 在树莓派 3 以前，官方是将“硬件串口”分配给 GPIO 中的 UART(GPIO14&amp;GPIO15)，因此可以独立调整串口的速率和模式，直接连接就可以。而在 3 以后的树莓派中因为新增了蓝牙使用掉了 UART。这样默认就不开启了，以下是手动开启的方法。
 使用 HDMI 启动树莓派编辑/boot/config.txt在后面新增以下两行
-# 激活串口输出 enable_uart=1 # 禁用蓝牙 dtoverlay=pi3-disable-bt 运行sudo systemctl disable hciuart禁用蓝牙服务，然后重启"/>
+# 激活串口输出
+enable_uart=1
+# 禁用蓝牙
+dtoverlay=pi3-disable-bt
+运行sudo systemctl disable hciuart禁用蓝牙服务，然后重启">
 
 
 <script type="application/ld+json">
@@ -103,14 +121,14 @@
   "@type": "BlogPosting",
   "headline": "使用usb转TTL(PL2303模块) 串口连接树莓派3B",
   "name": "使用usb转TTL(PL2303模块) 串口连接树莓派3B",
-  "description": "使用 usb 转 TTL(PL2303 模块) 串口连接树莓派 3B By default, on Raspberry Pis equipped with the wireless/Bluetooth module (Raspberry Pi 3 and Raspberry Pi Zero W), the PL011 UART is connected to the BT module, while the mini UART is used for Linux console output. On all other models the PL011 is used for the Linux console output.\n在树莓派 3 以前，官方是将“硬件串口”分配给 GPIO 中的 UART(GPIO14\u0026amp;GPIO15)，因此可以独立调整串口的速率和模式，直接连接就可以。而在 3 以后的树莓派中因为新增了蓝牙使用掉了 UART。这样默认就不开启了，以下是手动开启的方法。\n使用 HDMI 启动树莓派编辑/boot/config.txt在后面新增以下两行\n# 激活串口输出 enable_uart=1 # 禁用蓝牙 dtoverlay=pi3-disable-bt 运行sudo systemctl disable hciuart禁用蓝牙服务，然后重启",
+  "description": "使用 usb 转 TTL(PL2303 模块) 串口连接树莓派 3B By default, on Raspberry Pis equipped with the wireless/Bluetooth module (Raspberry Pi 3 and Raspberry Pi Zero W), the PL011 UART is connected to the BT module, while the mini UART is used for Linux console output. On all other models the PL011 is used for the Linux console output.\n在树莓派 3 以前，官方是将“硬件串口”分配给 GPIO 中的 UART(GPIO14\u0026amp;GPIO15)，因此可以独立调整串口的速率和模式，直接连接就可以。而在 3 以后的树莓派中因为新增了蓝牙使用掉了 UART。这样默认就不开启了，以下是手动开启的方法。\n使用 HDMI 启动树莓派编辑/boot/config.txt在后面新增以下两行\n# 激活串口输出 enable_uart=1 # 禁用蓝牙 dtoverlay=pi3-disable-bt 运行sudo systemctl disable hciuart禁用蓝牙服务，然后重启\n",
   "keywords": [
     "Raspberry Pi"
   ],
   "articleBody": "使用 usb 转 TTL(PL2303 模块) 串口连接树莓派 3B By default, on Raspberry Pis equipped with the wireless/Bluetooth module (Raspberry Pi 3 and Raspberry Pi Zero W), the PL011 UART is connected to the BT module, while the mini UART is used for Linux console output. On all other models the PL011 is used for the Linux console output.\n在树莓派 3 以前，官方是将“硬件串口”分配给 GPIO 中的 UART(GPIO14\u0026GPIO15)，因此可以独立调整串口的速率和模式，直接连接就可以。而在 3 以后的树莓派中因为新增了蓝牙使用掉了 UART。这样默认就不开启了，以下是手动开启的方法。\n使用 HDMI 启动树莓派编辑/boot/config.txt在后面新增以下两行\n# 激活串口输出 enable_uart=1 # 禁用蓝牙 dtoverlay=pi3-disable-bt 运行sudo systemctl disable hciuart禁用蓝牙服务，然后重启\n运行ls -l /dev/serial*查看是否是这个样子\npi@raspberrypi:~$ ls -l /dev/serial* lrwxrwxrwx 1 root root 7 Mar 13 23:23 /dev/serial0 -\u003e ttyAMA0 lrwxrwxrwx 1 root root 5 Mar 13 23:23 /dev/serial1 -\u003e ttyS0 以上就是树莓派上所有的设置了，mac 和 windows 如何使用 PL2303 模块连接请参考以下链接\nMac\nhttps://pbxbook.com/other/mac-tty.html\nWindows\nhttps://blog.csdn.net/cugbabybear/article/details/23048741\nReference https://www.raspberrypi.org ",
   "wordCount" : "120",
   "inLanguage": "en",
-  "datePublished": "2018-04-02T12:41:09+08:00",
+  "image": "https://blog.fangjiahui.me/blog-cover-1.png","datePublished": "2018-04-02T12:41:09+08:00",
   "dateModified": "2018-04-02T12:51:42+08:00",
   "author":{
     "@type": "Person",
@@ -354,16 +372,15 @@
 
 
 <div id="tcomment"></div>
-<script src="https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.40/dist/twikoo.all.min.js"></script>
 <script>
   twikoo.init({
     envId: "https://twikoo-kbp3p7wxh-fythons-projects.vercel.app", 
     el: "#tcomment", 
     
-    region: "",
     
     path: "",
-    lang: "zh-CN", 
+    
   });
 </script>
 
@@ -371,7 +388,8 @@
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

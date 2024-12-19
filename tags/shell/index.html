@@ -10,7 +10,7 @@
 <meta name="description" content="My Personal Blog Site">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/tags/shell/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -19,6 +19,7 @@
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" type="application/rss+xml" href="https://blog.fangjiahui.me/tags/shell/index.xml">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/tags/shell/">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,16 +56,17 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Shell" />
-<meta property="og:description" content="My Personal Blog Site" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://blog.fangjiahui.me/tags/shell/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:title" content="Shell"/>
-<meta name="twitter:description" content="My Personal Blog Site"/>
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/tags/shell/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="Shell">
+  <meta property="og:description" content="My Personal Blog Site">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="website">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="Shell">
+<meta name="twitter:description" content="My Personal Blog Site">
 
 </head>
 
@@ -150,7 +152,8 @@
     <p>Bash 快捷操作 GUN Bash 是现代操作系统一般都默认自带的 Shell，它兼容 sh 并提供了更多的 feature，如果我们常用命令行那么记住一些快捷键和 trick 能大大提高我们的工作效率，这篇文章就介绍下本人常用的快捷键和一些技巧。
 Bash 默认的是 emacs 模式，这里的快捷键以默认的为准，可以使用set -o命令查看，使用set -o emacs设置。
 移动光标 快捷键 描述 Ctrl &#43; a 移动光标到行首 Ctrl &#43; e 移动光标到行尾 Alt &#43; b 移动光标后退一个单词（词首） Alt &#43; f 移动光标前进一个单词（词首） Ctrl &#43; f 光标前进一个字母 Ctrl &#43; b 光标后退一个字母 Ctrl &#43; xx 当前位置与行首之间光标切换 一般配合Ctrl的是单字符移动，Alt是单词为边界。建议将键盘上的caps lock键改成Ctrl这样手指移动距离更短按起来也更加舒服方便。
-剪切（删除）粘贴 快捷键 描述 Ctrl &#43; k 剪切从光标到行尾 Ctrl &#43; u 剪切从光标到行首 Ctrl &#43; w 从光标向前剪切一个单词 Alt &#43; Backspace 与 Ctrl &#43; w 类似，但分隔符是一些特殊字符 Alt &#43; d 从光标向后剪切一个单词 Ctrl &#43; d 删除光标下一个字母，如果没有字符存在，ctrl&#43;d 则会登出该会话 Ctrl &#43; h 删除光标前一个字母 Alt &#43; t swap(当前单词, 上一个单词) Ctrl &#43; t swap(当前字母, 上一个字母) Ctrl &#43; y 粘贴上一次剪切的文本，配合 Ctrl-u、Ctrl-k 效果极好 大小写转换 快捷键 描述 Alt &#43; c 大写当前字母，并移动光标到单词尾 Alt &#43; u 大写从当光标到单词尾 Alt &#43; l 小写从当光标到单词尾 历史命令 快捷键 描述 Ctrl &#43; r 向后搜索历史命令 Ctrl &#43; g 退出搜索 Ctrl &#43; p 历史中上一个命令，代替向上方向键 Ctrl &#43; n 历史中下一个命令，代替乡下方向键 Alt &#43; ....</p>
+剪切（删除）粘贴 快捷键 描述 Ctrl &#43; k 剪切从光标到行尾 Ctrl &#43; u 剪切从光标到行首 Ctrl &#43; w 从光标向前剪切一个单词 Alt &#43; Backspace 与 Ctrl &#43; w 类似，但分隔符是一些特殊字符 Alt &#43; d 从光标向后剪切一个单词 Ctrl &#43; d 删除光标下一个字母，如果没有字符存在，ctrl&#43;d 则会登出该会话 Ctrl &#43; h 删除光标前一个字母 Alt &#43; t swap(当前单词, 上一个单词) Ctrl &#43; t swap(当前字母, 上一个字母) Ctrl &#43; y 粘贴上一次剪切的文本，配合 Ctrl-u、Ctrl-k 效果极好 大小写转换 快捷键 描述 Alt &#43; c 大写当前字母，并移动光标到单词尾 Alt &#43; u 大写从当光标到单词尾 Alt &#43; l 小写从当光标到单词尾 历史命令 快捷键 描述 Ctrl &#43; r 向后搜索历史命令 Ctrl &#43; g 退出搜索 Ctrl &#43; p 历史中上一个命令，代替向上方向键 Ctrl &#43; n 历史中下一个命令，代替乡下方向键 Alt &#43; . 上一个命令的最后一个单词 终端指令 快捷键 描述 Ctrl &#43; l 跳纸，换页，清屏 Ctrl &#43; m 回车（Carriage return） Ctrl &#43; s 停止输出（在 Zsh 中为向前搜索历史命令） Ctrl &#43; q 继续输出 Ctrl &#43; c 终止当前命令 Ctrl &#43; z 挂起当前命令 Ctrl &#43; d 结束输入（产生一个 EOF） Bang (!) 命令 快捷键 描述 !n 执行第 n 条命令 !-n 执行倒数第 n 条命令 !xx 执行最近的以 xx 开头的命令 !xx:p 和上面一样，但仅打印输出，而不执行命令 !! 执行上一条命令, 与 !-1 相同 !$ 上一条命令的最后一个参数，与 Alt &#43; .和$_相同 !:n 上一条命令的第 n 个参数，索引从 0 开始 !* 上一条命令的所有参数 !:1-$ 上一条命令的所有参数同 !* 相同 !-n:$ 倒数第 n 条命令的最后一个参数 !$:h 上一条命令参数的上一级 !#:1 当前行的第 1 个参数 !!:gs/aa/bb/ 替换上一条命令中所有的 aa 为 bb ^blah 删除上一条命令中的 blah ^blah^foo 将上一条命令中的 blah 替换为 foo 执行之前输入过的命令 经常我们会遇到当输入比较长的命令时执行了时，提示需要 sudo 运行，这个时候下面的技巧就很有用了
+...</p>
   </div>
   <footer class="entry-footer"><span title='2020-07-14 03:47:53 +0800 +0800'>July 14, 2020</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;459 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Bash 快捷操作" href="https://blog.fangjiahui.me/posts/2020-07-14-bash-tip-and-tricks/"></a>
@@ -167,7 +170,8 @@ root用户执行如下命令
 ulimit -c unlimited echo &#34;/core_dump/%e-%p-%t.core&#34; &gt; /proc/sys/kernel/core_pattern mkdir /core_dump 以上第一句是设置内核coredump大小，这里设置不限制。第二句是设置coredump存储位置和格式，%e代表可执行程序名，%p代表pid， %t代表生成时间。然后去执行脚本如xxx.sh
 ./xxx.sh 6 start &amp; (sleep 0.01 &amp;&amp; kill -SIGSEGV $!) 之后会输出类似[1]&#43; Segmentation fault (core dumped)...的提示，然后查看/core_dump文件夹下，就会有dump出来的文件了，直接vim打开查看会有一些乱码手动处理一下就可以了。
 如果在core_dump文件夹下没有dump出来的文件，可使用如下命令测试然后查看是否有文件生成。
-sleep 15 &amp; killall -SIGSEGV sleep 正常情况下core_dump文件夹下会有以sleep开头的文件。</p>
+sleep 15 &amp; killall -SIGSEGV sleep 正常情况下core_dump文件夹下会有以sleep开头的文件。
+</p>
   </div>
   <footer class="entry-footer"><span title='2019-10-16 15:31:21 +0800 +0800'>October 16, 2019</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;40 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to 使用 Core dump 解密加密的sh脚本" href="https://blog.fangjiahui.me/posts/2019-10-16-linux-core-dump-decrypt-script/"></a>
@@ -180,7 +184,8 @@ sleep 15 &amp; killall -SIGSEGV sleep 正常情况下core_dump文件夹下会有
   </header>
   <div class="entry-content">
     <p>Mysql(mysqldump)备份脚本 记录下服务器上一个备份 mysql 数据库的脚本，使用 mysql 自带的mysqldump命令
-!/usr/bin/env bash USER=username PASSWORD=password MAXIMUM_BACKUP_FILES=10 BACKUP_FOLDER=/path/to/save/folder DATABASES=( db_name_0 db_name_1 ) # check mysqldump instlled _=$(command -v mysqldump) if [[ $? != 0 ]] then printf &#34;You don&#39;t seem to mysqldump installed, exit..\n&#34; exit 1 fi # create backup folder if [ ! -d $BACKUP_FOLDER ] then mkdir $BACKUP_FOLDER fi # backup for DB in ${DATABASES[@]} do echo backing up ${DB} database ... if $(mysqldump --host=localhost --user=${USER} --password=${PASSWORD} ${DB} | gzip -9 &gt; ${BACKUP_FOLDER}/db_${DB}_$(date &#43;&#34;%Y%m%d&#34;)....</p>
+!/usr/bin/env bash USER=username PASSWORD=password MAXIMUM_BACKUP_FILES=10 BACKUP_FOLDER=/path/to/save/folder DATABASES=( db_name_0 db_name_1 ) # check mysqldump instlled _=$(command -v mysqldump) if [[ $? != 0 ]] then printf &#34;You don&#39;t seem to mysqldump installed, exit..\n&#34; exit 1 fi # create backup folder if [ ! -d $BACKUP_FOLDER ] then mkdir $BACKUP_FOLDER fi # backup for DB in ${DATABASES[@]} do echo backing up ${DB} database ... if $(mysqldump --host=localhost --user=${USER} --password=${PASSWORD} ${DB} | gzip -9 &gt; ${BACKUP_FOLDER}/db_${DB}_$(date &#43;&#34;%Y%m%d&#34;).sql.gz) then echo dump db_${DB}_$(date &#43;&#34;%Y%m%d&#34;).sql.gz done. else echo dump db_${DB}_$(date &#43;&#34;%Y%m%d&#34;).sql.gz failed. fi done # remove older files find ${BACKUP_FOLDER} -type f -name *.sql.gz -mtime &#43;${MAXIMUM_BACKUP_FILES} -delete 脚本就是使用 mysqldump 备份指定的数据库（在 DATABASES 使用空格分隔）然后 gzip 压缩保存到指定目录，使用系统自带的 find 命令删除旧文件
+...</p>
   </div>
   <footer class="entry-footer"><span title='2018-11-08 03:11:51 +0800 +0800'>November 8, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;260 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Mysql数据库备份脚本(使用mysqldump)" href="https://blog.fangjiahui.me/posts/2018-11-08-mysqldump-backup-script/"></a>
@@ -196,7 +201,8 @@ sleep 15 &amp; killall -SIGSEGV sleep 正常情况下core_dump文件夹下会有
 timer 单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu 下的apt-daily.timer，该目录下也存在一个apt-daily.service服务文件配合一起使用。
 [Unit] Description=Daily apt activities [Timer] OnCalendar=*-*-* 6,18:00 RandomizedDelaySec=12h AccuracySec=1h Persistent=true [Install] WantedBy=timers.target 上面的[Timer]块代表每天上午 6 点和下午 6 点都运行 apt 脚本，具体[Timer]块可配置以下参数
 单调定时器(Monotonic timer) Option Description OnActiveSec= 相对计时器开始后多少时间执行，格式如 2h、2s、2w、2d OnBootSec= 相对系统启动后多少时间执行 OnStartupSec= 相对 systemd 启动多少时间后执行 OnUnitActiveSec= 每隔多少时间再次运行一次 OnUnitInactiveSec= 服务在最后一次停止后，隔多久再执行一次 可以两个参数一起使用，如下每周开机 15 分钟后执行 foo
-[Unit] Description=Run foo weekly and on boot [Timer] OnBootSec=15min OnUnitActiveSec=1w [Install] WantedBy=timers....</p>
+[Unit] Description=Run foo weekly and on boot [Timer] OnBootSec=15min OnUnitActiveSec=1w [Install] WantedBy=timers.target 实时定时器(Realtime timer) Option Description OnCalendar= 相对系统时间指定特定时刻运行，它接受如 2h、2s 的格式也可以是 星期 年-月-日 时:分:秒的格式，..指定区间，*代表所有的。可参考 systemd.time(7) Persistent= 是一个布尔值，默认为 no，当使用 OnCalendar 的设置时，指定该功能要不要持续进行。如断电恢复后是不是要执行上次没执行的 AccuracySec= 设置定时器的触发精度。默认值是一分钟。定时器并不必然在所设置的精准时间点上启动匹配单元， 而是在所设置的精准时间点为起点的一小段时间窗口范围内的某个时间点上启动匹配单元， 这个时间窗口的起点由 OnCalendar=, OnActiveSec=, OnBootSec=, OnStartupSec=, OnUnitActiveSec= or OnUnitInactiveSec= 决定， 而这个时间窗口的长度则由该指令决定。 RandomizedDelaySec= 将此单元的定时器随机延迟一小段时间， 这一小段时间的长度介于零到该指令设置的时间长度之间， 以均匀概率分布。 如下是每月的 1 到 4 号 12 点周一和周二运行 foo，格式如OnCalendar=*-*-* 4:00:00代表每天 4 点
+...</p>
   </div>
   <footer class="entry-footer"><span title='2018-08-16 09:43:23 +0800 +0800'>August 16, 2018</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;210 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Systemd 中的timer单元" href="https://blog.fangjiahui.me/posts/2018-08-16-systemd-timer-unit/"></a>
@@ -215,7 +221,8 @@ Directory Description /lib/systemd/system/ 系统自带的或者程序自带安�
 [Unit] section [Unit]一般是第一个块文件配置，配置各种元数据(metadata)和其他单元的关系
 Option Description Description= 这个单元的描述字符串 Documentation= 文档链接 Requires= 运行这个单元所需要的依赖单元，否则启动失败 Wants= 和上面Requires相似，但是非强限制。如果列出在此的单元没有启动，本单元也还是能启动持续运行 BindsTo= 和上面Requires相似，区别是列出在此的单元终止了，本单元也会停止 Before= 在此列出的单元，只有在本单元启动后才会启动。但不是依赖关系，如需依赖配置上述Requires命令 After= 在启动本单元之前，先要启动在此列出的单元。但不是依赖关系，如需依赖配置上述Requires命令 Conflicts= 在此列出的单元，不能和本单元同时运行，和Requires相反 OnFailure= 在此列出的单元将会在本单元失败后激活 还有很多的如Condition...和Assert...配置详情可以查看手册man 5 systemd.unit
 [Install] section [Install]一般是最后一个块文件配置，这个是可选项，也就是说可以不配置。只有在开机启动激活(enable)时触发。
-Option Description WantedBy= 指定该单元如何开机启动(enable)，依赖在此列出的单元，有点类似[Unit]块中的Wants，不同的是它会创建软链接到.wants文件夹，如上sshd如果被enable，该单元会创建一个软链接到/etc/systemd/system/multi-user.target.wants文件夹下，如果文件夹不存在则创建文件夹再软链接。 RequiredBy= 和上面WantedBy类似，但如果在此列出的单元没有激活，本单元会激活失败，同样在.requires文件夹下创建软链接。 Alias= 设置改单元的别名，可以给systemctl使用，例如上面sshd的开机启动可以使用 systemctl enable ssh....</p>
+Option Description WantedBy= 指定该单元如何开机启动(enable)，依赖在此列出的单元，有点类似[Unit]块中的Wants，不同的是它会创建软链接到.wants文件夹，如上sshd如果被enable，该单元会创建一个软链接到/etc/systemd/system/multi-user.target.wants文件夹下，如果文件夹不存在则创建文件夹再软链接。 RequiredBy= 和上面WantedBy类似，但如果在此列出的单元没有激活，本单元会激活失败，同样在.requires文件夹下创建软链接。 Alias= 设置改单元的别名，可以给systemctl使用，例如上面sshd的开机启动可以使用 systemctl enable ssh.service和systemctl enable sshd.service是一样的 Also= 列在此的单元，会随着本单元一起激活。 [Service] section 以上[Unit],[Install]一般是通用的，[Service]是单独的服务配置一般在[Unit]和[Install]之间，只用来配置服务(.service)。
+...</p>
   </div>
   <footer class="entry-footer"><span title='2018-07-08 02:28:21 +0800 +0800'>July 8, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;315 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Systemd中Service单元介绍" href="https://blog.fangjiahui.me/posts/2018-07-08-systemd-service-unit/"></a>
@@ -229,7 +236,8 @@ Option Description WantedBy= 指定该单元如何开机启动(enable)，依赖�
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

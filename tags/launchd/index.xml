@@ -9,7 +9,7 @@
       <url>https://blog.fangjiahui.me/blog-cover-1.png</url>
       <link>https://blog.fangjiahui.me/blog-cover-1.png</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.140.0</generator>
     <language>en</language>
     <lastBuildDate>Wed, 31 May 2023 11:25:36 +0800</lastBuildDate>
     <atom:link href="https://blog.fangjiahui.me/tags/launchd/index.xml" rel="self" type="application/rss+xml" />
@@ -18,11 +18,54 @@
       <link>https://blog.fangjiahui.me/posts/2021-04-19-mac-launchd-daemons-and-agents-tutorial/</link>
       <pubDate>Mon, 19 Apr 2021 03:25:09 +0800</pubDate>
       <guid>https://blog.fangjiahui.me/posts/2021-04-19-mac-launchd-daemons-and-agents-tutorial/</guid>
-      <description>Mac Launchd 介绍和使用 Linux 上如果想开机开机启动一个服务或者定时运行一个服务有很多的选择比如之前介绍过的Systemd或者用 crontab 也可以，而在 Mac 不同它有一个类似的叫 Launchd 的系统，对应使用launchctl命令控制
-Daemons and Agents Launchd 管理 Daemons 和 Agents 两种类型分别存放在不同的文件夹下，主要的区别是
-Agents 是用户登录后执行的 Daemons 是开机后就执行，可以通过UserName指定用户比如root用户 配置文件 Launchd 配置文件以.plist结尾，本质上是xml格式的文件，Daemons 和 Agents 各存放的路径也不同
-类型 路径 说明 User Agents ~/Library/LaunchAgents 用户 Agents 当前用户登录时运行 Global Agents /Library/LaunchAgents 全局 Agents 任何用户登录时都会运行 System Agents /System/Library/LaunchAgents 系统 Agents 任何用户登录时都会运行 Global Daemons /Library/LaunchDaemons 全局 Daemons 内核初始化加载完后就运行 System Daemons /System/Library/LaunchDaemons 系统 Daemons 内核初始化加载完后就运行 系统运行开机首先会加载内核启动kernel_tas(0)，然后启动launchd(1)好后去启动指定好的 Daemons 最后用户登录再运行相应的 Agents 任务
-一般文件名都以com.domain.programName.plist格式命名，不管是 Daemons 还是 Agents 格式都是一样的，只是存放位置不同。看下面一个 hello world 的例子 ~/Library/LaunchAgents/com.</description>
+      <description>&lt;h2 id=&#34;mac-launchd-介绍和使用&#34;&gt;Mac Launchd 介绍和使用&lt;/h2&gt;
+&lt;p&gt;Linux 上如果想开机开机启动一个服务或者定时运行一个服务有很多的选择比如之前介绍过的&lt;a href=&#34;../2018-08-16-systemd-timer-unit/&#34;&gt;Systemd&lt;/a&gt;或者用 crontab 也可以，而在 Mac 不同它有一个类似的叫 Launchd 的系统，对应使用&lt;code&gt;launchctl&lt;/code&gt;命令控制&lt;/p&gt;
+&lt;h3 id=&#34;daemons-and-agents&#34;&gt;Daemons and Agents&lt;/h3&gt;
+&lt;p&gt;Launchd 管理 Daemons 和 Agents 两种类型分别存放在不同的文件夹下，主要的区别是&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Agents 是用户登录后执行的&lt;/li&gt;
+&lt;li&gt;Daemons 是开机后就执行，可以通过&lt;code&gt;UserName&lt;/code&gt;指定用户比如&lt;code&gt;root&lt;/code&gt;用户&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;配置文件&#34;&gt;配置文件&lt;/h3&gt;
+&lt;p&gt;Launchd 配置文件以&lt;code&gt;.plist&lt;/code&gt;结尾，本质上是&lt;code&gt;xml&lt;/code&gt;格式的文件，Daemons 和 Agents 各存放的路径也不同&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;类型&lt;/th&gt;
+          &lt;th&gt;路径&lt;/th&gt;
+          &lt;th&gt;说明&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;User Agents&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;~/Library/LaunchAgents&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;用户 Agents 当前用户登录时运行&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Global Agents&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;/Library/LaunchAgents&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;全局 Agents 任何用户登录时都会运行&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;System Agents&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;/System/Library/LaunchAgents&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;系统 Agents 任何用户登录时都会运行&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Global Daemons&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;/Library/LaunchDaemons&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;全局 Daemons 内核初始化加载完后就运行&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;System Daemons&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;/System/Library/LaunchDaemons&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;系统 Daemons 内核初始化加载完后就运行&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;系统运行开机首先会加载内核启动&lt;code&gt;kernel_tas(0)&lt;/code&gt;，然后启动&lt;code&gt;launchd(1)&lt;/code&gt;好后去启动指定好的 Daemons 最后用户登录再运行相应的 Agents 任务&lt;/p&gt;
+&lt;p&gt;一般文件名都以&lt;code&gt;com.domain.programName.plist&lt;/code&gt;格式命名，不管是 Daemons 还是 Agents 格式都是一样的，只是存放位置不同。看下面一个 hello world 的例子 &lt;code&gt;~/Library/LaunchAgents/com.example.hello.plist&lt;/code&gt;&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

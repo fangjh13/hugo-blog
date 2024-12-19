@@ -7,13 +7,61 @@
 <meta name="robots" content="index, follow">
 <title>Python中的类变量(class variables)和实例变量(instance variables) | Fython&#39;s Blog</title>
 <meta name="keywords" content="Python">
-<meta name="description" content="Python中的类变量(class variables)和实例变量(instance variables) 类变量(Class Variables) 类变量是所有实例共享的变量，类和实例都能访问。也就是说类创建了之后类变量就已经初始化了之后所有的实例都共享这个变量不会单独创建。类变量需要定义在类的里面方法的外面
-class Foo: cls_var = &#34;this is class method&#34; def __init__(self): pass f0 = Foo() f1 = Foo() print(f0.cls_var, id(f0.cls_var)) print(f1.cls_var, id(f1.cls_var)) print(Foo.cls_var, id(Foo.cls_var)) Foo.cls_var = &#34;changed&#34; print(f0.cls_var, id(f0.cls_var)) print(f1.cls_var, id(f1.cls_var)) print(Foo.cls_var, id(Foo.cls_var)) 输出
-this is class method 4328472272 this is class method 4328472272 this is class method 4328472272 changed 4328412136 changed 4328412136 changed 4328412136 类Foo定义了cls_var类变量没有绑定到任何实例，类Foo和实例f0,f1它们引用的变量cls_var都是同一个地址，所以共享一个类变量，只要改变了所有引用的都会影响。以下是统计一共创建了多少实例的例子
-class Person: count = 0 # class variable def __init__(self, name): self.">
+<meta name="description" content="Python中的类变量(class variables)和实例变量(instance variables)
+类变量(Class Variables)
+类变量是所有实例共享的变量，类和实例都能访问。也就是说类创建了之后类变量就已经初始化了之后所有的实例都共享这个变量不会单独创建。类变量需要定义在类的里面方法的外面
+class Foo:
+    cls_var = &#34;this is class method&#34;
+
+    def __init__(self):
+        pass
+
+
+f0 = Foo()
+f1 = Foo()
+print(f0.cls_var, id(f0.cls_var))
+print(f1.cls_var, id(f1.cls_var))
+print(Foo.cls_var, id(Foo.cls_var))
+Foo.cls_var = &#34;changed&#34;
+print(f0.cls_var, id(f0.cls_var))
+print(f1.cls_var, id(f1.cls_var))
+print(Foo.cls_var, id(Foo.cls_var))
+输出
+this is class method 4328472272
+this is class method 4328472272
+this is class method 4328472272
+changed 4328412136
+changed 4328412136
+changed 4328412136
+类Foo定义了cls_var类变量没有绑定到任何实例，类Foo和实例f0,f1它们引用的变量cls_var都是同一个地址，所以共享一个类变量，只要改变了所有引用的都会影响。以下是统计一共创建了多少实例的例子
+class Person:
+    count = 0              # class variable
+
+    def __init__(self, name):
+        self.name = name
+        Person.count &#43;= 1  # 递增
+
+s0 = Person(name=&#34;s0&#34;)
+s1 = Person(name=&#34;s1&#34;)
+print(Person.count)         # 2
+__init__构造方法引用Person.count类变量每次实例对象都会自增
+实例变量(Instance Variables)
+实例变量是每个实例拥有的单独变量在实例创建后才能访问，各个实例变量相互独立。与类变量不同的是实例变量一般定义在方法内(__init__方法)
+class Person:
+    def __init__(self, name):
+        self.name = name         # 实例变量
+
+s0 = Person(&#34;student0&#34;)
+s1 = Person(&#34;student1&#34;)
+print(s0.name, id(s0.name))
+print(s1.name, id(s1.name))
+s1.name = &#34;teacher&#34;
+print(s0.name, id(s0.name))
+print(s1.name, id(s1.name))
+输出">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/2017-03-25-difference-between-class-and-instance-variables/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -21,6 +69,7 @@ class Person: count = 0 # class variable def __init__(self, name): self.">
 <link rel="mask-icon" href="https://blog.fangjiahui.me/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/2017-03-25-difference-between-class-and-instance-variables/">
 <noscript>
     <style>
         #theme-toggle,
@@ -57,24 +106,77 @@ class Person: count = 0 # class variable def __init__(self, name): self.">
         }
 
     </style>
-</noscript><meta property="og:title" content="Python中的类变量(class variables)和实例变量(instance variables)" />
-<meta property="og:description" content="Python中的类变量(class variables)和实例变量(instance variables) 类变量(Class Variables) 类变量是所有实例共享的变量，类和实例都能访问。也就是说类创建了之后类变量就已经初始化了之后所有的实例都共享这个变量不会单独创建。类变量需要定义在类的里面方法的外面
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/2017-03-25-difference-between-class-and-instance-variables/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="Python中的类变量(class variables)和实例变量(instance variables)">
+  <meta property="og:description" content="Python中的类变量(class variables)和实例变量(instance variables) 类变量(Class Variables) 类变量是所有实例共享的变量，类和实例都能访问。也就是说类创建了之后类变量就已经初始化了之后所有的实例都共享这个变量不会单独创建。类变量需要定义在类的里面方法的外面
 class Foo: cls_var = &#34;this is class method&#34; def __init__(self): pass f0 = Foo() f1 = Foo() print(f0.cls_var, id(f0.cls_var)) print(f1.cls_var, id(f1.cls_var)) print(Foo.cls_var, id(Foo.cls_var)) Foo.cls_var = &#34;changed&#34; print(f0.cls_var, id(f0.cls_var)) print(f1.cls_var, id(f1.cls_var)) print(Foo.cls_var, id(Foo.cls_var)) 输出
 this is class method 4328472272 this is class method 4328472272 this is class method 4328472272 changed 4328412136 changed 4328412136 changed 4328412136 类Foo定义了cls_var类变量没有绑定到任何实例，类Foo和实例f0,f1它们引用的变量cls_var都是同一个地址，所以共享一个类变量，只要改变了所有引用的都会影响。以下是统计一共创建了多少实例的例子
-class Person: count = 0 # class variable def __init__(self, name): self." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/2017-03-25-difference-between-class-and-instance-variables/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2017-03-25T14:38:27+08:00" />
-<meta property="article:modified_time" content="2020-04-11T14:47:42+08:00" />
+class Person: count = 0 # class variable def __init__(self, name): self.name = name Person.count &#43;= 1 # 递增 s0 = Person(name=&#34;s0&#34;) s1 = Person(name=&#34;s1&#34;) print(Person.count) # 2 __init__构造方法引用Person.count类变量每次实例对象都会自增
+实例变量(Instance Variables) 实例变量是每个实例拥有的单独变量在实例创建后才能访问，各个实例变量相互独立。与类变量不同的是实例变量一般定义在方法内(__init__方法)
+class Person: def __init__(self, name): self.name = name # 实例变量 s0 = Person(&#34;student0&#34;) s1 = Person(&#34;student1&#34;) print(s0.name, id(s0.name)) print(s1.name, id(s1.name)) s1.name = &#34;teacher&#34; print(s0.name, id(s0.name)) print(s1.name, id(s1.name)) 输出">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2017-03-25T14:38:27+08:00">
+    <meta property="article:modified_time" content="2020-04-11T14:47:42+08:00">
+    <meta property="article:tag" content="Python">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="Python中的类变量(class variables)和实例变量(instance variables)">
+<meta name="twitter:description" content="Python中的类变量(class variables)和实例变量(instance variables)
+类变量(Class Variables)
+类变量是所有实例共享的变量，类和实例都能访问。也就是说类创建了之后类变量就已经初始化了之后所有的实例都共享这个变量不会单独创建。类变量需要定义在类的里面方法的外面
+class Foo:
+    cls_var = &#34;this is class method&#34;
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
+    def __init__(self):
+        pass
 
-<meta name="twitter:title" content="Python中的类变量(class variables)和实例变量(instance variables)"/>
-<meta name="twitter:description" content="Python中的类变量(class variables)和实例变量(instance variables) 类变量(Class Variables) 类变量是所有实例共享的变量，类和实例都能访问。也就是说类创建了之后类变量就已经初始化了之后所有的实例都共享这个变量不会单独创建。类变量需要定义在类的里面方法的外面
-class Foo: cls_var = &#34;this is class method&#34; def __init__(self): pass f0 = Foo() f1 = Foo() print(f0.cls_var, id(f0.cls_var)) print(f1.cls_var, id(f1.cls_var)) print(Foo.cls_var, id(Foo.cls_var)) Foo.cls_var = &#34;changed&#34; print(f0.cls_var, id(f0.cls_var)) print(f1.cls_var, id(f1.cls_var)) print(Foo.cls_var, id(Foo.cls_var)) 输出
-this is class method 4328472272 this is class method 4328472272 this is class method 4328472272 changed 4328412136 changed 4328412136 changed 4328412136 类Foo定义了cls_var类变量没有绑定到任何实例，类Foo和实例f0,f1它们引用的变量cls_var都是同一个地址，所以共享一个类变量，只要改变了所有引用的都会影响。以下是统计一共创建了多少实例的例子
-class Person: count = 0 # class variable def __init__(self, name): self."/>
+
+f0 = Foo()
+f1 = Foo()
+print(f0.cls_var, id(f0.cls_var))
+print(f1.cls_var, id(f1.cls_var))
+print(Foo.cls_var, id(Foo.cls_var))
+Foo.cls_var = &#34;changed&#34;
+print(f0.cls_var, id(f0.cls_var))
+print(f1.cls_var, id(f1.cls_var))
+print(Foo.cls_var, id(Foo.cls_var))
+输出
+this is class method 4328472272
+this is class method 4328472272
+this is class method 4328472272
+changed 4328412136
+changed 4328412136
+changed 4328412136
+类Foo定义了cls_var类变量没有绑定到任何实例，类Foo和实例f0,f1它们引用的变量cls_var都是同一个地址，所以共享一个类变量，只要改变了所有引用的都会影响。以下是统计一共创建了多少实例的例子
+class Person:
+    count = 0              # class variable
+
+    def __init__(self, name):
+        self.name = name
+        Person.count &#43;= 1  # 递增
+
+s0 = Person(name=&#34;s0&#34;)
+s1 = Person(name=&#34;s1&#34;)
+print(Person.count)         # 2
+__init__构造方法引用Person.count类变量每次实例对象都会自增
+实例变量(Instance Variables)
+实例变量是每个实例拥有的单独变量在实例创建后才能访问，各个实例变量相互独立。与类变量不同的是实例变量一般定义在方法内(__init__方法)
+class Person:
+    def __init__(self, name):
+        self.name = name         # 实例变量
+
+s0 = Person(&#34;student0&#34;)
+s1 = Person(&#34;student1&#34;)
+print(s0.name, id(s0.name))
+print(s1.name, id(s1.name))
+s1.name = &#34;teacher&#34;
+print(s0.name, id(s0.name))
+print(s1.name, id(s1.name))
+输出">
 
 
 <script type="application/ld+json">
@@ -103,14 +205,14 @@ class Person: count = 0 # class variable def __init__(self, name): self."/>
   "@type": "BlogPosting",
   "headline": "Python中的类变量(class variables)和实例变量(instance variables)",
   "name": "Python中的类变量(class variables)和实例变量(instance variables)",
-  "description": "Python中的类变量(class variables)和实例变量(instance variables) 类变量(Class Variables) 类变量是所有实例共享的变量，类和实例都能访问。也就是说类创建了之后类变量就已经初始化了之后所有的实例都共享这个变量不会单独创建。类变量需要定义在类的里面方法的外面\nclass Foo: cls_var = \u0026#34;this is class method\u0026#34; def __init__(self): pass f0 = Foo() f1 = Foo() print(f0.cls_var, id(f0.cls_var)) print(f1.cls_var, id(f1.cls_var)) print(Foo.cls_var, id(Foo.cls_var)) Foo.cls_var = \u0026#34;changed\u0026#34; print(f0.cls_var, id(f0.cls_var)) print(f1.cls_var, id(f1.cls_var)) print(Foo.cls_var, id(Foo.cls_var)) 输出\nthis is class method 4328472272 this is class method 4328472272 this is class method 4328472272 changed 4328412136 changed 4328412136 changed 4328412136 类Foo定义了cls_var类变量没有绑定到任何实例，类Foo和实例f0,f1它们引用的变量cls_var都是同一个地址，所以共享一个类变量，只要改变了所有引用的都会影响。以下是统计一共创建了多少实例的例子\nclass Person: count = 0 # class variable def __init__(self, name): self.",
+  "description": "Python中的类变量(class variables)和实例变量(instance variables) 类变量(Class Variables) 类变量是所有实例共享的变量，类和实例都能访问。也就是说类创建了之后类变量就已经初始化了之后所有的实例都共享这个变量不会单独创建。类变量需要定义在类的里面方法的外面\nclass Foo: cls_var = \u0026#34;this is class method\u0026#34; def __init__(self): pass f0 = Foo() f1 = Foo() print(f0.cls_var, id(f0.cls_var)) print(f1.cls_var, id(f1.cls_var)) print(Foo.cls_var, id(Foo.cls_var)) Foo.cls_var = \u0026#34;changed\u0026#34; print(f0.cls_var, id(f0.cls_var)) print(f1.cls_var, id(f1.cls_var)) print(Foo.cls_var, id(Foo.cls_var)) 输出\nthis is class method 4328472272 this is class method 4328472272 this is class method 4328472272 changed 4328412136 changed 4328412136 changed 4328412136 类Foo定义了cls_var类变量没有绑定到任何实例，类Foo和实例f0,f1它们引用的变量cls_var都是同一个地址，所以共享一个类变量，只要改变了所有引用的都会影响。以下是统计一共创建了多少实例的例子\nclass Person: count = 0 # class variable def __init__(self, name): self.name = name Person.count += 1 # 递增 s0 = Person(name=\u0026#34;s0\u0026#34;) s1 = Person(name=\u0026#34;s1\u0026#34;) print(Person.count) # 2 __init__构造方法引用Person.count类变量每次实例对象都会自增\n实例变量(Instance Variables) 实例变量是每个实例拥有的单独变量在实例创建后才能访问，各个实例变量相互独立。与类变量不同的是实例变量一般定义在方法内(__init__方法)\nclass Person: def __init__(self, name): self.name = name # 实例变量 s0 = Person(\u0026#34;student0\u0026#34;) s1 = Person(\u0026#34;student1\u0026#34;) print(s0.name, id(s0.name)) print(s1.name, id(s1.name)) s1.name = \u0026#34;teacher\u0026#34; print(s0.name, id(s0.name)) print(s1.name, id(s1.name)) 输出\n",
   "keywords": [
     "Python"
   ],
   "articleBody": "Python中的类变量(class variables)和实例变量(instance variables) 类变量(Class Variables) 类变量是所有实例共享的变量，类和实例都能访问。也就是说类创建了之后类变量就已经初始化了之后所有的实例都共享这个变量不会单独创建。类变量需要定义在类的里面方法的外面\nclass Foo: cls_var = \"this is class method\" def __init__(self): pass f0 = Foo() f1 = Foo() print(f0.cls_var, id(f0.cls_var)) print(f1.cls_var, id(f1.cls_var)) print(Foo.cls_var, id(Foo.cls_var)) Foo.cls_var = \"changed\" print(f0.cls_var, id(f0.cls_var)) print(f1.cls_var, id(f1.cls_var)) print(Foo.cls_var, id(Foo.cls_var)) 输出\nthis is class method 4328472272 this is class method 4328472272 this is class method 4328472272 changed 4328412136 changed 4328412136 changed 4328412136 类Foo定义了cls_var类变量没有绑定到任何实例，类Foo和实例f0,f1它们引用的变量cls_var都是同一个地址，所以共享一个类变量，只要改变了所有引用的都会影响。以下是统计一共创建了多少实例的例子\nclass Person: count = 0 # class variable def __init__(self, name): self.name = name Person.count += 1 # 递增 s0 = Person(name=\"s0\") s1 = Person(name=\"s1\") print(Person.count) # 2 __init__构造方法引用Person.count类变量每次实例对象都会自增\n实例变量(Instance Variables) 实例变量是每个实例拥有的单独变量在实例创建后才能访问，各个实例变量相互独立。与类变量不同的是实例变量一般定义在方法内(__init__方法)\nclass Person: def __init__(self, name): self.name = name # 实例变量 s0 = Person(\"student0\") s1 = Person(\"student1\") print(s0.name, id(s0.name)) print(s1.name, id(s1.name)) s1.name = \"teacher\" print(s0.name, id(s0.name)) print(s1.name, id(s1.name)) 输出\nstudent0 4304628528 student1 4304628464 student0 4304628528 teacher 4303557272 上面每个实例初始化后都会单独绑定一个name变量，通过实例.变量名访问，每个实例互不影响，也不能通过类Person访问，如果访问Person.name会抛出AttributeError\n其他 下面看个特殊的例子\nclass Person: name = \"person\" def __init__(self): pass s0 = Person() s1 = Person() print(s0.name) # person print(s1.name) # person print(Person.name) # person s0.name = \"changed\" print(s0.name) # changed print(s1.name) # person print(Person.name) # person 输出\nperson person person changed person person 按照刚才类变量共享的原则不是通过s0改变了name所有引用的都会收到影响么，怎么就变了s0的。其实这是实例s0本来引用的是类变量，在重新赋值之后实例新建了name属于自己本身的实例属性存在__dict__属性中，可以通过s0.__dict__查看\n\u003e\u003e\u003e s0.__dict__ {'name': 'changed'} \u003e\u003e\u003e s1.__dict__ {} \u003e\u003e\u003e s0.__class__.name # 访问类变量 'person' Conclusions 类变量是所有实例共享的，实例变量绑定到单独的实例每个都不同 类变量定义在类内方法外实例和类都能访问，实例变量定义在方法内只能实例访问 如果实例新赋值一个和类变量相同的变量名，不会覆盖掉类变量，会自己新建实例变量 ",
   "wordCount" : "191",
   "inLanguage": "en",
-  "datePublished": "2017-03-25T14:38:27+08:00",
+  "image": "https://blog.fangjiahui.me/blog-cover-1.png","datePublished": "2017-03-25T14:38:27+08:00",
   "dateModified": "2020-04-11T14:47:42+08:00",
   "author":{
     "@type": "Person",
@@ -423,16 +525,15 @@ class Person: count = 0 # class variable def __init__(self, name): self."/>
 
 
 <div id="tcomment"></div>
-<script src="https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.40/dist/twikoo.all.min.js"></script>
 <script>
   twikoo.init({
     envId: "https://twikoo-kbp3p7wxh-fythons-projects.vercel.app", 
     el: "#tcomment", 
     
-    region: "",
     
     path: "",
-    lang: "zh-CN", 
+    
   });
 </script>
 
@@ -440,7 +541,8 @@ class Person: count = 0 # class variable def __init__(self, name): self."/>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

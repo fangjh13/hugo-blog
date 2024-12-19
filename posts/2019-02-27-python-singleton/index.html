@@ -7,12 +7,60 @@
 <meta name="robots" content="index, follow">
 <title>Python实现单例(Singleton)的几种方法 | Fython&#39;s Blog</title>
 <meta name="keywords" content="Python">
-<meta name="description" content="Python实现单例(Singleton)的几种方法 单例是一种比较简单的设计模式，每次实例化只提供一个相同的实例对象，对于保证实例唯一和节约系统资源的时候十分有用，下面就看看python中实现单例的几种方法
-使用__new__方法 因为在类的实例化过程中__new__方法会比__init__提前调用，我们在类属性中保存一个_singleton每次只返回这个。
-class Singleton: def __new__(cls, *args, **kwargs): if not getattr(cls, &#39;_singleton&#39;, None): cls._singleton = super().__new__(cls, *args, **kwargs) return cls._singleton class MyClass(Singleton): pass a = MyClass() b = MyClass() print(id(a)) # 4433117872 print(id(b)) # 4433117872 print(a is b) # True 使用装饰器 from functools import wraps def singleton(cls): _singleton = {} @wraps(cls) def wrapper(*args, **kwargs): if not _singleton.get(cls): _singleton[cls] = cls(*args, **kwargs) return _singleton[cls] return wrapper @singleton class MyClass: pass 利用装饰器中的_singleton变量存储所有类的实例">
+<meta name="description" content="Python实现单例(Singleton)的几种方法
+单例是一种比较简单的设计模式，每次实例化只提供一个相同的实例对象，对于保证实例唯一和节约系统资源的时候十分有用，下面就看看python中实现单例的几种方法
+使用__new__方法
+因为在类的实例化过程中__new__方法会比__init__提前调用，我们在类属性中保存一个_singleton每次只返回这个。
+class Singleton:
+    def __new__(cls, *args, **kwargs):
+        if not getattr(cls, &#39;_singleton&#39;, None):
+            cls._singleton = super().__new__(cls, *args, **kwargs)
+        return cls._singleton
+
+
+class MyClass(Singleton):
+    pass
+
+a = MyClass()
+b = MyClass()
+print(id(a))       # 4433117872
+print(id(b))       # 4433117872
+print(a is b)      # True
+使用装饰器
+from functools import wraps
+
+def singleton(cls):
+    _singleton = {}
+    @wraps(cls)
+    def wrapper(*args, **kwargs):
+        if not _singleton.get(cls):
+            _singleton[cls] = cls(*args, **kwargs)
+        return _singleton[cls]
+    return wrapper
+
+@singleton
+class MyClass:
+    pass
+利用装饰器中的_singleton变量存储所有类的实例
+利用python模块
+python模块（module）是天然的单例模式
+# singleton.py
+
+class Singleton:
+    def foo(self):
+        print(&#34;I&#39;m singleton&#34;)
+
+instance = Singleton()
+
+del Singleton
+然后利用模块导入
+from single import instance
+
+instance.foo()  # I&#39;m singleton
+">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/2019-02-27-python-singleton/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -20,6 +68,7 @@ class Singleton: def __new__(cls, *args, **kwargs): if not getattr(cls, &#39;_si
 <link rel="mask-icon" href="https://blog.fangjiahui.me/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/2019-02-27-python-singleton/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,22 +105,76 @@ class Singleton: def __new__(cls, *args, **kwargs): if not getattr(cls, &#39;_si
         }
 
     </style>
-</noscript><meta property="og:title" content="Python实现单例(Singleton)的几种方法" />
-<meta property="og:description" content="Python实现单例(Singleton)的几种方法 单例是一种比较简单的设计模式，每次实例化只提供一个相同的实例对象，对于保证实例唯一和节约系统资源的时候十分有用，下面就看看python中实现单例的几种方法
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/2019-02-27-python-singleton/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="Python实现单例(Singleton)的几种方法">
+  <meta property="og:description" content="Python实现单例(Singleton)的几种方法 单例是一种比较简单的设计模式，每次实例化只提供一个相同的实例对象，对于保证实例唯一和节约系统资源的时候十分有用，下面就看看python中实现单例的几种方法
 使用__new__方法 因为在类的实例化过程中__new__方法会比__init__提前调用，我们在类属性中保存一个_singleton每次只返回这个。
-class Singleton: def __new__(cls, *args, **kwargs): if not getattr(cls, &#39;_singleton&#39;, None): cls._singleton = super().__new__(cls, *args, **kwargs) return cls._singleton class MyClass(Singleton): pass a = MyClass() b = MyClass() print(id(a)) # 4433117872 print(id(b)) # 4433117872 print(a is b) # True 使用装饰器 from functools import wraps def singleton(cls): _singleton = {} @wraps(cls) def wrapper(*args, **kwargs): if not _singleton.get(cls): _singleton[cls] = cls(*args, **kwargs) return _singleton[cls] return wrapper @singleton class MyClass: pass 利用装饰器中的_singleton变量存储所有类的实例" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/2019-02-27-python-singleton/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2019-02-27T09:07:17+08:00" />
-<meta property="article:modified_time" content="2020-04-27T09:08:52+08:00" />
+class Singleton: def __new__(cls, *args, **kwargs): if not getattr(cls, &#39;_singleton&#39;, None): cls._singleton = super().__new__(cls, *args, **kwargs) return cls._singleton class MyClass(Singleton): pass a = MyClass() b = MyClass() print(id(a)) # 4433117872 print(id(b)) # 4433117872 print(a is b) # True 使用装饰器 from functools import wraps def singleton(cls): _singleton = {} @wraps(cls) def wrapper(*args, **kwargs): if not _singleton.get(cls): _singleton[cls] = cls(*args, **kwargs) return _singleton[cls] return wrapper @singleton class MyClass: pass 利用装饰器中的_singleton变量存储所有类的实例
+利用python模块 python模块（module）是天然的单例模式
+# singleton.py class Singleton: def foo(self): print(&#34;I&#39;m singleton&#34;) instance = Singleton() del Singleton 然后利用模块导入
+from single import instance instance.foo() # I&#39;m singleton ">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-02-27T09:07:17+08:00">
+    <meta property="article:modified_time" content="2020-04-27T09:08:52+08:00">
+    <meta property="article:tag" content="Python">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="Python实现单例(Singleton)的几种方法">
+<meta name="twitter:description" content="Python实现单例(Singleton)的几种方法
+单例是一种比较简单的设计模式，每次实例化只提供一个相同的实例对象，对于保证实例唯一和节约系统资源的时候十分有用，下面就看看python中实现单例的几种方法
+使用__new__方法
+因为在类的实例化过程中__new__方法会比__init__提前调用，我们在类属性中保存一个_singleton每次只返回这个。
+class Singleton:
+    def __new__(cls, *args, **kwargs):
+        if not getattr(cls, &#39;_singleton&#39;, None):
+            cls._singleton = super().__new__(cls, *args, **kwargs)
+        return cls._singleton
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
 
-<meta name="twitter:title" content="Python实现单例(Singleton)的几种方法"/>
-<meta name="twitter:description" content="Python实现单例(Singleton)的几种方法 单例是一种比较简单的设计模式，每次实例化只提供一个相同的实例对象，对于保证实例唯一和节约系统资源的时候十分有用，下面就看看python中实现单例的几种方法
-使用__new__方法 因为在类的实例化过程中__new__方法会比__init__提前调用，我们在类属性中保存一个_singleton每次只返回这个。
-class Singleton: def __new__(cls, *args, **kwargs): if not getattr(cls, &#39;_singleton&#39;, None): cls._singleton = super().__new__(cls, *args, **kwargs) return cls._singleton class MyClass(Singleton): pass a = MyClass() b = MyClass() print(id(a)) # 4433117872 print(id(b)) # 4433117872 print(a is b) # True 使用装饰器 from functools import wraps def singleton(cls): _singleton = {} @wraps(cls) def wrapper(*args, **kwargs): if not _singleton.get(cls): _singleton[cls] = cls(*args, **kwargs) return _singleton[cls] return wrapper @singleton class MyClass: pass 利用装饰器中的_singleton变量存储所有类的实例"/>
+class MyClass(Singleton):
+    pass
+
+a = MyClass()
+b = MyClass()
+print(id(a))       # 4433117872
+print(id(b))       # 4433117872
+print(a is b)      # True
+使用装饰器
+from functools import wraps
+
+def singleton(cls):
+    _singleton = {}
+    @wraps(cls)
+    def wrapper(*args, **kwargs):
+        if not _singleton.get(cls):
+            _singleton[cls] = cls(*args, **kwargs)
+        return _singleton[cls]
+    return wrapper
+
+@singleton
+class MyClass:
+    pass
+利用装饰器中的_singleton变量存储所有类的实例
+利用python模块
+python模块（module）是天然的单例模式
+# singleton.py
+
+class Singleton:
+    def foo(self):
+        print(&#34;I&#39;m singleton&#34;)
+
+instance = Singleton()
+
+del Singleton
+然后利用模块导入
+from single import instance
+
+instance.foo()  # I&#39;m singleton
+">
 
 
 <script type="application/ld+json">
@@ -100,14 +203,14 @@ class Singleton: def __new__(cls, *args, **kwargs): if not getattr(cls, &#39;_si
   "@type": "BlogPosting",
   "headline": "Python实现单例(Singleton)的几种方法",
   "name": "Python实现单例(Singleton)的几种方法",
-  "description": "Python实现单例(Singleton)的几种方法 单例是一种比较简单的设计模式，每次实例化只提供一个相同的实例对象，对于保证实例唯一和节约系统资源的时候十分有用，下面就看看python中实现单例的几种方法\n使用__new__方法 因为在类的实例化过程中__new__方法会比__init__提前调用，我们在类属性中保存一个_singleton每次只返回这个。\nclass Singleton: def __new__(cls, *args, **kwargs): if not getattr(cls, \u0026#39;_singleton\u0026#39;, None): cls._singleton = super().__new__(cls, *args, **kwargs) return cls._singleton class MyClass(Singleton): pass a = MyClass() b = MyClass() print(id(a)) # 4433117872 print(id(b)) # 4433117872 print(a is b) # True 使用装饰器 from functools import wraps def singleton(cls): _singleton = {} @wraps(cls) def wrapper(*args, **kwargs): if not _singleton.get(cls): _singleton[cls] = cls(*args, **kwargs) return _singleton[cls] return wrapper @singleton class MyClass: pass 利用装饰器中的_singleton变量存储所有类的实例",
+  "description": "Python实现单例(Singleton)的几种方法 单例是一种比较简单的设计模式，每次实例化只提供一个相同的实例对象，对于保证实例唯一和节约系统资源的时候十分有用，下面就看看python中实现单例的几种方法\n使用__new__方法 因为在类的实例化过程中__new__方法会比__init__提前调用，我们在类属性中保存一个_singleton每次只返回这个。\nclass Singleton: def __new__(cls, *args, **kwargs): if not getattr(cls, \u0026#39;_singleton\u0026#39;, None): cls._singleton = super().__new__(cls, *args, **kwargs) return cls._singleton class MyClass(Singleton): pass a = MyClass() b = MyClass() print(id(a)) # 4433117872 print(id(b)) # 4433117872 print(a is b) # True 使用装饰器 from functools import wraps def singleton(cls): _singleton = {} @wraps(cls) def wrapper(*args, **kwargs): if not _singleton.get(cls): _singleton[cls] = cls(*args, **kwargs) return _singleton[cls] return wrapper @singleton class MyClass: pass 利用装饰器中的_singleton变量存储所有类的实例\n利用python模块 python模块（module）是天然的单例模式\n# singleton.py class Singleton: def foo(self): print(\u0026#34;I\u0026#39;m singleton\u0026#34;) instance = Singleton() del Singleton 然后利用模块导入\nfrom single import instance instance.foo() # I\u0026#39;m singleton ",
   "keywords": [
     "Python"
   ],
   "articleBody": "Python实现单例(Singleton)的几种方法 单例是一种比较简单的设计模式，每次实例化只提供一个相同的实例对象，对于保证实例唯一和节约系统资源的时候十分有用，下面就看看python中实现单例的几种方法\n使用__new__方法 因为在类的实例化过程中__new__方法会比__init__提前调用，我们在类属性中保存一个_singleton每次只返回这个。\nclass Singleton: def __new__(cls, *args, **kwargs): if not getattr(cls, '_singleton', None): cls._singleton = super().__new__(cls, *args, **kwargs) return cls._singleton class MyClass(Singleton): pass a = MyClass() b = MyClass() print(id(a)) # 4433117872 print(id(b)) # 4433117872 print(a is b) # True 使用装饰器 from functools import wraps def singleton(cls): _singleton = {} @wraps(cls) def wrapper(*args, **kwargs): if not _singleton.get(cls): _singleton[cls] = cls(*args, **kwargs) return _singleton[cls] return wrapper @singleton class MyClass: pass 利用装饰器中的_singleton变量存储所有类的实例\n利用python模块 python模块（module）是天然的单例模式\n# singleton.py class Singleton: def foo(self): print(\"I'm singleton\") instance = Singleton() del Singleton 然后利用模块导入\nfrom single import instance instance.foo() # I'm singleton ",
   "wordCount" : "96",
   "inLanguage": "en",
-  "datePublished": "2019-02-27T09:07:17+08:00",
+  "image": "https://blog.fangjiahui.me/blog-cover-1.png","datePublished": "2019-02-27T09:07:17+08:00",
   "dateModified": "2020-04-27T09:08:52+08:00",
   "author":{
     "@type": "Person",
@@ -375,16 +478,15 @@ class Singleton: def __new__(cls, *args, **kwargs): if not getattr(cls, &#39;_si
 
 
 <div id="tcomment"></div>
-<script src="https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.40/dist/twikoo.all.min.js"></script>
 <script>
   twikoo.init({
     envId: "https://twikoo-kbp3p7wxh-fythons-projects.vercel.app", 
     el: "#tcomment", 
     
-    region: "",
     
     path: "",
-    lang: "zh-CN", 
+    
   });
 </script>
 
@@ -392,7 +494,8 @@ class Singleton: def __new__(cls, *args, **kwargs): if not getattr(cls, &#39;_si
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

@@ -10,7 +10,7 @@
 <meta name="description" content="使用 cURL 命令调试 http 请求响应时间">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/2023-11-26-curl-http-timing/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -18,6 +18,7 @@
 <link rel="mask-icon" href="https://blog.fangjiahui.me/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/2023-11-26-curl-http-timing/">
 <noscript>
     <style>
         #theme-toggle,
@@ -54,18 +55,21 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="cURL 命令 查看请求响应时间" />
-<meta property="og:description" content="使用 cURL 命令调试 http 请求响应时间" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/2023-11-26-curl-http-timing/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-11-26T18:34:20+08:00" />
-<meta property="article:modified_time" content="2023-11-26T18:34:20+08:00" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:title" content="cURL 命令 查看请求响应时间"/>
-<meta name="twitter:description" content="使用 cURL 命令调试 http 请求响应时间"/>
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/2023-11-26-curl-http-timing/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="cURL 命令 查看请求响应时间">
+  <meta property="og:description" content="使用 cURL 命令调试 http 请求响应时间">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-11-26T18:34:20+08:00">
+    <meta property="article:modified_time" content="2023-11-26T18:34:20+08:00">
+    <meta property="article:tag" content="Bash">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="cURL 命令 查看请求响应时间">
+<meta name="twitter:description" content="使用 cURL 命令调试 http 请求响应时间">
 
 
 <script type="application/ld+json">
@@ -101,7 +105,7 @@
   "articleBody": "cURL 是我们常用的 http 命令行请求工具，它支持显示请求开始到响应结束各阶段的耗时，以便于开发中排查问题是网络原因还是服务器处理慢原因，主要是利用 -w 参数\ncurl -L -w \"time_namelookup: %{time_namelookup} time_connect: %{time_connect} time_appconnect: %{time_appconnect} time_pretransfer: %{time_pretransfer} time_redirect: %{time_redirect} time_starttransfer: %{time_starttransfer} time_total: %{time_total} http_code: %{http_code} content_type: %{content_type} speed_download: %{speed_download} (byte/s) \" https://example.com/ 如果使用单行方便拷贝\ncurl -L -w \"time_namelookup: %{time_namelookup}\\ntime_connect: %{time_connect}\\ntime_appconnect: %{time_appconnect}\\ntime_pretransfer: %{time_pretransfer}\\ntime_redirect: %{time_redirect}\\ntime_starttransfer: %{time_starttransfer}\\ntime_total: %{time_total}\\nhttp_code: %{http_code}\\ncontent_type: %{content_type}\\nspeed_download: %{speed_download} (byte/s)\\n\" https://example.com/ 返回如下\n\u003c!doctype html\u003e ..... time_namelookup: 0.007911 time_connect: 0.008221 time_appconnect: 0.415794 time_pretransfer: 0.415880 time_redirect: 0.000000 time_starttransfer: 0.618522 time_total: 0.618948 http_code: 200 content_type: text/html; charset=UTF-8 speed_download: 2034 (byte/s) 返回的各参数如下，这是官方文档上的截图\ntime_namelookup 从开始到名称解析完成所花费的时间（以秒为单位） time_connect 从开始到完成与远程主机（或代理）建立 TCP 连接所花费的时间（以秒为单位） time_appconnect 从开始到完成与远程主机的 SSL/SSH 连接/握手所花费的时间（以秒为单位） time_pretransfer 从开始到文件传输即将开始所花费的时间（以秒为单位） time_redirect 在最终事务开始之前，中间所有重定向步骤所花费的时间（以秒为单位） time_starttransfer 从开始到接收到第一个字节所花费的时间（以秒为单位）。这包括 time_pretransfer 以及服务器计算结果所需的时间 time_total 完整操作持续的总时间（以秒为单位） http_code HTTP 响应代码 content_type 请求的 Content-Type speed_download 完整下载测得的平均下载速度 每秒字节数 (bytes/s) 根据上面的文档，我们就可以计算出客户端发出请求之后，服务器处理请求到开始发回数据所需要的时间是 0.610301 秒\ntime_starttransfer:0.618522 - time_connect:0.008221\n客户端从服务器下载数据所用的时间是 0.000426 秒\ntime_total:0.618948 - time_starttransfer:0.618522\nSSL/TLS 握手花费了 0.407573 秒\ntime_appconnect:0.415794 - time_connect:0.008221\n对于没有 SSL/TLS 的明文连接(http://) time_appconnect 为零\nReference https://susam.net/blog/timing-with-curl.html https://curl.se/docs/manpage.html ",
   "wordCount" : "135",
   "inLanguage": "en",
-  "datePublished": "2023-11-26T18:34:20+08:00",
+  "image": "https://blog.fangjiahui.me/blog-cover-1.png","datePublished": "2023-11-26T18:34:20+08:00",
   "dateModified": "2023-11-26T18:34:20+08:00",
   "author":{
     "@type": "Person",
@@ -244,8 +248,7 @@
 </span></span><span class="line"><span class="cl">content_type: text/html<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>UTF-8
 </span></span><span class="line"><span class="cl">speed_download: <span class="m">2034</span> <span class="o">(</span>byte/s<span class="o">)</span>
 </span></span></code></pre></div><p>返回的各参数如下，这是<a href="https://curl.se/docs/manpage.html">官方文档</a>上的截图</p>
-<p><img loading="lazy" src="../images/image_20231126162446.png" alt=""  />
-</p>
+<p><img loading="lazy" src="../images/image_20231126162446.png"></p>
 <ul>
 <li><code>time_namelookup</code> 从开始到名称解析完成所花费的时间（以秒为单位）</li>
 <li><code>time_connect</code> 从开始到完成与远程主机（或代理）建立 TCP 连接所花费的时间（以秒为单位）</li>
@@ -285,10 +288,10 @@
       <li><a href="https://blog.fangjiahui.me/tags/bash/">Bash</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="https://blog.fangjiahui.me/posts/2024-02-20-arch-wayland-sway-install-fcitx5/">
+  <a class="prev" href="https://blog.fangjiahui.me/posts/2023-12-19-android-chrome-fullscreen/">
     <span class="title">« Prev</span>
     <br>
-    <span>Arch Sway 安装 Fcitx5</span>
+    <span>Android 安卓 Chrome 全屏方法</span>
   </a>
   <a class="next" href="https://blog.fangjiahui.me/posts/2023-02-11-postgresql-full-text-search/">
     <span class="title">Next »</span>
@@ -386,16 +389,15 @@
 
 
 <div id="tcomment"></div>
-<script src="https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.40/dist/twikoo.all.min.js"></script>
 <script>
   twikoo.init({
     envId: "https://twikoo-kbp3p7wxh-fythons-projects.vercel.app", 
     el: "#tcomment", 
     
-    region: "",
     
     path: "",
-    lang: "zh-CN", 
+    
   });
 </script>
 
@@ -403,7 +405,8 @@
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

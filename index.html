@@ -2,7 +2,7 @@
 <html lang="en" dir="auto">
 
 <head>
-	<meta name="generator" content="Hugo 0.119.0"><meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.140.0"><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -11,7 +11,7 @@
 <meta name="description" content="My Personal Blog Site">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -21,6 +21,7 @@
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" type="application/rss+xml" href="https://blog.fangjiahui.me/index.xml">
 <link rel="alternate" type="application/json" href="https://blog.fangjiahui.me/index.json">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/">
 <noscript>
     <style>
         #theme-toggle,
@@ -57,16 +58,17 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Fython&#39;s Blog" />
-<meta property="og:description" content="My Personal Blog Site" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://blog.fangjiahui.me/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:title" content="Fython&#39;s Blog"/>
-<meta name="twitter:description" content="My Personal Blog Site"/>
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="Fython&#39;s Blog">
+  <meta property="og:description" content="My Personal Blog Site">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="website">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="Fython&#39;s Blog">
+<meta name="twitter:description" content="My Personal Blog Site">
 
 <script type="application/ld+json">
 {
@@ -75,7 +77,7 @@
   "name": "Fython's Blog",
   "url": "https://blog.fangjiahui.me/",
   "description": "My Personal Blog Site",
-  "thumbnailUrl": "https://blog.fangjiahui.me/favicon.ico",
+  "logo": "https://blog.fangjiahui.me/favicon.ico",
   "sameAs": [
       "https://github.com/fangjh13", "index.xml"
   ]
@@ -191,10 +193,25 @@
 安装社区版 sway-im sway 已经合并了实现 text-input-v3 协议的分支，但是仍然没有完全实现 input-method-v2 协议，因此仍然无法显示弹出窗口。有个支持 v2 的 AUR 包 sway-im 修复了这个问题，使用 sway-im 替换自带的 sway
 yay -S sway-im 相关包安装 安装 Fcitx5 相关的包，我使用的是双拼所以还安装了双拼相关的插件
 pacman -S fcitx5 fcitx5-chinese-addons fcitx5-qt fcitx5-gtk fcitx5-config-qt qt5-wayland 配置 Fcitx5 参考文档编辑 /etc/environment 并添加以下几行
-GTK_IM_MODULE=fcitx QT_IM_MODULE=fcitx XMODIFIERS=@im=fcitx SDL_IM_MODULE=fcitx GLFW_IM_MODULE=ibus SDL_IM_MODULE 是为了让一些使用特定版本 SDL2 库的游戏能正常使用输入法。 GLFW_IM_MODULE 是为了让 kitty 启用输入法支持。此环境变量的值只能为 ibus。 按 Fcitx5 上游推荐，环境变量的值一般设置为 fcitx。部分并非由 Arch 从源码编译打包的应用程序因兼容性的需求而需要将之临时设置为 fcitx5...</p>
+GTK_IM_MODULE=fcitx QT_IM_MODULE=fcitx XMODIFIERS=@im=fcitx SDL_IM_MODULE=fcitx GLFW_IM_MODULE=ibus SDL_IM_MODULE 是为了让一些使用特定版本 SDL2 库的游戏能正常使用输入法。 GLFW_IM_MODULE 是为了让 kitty 启用输入法支持。此环境变量的值只能为 ibus。 按 Fcitx5 上游推荐，环境变量的值一般设置为 fcitx。部分并非由 Arch 从源码编译打包的应用程序因兼容性的需求而需要将之临时设置为 fcitx5
+...</p>
   </div>
   <footer class="entry-footer"><span title='2024-02-20 21:14:17 +0800 +0800'>February 20, 2024</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;189 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Arch Sway 安装 Fcitx5" href="https://blog.fangjiahui.me/posts/2024-02-20-arch-wayland-sway-install-fcitx5/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Android 安卓 Chrome 全屏方法
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>最近公司的项目，遇到一台安卓系统的开发板，接了块 16:9 的大屏幕，我们开发了个web页应用想要全屏显式，下面是我捣鼓出来的小技巧
+前提
+电脑和安卓设备都要安装上chrome 应用 打开了开发者模式（一般都是 Build number 多点几下） https://developer.android.com/studio/debug/dev-options.html 电脑上要有 adb 工具 https://developer.android.com/tools/adb 电脑有线或者无线 adb 连上设备，确保 adb devices 有设备在，我用的是无线连的 电脑上打开chrome，地址栏输 chrome://inspect#devices 进去找到 inspect 进去调试 在控制台(Console)中输，完成 document.documentElement.webkitRequestFullScreen(); Reference https://wiki.appstudio.dev/How_to_run_fullscreen_in_an_Android_Chrome_app#JavaScript-1 </p>
+  </div>
+  <footer class="entry-footer"><span title='2023-12-19 21:22:11 +0800 +0800'>December 19, 2023</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;30 words&nbsp;·&nbsp;Fython</footer>
+  <a class="entry-link" aria-label="post link to Android 安卓 Chrome 全屏方法" href="https://blog.fangjiahui.me/posts/2023-12-19-android-chrome-fullscreen/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -206,7 +223,8 @@ GTK_IM_MODULE=fcitx QT_IM_MODULE=fcitx XMODIFIERS=@im=fcitx SDL_IM_MODULE=fcitx 
     <p>cURL 是我们常用的 http 命令行请求工具，它支持显示请求开始到响应结束各阶段的耗时，以便于开发中排查问题是网络原因还是服务器处理慢原因，主要是利用 -w 参数
 curl -L -w &#34;time_namelookup: %{time_namelookup} time_connect: %{time_connect} time_appconnect: %{time_appconnect} time_pretransfer: %{time_pretransfer} time_redirect: %{time_redirect} time_starttransfer: %{time_starttransfer} time_total: %{time_total} http_code: %{http_code} content_type: %{content_type} speed_download: %{speed_download} (byte/s) &#34; https://example.com/ 如果使用单行方便拷贝
 curl -L -w &#34;time_namelookup: %{time_namelookup}\ntime_connect: %{time_connect}\ntime_appconnect: %{time_appconnect}\ntime_pretransfer: %{time_pretransfer}\ntime_redirect: %{time_redirect}\ntime_starttransfer: %{time_starttransfer}\ntime_total: %{time_total}\nhttp_code: %{http_code}\ncontent_type: %{content_type}\nspeed_download: %{speed_download} (byte/s)\n&#34; https://example.com/ 返回如下
-&lt;!doctype html&gt; &lt;html&gt; ..... &lt;/html&gt; time_namelookup: 0.007911 time_connect: 0.008221 time_appconnect: 0.415794 time_pretransfer: 0.415880 time_redirect: 0.000000 time_starttransfer: 0.618522 time_total: 0.618948 http_code: 200 content_type: text/html; charset=UTF-8 speed_download: 2034 (byte/s) 返回的各参数如下，这是官方文档上的截图...</p>
+&lt;!doctype html&gt; &lt;html&gt; ..... &lt;/html&gt; time_namelookup: 0.007911 time_connect: 0.008221 time_appconnect: 0.415794 time_pretransfer: 0.415880 time_redirect: 0.000000 time_starttransfer: 0.618522 time_total: 0.618948 http_code: 200 content_type: text/html; charset=UTF-8 speed_download: 2034 (byte/s) 返回的各参数如下，这是官方文档上的截图
+...</p>
   </div>
   <footer class="entry-footer"><span title='2023-11-26 18:34:20 +0800 +0800'>November 26, 2023</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;135 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to cURL 命令 查看请求响应时间" href="https://blog.fangjiahui.me/posts/2023-11-26-curl-http-timing/"></a>
@@ -221,7 +239,8 @@ curl -L -w &#34;time_namelookup: %{time_namelookup}\ntime_connect: %{time_connec
     <p>PostgreSQL 全文搜索 在数据量较小的项目中可以使用 PostgreSQL 自带的全文搜索（Full Text Search）支持，代替非常重的 ElasticSearch，减少开发和维护成本，简单又好用，记录下最近的学习
 实现全文搜索主要分为几步，分词、向量化、创建索引（倒排索引）、匹配查询
 分词 默认自带的分词配置是不支持中文的，但可以安装第三方扩展来支持，检查支持的配置库在 psql 中使用 \dF 命令，\dFp 列出解析器 。
-postgres=&gt; \dF List of text search configurations Schema | Name | Description ------------&#43;------------&#43;--------------------------------------- pg_catalog | danish | configuration for danish language pg_catalog | dutch | configuration for dutch language pg_catalog | english | configuration for english language pg_catalog | portuguese | configuration for portuguese language pg_catalog | russian | configuration for russian language pg_catalog | simple | simple configuration pg_catalog | spanish | configuration for spanish language postgres-# \dFp List of text search parsers Schema | Name | Description ------------&#43;---------&#43;--------------------- pg_catalog | default | default word parser 安装支持中文的扩展 支持中文的扩展有以下这两个...</p>
+postgres=&gt; \dF List of text search configurations Schema | Name | Description ------------&#43;------------&#43;--------------------------------------- pg_catalog | danish | configuration for danish language pg_catalog | dutch | configuration for dutch language pg_catalog | english | configuration for english language pg_catalog | portuguese | configuration for portuguese language pg_catalog | russian | configuration for russian language pg_catalog | simple | simple configuration pg_catalog | spanish | configuration for spanish language postgres-# \dFp List of text search parsers Schema | Name | Description ------------&#43;---------&#43;--------------------- pg_catalog | default | default word parser 安装支持中文的扩展 支持中文的扩展有以下这两个
+...</p>
   </div>
   <footer class="entry-footer"><span title='2023-02-11 11:38:27 +0800 +0800'>February 11, 2023</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;692 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to PostgreSQL 全文搜索" href="https://blog.fangjiahui.me/posts/2023-02-11-postgresql-full-text-search/"></a>
@@ -237,24 +256,12 @@ postgres=&gt; \dF List of text search configurations Schema | Name | Description
 profile : 程序 cpu 使用情况，按照一定频率去采集应用程序在 CPU 和寄存器上面的数据 heap : 程序 heap 内存使用情况，和调用关系 goroutine : 程序内 goroutine 启动数，各自的调用情况。 block : 报告导致阻塞的同步原语的情况 goroutines 不在运行状态的情况，可以用来分析和查找死锁等性能瓶颈。默认情况下未启用，需要手动调用runtime.SetBlockProfileRate启用。 mutex: 报告锁竞争。默认情况下未启用，需要手动调用runtime.SetMutexProfileFraction启用。 集成到服务 服务应用 常驻的服务型应用要使用 pprof 首先得在服务启动入口导入包
 import _ &#34;net/http/pprof&#34; ··· go func() { log.Println(http.ListenAndServe(&#34;localhost:6060&#34;, nil)) }() 然后浏览器访问http://localhost:6060/debug/pprof/，显示如下页面
 如上如果服务是 http 服务且使用的是 http.DefaultServeMux 不需要做任何路由注册默认会注册相关路由，初始化调用了init 函数会自动注册，路径为 /debug/pprof/，显示上图，能大概看个当前 goroutine 数目、堆分配情况、锁的情况，具体分析还是要使用下文的 go tool pprof 工具。
-如果使用的是自定义的 ServeMux 或 Handler 需要我们自己手动注册需要的路由，比如使用 echo 框架的时候...</p>
+如果使用的是自定义的 ServeMux 或 Handler 需要我们自己手动注册需要的路由，比如使用 echo 框架的时候
+func RegisterRoutes(engine *echo.Echo) { router := engine.Group(&#34;&#34;) ...... // 按需注册 router.GET(&#34;/debug/pprof&#34;, echo.WrapHandler(http.HandlerFunc(pprof.Index))) router.GET(&#34;/debug/pprof/allocs&#34;, echo.WrapHandler(http.HandlerFunc(pprof.Index))) router.GET(&#34;/debug/pprof/block&#34;, echo.WrapHandler(http.HandlerFunc(pprof.Index))) router.GET(&#34;/debug/pprof/goroutine&#34;, echo.WrapHandler(http.HandlerFunc(pprof.Index))) router.GET(&#34;/debug/pprof/heap&#34;, echo.WrapHandler(http.HandlerFunc(pprof.Index))) router.GET(&#34;/debug/pprof/mutex&#34;, echo.WrapHandler(http.HandlerFunc(pprof.Index))) router.GET(&#34;/debug/pprof/cmdline&#34;, echo.WrapHandler(http.HandlerFunc(pprof.Cmdline))) router.GET(&#34;/debug/pprof/profile&#34;, echo.WrapHandler(http.HandlerFunc(pprof.Profile))) router.GET(&#34;/debug/pprof/symbol&#34;, echo.WrapHandler(http.HandlerFunc(pprof.Symbol))) router.POST(&#34;/debug/pprof/symbol&#34;, echo.WrapHandler(http.HandlerFunc(pprof.Symbol))) router.GET(&#34;/debug/pprof/trace&#34;, echo.WrapHandler(http.HandlerFunc(pprof.Trace))) router.GET(&#34;/debug/pprof/threadcreate&#34;, echo.WrapHandler(http.HandlerFunc(pprof.Index))) } 如果使用的是 gin 框架，可以使用官方提供的 middleware
+...</p>
   </div>
   <footer class="entry-footer"><span title='2022-12-16 10:51:46 +0800 +0800'>December 16, 2022</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;1082 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Go 服务性能分析 pprof 的使用" href="https://blog.fangjiahui.me/posts/2022-12-16-go-tool-pprof-tutorial/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">openwrt 自动重拨
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>有的 openwrt 固件不会断网自动重播，检查 /etc/ppp/options 文件是否存在如下参数，没有的话自己加上一般就好了
-maxfail 0 persist 或者使用 crotab 重启接口，每天 3 点重新拨号
-0 3 * * * ifdown wan &amp;&amp; sleep 3 &amp;&amp; ifup wan Reference: https://www.right.com.cn/FORUM/thread-4107089-1-1.html </p>
-  </div>
-  <footer class="entry-footer"><span title='2022-08-06 10:47:16 +0800 +0800'>August 6, 2022</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;28 words&nbsp;·&nbsp;Fython</footer>
-  <a class="entry-link" aria-label="post link to openwrt 自动重拨" href="https://blog.fangjiahui.me/posts/2022-08-06-openwrt-auto-pppoe/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
@@ -265,7 +272,8 @@ maxfail 0 persist 或者使用 crotab 重启接口，每天 3 点重新拨号
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

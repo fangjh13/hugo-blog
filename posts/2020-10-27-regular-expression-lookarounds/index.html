@@ -7,18 +7,25 @@
 <meta name="robots" content="index, follow">
 <title>正则表达式中的预查 | Fython&#39;s Blog</title>
 <meta name="keywords" content="regex">
-<meta name="description" content="正则表达式中的预查 有时候使用正则会用到非获取匹配，就是不进行存储供以后使用，也就是正则中的预查，预查分为正向预查(lookahead)和反向预查(lookbehind)。
+<meta name="description" content="正则表达式中的预查
+有时候使用正则会用到非获取匹配，就是不进行存储供以后使用，也就是正则中的预查，预查分为正向预查(lookahead)和反向预查(lookbehind)。
+
+
 正向预查
 (?=pattern)正向肯定预查(Positive lookahead)。如Python(?=3)匹配Python后跟3的语句，如输入Python3但其中最后的3不算进结果，返回Python
 (?!pattern)正向否定预查(Negative lookahead)。和上面的类似只是否定的，Python(?!3)匹配后面不带3的句子，输入Python2，也是返回Python
+
+
 反向预查
 (?&lt;=pattern)反向肯定预查(Positive lookbehind)。如(?&lt;=2)Python其实和上面也差不多反向就是向左匹配就是匹配Python前面是2的语句，如输入2Python，返回Python
 (?&lt;!pattern)反向否定预查(Negative lookbehind)。如(?&lt;!3)Python匹配Python前面不是3的输入，如输入2Python，返回Python
+
+
 还有一个长的挺像的这里也记录下
 (?:pattern) 匹配pattern但不获取匹配结果。 (?:t|b)oy只匹配boy或者toy，和toy|boy一样但更简洁，当然如果使用(t|b)oy就会多一个group">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/2020-10-27-regular-expression-lookarounds/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -26,6 +33,7 @@
 <link rel="mask-icon" href="https://blog.fangjiahui.me/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/2020-10-27-regular-expression-lookarounds/">
 <noscript>
     <style>
         #theme-toggle,
@@ -62,8 +70,10 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="正则表达式中的预查" />
-<meta property="og:description" content="正则表达式中的预查 有时候使用正则会用到非获取匹配，就是不进行存储供以后使用，也就是正则中的预查，预查分为正向预查(lookahead)和反向预查(lookbehind)。
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/2020-10-27-regular-expression-lookarounds/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="正则表达式中的预查">
+  <meta property="og:description" content="正则表达式中的预查 有时候使用正则会用到非获取匹配，就是不进行存储供以后使用，也就是正则中的预查，预查分为正向预查(lookahead)和反向预查(lookbehind)。
 正向预查
 (?=pattern)正向肯定预查(Positive lookahead)。如Python(?=3)匹配Python后跟3的语句，如输入Python3但其中最后的3不算进结果，返回Python
 (?!pattern)正向否定预查(Negative lookahead)。和上面的类似只是否定的，Python(?!3)匹配后面不带3的句子，输入Python2，也是返回Python
@@ -71,25 +81,33 @@
 (?&lt;=pattern)反向肯定预查(Positive lookbehind)。如(?&lt;=2)Python其实和上面也差不多反向就是向左匹配就是匹配Python前面是2的语句，如输入2Python，返回Python
 (?&lt;!pattern)反向否定预查(Negative lookbehind)。如(?&lt;!3)Python匹配Python前面不是3的输入，如输入2Python，返回Python
 还有一个长的挺像的这里也记录下
-(?:pattern) 匹配pattern但不获取匹配结果。 (?:t|b)oy只匹配boy或者toy，和toy|boy一样但更简洁，当然如果使用(t|b)oy就会多一个group" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/2020-10-27-regular-expression-lookarounds/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2020-10-27T10:04:12+08:00" />
-<meta property="article:modified_time" content="2020-10-27T10:04:12+08:00" />
+(?:pattern) 匹配pattern但不获取匹配结果。 (?:t|b)oy只匹配boy或者toy，和toy|boy一样但更简洁，当然如果使用(t|b)oy就会多一个group">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-10-27T10:04:12+08:00">
+    <meta property="article:modified_time" content="2020-10-27T10:04:12+08:00">
+    <meta property="article:tag" content="Regex">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="正则表达式中的预查">
+<meta name="twitter:description" content="正则表达式中的预查
+有时候使用正则会用到非获取匹配，就是不进行存储供以后使用，也就是正则中的预查，预查分为正向预查(lookahead)和反向预查(lookbehind)。
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
 
-<meta name="twitter:title" content="正则表达式中的预查"/>
-<meta name="twitter:description" content="正则表达式中的预查 有时候使用正则会用到非获取匹配，就是不进行存储供以后使用，也就是正则中的预查，预查分为正向预查(lookahead)和反向预查(lookbehind)。
 正向预查
 (?=pattern)正向肯定预查(Positive lookahead)。如Python(?=3)匹配Python后跟3的语句，如输入Python3但其中最后的3不算进结果，返回Python
 (?!pattern)正向否定预查(Negative lookahead)。和上面的类似只是否定的，Python(?!3)匹配后面不带3的句子，输入Python2，也是返回Python
+
+
 反向预查
 (?&lt;=pattern)反向肯定预查(Positive lookbehind)。如(?&lt;=2)Python其实和上面也差不多反向就是向左匹配就是匹配Python前面是2的语句，如输入2Python，返回Python
 (?&lt;!pattern)反向否定预查(Negative lookbehind)。如(?&lt;!3)Python匹配Python前面不是3的输入，如输入2Python，返回Python
+
+
 还有一个长的挺像的这里也记录下
-(?:pattern) 匹配pattern但不获取匹配结果。 (?:t|b)oy只匹配boy或者toy，和toy|boy一样但更简洁，当然如果使用(t|b)oy就会多一个group"/>
+(?:pattern) 匹配pattern但不获取匹配结果。 (?:t|b)oy只匹配boy或者toy，和toy|boy一样但更简洁，当然如果使用(t|b)oy就会多一个group">
 
 
 <script type="application/ld+json">
@@ -118,14 +136,14 @@
   "@type": "BlogPosting",
   "headline": "正则表达式中的预查",
   "name": "正则表达式中的预查",
-  "description": "正则表达式中的预查 有时候使用正则会用到非获取匹配，就是不进行存储供以后使用，也就是正则中的预查，预查分为正向预查(lookahead)和反向预查(lookbehind)。\n正向预查\n(?=pattern)正向肯定预查(Positive lookahead)。如Python(?=3)匹配Python后跟3的语句，如输入Python3但其中最后的3不算进结果，返回Python\n(?!pattern)正向否定预查(Negative lookahead)。和上面的类似只是否定的，Python(?!3)匹配后面不带3的句子，输入Python2，也是返回Python\n反向预查\n(?\u0026lt;=pattern)反向肯定预查(Positive lookbehind)。如(?\u0026lt;=2)Python其实和上面也差不多反向就是向左匹配就是匹配Python前面是2的语句，如输入2Python，返回Python\n(?\u0026lt;!pattern)反向否定预查(Negative lookbehind)。如(?\u0026lt;!3)Python匹配Python前面不是3的输入，如输入2Python，返回Python\n还有一个长的挺像的这里也记录下\n(?:pattern) 匹配pattern但不获取匹配结果。 (?:t|b)oy只匹配boy或者toy，和toy|boy一样但更简洁，当然如果使用(t|b)oy就会多一个group",
+  "description": "正则表达式中的预查 有时候使用正则会用到非获取匹配，就是不进行存储供以后使用，也就是正则中的预查，预查分为正向预查(lookahead)和反向预查(lookbehind)。\n正向预查\n(?=pattern)正向肯定预查(Positive lookahead)。如Python(?=3)匹配Python后跟3的语句，如输入Python3但其中最后的3不算进结果，返回Python\n(?!pattern)正向否定预查(Negative lookahead)。和上面的类似只是否定的，Python(?!3)匹配后面不带3的句子，输入Python2，也是返回Python\n反向预查\n(?\u0026lt;=pattern)反向肯定预查(Positive lookbehind)。如(?\u0026lt;=2)Python其实和上面也差不多反向就是向左匹配就是匹配Python前面是2的语句，如输入2Python，返回Python\n(?\u0026lt;!pattern)反向否定预查(Negative lookbehind)。如(?\u0026lt;!3)Python匹配Python前面不是3的输入，如输入2Python，返回Python\n还有一个长的挺像的这里也记录下\n(?:pattern) 匹配pattern但不获取匹配结果。 (?:t|b)oy只匹配boy或者toy，和toy|boy一样但更简洁，当然如果使用(t|b)oy就会多一个group\n",
   "keywords": [
     "regex"
   ],
   "articleBody": "正则表达式中的预查 有时候使用正则会用到非获取匹配，就是不进行存储供以后使用，也就是正则中的预查，预查分为正向预查(lookahead)和反向预查(lookbehind)。\n正向预查\n(?=pattern)正向肯定预查(Positive lookahead)。如Python(?=3)匹配Python后跟3的语句，如输入Python3但其中最后的3不算进结果，返回Python\n(?!pattern)正向否定预查(Negative lookahead)。和上面的类似只是否定的，Python(?!3)匹配后面不带3的句子，输入Python2，也是返回Python\n反向预查\n(?\u003c=pattern)反向肯定预查(Positive lookbehind)。如(?\u003c=2)Python其实和上面也差不多反向就是向左匹配就是匹配Python前面是2的语句，如输入2Python，返回Python\n(?\u003c!pattern)反向否定预查(Negative lookbehind)。如(?\u003c!3)Python匹配Python前面不是3的输入，如输入2Python，返回Python\n还有一个长的挺像的这里也记录下\n(?:pattern) 匹配pattern但不获取匹配结果。 (?:t|b)oy只匹配boy或者toy，和toy|boy一样但更简洁，当然如果使用(t|b)oy就会多一个group\n",
   "wordCount" : "16",
   "inLanguage": "en",
-  "datePublished": "2020-10-27T10:04:12+08:00",
+  "image": "https://blog.fangjiahui.me/blog-cover-1.png","datePublished": "2020-10-27T10:04:12+08:00",
   "dateModified": "2020-10-27T10:04:12+08:00",
   "author":{
     "@type": "Person",
@@ -249,7 +267,7 @@
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://blog.fangjiahui.me/tags/regex/">regex</a></li>
+      <li><a href="https://blog.fangjiahui.me/tags/regex/">Regex</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://blog.fangjiahui.me/posts/2020-12-23-creating-a-kubernetes-cluster-with-kubeadm/">
@@ -353,16 +371,15 @@
 
 
 <div id="tcomment"></div>
-<script src="https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.40/dist/twikoo.all.min.js"></script>
 <script>
   twikoo.init({
     envId: "https://twikoo-kbp3p7wxh-fythons-projects.vercel.app", 
     el: "#tcomment", 
     
-    region: "",
     
     path: "",
-    lang: "zh-CN", 
+    
   });
 </script>
 
@@ -370,7 +387,8 @@
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

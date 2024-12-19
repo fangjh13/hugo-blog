@@ -10,7 +10,7 @@
 <meta name="description" content="保护 Python 代码">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/2018-11-03-encrypt-protect-python-code/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -18,6 +18,7 @@
 <link rel="mask-icon" href="https://blog.fangjiahui.me/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/2018-11-03-encrypt-protect-python-code/">
 <noscript>
     <style>
         #theme-toggle,
@@ -54,18 +55,21 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="使用 Cython 加密 Python 项目" />
-<meta property="og:description" content="保护 Python 代码" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/2018-11-03-encrypt-protect-python-code/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2018-11-03T08:32:22+08:00" />
-<meta property="article:modified_time" content="2019-08-14T08:12:45+08:00" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:title" content="使用 Cython 加密 Python 项目"/>
-<meta name="twitter:description" content="保护 Python 代码"/>
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/2018-11-03-encrypt-protect-python-code/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="使用 Cython 加密 Python 项目">
+  <meta property="og:description" content="保护 Python 代码">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2018-11-03T08:32:22+08:00">
+    <meta property="article:modified_time" content="2019-08-14T08:12:45+08:00">
+    <meta property="article:tag" content="Python">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="使用 Cython 加密 Python 项目">
+<meta name="twitter:description" content="保护 Python 代码">
 
 
 <script type="application/ld+json">
@@ -101,7 +105,7 @@
   "articleBody": "最近公司需要将 python 代码部署到端上查了各种加密方法说到底 python 其实是不建议加密部署的，像什么生成.pyc其实都是很容易反编译直接运行的，因为它是解释型语言。不像 C 或者 java 可以编译后生成机器码直接部署。还有看到把项目打包成.exe文件，在 windows 上运行，由于我们使用 Linux 平台没有尝试，最后选择了使用Cython这个库来加密(编译成二进制)。\nCython其实就是把py 代码编译成 C或者 C++代码来执行，在Linux 上会生成.so二进制文件，Windows下为.pyd，所以还有一个作用是加速代码的执行效率。但还有一些限制如项目中不能删除__init__.py否者包导入会失败。详细可参考官方文档，Cython 还在持续开发中支持 Python3，下面也用Python3演示。\n先来做一些准备工作定义编译后的文件夹build和一些部署不需要的文件和文件夹，将待编译的.py文件加入ext_modules列表\ncur_dir = os.path.abspath(os.path.dirname(__file__)) setup_file = os.path.split(__file__)[1] build_dir = os.path.join(cur_dir, 'build') build_tmp_dir = os.path.join(build_dir, \"temp\") # define exclude dirs, these dirs will be deleted exclude_dirs = ['.git', '__pycache__', 'test', 'logs', 'venv', 'tests'] # defile exclude files, these files will be deleted exclude_files = ['*.md', '.gitignore', '.python-version', 'requirements.txt', '*.pyc', '*.c'] # these `.py` files will be retained and don't compile to `.so` ignore_py_files = ['config.py'] ext_modules = [] # get all build files for path, dirs, files in os.walk(cur_dir, topdown=True): dirs[:] = [d for d in dirs if d not in exclude_dirs] # touch a new file when __init__.py not exists for _dir in dirs: init_file = os.path.join(path, _dir, '__init__.py') if not os.path.isfile(init_file): print('WARNING: create new empty [{}] file.'.format(init_file)) with open(init_file, 'a') as f: pass # create target folder if not os.path.isdir(build_dir): os.mkdir(build_dir) # make empty dirs for dir_name in dirs: dir = os.path.join(path, dir_name) target_dir = dir.replace(cur_dir, build_dir) os.mkdir(target_dir) for file_name in files: file = os.path.join(path, file_name) if os.path.splitext(file)[1] == '.py': if file_name in ignore_py_files: # don't compile to .so if file_name not in exclude_files: shutil.copy(file, path.replace(cur_dir, build_dir)) elif file_name in exclude_files: # remove it pass else: # add to compile if file_name == '__init__.py': # copy __init__.py resolve package cannot be imported shutil.copy(file, path.replace(cur_dir, build_dir)) if file_name != setup_file: ext_modules.append(file) else: _exclude = False for pattern in exclude_files: if fnmatch.fnmatch(file_name, pattern): _exclude = True if not _exclude: shutil.copy(file, path.replace(cur_dir, build_dir)) 我们需要把原来的每个文件夹下__init__.py拷贝一份，不然项目中相对导入这些会失效。然后把ext_modules列表传给cythonize生成distutils Extension objects再传给setup函数。\nfrom distutils.core import setup from Cython.Build import cythonize from Cython.Distutils import build_ext setup( ext_modules=cythonize( ext_modules, compiler_directives=dict( always_allow_keywords=True, c_string_encoding='utf-8', language_level=3 ) ), cmdclass=dict( build_ext=build_ext ), script_args=[\"build_ext\", \"-b\", build_dir, \"-t\", build_tmp_dir] ) ..... 需要注意的是传给setup时需要加always_allow_keywords=True参数否者默认的python 特性关键字参数编译后运行是会报TypeError: ... takes no keyword arguments错的，如 fask 应用上。还有在运行的时候指定了build_dir是编译后存放的目录，不指定默认存放当前目录下，还有临时目录build_tmp_dir稍后可以删除。\n完整代码可以参考我Github上的代码，拷贝本脚本到项目根目录可以适当修改如哪些不需要放到部署环境的，安装 Cython 后确保每个子文件夹下有__init__.py内容为空的也行，不然生成的.so会路径不对。运行python3 build_it.py会生成一个build文件夹，之后删掉除 build 文件夹所有源文件进入 build 文件夹运行即可（需要启动脚本）。\nReference https://bucharjan.cz https://web.archive.org https://laucyun.com https://www.cnblogs.com ",
   "wordCount" : "307",
   "inLanguage": "en",
-  "datePublished": "2018-11-03T08:32:22+08:00",
+  "image": "https://blog.fangjiahui.me/blog-cover-1.png","datePublished": "2018-11-03T08:32:22+08:00",
   "dateModified": "2019-08-14T08:12:45+08:00",
   "author":{
     "@type": "Person",
@@ -412,16 +416,15 @@
 
 
 <div id="tcomment"></div>
-<script src="https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.40/dist/twikoo.all.min.js"></script>
 <script>
   twikoo.init({
     envId: "https://twikoo-kbp3p7wxh-fythons-projects.vercel.app", 
     el: "#tcomment", 
     
-    region: "",
     
     path: "",
-    lang: "zh-CN", 
+    
   });
 </script>
 
@@ -429,7 +432,8 @@
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

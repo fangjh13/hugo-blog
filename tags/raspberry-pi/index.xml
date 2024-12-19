@@ -9,7 +9,7 @@
       <url>https://blog.fangjiahui.me/blog-cover-1.png</url>
       <link>https://blog.fangjiahui.me/blog-cover-1.png</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.140.0</generator>
     <language>en</language>
     <lastBuildDate>Mon, 02 Apr 2018 12:51:42 +0800</lastBuildDate>
     <atom:link href="https://blog.fangjiahui.me/tags/raspberry-pi/index.xml" rel="self" type="application/rss+xml" />
@@ -18,10 +18,17 @@
       <link>https://blog.fangjiahui.me/posts/2018-04-02-raspberry-pi-3b-uart-serial-connect/</link>
       <pubDate>Mon, 02 Apr 2018 12:41:09 +0800</pubDate>
       <guid>https://blog.fangjiahui.me/posts/2018-04-02-raspberry-pi-3b-uart-serial-connect/</guid>
-      <description>使用 usb 转 TTL(PL2303 模块) 串口连接树莓派 3B By default, on Raspberry Pis equipped with the wireless/Bluetooth module (Raspberry Pi 3 and Raspberry Pi Zero W), the PL011 UART is connected to the BT module, while the mini UART is used for Linux console output. On all other models the PL011 is used for the Linux console output.
-在树莓派 3 以前，官方是将“硬件串口”分配给 GPIO 中的 UART(GPIO14&amp;amp;GPIO15)，因此可以独立调整串口的速率和模式，直接连接就可以。而在 3 以后的树莓派中因为新增了蓝牙使用掉了 UART。这样默认就不开启了，以下是手动开启的方法。
-使用 HDMI 启动树莓派编辑/boot/config.txt在后面新增以下两行
-# 激活串口输出 enable_uart=1 # 禁用蓝牙 dtoverlay=pi3-disable-bt 运行sudo systemctl disable hciuart禁用蓝牙服务，然后重启</description>
+      <description>&lt;h3 id=&#34;使用-usb-转-ttlpl2303-模块-串口连接树莓派-3b&#34;&gt;使用 usb 转 TTL(PL2303 模块) 串口连接树莓派 3B&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;By default, on Raspberry Pis equipped with the wireless/Bluetooth module (Raspberry Pi 3 and Raspberry Pi Zero W), the PL011 UART is connected to the BT module, while the mini UART is used for Linux console output. On all other models the PL011 is used for the Linux console output.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在树莓派 3 以前，官方是将“硬件串口”分配给 GPIO 中的 UART(GPIO14&amp;amp;GPIO15)，因此可以独立调整串口的速率和模式，直接连接就可以。而在 3 以后的树莓派中因为新增了蓝牙使用掉了 UART。这样默认就不开启了，以下是手动开启的方法。&lt;/p&gt;
+&lt;p&gt;使用 HDMI 启动树莓派编辑&lt;code&gt;/boot/config.txt&lt;/code&gt;在后面新增以下两行&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 激活串口输出&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;enable_uart&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 禁用蓝牙&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;dtoverlay&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;pi3-disable-bt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;运行&lt;code&gt;sudo systemctl disable hciuart&lt;/code&gt;禁用蓝牙服务，然后重启&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

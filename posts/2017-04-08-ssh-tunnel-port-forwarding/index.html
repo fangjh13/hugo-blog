@@ -10,7 +10,7 @@
 <meta name="description" content="SSH Tunnel - Port Forwarding">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/2017-04-08-ssh-tunnel-port-forwarding/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -18,6 +18,7 @@
 <link rel="mask-icon" href="https://blog.fangjiahui.me/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/2017-04-08-ssh-tunnel-port-forwarding/">
 <noscript>
     <style>
         #theme-toggle,
@@ -54,18 +55,21 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="SSH进阶 端口转发 内网穿透" />
-<meta property="og:description" content="SSH Tunnel - Port Forwarding" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/2017-04-08-ssh-tunnel-port-forwarding/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2017-04-08T07:06:13+08:00" />
-<meta property="article:modified_time" content="2017-07-20T09:29:42+08:00" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:title" content="SSH进阶 端口转发 内网穿透"/>
-<meta name="twitter:description" content="SSH Tunnel - Port Forwarding"/>
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/2017-04-08-ssh-tunnel-port-forwarding/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="SSH进阶 端口转发 内网穿透">
+  <meta property="og:description" content="SSH Tunnel - Port Forwarding">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2017-04-08T07:06:13+08:00">
+    <meta property="article:modified_time" content="2017-07-20T09:29:42+08:00">
+    <meta property="article:tag" content="SSH">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="SSH进阶 端口转发 内网穿透">
+<meta name="twitter:description" content="SSH Tunnel - Port Forwarding">
 
 
 <script type="application/ld+json">
@@ -101,7 +105,7 @@
   "articleBody": "SSH Tunnel - Port Forwarding Secure Shell (SSH) is a cryptographic network protocol for operating network services securely over an unsecured network. The best known example application is for remote login to computer systems by users.\nSSH是一个网络协议sftp、scp、ssh都是这个协议。ssh一般用来用于远程主机的登录，Linux系统自带OpenSSH可以方便的使用。它有一个叫SSH Tunnel的东西可以转发流量，下面是几个例子，以便理解和快速使用隧道，详细使用方法，请移步官方手册。\n本地端口转发（Local Port Forwarding） -L [bind_address:]port:host:hostport Specifies that the given port on the local (client) host is to be forwarded to the given host and port on the remote side. 使用-L参数，指定一个本地端口，流量通过这个端口转发到目标主机(host)上的端口(hostport)。\n例如连接远程主机(example.com)本地的mysql服务，我们可以本地开一个端口3307转发，这样我们就可以通过SSH连接到远程的数据库，不用修改远程服务器的配置就可以实现，而且数据是加密的。\nssh -L 3307:127.0.0.1:3306 user@example.com\n以上命令中3307是本地端口，127.0.0.1是远程服务器数据库地址相对于example.com而不是本地的，这个地址还可以是任意example.com能访问的地址，3306是数据库监听端口。回车之后如果没有用公钥认证输入密码后看起来像正常远程登录一样，但不影响我们远程连接。mysql -h 127.0.0.1 -P 3307 -u mysqluser -p连接到远程数据库，就可以了。\n如果想静默执行可以在后面加上-NnT不需要时按Ctrl+c结束。\nssh -L 3307:127.0.0.1:3306 user@example.com -NnT\n-N 不执行任何远程命令 -n 重定向stdin到/dev/null,阻止读取stdin -T 不分配TTY 远程端口转发（Remote Port Forwarding） -R [bind_address:]port:host:hostport Specifies that the given port on the remote (server) host is to be forwarded to the given host and port on the local side. -R参数指定一个远程端口，把远程主机(待登录主机)的端口转发到本地端指定机器(host)的端口。因为client是从本地ssh到远程服务器，而流量先是从远程端口流向本地的，返回的数据再经原路返回，两个方向相反，所以也称反向隧道反向代理。\n一个比较实用的例子是用于内网穿透，假设A是公司内网的机器没有公网IP但能连接互联网，因为有一层NAT (Network Address Translation) 阻挡着，你不能从公司以外的网络访问A机器。你有一台B机器，有公网IP并装有sshd和ssh。当然你可以在路由上设置端口映射来实现A能被访问可公司路由不是谁都能进并愉快玩耍的，这个时候简单的一条ssh命令就能派上用场了，因为A机器也可以远程连接到B，我们在A机器上建立远程端口转发使A机器在远程也能访问到，在A上执行以下命令。\nssh -R 4488:127.0.0.1:22 user@B -NnT\n4488代表在B远程机器上本地监听4488端口转发流量，127.0.0.1是本地A机器的地址，22是本地A机器的默认ssh端口22，然后在B机器上执行netstat -nlp | grep 4488应该如下显示\ntcp 0 0 127.0.0.1:4488 0.0.0.0:* LISTEN 18556/sshd: Fython 在B机器上执行ssh -p 4488 user@127.0.0.1远程连接到A机器，就是这么简单，我们已经穿透了公司内网。\n我们继续，现在你在家有一台C机器也处于内网之中和A差不多，你想在家也就是C机器上访问公司的机器A，我们可以这样。\n在机器B上编辑/etc/ssh/sshd_config配置文件，加上GatewayPorts yes允许任意的地址连接，如果为no只能是B机器能访问。 B机器重启sshd服务，systemctl restart sshd使上面的配置生效。 同样在A上执行ssh -R 4488:127.0.0.1:22 user@B -NnT，可以使用netstat查看4488连接是否建立 C机器上执行ssh -p 4488 user@B来连接A机器 注意：以上A和B都必须有ssh的客户端和服务端，C就使用客户端即可。\n隧道的维持 一般ssh长时间连接就会中断。使用autossh代替ssh可以保持隧中断自动连接，确保使用了公钥认证登录服务器。\nautossh -M 8898 -R 4488:127.0.0.1:22 user@B -NnTqf\n-M 为autossh的参数 指定一个监听端口与ssh无关 -q 为静默模式，ssh的参数 -f 后台执行, ssh的参数 这样ssh服务就会长时间在A机器的后台运行\n动态端口转发（dynamic port forwarding） -D [bind_address:]port Specifies a local “dynamic” application-level port forwarding. This works by allocating a socket to listen to port on the local side, optionally bound to the specified bind_address. 还有一个-D参数在本地建立一个SOCKS代理服务器用于动态端口转发。SOCKS是位于会话层的传输协议，能动态的代理端口，这就很合适作为浏览器代理，SOCKS5支持UDP的代理，openssh支持SOCKS5。\n比如一台机器可以科学上网，我们就可以通过这台机器跨越GFW\nssh -D 1080 user@example.com -NnTqf\n1080代表绑定本地的1080端口，之后在浏览器网络中配置SOCKS代理即可。\n接上面远程端口转发的例子，如果想在家通过C机器访问公司内网网站的网站（A机器可访问），本地建立一个动态的端口转发到B的4488端口，经A与B建立的远程隧道就能实现了。\nssh -D 1080 -p 4488 user@B -NnTqf\n参考：\nhttps://en.wikipedia.org\nhttps://www.openssh.com\nhttps://www.ibm.com\n",
   "wordCount" : "236",
   "inLanguage": "en",
-  "datePublished": "2017-04-08T07:06:13+08:00",
+  "image": "https://blog.fangjiahui.me/blog-cover-1.png","datePublished": "2017-04-08T07:06:13+08:00",
   "dateModified": "2017-07-20T09:29:42+08:00",
   "author":{
     "@type": "Person",
@@ -393,16 +397,15 @@
 
 
 <div id="tcomment"></div>
-<script src="https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.40/dist/twikoo.all.min.js"></script>
 <script>
   twikoo.init({
     envId: "https://twikoo-kbp3p7wxh-fythons-projects.vercel.app", 
     el: "#tcomment", 
     
-    region: "",
     
     path: "",
-    lang: "zh-CN", 
+    
   });
 </script>
 
@@ -410,7 +413,8 @@
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

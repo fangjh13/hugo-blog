@@ -10,7 +10,7 @@
 <meta name="description" content="装饰器介绍">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/2017-04-10-python-decorators/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -18,6 +18,7 @@
 <link rel="mask-icon" href="https://blog.fangjiahui.me/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/2017-04-10-python-decorators/">
 <noscript>
     <style>
         #theme-toggle,
@@ -54,18 +55,21 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Python装饰器(decorators)" />
-<meta property="og:description" content="装饰器介绍" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/2017-04-10-python-decorators/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2017-04-10T18:12:51+08:00" />
-<meta property="article:modified_time" content="2020-04-13T03:14:56+08:00" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:title" content="Python装饰器(decorators)"/>
-<meta name="twitter:description" content="装饰器介绍"/>
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/2017-04-10-python-decorators/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="Python装饰器(decorators)">
+  <meta property="og:description" content="装饰器介绍">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2017-04-10T18:12:51+08:00">
+    <meta property="article:modified_time" content="2020-04-13T03:14:56+08:00">
+    <meta property="article:tag" content="Python">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="Python装饰器(decorators)">
+<meta name="twitter:description" content="装饰器介绍">
 
 
 <script type="application/ld+json">
@@ -101,7 +105,7 @@
   "articleBody": "Python装饰器(decorators) 装饰器(decorators)是Python强大的功能之一，语法上就支持(@符号)使用起来更方便，不需要用OOP的设计模式实现。装饰器其实就是个返回函数的函数(类)，但可以有很多的玩法，下面将一一介绍。\n函数(Functions) 讲装饰器之前，先回顾下一些函数的基础知识，装饰器就是这些简单功能的组合\n函数接收函数作为参数 python中定义一个函数很简单如下\n\u003e\u003e\u003e def foo(): ... pass ... \u003e\u003e\u003e foo \u003cfunction foo at 0x1054157a0\u003e \u003e\u003e\u003e bar = foo \u003e\u003e\u003e bar \u003cfunction foo at 0x1054157a0\u003e 定义了foo函数，而bar是对foo的引用，这很简单\n因为python中一切皆对象，函数也是对象，一个函数也可以使用函数作为参数传入，和传其他对象一样（字符串、数字、列表 …)\n\u003e\u003e\u003e def foo(): ... print(\"hello world\") ... ... \u003e\u003e\u003e def bar(f): ... print(f\"call {f.__name__}\") ... f() ... ... \u003e\u003e\u003e bar(foo) call foo hello world bar函数就接收foo函数作为参数，内部执行foo函数。\n函数内部定义函数 也可以在函数内部定义一个新的函数\n\u003e\u003e\u003e def foo(): ... def bar(): ... print(\"inner func\") ... bar() ... ... \u003e\u003e\u003e foo() inner func \u003e\u003e\u003e bar() Traceback (most recent call last): File \"\", line 1, in \u003cmodule\u003e bar() NameError: name 'bar' is not defined foo函数中定义了bar函数，定义内部函数和定义在外面的函数没有任何的区别，只是它的作用域只能在foo函数内部，外部是无法应用bar的\n函数返回函数 更高级的函数甚至可以返回一个函数作为返回结果\n\u003e\u003e\u003e def foo(): ... def bar(): ... return \"hello world\" ... return bar ... \u003e\u003e\u003e foo \u003cfunction foo at 0x10c063440\u003e \u003e\u003e\u003e foo() \u003cfunction foo.\u003clocals\u003e.bar at 0x10baea170\u003e \u003e\u003e\u003e foo()() 'hello world' 注意我们这一次内部不再调用bar()而是return bar，说明foo函数返回一个内部函数的引用\n可以看到调用foo()函数返回了内部定义的bar函数(",
   "wordCount" : "902",
   "inLanguage": "en",
-  "datePublished": "2017-04-10T18:12:51+08:00",
+  "image": "https://blog.fangjiahui.me/blog-cover-1.png","datePublished": "2017-04-10T18:12:51+08:00",
   "dateModified": "2020-04-13T03:14:56+08:00",
   "author":{
     "@type": "Person",
@@ -770,16 +774,15 @@
 
 
 <div id="tcomment"></div>
-<script src="https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.40/dist/twikoo.all.min.js"></script>
 <script>
   twikoo.init({
     envId: "https://twikoo-kbp3p7wxh-fythons-projects.vercel.app", 
     el: "#tcomment", 
     
-    region: "",
     
     path: "",
-    lang: "zh-CN", 
+    
   });
 </script>
 
@@ -787,7 +790,8 @@
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

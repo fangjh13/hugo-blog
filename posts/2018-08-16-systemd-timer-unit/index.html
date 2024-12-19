@@ -7,14 +7,93 @@
 <meta name="robots" content="index, follow">
 <title>Systemd 中的timer单元 | Fython&#39;s Blog</title>
 <meta name="keywords" content="Linux, Shell">
-<meta name="description" content="Systemd 中的 timer 单元 上一篇讲了 systemd 中的 service 单元，这次记录一下 timer 单元。timer 必须依赖 service 单元来配置，可以用来做替代 crontab 的选择。
+<meta name="description" content="Systemd 中的 timer 单元
+上一篇讲了 systemd 中的 service 单元，这次记录一下 timer 单元。timer 必须依赖 service 单元来配置，可以用来做替代 crontab 的选择。
 timer 单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu 下的apt-daily.timer，该目录下也存在一个apt-daily.service服务文件配合一起使用。
-[Unit] Description=Daily apt activities [Timer] OnCalendar=*-*-* 6,18:00 RandomizedDelaySec=12h AccuracySec=1h Persistent=true [Install] WantedBy=timers.target 上面的[Timer]块代表每天上午 6 点和下午 6 点都运行 apt 脚本，具体[Timer]块可配置以下参数
-单调定时器(Monotonic timer) Option Description OnActiveSec= 相对计时器开始后多少时间执行，格式如 2h、2s、2w、2d OnBootSec= 相对系统启动后多少时间执行 OnStartupSec= 相对 systemd 启动多少时间后执行 OnUnitActiveSec= 每隔多少时间再次运行一次 OnUnitInactiveSec= 服务在最后一次停止后，隔多久再执行一次 可以两个参数一起使用，如下每周开机 15 分钟后执行 foo
-[Unit] Description=Run foo weekly and on boot [Timer] OnBootSec=15min OnUnitActiveSec=1w [Install] WantedBy=timers.">
+[Unit]
+Description=Daily apt activities
+
+[Timer]
+OnCalendar=*-*-* 6,18:00
+RandomizedDelaySec=12h
+AccuracySec=1h
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+上面的[Timer]块代表每天上午 6 点和下午 6 点都运行 apt 脚本，具体[Timer]块可配置以下参数
+单调定时器(Monotonic timer)
+
+  
+      
+          Option
+          Description
+      
+  
+  
+      
+          OnActiveSec=
+          相对计时器开始后多少时间执行，格式如 2h、2s、2w、2d
+      
+      
+          OnBootSec=
+          相对系统启动后多少时间执行
+      
+      
+          OnStartupSec=
+          相对 systemd 启动多少时间后执行
+      
+      
+          OnUnitActiveSec=
+          每隔多少时间再次运行一次
+      
+      
+          OnUnitInactiveSec=
+          服务在最后一次停止后，隔多久再执行一次
+      
+  
+
+可以两个参数一起使用，如下每周开机 15 分钟后执行 foo
+[Unit]
+Description=Run foo weekly and on boot
+
+[Timer]
+OnBootSec=15min
+OnUnitActiveSec=1w
+
+[Install]
+WantedBy=timers.target
+实时定时器(Realtime timer)
+
+  
+      
+          Option
+          Description
+      
+  
+  
+      
+          OnCalendar=
+          相对系统时间指定特定时刻运行，它接受如 2h、2s 的格式也可以是 星期 年-月-日 时:分:秒的格式，..指定区间，*代表所有的。可参考 systemd.time(7)
+      
+      
+          Persistent=
+          是一个布尔值，默认为 no，当使用 OnCalendar 的设置时，指定该功能要不要持续进行。如断电恢复后是不是要执行上次没执行的
+      
+      
+          AccuracySec=
+          设置定时器的触发精度。默认值是一分钟。定时器并不必然在所设置的精准时间点上启动匹配单元， 而是在所设置的精准时间点为起点的一小段时间窗口范围内的某个时间点上启动匹配单元， 这个时间窗口的起点由 OnCalendar=, OnActiveSec=, OnBootSec=, OnStartupSec=, OnUnitActiveSec= or OnUnitInactiveSec= 决定， 而这个时间窗口的长度则由该指令决定。
+      
+      
+          RandomizedDelaySec=
+          将此单元的定时器随机延迟一小段时间， 这一小段时间的长度介于零到该指令设置的时间长度之间， 以均匀概率分布。
+      
+  
+
+如下是每月的 1 到 4 号 12 点周一和周二运行 foo，格式如OnCalendar=*-*-* 4:00:00代表每天 4 点">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/2018-08-16-systemd-timer-unit/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -22,6 +101,7 @@ timer 单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu �
 <link rel="mask-icon" href="https://blog.fangjiahui.me/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/2018-08-16-systemd-timer-unit/">
 <noscript>
     <style>
         #theme-toggle,
@@ -58,26 +138,109 @@ timer 单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu �
         }
 
     </style>
-</noscript><meta property="og:title" content="Systemd 中的timer单元" />
-<meta property="og:description" content="Systemd 中的 timer 单元 上一篇讲了 systemd 中的 service 单元，这次记录一下 timer 单元。timer 必须依赖 service 单元来配置，可以用来做替代 crontab 的选择。
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/2018-08-16-systemd-timer-unit/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="Systemd 中的timer单元">
+  <meta property="og:description" content="Systemd 中的 timer 单元 上一篇讲了 systemd 中的 service 单元，这次记录一下 timer 单元。timer 必须依赖 service 单元来配置，可以用来做替代 crontab 的选择。
 timer 单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu 下的apt-daily.timer，该目录下也存在一个apt-daily.service服务文件配合一起使用。
 [Unit] Description=Daily apt activities [Timer] OnCalendar=*-*-* 6,18:00 RandomizedDelaySec=12h AccuracySec=1h Persistent=true [Install] WantedBy=timers.target 上面的[Timer]块代表每天上午 6 点和下午 6 点都运行 apt 脚本，具体[Timer]块可配置以下参数
 单调定时器(Monotonic timer) Option Description OnActiveSec= 相对计时器开始后多少时间执行，格式如 2h、2s、2w、2d OnBootSec= 相对系统启动后多少时间执行 OnStartupSec= 相对 systemd 启动多少时间后执行 OnUnitActiveSec= 每隔多少时间再次运行一次 OnUnitInactiveSec= 服务在最后一次停止后，隔多久再执行一次 可以两个参数一起使用，如下每周开机 15 分钟后执行 foo
-[Unit] Description=Run foo weekly and on boot [Timer] OnBootSec=15min OnUnitActiveSec=1w [Install] WantedBy=timers." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/2018-08-16-systemd-timer-unit/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2018-08-16T09:43:23+08:00" />
-<meta property="article:modified_time" content="2018-08-16T09:44:27+08:00" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:title" content="Systemd 中的timer单元"/>
-<meta name="twitter:description" content="Systemd 中的 timer 单元 上一篇讲了 systemd 中的 service 单元，这次记录一下 timer 单元。timer 必须依赖 service 单元来配置，可以用来做替代 crontab 的选择。
+[Unit] Description=Run foo weekly and on boot [Timer] OnBootSec=15min OnUnitActiveSec=1w [Install] WantedBy=timers.target 实时定时器(Realtime timer) Option Description OnCalendar= 相对系统时间指定特定时刻运行，它接受如 2h、2s 的格式也可以是 星期 年-月-日 时:分:秒的格式，..指定区间，*代表所有的。可参考 systemd.time(7) Persistent= 是一个布尔值，默认为 no，当使用 OnCalendar 的设置时，指定该功能要不要持续进行。如断电恢复后是不是要执行上次没执行的 AccuracySec= 设置定时器的触发精度。默认值是一分钟。定时器并不必然在所设置的精准时间点上启动匹配单元， 而是在所设置的精准时间点为起点的一小段时间窗口范围内的某个时间点上启动匹配单元， 这个时间窗口的起点由 OnCalendar=, OnActiveSec=, OnBootSec=, OnStartupSec=, OnUnitActiveSec= or OnUnitInactiveSec= 决定， 而这个时间窗口的长度则由该指令决定。 RandomizedDelaySec= 将此单元的定时器随机延迟一小段时间， 这一小段时间的长度介于零到该指令设置的时间长度之间， 以均匀概率分布。 如下是每月的 1 到 4 号 12 点周一和周二运行 foo，格式如OnCalendar=*-*-* 4:00:00代表每天 4 点">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2018-08-16T09:43:23+08:00">
+    <meta property="article:modified_time" content="2018-08-16T09:44:27+08:00">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Shell">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="Systemd 中的timer单元">
+<meta name="twitter:description" content="Systemd 中的 timer 单元
+上一篇讲了 systemd 中的 service 单元，这次记录一下 timer 单元。timer 必须依赖 service 单元来配置，可以用来做替代 crontab 的选择。
 timer 单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu 下的apt-daily.timer，该目录下也存在一个apt-daily.service服务文件配合一起使用。
-[Unit] Description=Daily apt activities [Timer] OnCalendar=*-*-* 6,18:00 RandomizedDelaySec=12h AccuracySec=1h Persistent=true [Install] WantedBy=timers.target 上面的[Timer]块代表每天上午 6 点和下午 6 点都运行 apt 脚本，具体[Timer]块可配置以下参数
-单调定时器(Monotonic timer) Option Description OnActiveSec= 相对计时器开始后多少时间执行，格式如 2h、2s、2w、2d OnBootSec= 相对系统启动后多少时间执行 OnStartupSec= 相对 systemd 启动多少时间后执行 OnUnitActiveSec= 每隔多少时间再次运行一次 OnUnitInactiveSec= 服务在最后一次停止后，隔多久再执行一次 可以两个参数一起使用，如下每周开机 15 分钟后执行 foo
-[Unit] Description=Run foo weekly and on boot [Timer] OnBootSec=15min OnUnitActiveSec=1w [Install] WantedBy=timers."/>
+[Unit]
+Description=Daily apt activities
+
+[Timer]
+OnCalendar=*-*-* 6,18:00
+RandomizedDelaySec=12h
+AccuracySec=1h
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+上面的[Timer]块代表每天上午 6 点和下午 6 点都运行 apt 脚本，具体[Timer]块可配置以下参数
+单调定时器(Monotonic timer)
+
+  
+      
+          Option
+          Description
+      
+  
+  
+      
+          OnActiveSec=
+          相对计时器开始后多少时间执行，格式如 2h、2s、2w、2d
+      
+      
+          OnBootSec=
+          相对系统启动后多少时间执行
+      
+      
+          OnStartupSec=
+          相对 systemd 启动多少时间后执行
+      
+      
+          OnUnitActiveSec=
+          每隔多少时间再次运行一次
+      
+      
+          OnUnitInactiveSec=
+          服务在最后一次停止后，隔多久再执行一次
+      
+  
+
+可以两个参数一起使用，如下每周开机 15 分钟后执行 foo
+[Unit]
+Description=Run foo weekly and on boot
+
+[Timer]
+OnBootSec=15min
+OnUnitActiveSec=1w
+
+[Install]
+WantedBy=timers.target
+实时定时器(Realtime timer)
+
+  
+      
+          Option
+          Description
+      
+  
+  
+      
+          OnCalendar=
+          相对系统时间指定特定时刻运行，它接受如 2h、2s 的格式也可以是 星期 年-月-日 时:分:秒的格式，..指定区间，*代表所有的。可参考 systemd.time(7)
+      
+      
+          Persistent=
+          是一个布尔值，默认为 no，当使用 OnCalendar 的设置时，指定该功能要不要持续进行。如断电恢复后是不是要执行上次没执行的
+      
+      
+          AccuracySec=
+          设置定时器的触发精度。默认值是一分钟。定时器并不必然在所设置的精准时间点上启动匹配单元， 而是在所设置的精准时间点为起点的一小段时间窗口范围内的某个时间点上启动匹配单元， 这个时间窗口的起点由 OnCalendar=, OnActiveSec=, OnBootSec=, OnStartupSec=, OnUnitActiveSec= or OnUnitInactiveSec= 决定， 而这个时间窗口的长度则由该指令决定。
+      
+      
+          RandomizedDelaySec=
+          将此单元的定时器随机延迟一小段时间， 这一小段时间的长度介于零到该指令设置的时间长度之间， 以均匀概率分布。
+      
+  
+
+如下是每月的 1 到 4 号 12 点周一和周二运行 foo，格式如OnCalendar=*-*-* 4:00:00代表每天 4 点">
 
 
 <script type="application/ld+json">
@@ -106,14 +269,14 @@ timer 单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu �
   "@type": "BlogPosting",
   "headline": "Systemd 中的timer单元",
   "name": "Systemd 中的timer单元",
-  "description": "Systemd 中的 timer 单元 上一篇讲了 systemd 中的 service 单元，这次记录一下 timer 单元。timer 必须依赖 service 单元来配置，可以用来做替代 crontab 的选择。\ntimer 单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu 下的apt-daily.timer，该目录下也存在一个apt-daily.service服务文件配合一起使用。\n[Unit] Description=Daily apt activities [Timer] OnCalendar=*-*-* 6,18:00 RandomizedDelaySec=12h AccuracySec=1h Persistent=true [Install] WantedBy=timers.target 上面的[Timer]块代表每天上午 6 点和下午 6 点都运行 apt 脚本，具体[Timer]块可配置以下参数\n单调定时器(Monotonic timer) Option Description OnActiveSec= 相对计时器开始后多少时间执行，格式如 2h、2s、2w、2d OnBootSec= 相对系统启动后多少时间执行 OnStartupSec= 相对 systemd 启动多少时间后执行 OnUnitActiveSec= 每隔多少时间再次运行一次 OnUnitInactiveSec= 服务在最后一次停止后，隔多久再执行一次 可以两个参数一起使用，如下每周开机 15 分钟后执行 foo\n[Unit] Description=Run foo weekly and on boot [Timer] OnBootSec=15min OnUnitActiveSec=1w [Install] WantedBy=timers.",
+  "description": "Systemd 中的 timer 单元 上一篇讲了 systemd 中的 service 单元，这次记录一下 timer 单元。timer 必须依赖 service 单元来配置，可以用来做替代 crontab 的选择。\ntimer 单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu 下的apt-daily.timer，该目录下也存在一个apt-daily.service服务文件配合一起使用。\n[Unit] Description=Daily apt activities [Timer] OnCalendar=*-*-* 6,18:00 RandomizedDelaySec=12h AccuracySec=1h Persistent=true [Install] WantedBy=timers.target 上面的[Timer]块代表每天上午 6 点和下午 6 点都运行 apt 脚本，具体[Timer]块可配置以下参数\n单调定时器(Monotonic timer) Option Description OnActiveSec= 相对计时器开始后多少时间执行，格式如 2h、2s、2w、2d OnBootSec= 相对系统启动后多少时间执行 OnStartupSec= 相对 systemd 启动多少时间后执行 OnUnitActiveSec= 每隔多少时间再次运行一次 OnUnitInactiveSec= 服务在最后一次停止后，隔多久再执行一次 可以两个参数一起使用，如下每周开机 15 分钟后执行 foo\n[Unit] Description=Run foo weekly and on boot [Timer] OnBootSec=15min OnUnitActiveSec=1w [Install] WantedBy=timers.target 实时定时器(Realtime timer) Option Description OnCalendar= 相对系统时间指定特定时刻运行，它接受如 2h、2s 的格式也可以是 星期 年-月-日 时:分:秒的格式，..指定区间，*代表所有的。可参考 systemd.time(7) Persistent= 是一个布尔值，默认为 no，当使用 OnCalendar 的设置时，指定该功能要不要持续进行。如断电恢复后是不是要执行上次没执行的 AccuracySec= 设置定时器的触发精度。默认值是一分钟。定时器并不必然在所设置的精准时间点上启动匹配单元， 而是在所设置的精准时间点为起点的一小段时间窗口范围内的某个时间点上启动匹配单元， 这个时间窗口的起点由 OnCalendar=, OnActiveSec=, OnBootSec=, OnStartupSec=, OnUnitActiveSec= or OnUnitInactiveSec= 决定， 而这个时间窗口的长度则由该指令决定。 RandomizedDelaySec= 将此单元的定时器随机延迟一小段时间， 这一小段时间的长度介于零到该指令设置的时间长度之间， 以均匀概率分布。 如下是每月的 1 到 4 号 12 点周一和周二运行 foo，格式如OnCalendar=*-*-* 4:00:00代表每天 4 点\n",
   "keywords": [
     "Linux", "Shell"
   ],
   "articleBody": "Systemd 中的 timer 单元 上一篇讲了 systemd 中的 service 单元，这次记录一下 timer 单元。timer 必须依赖 service 单元来配置，可以用来做替代 crontab 的选择。\ntimer 单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu 下的apt-daily.timer，该目录下也存在一个apt-daily.service服务文件配合一起使用。\n[Unit] Description=Daily apt activities [Timer] OnCalendar=*-*-* 6,18:00 RandomizedDelaySec=12h AccuracySec=1h Persistent=true [Install] WantedBy=timers.target 上面的[Timer]块代表每天上午 6 点和下午 6 点都运行 apt 脚本，具体[Timer]块可配置以下参数\n单调定时器(Monotonic timer) Option Description OnActiveSec= 相对计时器开始后多少时间执行，格式如 2h、2s、2w、2d OnBootSec= 相对系统启动后多少时间执行 OnStartupSec= 相对 systemd 启动多少时间后执行 OnUnitActiveSec= 每隔多少时间再次运行一次 OnUnitInactiveSec= 服务在最后一次停止后，隔多久再执行一次 可以两个参数一起使用，如下每周开机 15 分钟后执行 foo\n[Unit] Description=Run foo weekly and on boot [Timer] OnBootSec=15min OnUnitActiveSec=1w [Install] WantedBy=timers.target 实时定时器(Realtime timer) Option Description OnCalendar= 相对系统时间指定特定时刻运行，它接受如 2h、2s 的格式也可以是 星期 年-月-日 时:分:秒的格式，..指定区间，*代表所有的。可参考 systemd.time(7) Persistent= 是一个布尔值，默认为 no，当使用 OnCalendar 的设置时，指定该功能要不要持续进行。如断电恢复后是不是要执行上次没执行的 AccuracySec= 设置定时器的触发精度。默认值是一分钟。定时器并不必然在所设置的精准时间点上启动匹配单元， 而是在所设置的精准时间点为起点的一小段时间窗口范围内的某个时间点上启动匹配单元， 这个时间窗口的起点由 OnCalendar=, OnActiveSec=, OnBootSec=, OnStartupSec=, OnUnitActiveSec= or OnUnitInactiveSec= 决定， 而这个时间窗口的长度则由该指令决定。 RandomizedDelaySec= 将此单元的定时器随机延迟一小段时间， 这一小段时间的长度介于零到该指令设置的时间长度之间， 以均匀概率分布。 如下是每月的 1 到 4 号 12 点周一和周二运行 foo，格式如OnCalendar=*-*-* 4:00:00代表每天 4 点\n[Unit] Description=Run foo weekly [Timer] OnCalendar=Mon,Tue *-*-01..04 12:00:00 Persistent=true [Install] WantedBy=timers.target 所有timer单元可以像service一样使用systemctl status|enable|disable name.timer查看信息，可以使用systemctl list-timers列出运行中的 timer，加--all参数列出包含未激活的。\nubuntu➜ ~ ᐅ sudo systemctl list-timers --all NEXT LEFT LAST PASSED UNIT ACTIVATES Thu 2018-08-16 06:52:42 CST 7h left Wed 2018-08-15 06:22:54 CST 17h ago apt-daily-upgrade.timer apt-daily-upgrade.service Thu 2018-08-16 09:48:35 CST 10h left Wed 2018-08-15 20:15:54 CST 3h 10min ago apt-daily.timer apt-daily.service Thu 2018-08-16 21:34:50 CST 22h left Wed 2018-08-15 21:34:50 CST 1h 51min ago systemd-tmpfiles-clean.timer systemd-tmpfiles-clean.service n/a n/a n/a n/a snapd.refresh.timer n/a n/a n/a n/a snapd.snap-repair.timer snapd.snap-repair.service n/a n/a n/a n/a ureadahead-stop.timer ureadahead-stop.service 6 timers listed. ",
   "wordCount" : "210",
   "inLanguage": "en",
-  "datePublished": "2018-08-16T09:43:23+08:00",
+  "image": "https://blog.fangjiahui.me/blog-cover-1.png","datePublished": "2018-08-16T09:43:23+08:00",
   "dateModified": "2018-08-16T09:44:27+08:00",
   "author":{
     "@type": "Person",
@@ -240,34 +403,34 @@ timer 单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu �
 </span></span></code></pre></div><p>上面的[Timer]块代表每天上午 6 点和下午 6 点都运行 apt 脚本，具体[Timer]块可配置以下参数</p>
 <h4 id="单调定时器monotonic-timer">单调定时器(Monotonic timer)<a hidden class="anchor" aria-hidden="true" href="#单调定时器monotonic-timer">#</a></h4>
 <table>
-<thead>
-<tr>
-<th>Option</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>OnActiveSec=</td>
-<td>相对计时器开始后多少时间执行，格式如 2h、2s、2w、2d</td>
-</tr>
-<tr>
-<td>OnBootSec=</td>
-<td>相对系统启动后多少时间执行</td>
-</tr>
-<tr>
-<td>OnStartupSec=</td>
-<td>相对 systemd 启动多少时间后执行</td>
-</tr>
-<tr>
-<td>OnUnitActiveSec=</td>
-<td>每隔多少时间再次运行一次</td>
-</tr>
-<tr>
-<td>OnUnitInactiveSec=</td>
-<td>服务在最后一次停止后，隔多久再执行一次</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>Option</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>OnActiveSec=</td>
+          <td>相对计时器开始后多少时间执行，格式如 2h、2s、2w、2d</td>
+      </tr>
+      <tr>
+          <td>OnBootSec=</td>
+          <td>相对系统启动后多少时间执行</td>
+      </tr>
+      <tr>
+          <td>OnStartupSec=</td>
+          <td>相对 systemd 启动多少时间后执行</td>
+      </tr>
+      <tr>
+          <td>OnUnitActiveSec=</td>
+          <td>每隔多少时间再次运行一次</td>
+      </tr>
+      <tr>
+          <td>OnUnitInactiveSec=</td>
+          <td>服务在最后一次停止后，隔多久再执行一次</td>
+      </tr>
+  </tbody>
 </table>
 <p>可以两个参数一起使用，如下每周开机 15 分钟后执行 foo</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">[</span>Unit<span class="o">]</span>
@@ -281,30 +444,30 @@ timer 单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu �
 </span></span><span class="line"><span class="cl"><span class="nv">WantedBy</span><span class="o">=</span>timers.target
 </span></span></code></pre></div><h4 id="实时定时器realtime-timer">实时定时器(Realtime timer)<a hidden class="anchor" aria-hidden="true" href="#实时定时器realtime-timer">#</a></h4>
 <table>
-<thead>
-<tr>
-<th>Option</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>OnCalendar=</td>
-<td>相对系统时间指定特定时刻运行，它接受如 2h、2s 的格式也可以是 <code>星期 年-月-日 时:分:秒</code>的格式，<code>..</code>指定区间，<code>*</code>代表所有的。可参考 systemd.time(7)</td>
-</tr>
-<tr>
-<td>Persistent=</td>
-<td>是一个布尔值，默认为 no，当使用 OnCalendar 的设置时，指定该功能要不要持续进行。如断电恢复后是不是要执行上次没执行的</td>
-</tr>
-<tr>
-<td>AccuracySec=</td>
-<td>设置定时器的触发精度。默认值是一分钟。定时器并不必然在所设置的精准时间点上启动匹配单元， 而是在所设置的精准时间点为起点的一小段时间窗口范围内的某个时间点上启动匹配单元， 这个时间窗口的起点由 OnCalendar=, OnActiveSec=, OnBootSec=, OnStartupSec=, OnUnitActiveSec= or OnUnitInactiveSec= 决定， 而这个时间窗口的长度则由该指令决定。</td>
-</tr>
-<tr>
-<td>RandomizedDelaySec=</td>
-<td>将此单元的定时器随机延迟一小段时间， 这一小段时间的长度介于零到该指令设置的时间长度之间， 以均匀概率分布。</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>Option</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>OnCalendar=</td>
+          <td>相对系统时间指定特定时刻运行，它接受如 2h、2s 的格式也可以是 <code>星期 年-月-日 时:分:秒</code>的格式，<code>..</code>指定区间，<code>*</code>代表所有的。可参考 systemd.time(7)</td>
+      </tr>
+      <tr>
+          <td>Persistent=</td>
+          <td>是一个布尔值，默认为 no，当使用 OnCalendar 的设置时，指定该功能要不要持续进行。如断电恢复后是不是要执行上次没执行的</td>
+      </tr>
+      <tr>
+          <td>AccuracySec=</td>
+          <td>设置定时器的触发精度。默认值是一分钟。定时器并不必然在所设置的精准时间点上启动匹配单元， 而是在所设置的精准时间点为起点的一小段时间窗口范围内的某个时间点上启动匹配单元， 这个时间窗口的起点由 OnCalendar=, OnActiveSec=, OnBootSec=, OnStartupSec=, OnUnitActiveSec= or OnUnitInactiveSec= 决定， 而这个时间窗口的长度则由该指令决定。</td>
+      </tr>
+      <tr>
+          <td>RandomizedDelaySec=</td>
+          <td>将此单元的定时器随机延迟一小段时间， 这一小段时间的长度介于零到该指令设置的时间长度之间， 以均匀概率分布。</td>
+      </tr>
+  </tbody>
 </table>
 <p>如下是每月的 1 到 4 号 12 点周一和周二运行 foo，格式如<code>OnCalendar=*-*-* 4:00:00</code>代表每天 4 点</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">[</span>Unit<span class="o">]</span>
@@ -438,16 +601,15 @@ timer 单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu �
 
 
 <div id="tcomment"></div>
-<script src="https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.40/dist/twikoo.all.min.js"></script>
 <script>
   twikoo.init({
     envId: "https://twikoo-kbp3p7wxh-fythons-projects.vercel.app", 
     el: "#tcomment", 
     
-    region: "",
     
     path: "",
-    lang: "zh-CN", 
+    
   });
 </script>
 
@@ -455,7 +617,8 @@ timer 单元以.timer结尾，中间包含[Timer]块如下面所示是 Ubuntu �
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

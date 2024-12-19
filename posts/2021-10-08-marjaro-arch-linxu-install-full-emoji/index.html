@@ -8,11 +8,121 @@
 <title>Manjaro Linux 安装 Emoji | Fython&#39;s Blog</title>
 <meta name="keywords" content="Arch">
 <meta name="description" content="Manjaro 原生的字体没法覆盖全部的 Emojis 可能导致一些字体显示框框 可以通过安装 noto-fonts-emoji 将Noto Color Emoji 字体设置为默认表情符号字体来解决这个问题。Arch 应该也可以通过此方法解决
-1. 安装字体 sudo pacman -S noto-fonts-emoji 2. 在 /usr/share/fontconfig/conf.avail/ 中创建 75-noto-color-emoji.conf 文件 文件内容如下
-&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt; &lt;!DOCTYPE fontconfig SYSTEM &#34;fonts.dtd&#34;&gt; &lt;fontconfig&gt; &lt;!-- Add generic family. --&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;emoji&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;!-- This adds Noto Color Emoji as a final fallback font for the default font families. --&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;sans&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;serif&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;sans-serif&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;monospace&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;!">
+1. 安装字体
+sudo pacman -S noto-fonts-emoji
+2. 在 /usr/share/fontconfig/conf.avail/ 中创建 75-noto-color-emoji.conf 文件
+文件内容如下
+&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;
+&lt;!DOCTYPE fontconfig SYSTEM &#34;fonts.dtd&#34;&gt;
+&lt;fontconfig&gt;
+
+    &lt;!-- Add generic family. --&gt;
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;emoji&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;!-- This adds Noto Color Emoji as a final fallback font for the default font families. --&gt;
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test name=&#34;family&#34;&gt;&lt;string&gt;sans&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test name=&#34;family&#34;&gt;&lt;string&gt;serif&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test name=&#34;family&#34;&gt;&lt;string&gt;sans-serif&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test name=&#34;family&#34;&gt;&lt;string&gt;monospace&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;!-- Block Symbola from the list of fallback fonts. --&gt;
+    &lt;selectfont&gt;
+        &lt;rejectfont&gt;
+            &lt;pattern&gt;
+                &lt;patelt name=&#34;family&#34;&gt;
+                    &lt;string&gt;Symbola&lt;/string&gt;
+                &lt;/patelt&gt;
+            &lt;/pattern&gt;
+        &lt;/rejectfont&gt;
+    &lt;/selectfont&gt;
+
+    &lt;!-- Use Noto Color Emoji when other popular fonts are being specifically requested. --&gt;
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Apple Color Emoji&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Segoe UI Emoji&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Segoe UI Symbol&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Android Emoji&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Twitter Color Emoji&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Twemoji&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Twemoji Mozilla&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;TwemojiMozilla&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;EmojiTwo&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Emoji Two&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;EmojiSymbols&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Symbola&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+&lt;/fontconfig&gt;
+3. 配置文件
+sudo ln -sf /usr/share/fontconfig/conf.avail/75-noto-color-emoji.conf /etc/fonts/conf.d
+sudo fc-cache -f -v
+然后重启电脑应该就可以了">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/2021-10-08-marjaro-arch-linxu-install-full-emoji/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -20,6 +130,7 @@
 <link rel="mask-icon" href="https://blog.fangjiahui.me/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/2021-10-08-marjaro-arch-linxu-install-full-emoji/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,22 +167,135 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Manjaro Linux 安装 Emoji" />
-<meta property="og:description" content="Manjaro 原生的字体没法覆盖全部的 Emojis 可能导致一些字体显示框框 可以通过安装 noto-fonts-emoji 将Noto Color Emoji 字体设置为默认表情符号字体来解决这个问题。Arch 应该也可以通过此方法解决
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/2021-10-08-marjaro-arch-linxu-install-full-emoji/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="Manjaro Linux 安装 Emoji">
+  <meta property="og:description" content="Manjaro 原生的字体没法覆盖全部的 Emojis 可能导致一些字体显示框框 可以通过安装 noto-fonts-emoji 将Noto Color Emoji 字体设置为默认表情符号字体来解决这个问题。Arch 应该也可以通过此方法解决
 1. 安装字体 sudo pacman -S noto-fonts-emoji 2. 在 /usr/share/fontconfig/conf.avail/ 中创建 75-noto-color-emoji.conf 文件 文件内容如下
-&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt; &lt;!DOCTYPE fontconfig SYSTEM &#34;fonts.dtd&#34;&gt; &lt;fontconfig&gt; &lt;!-- Add generic family. --&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;emoji&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;!-- This adds Noto Color Emoji as a final fallback font for the default font families. --&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;sans&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;serif&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;sans-serif&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;monospace&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;!" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/2021-10-08-marjaro-arch-linxu-install-full-emoji/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-10-08T07:47:40+08:00" />
-<meta property="article:modified_time" content="2021-10-08T07:47:40+08:00" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:title" content="Manjaro Linux 安装 Emoji"/>
+&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt; &lt;!DOCTYPE fontconfig SYSTEM &#34;fonts.dtd&#34;&gt; &lt;fontconfig&gt; &lt;!-- Add generic family. --&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;emoji&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;!-- This adds Noto Color Emoji as a final fallback font for the default font families. --&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;sans&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;serif&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;sans-serif&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;monospace&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;!-- Block Symbola from the list of fallback fonts. --&gt; &lt;selectfont&gt; &lt;rejectfont&gt; &lt;pattern&gt; &lt;patelt name=&#34;family&#34;&gt; &lt;string&gt;Symbola&lt;/string&gt; &lt;/patelt&gt; &lt;/pattern&gt; &lt;/rejectfont&gt; &lt;/selectfont&gt; &lt;!-- Use Noto Color Emoji when other popular fonts are being specifically requested. --&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Apple Color Emoji&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Segoe UI Emoji&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Segoe UI Symbol&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Android Emoji&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Twitter Color Emoji&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Twemoji&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Twemoji Mozilla&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;TwemojiMozilla&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;EmojiTwo&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Emoji Two&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;EmojiSymbols&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Symbola&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;/fontconfig&gt; 3. 配置文件 sudo ln -sf /usr/share/fontconfig/conf.avail/75-noto-color-emoji.conf /etc/fonts/conf.d sudo fc-cache -f -v 然后重启电脑应该就可以了">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-10-08T07:47:40+08:00">
+    <meta property="article:modified_time" content="2021-10-08T07:47:40+08:00">
+    <meta property="article:tag" content="Arch">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="Manjaro Linux 安装 Emoji">
 <meta name="twitter:description" content="Manjaro 原生的字体没法覆盖全部的 Emojis 可能导致一些字体显示框框 可以通过安装 noto-fonts-emoji 将Noto Color Emoji 字体设置为默认表情符号字体来解决这个问题。Arch 应该也可以通过此方法解决
-1. 安装字体 sudo pacman -S noto-fonts-emoji 2. 在 /usr/share/fontconfig/conf.avail/ 中创建 75-noto-color-emoji.conf 文件 文件内容如下
-&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt; &lt;!DOCTYPE fontconfig SYSTEM &#34;fonts.dtd&#34;&gt; &lt;fontconfig&gt; &lt;!-- Add generic family. --&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;emoji&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;!-- This adds Noto Color Emoji as a final fallback font for the default font families. --&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;sans&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;serif&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;sans-serif&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;match target=&#34;pattern&#34;&gt; &lt;test name=&#34;family&#34;&gt;&lt;string&gt;monospace&lt;/string&gt;&lt;/test&gt; &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt; &lt;/match&gt; &lt;!"/>
+1. 安装字体
+sudo pacman -S noto-fonts-emoji
+2. 在 /usr/share/fontconfig/conf.avail/ 中创建 75-noto-color-emoji.conf 文件
+文件内容如下
+&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;
+&lt;!DOCTYPE fontconfig SYSTEM &#34;fonts.dtd&#34;&gt;
+&lt;fontconfig&gt;
+
+    &lt;!-- Add generic family. --&gt;
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;emoji&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;!-- This adds Noto Color Emoji as a final fallback font for the default font families. --&gt;
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test name=&#34;family&#34;&gt;&lt;string&gt;sans&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test name=&#34;family&#34;&gt;&lt;string&gt;serif&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test name=&#34;family&#34;&gt;&lt;string&gt;sans-serif&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test name=&#34;family&#34;&gt;&lt;string&gt;monospace&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;append&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;!-- Block Symbola from the list of fallback fonts. --&gt;
+    &lt;selectfont&gt;
+        &lt;rejectfont&gt;
+            &lt;pattern&gt;
+                &lt;patelt name=&#34;family&#34;&gt;
+                    &lt;string&gt;Symbola&lt;/string&gt;
+                &lt;/patelt&gt;
+            &lt;/pattern&gt;
+        &lt;/rejectfont&gt;
+    &lt;/selectfont&gt;
+
+    &lt;!-- Use Noto Color Emoji when other popular fonts are being specifically requested. --&gt;
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Apple Color Emoji&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Segoe UI Emoji&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Segoe UI Symbol&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Android Emoji&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Twitter Color Emoji&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Twemoji&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Twemoji Mozilla&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;TwemojiMozilla&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;EmojiTwo&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Emoji Two&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;EmojiSymbols&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+    &lt;match target=&#34;pattern&#34;&gt;
+        &lt;test qual=&#34;any&#34; name=&#34;family&#34;&gt;&lt;string&gt;Symbola&lt;/string&gt;&lt;/test&gt;
+        &lt;edit name=&#34;family&#34; mode=&#34;assign&#34; binding=&#34;same&#34;&gt;&lt;string&gt;Noto Color Emoji&lt;/string&gt;&lt;/edit&gt;
+    &lt;/match&gt;
+
+&lt;/fontconfig&gt;
+3. 配置文件
+sudo ln -sf /usr/share/fontconfig/conf.avail/75-noto-color-emoji.conf /etc/fonts/conf.d
+sudo fc-cache -f -v
+然后重启电脑应该就可以了">
 
 
 <script type="application/ld+json">
@@ -100,14 +324,14 @@
   "@type": "BlogPosting",
   "headline": "Manjaro Linux 安装 Emoji",
   "name": "Manjaro Linux 安装 Emoji",
-  "description": "Manjaro 原生的字体没法覆盖全部的 Emojis 可能导致一些字体显示框框 可以通过安装 noto-fonts-emoji 将Noto Color Emoji 字体设置为默认表情符号字体来解决这个问题。Arch 应该也可以通过此方法解决\n1. 安装字体 sudo pacman -S noto-fonts-emoji 2. 在 /usr/share/fontconfig/conf.avail/ 中创建 75-noto-color-emoji.conf 文件 文件内容如下\n\u0026lt;?xml version=\u0026#34;1.0\u0026#34; encoding=\u0026#34;UTF-8\u0026#34;?\u0026gt; \u0026lt;!DOCTYPE fontconfig SYSTEM \u0026#34;fonts.dtd\u0026#34;\u0026gt; \u0026lt;fontconfig\u0026gt; \u0026lt;!-- Add generic family. --\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test qual=\u0026#34;any\u0026#34; name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;emoji\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;assign\u0026#34; binding=\u0026#34;same\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;!-- This adds Noto Color Emoji as a final fallback font for the default font families. --\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;sans\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;append\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;serif\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;append\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;sans-serif\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;append\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;monospace\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;append\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;!",
+  "description": "Manjaro 原生的字体没法覆盖全部的 Emojis 可能导致一些字体显示框框 可以通过安装 noto-fonts-emoji 将Noto Color Emoji 字体设置为默认表情符号字体来解决这个问题。Arch 应该也可以通过此方法解决\n1. 安装字体 sudo pacman -S noto-fonts-emoji 2. 在 /usr/share/fontconfig/conf.avail/ 中创建 75-noto-color-emoji.conf 文件 文件内容如下\n\u0026lt;?xml version=\u0026#34;1.0\u0026#34; encoding=\u0026#34;UTF-8\u0026#34;?\u0026gt; \u0026lt;!DOCTYPE fontconfig SYSTEM \u0026#34;fonts.dtd\u0026#34;\u0026gt; \u0026lt;fontconfig\u0026gt; \u0026lt;!-- Add generic family. --\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test qual=\u0026#34;any\u0026#34; name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;emoji\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;assign\u0026#34; binding=\u0026#34;same\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;!-- This adds Noto Color Emoji as a final fallback font for the default font families. --\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;sans\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;append\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;serif\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;append\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;sans-serif\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;append\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;monospace\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;append\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;!-- Block Symbola from the list of fallback fonts. --\u0026gt; \u0026lt;selectfont\u0026gt; \u0026lt;rejectfont\u0026gt; \u0026lt;pattern\u0026gt; \u0026lt;patelt name=\u0026#34;family\u0026#34;\u0026gt; \u0026lt;string\u0026gt;Symbola\u0026lt;/string\u0026gt; \u0026lt;/patelt\u0026gt; \u0026lt;/pattern\u0026gt; \u0026lt;/rejectfont\u0026gt; \u0026lt;/selectfont\u0026gt; \u0026lt;!-- Use Noto Color Emoji when other popular fonts are being specifically requested. --\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test qual=\u0026#34;any\u0026#34; name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Apple Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;assign\u0026#34; binding=\u0026#34;same\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test qual=\u0026#34;any\u0026#34; name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Segoe UI Emoji\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;assign\u0026#34; binding=\u0026#34;same\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test qual=\u0026#34;any\u0026#34; name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Segoe UI Symbol\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;assign\u0026#34; binding=\u0026#34;same\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test qual=\u0026#34;any\u0026#34; name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Android Emoji\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;assign\u0026#34; binding=\u0026#34;same\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test qual=\u0026#34;any\u0026#34; name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Twitter Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;assign\u0026#34; binding=\u0026#34;same\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test qual=\u0026#34;any\u0026#34; name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Twemoji\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;assign\u0026#34; binding=\u0026#34;same\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test qual=\u0026#34;any\u0026#34; name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Twemoji Mozilla\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;assign\u0026#34; binding=\u0026#34;same\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test qual=\u0026#34;any\u0026#34; name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;TwemojiMozilla\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;assign\u0026#34; binding=\u0026#34;same\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test qual=\u0026#34;any\u0026#34; name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;EmojiTwo\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;assign\u0026#34; binding=\u0026#34;same\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test qual=\u0026#34;any\u0026#34; name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Emoji Two\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;assign\u0026#34; binding=\u0026#34;same\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test qual=\u0026#34;any\u0026#34; name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;EmojiSymbols\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;assign\u0026#34; binding=\u0026#34;same\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;match target=\u0026#34;pattern\u0026#34;\u0026gt; \u0026lt;test qual=\u0026#34;any\u0026#34; name=\u0026#34;family\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Symbola\u0026lt;/string\u0026gt;\u0026lt;/test\u0026gt; \u0026lt;edit name=\u0026#34;family\u0026#34; mode=\u0026#34;assign\u0026#34; binding=\u0026#34;same\u0026#34;\u0026gt;\u0026lt;string\u0026gt;Noto Color Emoji\u0026lt;/string\u0026gt;\u0026lt;/edit\u0026gt; \u0026lt;/match\u0026gt; \u0026lt;/fontconfig\u0026gt; 3. 配置文件 sudo ln -sf /usr/share/fontconfig/conf.avail/75-noto-color-emoji.conf /etc/fonts/conf.d sudo fc-cache -f -v 然后重启电脑应该就可以了\n",
   "keywords": [
     "Arch"
   ],
   "articleBody": "Manjaro 原生的字体没法覆盖全部的 Emojis 可能导致一些字体显示框框 可以通过安装 noto-fonts-emoji 将Noto Color Emoji 字体设置为默认表情符号字体来解决这个问题。Arch 应该也可以通过此方法解决\n1. 安装字体 sudo pacman -S noto-fonts-emoji 2. 在 /usr/share/fontconfig/conf.avail/ 中创建 75-noto-color-emoji.conf 文件 文件内容如下\n\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e \u003c!DOCTYPE fontconfig SYSTEM \"fonts.dtd\"\u003e ",
   "wordCount" : "308",
   "inLanguage": "en",
-  "datePublished": "2021-10-08T07:47:40+08:00",
+  "image": "https://blog.fangjiahui.me/blog-cover-1.png","datePublished": "2021-10-08T07:47:40+08:00",
   "dateModified": "2021-10-08T07:47:40+08:00",
   "author":{
     "@type": "Person",
@@ -442,16 +666,15 @@
 
 
 <div id="tcomment"></div>
-<script src="https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.40/dist/twikoo.all.min.js"></script>
 <script>
   twikoo.init({
     envId: "https://twikoo-kbp3p7wxh-fythons-projects.vercel.app", 
     el: "#tcomment", 
     
-    region: "",
     
     path: "",
-    lang: "zh-CN", 
+    
   });
 </script>
 
@@ -459,7 +682,8 @@
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

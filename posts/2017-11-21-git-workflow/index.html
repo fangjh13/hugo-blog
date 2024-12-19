@@ -10,7 +10,7 @@
 <meta name="description" content="Git工作流介绍与协同工作">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/2017-11-21-git-workflow/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -18,6 +18,7 @@
 <link rel="mask-icon" href="https://blog.fangjiahui.me/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/2017-11-21-git-workflow/">
 <noscript>
     <style>
         #theme-toggle,
@@ -54,18 +55,21 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Git工作流" />
-<meta property="og:description" content="Git工作流介绍与协同工作" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/2017-11-21-git-workflow/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2017-11-21T07:18:51+08:00" />
-<meta property="article:modified_time" content="2017-11-22T09:14:53+08:00" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:title" content="Git工作流"/>
-<meta name="twitter:description" content="Git工作流介绍与协同工作"/>
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/2017-11-21-git-workflow/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="Git工作流">
+  <meta property="og:description" content="Git工作流介绍与协同工作">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2017-11-21T07:18:51+08:00">
+    <meta property="article:modified_time" content="2017-11-22T09:14:53+08:00">
+    <meta property="article:tag" content="Git">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="Git工作流">
+<meta name="twitter:description" content="Git工作流介绍与协同工作">
 
 
 <script type="application/ld+json">
@@ -101,7 +105,7 @@
   "articleBody": "Git是当今最流行的开源版本控制系统，使用git的每个团队应该也有固定的工作流。今天就介绍一个现有普遍使用的工作流git-flow。\n分支（branch） 如上图一般分支有*master、develop、feature/xxx、release/xxx、hotfixes*，下面一一介绍。\n长期分支 长期分支是跟着产品长期存在的不会删除。\n*master*只能用来包括产品代码，不要在这上面做任何的改动。\n*develop开发主分支，所有新功能的分支从这里checkout，所以这是开发的基础分支。该分支也是汇集所有开发新功能后最后merge到master*的分支。\n临时分支 临时分支只用来开发新功能、修复bug和发布产品用最后删除。\n*feature/xxx开发新功能的分支从develop分支checkout每个功能创建一个分支是一个良好的习惯。开发测试完后merge到develop*分支进行更全面的测试。\n*release/xxx产品预发布分支，一般以版本号为分支名，需要合并到master*分支发布。\n*hotfixes紧急修复bug的分支基于master分支，修复完后一定要合并到master分支和develop*分支。\nGit-flow工作流程 基本步骤 开发人员首先从*develop*分支checkout -b feature/xxx一个待开发的分支，开发和测试。 当开发和测试都完成后将*feature/xxx合并到develop并删除清理。当然其中有新功能时可以再新建一个feature*分支并最后合并到开发分支。 终于等到release了，现在开发分支汇集了所有新开发的功能并无重大bug，我们从*develop分支checkout一个release/v1.0.0的分支进行更加全面的测试准备发布，有bug就在release分支修复，正式发布就是把这个release分支合并到master分支打上tag。当然不要忘记将发布分支合并到develop分支以保持和master*代码同步一致。 可能发布后有紧急的bug需要修复那就从*master分支checkout一个hotfixes/missing-link分支修复bug并合并到master和develop*最后删除。 总结一下 以上就是Git-flow方案的所有流程，优点是分支清晰各干各的看名字就知道，最后只留下*master和develop*分枝。缺点当然是步骤比较繁琐咯，开发要新建很多分支然后切换和删除。我们可以还有很多方案选择GitHub flow、GitLab flow等，或者理解熟练了之后自创一套也是可以的。\nGitHub协同工作 身为一个开发者一定想为开源项目贡献自己的代码，下面是基本步骤可做参考。也可以作为团队协作的基本流程。\nFork到自己帐号下并Clone到本地 git remote add upstream https://github.com/... 添加上游项目地址（源项目地址）以便更新到最新的代码，添加完可用git remote -v查看除了origin应该还有upstream远程地址 git pull upstream master从刚才添加的upstream拉取最新代码 git checkout -b feature/some-feature 新建一个你要添加新功能的分支，开发就在这上面进行 git add . \u0026\u0026 git commit -m 'some feature add'测试通过后提交代码 git checkout master \u0026\u0026 git pull upstream master这主要是从源仓库拉取最新代码，在你开发期间，如果源项目有改动提交pull就能拉取下来 git checkout feature/some-feature \u0026\u0026 git rebase master 然后执行一次变基更新代码 git push origin feature/some-feature推送你开发完并更新到最新的分支到GitHub 去自己GitHub帐号下 pull request等review合并 一具话就是先在本地新建一个分支开发最后提交这个分支发PR，需要注意的是提交到远程的时候记得先pull更新代码然后rebase使分支清晰可读。\n参考 https://datasift.github.io/\nhttps://www.git-tower.com/\nhttp://www.ruanyifeng.com/\n",
   "wordCount" : "82",
   "inLanguage": "en",
-  "datePublished": "2017-11-21T07:18:51+08:00",
+  "image": "https://blog.fangjiahui.me/blog-cover-1.png","datePublished": "2017-11-21T07:18:51+08:00",
   "dateModified": "2017-11-22T09:14:53+08:00",
   "author":{
     "@type": "Person",
@@ -227,8 +231,7 @@
 </div>
 
   <div class="post-content"><p><a href="https://git-scm.com/">Git</a>是当今最流行的开源版本控制系统，使用git的每个团队应该也有固定的工作流。今天就介绍一个现有普遍使用的工作流<strong>git-flow</strong>。</p>
-<p><img loading="lazy" src="../images/GitFlowHotfixBranch.png" alt="git-flow"  />
-</p>
+<p><img alt="git-flow" loading="lazy" src="../images/GitFlowHotfixBranch.png"></p>
 <h2 id="分支branch">分支（branch）<a hidden class="anchor" aria-hidden="true" href="#分支branch">#</a></h2>
 <p>如上图一般分支有*<code>master</code><em>、</em><code>develop</code><em>、</em><code>feature/xxx</code><em>、</em><code>release/xxx</code><em>、</em><code>hotfixes</code>*，下面一一介绍。</p>
 <h3 id="长期分支">长期分支<a hidden class="anchor" aria-hidden="true" href="#长期分支">#</a></h3>
@@ -237,8 +240,7 @@
 </blockquote>
 <p>*<code>master</code>*只能用来包括产品代码，不要在这上面做任何的改动。</p>
 <p>*<code>develop</code><em>开发主分支，所有新功能的分支从这里<code>checkout</code>，所以这是开发的基础分支。该分支也是汇集所有开发新功能后最后<code>merge</code>到</em><code>master</code>*的分支。</p>
-<p><img loading="lazy" src="../images/01-master-develop.png" alt="master-develop-branch"  />
-</p>
+<p><img alt="master-develop-branch" loading="lazy" src="../images/01-master-develop.png"></p>
 <h3 id="临时分支">临时分支<a hidden class="anchor" aria-hidden="true" href="#临时分支">#</a></h3>
 <blockquote>
 <p>临时分支只用来开发新功能、修复bug和发布产品用最后删除。</p>
@@ -246,8 +248,7 @@
 <p>*<code>feature/xxx</code><em>开发新功能的分支从</em><code>develop</code><em>分支<code>checkout</code>每个功能创建一个分支是一个良好的习惯。开发测试完后<code>merge</code>到</em><code>develop</code>*分支进行更全面的测试。</p>
 <p>*<code>release/xxx</code><em>产品预发布分支，一般以版本号为分支名，需要合并到</em><code>master</code>*分支发布。</p>
 <p>*<code>hotfixes</code><em>紧急修复bug的分支基于</em><code>master</code><em>分支，修复完后一定要合并到</em><code>master</code><em>分支和</em><code>develop</code>*分支。</p>
-<p><img loading="lazy" src="../images/02-features-hotfix.png" alt="feature-hotfix-branch"  />
-</p>
+<p><img alt="feature-hotfix-branch" loading="lazy" src="../images/02-features-hotfix.png"></p>
 <h2 id="git-flow工作流程">Git-flow工作流程<a hidden class="anchor" aria-hidden="true" href="#git-flow工作流程">#</a></h2>
 <h3 id="基本步骤">基本步骤<a hidden class="anchor" aria-hidden="true" href="#基本步骤">#</a></h3>
 <ol>
@@ -386,16 +387,15 @@
 
 
 <div id="tcomment"></div>
-<script src="https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.40/dist/twikoo.all.min.js"></script>
 <script>
   twikoo.init({
     envId: "https://twikoo-kbp3p7wxh-fythons-projects.vercel.app", 
     el: "#tcomment", 
     
-    region: "",
     
     path: "",
-    lang: "zh-CN", 
+    
   });
 </script>
 
@@ -403,7 +403,8 @@
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

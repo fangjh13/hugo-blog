@@ -10,7 +10,7 @@
 <meta name="description" content="My Personal Blog Site">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/tags/shell/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -19,6 +19,7 @@
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" type="application/rss+xml" href="https://blog.fangjiahui.me/tags/shell/index.xml">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/tags/shell/">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,16 +56,17 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Shell" />
-<meta property="og:description" content="My Personal Blog Site" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://blog.fangjiahui.me/tags/shell/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:title" content="Shell"/>
-<meta name="twitter:description" content="My Personal Blog Site"/>
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/tags/shell/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="Shell">
+  <meta property="og:description" content="My Personal Blog Site">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="website">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="Shell">
+<meta name="twitter:description" content="My Personal Blog Site">
 
 </head>
 
@@ -157,7 +159,10 @@ ssh-agent gnome-session Note：请使用你自己的窗口管理器取代gnome-s
 本人使用Arch，i3桌面环境的时候需要在～/.profile中加入才能启用
 export $(gnome-keyring-daemon --start --components=secrets,ssh) 0x02. 使用SSH agent forwarding多机器转发 设想一下当你有两台server如A和B，你都可以ssh上去但你已经登入了上了A想从A上面ssh到B又不想将私钥上传到A该怎么办，一个很好的办法是开启ForwardAgent yes。
 修改全局配置/etc/ssh/ssh_config或修改个人~/.ssh/config配置推荐第二种，没有就新建文件，然后加入
-Host * ForwardAgent yes 最后去A和B服务器上~/....</p>
+Host * ForwardAgent yes 最后去A和B服务器上~/.ssh/config也加入如上的配置。现在可以愉快的在A上免密连接到B了，当然在B上面也可以ssh到A，其实只要在服务器配置中加入了ForwardAgent yes这样就能传递了。
+0x03. 在MacOS上的设置 由于MacOS上每次开机都会忘记Key，只要在~/.ssh/config中添加如下配置即可和实现上面的效果
+Host * AddKeysToAgent yes UseKeychain yes ForwardAgent yes IdentityFile ~/.ssh/id_rsa 或者手动运行ssh-add -K yourkey将key加入到Keychain也可以。
+...</p>
   </div>
   <footer class="entry-footer"><span title='2017-12-27 03:00:27 +0800 +0800'>December 27, 2017</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;93 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to 配置SSH agent 和 SSH agent forwarding转发" href="https://blog.fangjiahui.me/posts/2017-12-27-ssh-agent-and-ssh-agent-forwarding/"></a>
@@ -172,7 +177,8 @@ Host * ForwardAgent yes 最后去A和B服务器上~/....</p>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

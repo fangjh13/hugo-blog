@@ -7,14 +7,57 @@
 <meta name="robots" content="index, follow">
 <title>Mac Launchd 介绍和使用 | Fython&#39;s Blog</title>
 <meta name="keywords" content="Mac, Launchd">
-<meta name="description" content="Mac Launchd 介绍和使用 Linux 上如果想开机开机启动一个服务或者定时运行一个服务有很多的选择比如之前介绍过的Systemd或者用 crontab 也可以，而在 Mac 不同它有一个类似的叫 Launchd 的系统，对应使用launchctl命令控制
-Daemons and Agents Launchd 管理 Daemons 和 Agents 两种类型分别存放在不同的文件夹下，主要的区别是
-Agents 是用户登录后执行的 Daemons 是开机后就执行，可以通过UserName指定用户比如root用户 配置文件 Launchd 配置文件以.plist结尾，本质上是xml格式的文件，Daemons 和 Agents 各存放的路径也不同
-类型 路径 说明 User Agents ~/Library/LaunchAgents 用户 Agents 当前用户登录时运行 Global Agents /Library/LaunchAgents 全局 Agents 任何用户登录时都会运行 System Agents /System/Library/LaunchAgents 系统 Agents 任何用户登录时都会运行 Global Daemons /Library/LaunchDaemons 全局 Daemons 内核初始化加载完后就运行 System Daemons /System/Library/LaunchDaemons 系统 Daemons 内核初始化加载完后就运行 系统运行开机首先会加载内核启动kernel_tas(0)，然后启动launchd(1)好后去启动指定好的 Daemons 最后用户登录再运行相应的 Agents 任务
-一般文件名都以com.domain.programName.plist格式命名，不管是 Daemons 还是 Agents 格式都是一样的，只是存放位置不同。看下面一个 hello world 的例子 ~/Library/LaunchAgents/com.">
+<meta name="description" content="Mac Launchd 介绍和使用
+Linux 上如果想开机开机启动一个服务或者定时运行一个服务有很多的选择比如之前介绍过的Systemd或者用 crontab 也可以，而在 Mac 不同它有一个类似的叫 Launchd 的系统，对应使用launchctl命令控制
+Daemons and Agents
+Launchd 管理 Daemons 和 Agents 两种类型分别存放在不同的文件夹下，主要的区别是
+
+Agents 是用户登录后执行的
+Daemons 是开机后就执行，可以通过UserName指定用户比如root用户
+
+配置文件
+Launchd 配置文件以.plist结尾，本质上是xml格式的文件，Daemons 和 Agents 各存放的路径也不同
+
+  
+      
+          类型
+          路径
+          说明
+      
+  
+  
+      
+          User Agents
+          ~/Library/LaunchAgents
+          用户 Agents 当前用户登录时运行
+      
+      
+          Global Agents
+          /Library/LaunchAgents
+          全局 Agents 任何用户登录时都会运行
+      
+      
+          System Agents
+          /System/Library/LaunchAgents
+          系统 Agents 任何用户登录时都会运行
+      
+      
+          Global Daemons
+          /Library/LaunchDaemons
+          全局 Daemons 内核初始化加载完后就运行
+      
+      
+          System Daemons
+          /System/Library/LaunchDaemons
+          系统 Daemons 内核初始化加载完后就运行
+      
+  
+
+系统运行开机首先会加载内核启动kernel_tas(0)，然后启动launchd(1)好后去启动指定好的 Daemons 最后用户登录再运行相应的 Agents 任务
+一般文件名都以com.domain.programName.plist格式命名，不管是 Daemons 还是 Agents 格式都是一样的，只是存放位置不同。看下面一个 hello world 的例子 ~/Library/LaunchAgents/com.example.hello.plist">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/2021-04-19-mac-launchd-daemons-and-agents-tutorial/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -22,6 +65,7 @@ Agents 是用户登录后执行的 Daemons 是开机后就执行，可以通过U
 <link rel="mask-icon" href="https://blog.fangjiahui.me/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/2021-04-19-mac-launchd-daemons-and-agents-tutorial/">
 <noscript>
     <style>
         #theme-toggle,
@@ -58,26 +102,73 @@ Agents 是用户登录后执行的 Daemons 是开机后就执行，可以通过U
         }
 
     </style>
-</noscript><meta property="og:title" content="Mac Launchd 介绍和使用" />
-<meta property="og:description" content="Mac Launchd 介绍和使用 Linux 上如果想开机开机启动一个服务或者定时运行一个服务有很多的选择比如之前介绍过的Systemd或者用 crontab 也可以，而在 Mac 不同它有一个类似的叫 Launchd 的系统，对应使用launchctl命令控制
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/2021-04-19-mac-launchd-daemons-and-agents-tutorial/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="Mac Launchd 介绍和使用">
+  <meta property="og:description" content="Mac Launchd 介绍和使用 Linux 上如果想开机开机启动一个服务或者定时运行一个服务有很多的选择比如之前介绍过的Systemd或者用 crontab 也可以，而在 Mac 不同它有一个类似的叫 Launchd 的系统，对应使用launchctl命令控制
 Daemons and Agents Launchd 管理 Daemons 和 Agents 两种类型分别存放在不同的文件夹下，主要的区别是
 Agents 是用户登录后执行的 Daemons 是开机后就执行，可以通过UserName指定用户比如root用户 配置文件 Launchd 配置文件以.plist结尾，本质上是xml格式的文件，Daemons 和 Agents 各存放的路径也不同
 类型 路径 说明 User Agents ~/Library/LaunchAgents 用户 Agents 当前用户登录时运行 Global Agents /Library/LaunchAgents 全局 Agents 任何用户登录时都会运行 System Agents /System/Library/LaunchAgents 系统 Agents 任何用户登录时都会运行 Global Daemons /Library/LaunchDaemons 全局 Daemons 内核初始化加载完后就运行 System Daemons /System/Library/LaunchDaemons 系统 Daemons 内核初始化加载完后就运行 系统运行开机首先会加载内核启动kernel_tas(0)，然后启动launchd(1)好后去启动指定好的 Daemons 最后用户登录再运行相应的 Agents 任务
-一般文件名都以com.domain.programName.plist格式命名，不管是 Daemons 还是 Agents 格式都是一样的，只是存放位置不同。看下面一个 hello world 的例子 ~/Library/LaunchAgents/com." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/2021-04-19-mac-launchd-daemons-and-agents-tutorial/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-04-19T03:25:09+08:00" />
-<meta property="article:modified_time" content="2023-05-31T11:25:36+08:00" />
+一般文件名都以com.domain.programName.plist格式命名，不管是 Daemons 还是 Agents 格式都是一样的，只是存放位置不同。看下面一个 hello world 的例子 ~/Library/LaunchAgents/com.example.hello.plist">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-04-19T03:25:09+08:00">
+    <meta property="article:modified_time" content="2023-05-31T11:25:36+08:00">
+    <meta property="article:tag" content="Mac">
+    <meta property="article:tag" content="Launchd">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="Mac Launchd 介绍和使用">
+<meta name="twitter:description" content="Mac Launchd 介绍和使用
+Linux 上如果想开机开机启动一个服务或者定时运行一个服务有很多的选择比如之前介绍过的Systemd或者用 crontab 也可以，而在 Mac 不同它有一个类似的叫 Launchd 的系统，对应使用launchctl命令控制
+Daemons and Agents
+Launchd 管理 Daemons 和 Agents 两种类型分别存放在不同的文件夹下，主要的区别是
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
+Agents 是用户登录后执行的
+Daemons 是开机后就执行，可以通过UserName指定用户比如root用户
 
-<meta name="twitter:title" content="Mac Launchd 介绍和使用"/>
-<meta name="twitter:description" content="Mac Launchd 介绍和使用 Linux 上如果想开机开机启动一个服务或者定时运行一个服务有很多的选择比如之前介绍过的Systemd或者用 crontab 也可以，而在 Mac 不同它有一个类似的叫 Launchd 的系统，对应使用launchctl命令控制
-Daemons and Agents Launchd 管理 Daemons 和 Agents 两种类型分别存放在不同的文件夹下，主要的区别是
-Agents 是用户登录后执行的 Daemons 是开机后就执行，可以通过UserName指定用户比如root用户 配置文件 Launchd 配置文件以.plist结尾，本质上是xml格式的文件，Daemons 和 Agents 各存放的路径也不同
-类型 路径 说明 User Agents ~/Library/LaunchAgents 用户 Agents 当前用户登录时运行 Global Agents /Library/LaunchAgents 全局 Agents 任何用户登录时都会运行 System Agents /System/Library/LaunchAgents 系统 Agents 任何用户登录时都会运行 Global Daemons /Library/LaunchDaemons 全局 Daemons 内核初始化加载完后就运行 System Daemons /System/Library/LaunchDaemons 系统 Daemons 内核初始化加载完后就运行 系统运行开机首先会加载内核启动kernel_tas(0)，然后启动launchd(1)好后去启动指定好的 Daemons 最后用户登录再运行相应的 Agents 任务
-一般文件名都以com.domain.programName.plist格式命名，不管是 Daemons 还是 Agents 格式都是一样的，只是存放位置不同。看下面一个 hello world 的例子 ~/Library/LaunchAgents/com."/>
+配置文件
+Launchd 配置文件以.plist结尾，本质上是xml格式的文件，Daemons 和 Agents 各存放的路径也不同
+
+  
+      
+          类型
+          路径
+          说明
+      
+  
+  
+      
+          User Agents
+          ~/Library/LaunchAgents
+          用户 Agents 当前用户登录时运行
+      
+      
+          Global Agents
+          /Library/LaunchAgents
+          全局 Agents 任何用户登录时都会运行
+      
+      
+          System Agents
+          /System/Library/LaunchAgents
+          系统 Agents 任何用户登录时都会运行
+      
+      
+          Global Daemons
+          /Library/LaunchDaemons
+          全局 Daemons 内核初始化加载完后就运行
+      
+      
+          System Daemons
+          /System/Library/LaunchDaemons
+          系统 Daemons 内核初始化加载完后就运行
+      
+  
+
+系统运行开机首先会加载内核启动kernel_tas(0)，然后启动launchd(1)好后去启动指定好的 Daemons 最后用户登录再运行相应的 Agents 任务
+一般文件名都以com.domain.programName.plist格式命名，不管是 Daemons 还是 Agents 格式都是一样的，只是存放位置不同。看下面一个 hello world 的例子 ~/Library/LaunchAgents/com.example.hello.plist">
 
 
 <script type="application/ld+json">
@@ -106,14 +197,14 @@ Agents 是用户登录后执行的 Daemons 是开机后就执行，可以通过U
   "@type": "BlogPosting",
   "headline": "Mac Launchd 介绍和使用",
   "name": "Mac Launchd 介绍和使用",
-  "description": "Mac Launchd 介绍和使用 Linux 上如果想开机开机启动一个服务或者定时运行一个服务有很多的选择比如之前介绍过的Systemd或者用 crontab 也可以，而在 Mac 不同它有一个类似的叫 Launchd 的系统，对应使用launchctl命令控制\nDaemons and Agents Launchd 管理 Daemons 和 Agents 两种类型分别存放在不同的文件夹下，主要的区别是\nAgents 是用户登录后执行的 Daemons 是开机后就执行，可以通过UserName指定用户比如root用户 配置文件 Launchd 配置文件以.plist结尾，本质上是xml格式的文件，Daemons 和 Agents 各存放的路径也不同\n类型 路径 说明 User Agents ~/Library/LaunchAgents 用户 Agents 当前用户登录时运行 Global Agents /Library/LaunchAgents 全局 Agents 任何用户登录时都会运行 System Agents /System/Library/LaunchAgents 系统 Agents 任何用户登录时都会运行 Global Daemons /Library/LaunchDaemons 全局 Daemons 内核初始化加载完后就运行 System Daemons /System/Library/LaunchDaemons 系统 Daemons 内核初始化加载完后就运行 系统运行开机首先会加载内核启动kernel_tas(0)，然后启动launchd(1)好后去启动指定好的 Daemons 最后用户登录再运行相应的 Agents 任务\n一般文件名都以com.domain.programName.plist格式命名，不管是 Daemons 还是 Agents 格式都是一样的，只是存放位置不同。看下面一个 hello world 的例子 ~/Library/LaunchAgents/com.",
+  "description": "Mac Launchd 介绍和使用 Linux 上如果想开机开机启动一个服务或者定时运行一个服务有很多的选择比如之前介绍过的Systemd或者用 crontab 也可以，而在 Mac 不同它有一个类似的叫 Launchd 的系统，对应使用launchctl命令控制\nDaemons and Agents Launchd 管理 Daemons 和 Agents 两种类型分别存放在不同的文件夹下，主要的区别是\nAgents 是用户登录后执行的 Daemons 是开机后就执行，可以通过UserName指定用户比如root用户 配置文件 Launchd 配置文件以.plist结尾，本质上是xml格式的文件，Daemons 和 Agents 各存放的路径也不同\n类型 路径 说明 User Agents ~/Library/LaunchAgents 用户 Agents 当前用户登录时运行 Global Agents /Library/LaunchAgents 全局 Agents 任何用户登录时都会运行 System Agents /System/Library/LaunchAgents 系统 Agents 任何用户登录时都会运行 Global Daemons /Library/LaunchDaemons 全局 Daemons 内核初始化加载完后就运行 System Daemons /System/Library/LaunchDaemons 系统 Daemons 内核初始化加载完后就运行 系统运行开机首先会加载内核启动kernel_tas(0)，然后启动launchd(1)好后去启动指定好的 Daemons 最后用户登录再运行相应的 Agents 任务\n一般文件名都以com.domain.programName.plist格式命名，不管是 Daemons 还是 Agents 格式都是一样的，只是存放位置不同。看下面一个 hello world 的例子 ~/Library/LaunchAgents/com.example.hello.plist\n",
   "keywords": [
     "Mac", "Launchd"
   ],
   "articleBody": "Mac Launchd 介绍和使用 Linux 上如果想开机开机启动一个服务或者定时运行一个服务有很多的选择比如之前介绍过的Systemd或者用 crontab 也可以，而在 Mac 不同它有一个类似的叫 Launchd 的系统，对应使用launchctl命令控制\nDaemons and Agents Launchd 管理 Daemons 和 Agents 两种类型分别存放在不同的文件夹下，主要的区别是\nAgents 是用户登录后执行的 Daemons 是开机后就执行，可以通过UserName指定用户比如root用户 配置文件 Launchd 配置文件以.plist结尾，本质上是xml格式的文件，Daemons 和 Agents 各存放的路径也不同\n类型 路径 说明 User Agents ~/Library/LaunchAgents 用户 Agents 当前用户登录时运行 Global Agents /Library/LaunchAgents 全局 Agents 任何用户登录时都会运行 System Agents /System/Library/LaunchAgents 系统 Agents 任何用户登录时都会运行 Global Daemons /Library/LaunchDaemons 全局 Daemons 内核初始化加载完后就运行 System Daemons /System/Library/LaunchDaemons 系统 Daemons 内核初始化加载完后就运行 系统运行开机首先会加载内核启动kernel_tas(0)，然后启动launchd(1)好后去启动指定好的 Daemons 最后用户登录再运行相应的 Agents 任务\n一般文件名都以com.domain.programName.plist格式命名，不管是 Daemons 还是 Agents 格式都是一样的，只是存放位置不同。看下面一个 hello world 的例子 ~/Library/LaunchAgents/com.example.hello.plist\n\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e \u003c!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\"\u003e ",
   "wordCount" : "334",
   "inLanguage": "en",
-  "datePublished": "2021-04-19T03:25:09+08:00",
+  "image": "https://blog.fangjiahui.me/blog-cover-1.png","datePublished": "2021-04-19T03:25:09+08:00",
   "dateModified": "2023-05-31T11:25:36+08:00",
   "author":{
     "@type": "Person",
@@ -238,40 +329,40 @@ Agents 是用户登录后执行的 Daemons 是开机后就执行，可以通过U
 <h3 id="配置文件">配置文件<a hidden class="anchor" aria-hidden="true" href="#配置文件">#</a></h3>
 <p>Launchd 配置文件以<code>.plist</code>结尾，本质上是<code>xml</code>格式的文件，Daemons 和 Agents 各存放的路径也不同</p>
 <table>
-<thead>
-<tr>
-<th>类型</th>
-<th>路径</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>User Agents</td>
-<td><code>~/Library/LaunchAgents</code></td>
-<td>用户 Agents 当前用户登录时运行</td>
-</tr>
-<tr>
-<td>Global Agents</td>
-<td><code>/Library/LaunchAgents</code></td>
-<td>全局 Agents 任何用户登录时都会运行</td>
-</tr>
-<tr>
-<td>System Agents</td>
-<td><code>/System/Library/LaunchAgents</code></td>
-<td>系统 Agents 任何用户登录时都会运行</td>
-</tr>
-<tr>
-<td>Global Daemons</td>
-<td><code>/Library/LaunchDaemons</code></td>
-<td>全局 Daemons 内核初始化加载完后就运行</td>
-</tr>
-<tr>
-<td>System Daemons</td>
-<td><code>/System/Library/LaunchDaemons</code></td>
-<td>系统 Daemons 内核初始化加载完后就运行</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>类型</th>
+          <th>路径</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>User Agents</td>
+          <td><code>~/Library/LaunchAgents</code></td>
+          <td>用户 Agents 当前用户登录时运行</td>
+      </tr>
+      <tr>
+          <td>Global Agents</td>
+          <td><code>/Library/LaunchAgents</code></td>
+          <td>全局 Agents 任何用户登录时都会运行</td>
+      </tr>
+      <tr>
+          <td>System Agents</td>
+          <td><code>/System/Library/LaunchAgents</code></td>
+          <td>系统 Agents 任何用户登录时都会运行</td>
+      </tr>
+      <tr>
+          <td>Global Daemons</td>
+          <td><code>/Library/LaunchDaemons</code></td>
+          <td>全局 Daemons 内核初始化加载完后就运行</td>
+      </tr>
+      <tr>
+          <td>System Daemons</td>
+          <td><code>/System/Library/LaunchDaemons</code></td>
+          <td>系统 Daemons 内核初始化加载完后就运行</td>
+      </tr>
+  </tbody>
 </table>
 <p>系统运行开机首先会加载内核启动<code>kernel_tas(0)</code>，然后启动<code>launchd(1)</code>好后去启动指定好的 Daemons 最后用户登录再运行相应的 Agents 任务</p>
 <p>一般文件名都以<code>com.domain.programName.plist</code>格式命名，不管是 Daemons 还是 Agents 格式都是一样的，只是存放位置不同。看下面一个 hello world 的例子 <code>~/Library/LaunchAgents/com.example.hello.plist</code></p>
@@ -297,46 +388,46 @@ Agents 是用户登录后执行的 Daemons 是开机后就执行，可以通过U
 </ul>
 <p>还有一些常用的键名，所有的键可参考<code>man 5 launchd.plist</code>或者<a href="https://www.launchd.info/">这里</a></p>
 <table>
-<thead>
-<tr>
-<th>Keys</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>EnvironmentVariables</code></td>
-<td>设置运行环境变量</td>
-</tr>
-<tr>
-<td><code>StandardOutPath</code></td>
-<td>标准输出到文件</td>
-</tr>
-<tr>
-<td><code>StandardErrorPath</code></td>
-<td>标准错误到文件</td>
-</tr>
-<tr>
-<td><code>RunAtLoad</code></td>
-<td>是否再加载的时候就运行</td>
-</tr>
-<tr>
-<td><code>StartInterval</code></td>
-<td>设置程序每隔多少秒运行一次</td>
-</tr>
-<tr>
-<td><code>KeepAlive</code></td>
-<td>是否设置程序是一直存活着 如果退出就重启</td>
-</tr>
-<tr>
-<td><code>UserName</code></td>
-<td>设置用户名只在 Daemons 可用</td>
-</tr>
-<tr>
-<td><code>WorkingDirectory</code></td>
-<td>设置工作目录</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>Keys</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>EnvironmentVariables</code></td>
+          <td>设置运行环境变量</td>
+      </tr>
+      <tr>
+          <td><code>StandardOutPath</code></td>
+          <td>标准输出到文件</td>
+      </tr>
+      <tr>
+          <td><code>StandardErrorPath</code></td>
+          <td>标准错误到文件</td>
+      </tr>
+      <tr>
+          <td><code>RunAtLoad</code></td>
+          <td>是否再加载的时候就运行</td>
+      </tr>
+      <tr>
+          <td><code>StartInterval</code></td>
+          <td>设置程序每隔多少秒运行一次</td>
+      </tr>
+      <tr>
+          <td><code>KeepAlive</code></td>
+          <td>是否设置程序是一直存活着 如果退出就重启</td>
+      </tr>
+      <tr>
+          <td><code>UserName</code></td>
+          <td>设置用户名只在 Daemons 可用</td>
+      </tr>
+      <tr>
+          <td><code>WorkingDirectory</code></td>
+          <td>设置工作目录</td>
+      </tr>
+  </tbody>
 </table>
 <h3 id="launchctl-命令">launchctl 命令<a hidden class="anchor" aria-hidden="true" href="#launchctl-命令">#</a></h3>
 <p>现在我们就加载和运行一个任务，上面定义了<code>~/Library/LaunchAgents/com.example.hello.plist</code>，我们修改一下增加一个键(<code>StandardOutPath</code>)用于标准输出</p>
@@ -569,16 +660,15 @@ Agents 是用户登录后执行的 Daemons 是开机后就执行，可以通过U
 
 
 <div id="tcomment"></div>
-<script src="https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.40/dist/twikoo.all.min.js"></script>
 <script>
   twikoo.init({
     envId: "https://twikoo-kbp3p7wxh-fythons-projects.vercel.app", 
     el: "#tcomment", 
     
-    region: "",
     
     path: "",
-    lang: "zh-CN", 
+    
   });
 </script>
 
@@ -586,7 +676,8 @@ Agents 是用户登录后执行的 Daemons 是开机后就执行，可以通过U
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

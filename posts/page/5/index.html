@@ -10,7 +10,7 @@
 <meta name="description" content="Posts - Fython&#39;s Blog">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -19,6 +19,7 @@
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" type="application/rss+xml" href="https://blog.fangjiahui.me/posts/index.xml">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,16 +56,17 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Posts" />
-<meta property="og:description" content="My Personal Blog Site" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:title" content="Posts"/>
-<meta name="twitter:description" content="My Personal Blog Site"/>
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="Posts">
+  <meta property="og:description" content="My Personal Blog Site">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="website">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="Posts">
+<meta name="twitter:description" content="My Personal Blog Site">
 
 
 <script type="application/ld+json">
@@ -158,6 +160,24 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Python描述符(descriptor)
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Python 描述符(descriptor) Python 中有一个很少被使用或者用户自定义的特性，那就是描述符(descriptor)，但它是@property, @classmethod, @staticmethod和super的底层实现机制，我今天就扒一扒它，官方文档对描述符的介绍如下
+In general, a descriptor is an object attribute with “binding behavior”, one whose attribute access has been overridden by methods in the descriptor protocol: __get__(), __set__(), and __delete__(). If any of those methods are defined for an object, it is said to be a descriptor.
+描述符是绑定了行为的对象属性(object attribute)，实现了描述符协议(descriptor protocol)，描述符协议就是定义了__get__(),__set__(),__delete__()中的一个或者多个方法，将描述符对象作为其他对象的属性进行访问时，就会产生一些特殊的效果。
+上面的定义可能还是有些晦涩，一步步来
+默认查找属性 在没有描述符定义情况下，我们访问属性的顺序如下，以a.x为例
+查找实例字典里的属性就是a.__dict__[&#39;x&#39;]有就返回 往上查找父类的字典就是a.__class__.__dict__[&#39;x&#39;]有就返回 上面都没有就查找父类的基类(不包括元类(metaclass)) 如果定义了__getattr__就会返回此方法 最后都没有抛出AttributeError &gt;&gt;&gt; class A: ... x = 8 ... ... &gt;&gt;&gt; class B(A): ... pass ... &gt;&gt;&gt; class C(B): ... def __getattr__(self, name): ... if name == &#39;y&#39;: ... print(&#34;call getattr method&#34;) ... else: ... raise AttributeError ... ... ... &gt;&gt;&gt; C.__mro__ (&lt;class &#39;__main__.C&#39;&gt;, &lt;class &#39;__main__.B&#39;&gt;, &lt;class &#39;__main__.A&#39;&gt;, &lt;class &#39;object&#39;&gt;) &gt;&gt;&gt; a = C() &gt;&gt;&gt; a.x 8 &gt;&gt;&gt; a.y call getattr method &gt;&gt;&gt; a.__dict__ {} &gt;&gt;&gt; a.x = 99 &gt;&gt;&gt; a.x 99 &gt;&gt;&gt; a.__dict__ {&#39;x&#39;: 99} __getattr__是实例访问没有定义的属性时调用的方法，需要特别定义
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2019-12-17 11:38:45 +0800 +0800'>December 17, 2019</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;1135 words&nbsp;·&nbsp;Fython</footer>
+  <a class="entry-link" aria-label="post link to Python描述符(descriptor)" href="https://blog.fangjiahui.me/posts/2019-12-17-python-descriptor/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">使用 Core dump 解密加密的sh脚本
     </h2>
   </header>
@@ -167,7 +187,8 @@ root用户执行如下命令
 ulimit -c unlimited echo &#34;/core_dump/%e-%p-%t.core&#34; &gt; /proc/sys/kernel/core_pattern mkdir /core_dump 以上第一句是设置内核coredump大小，这里设置不限制。第二句是设置coredump存储位置和格式，%e代表可执行程序名，%p代表pid， %t代表生成时间。然后去执行脚本如xxx.sh
 ./xxx.sh 6 start &amp; (sleep 0.01 &amp;&amp; kill -SIGSEGV $!) 之后会输出类似[1]&#43; Segmentation fault (core dumped)...的提示，然后查看/core_dump文件夹下，就会有dump出来的文件了，直接vim打开查看会有一些乱码手动处理一下就可以了。
 如果在core_dump文件夹下没有dump出来的文件，可使用如下命令测试然后查看是否有文件生成。
-sleep 15 &amp; killall -SIGSEGV sleep 正常情况下core_dump文件夹下会有以sleep开头的文件。</p>
+sleep 15 &amp; killall -SIGSEGV sleep 正常情况下core_dump文件夹下会有以sleep开头的文件。
+</p>
   </div>
   <footer class="entry-footer"><span title='2019-10-16 15:31:21 +0800 +0800'>October 16, 2019</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;40 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to 使用 Core dump 解密加密的sh脚本" href="https://blog.fangjiahui.me/posts/2019-10-16-linux-core-dump-decrypt-script/"></a>
@@ -181,7 +202,10 @@ sleep 15 &amp; killall -SIGSEGV sleep 正常情况下core_dump文件夹下会有
   <div class="entry-content">
     <p>Python实现单例(Singleton)的几种方法 单例是一种比较简单的设计模式，每次实例化只提供一个相同的实例对象，对于保证实例唯一和节约系统资源的时候十分有用，下面就看看python中实现单例的几种方法
 使用__new__方法 因为在类的实例化过程中__new__方法会比__init__提前调用，我们在类属性中保存一个_singleton每次只返回这个。
-class Singleton: def __new__(cls, *args, **kwargs): if not getattr(cls, &#39;_singleton&#39;, None): cls._singleton = super().__new__(cls, *args, **kwargs) return cls._singleton class MyClass(Singleton): pass a = MyClass() b = MyClass() print(id(a)) # 4433117872 print(id(b)) # 4433117872 print(a is b) # True 使用装饰器 from functools import wraps def singleton(cls): _singleton = {} @wraps(cls) def wrapper(*args, **kwargs): if not _singleton.get(cls): _singleton[cls] = cls(*args, **kwargs) return _singleton[cls] return wrapper @singleton class MyClass: pass 利用装饰器中的_singleton变量存储所有类的实例...</p>
+class Singleton: def __new__(cls, *args, **kwargs): if not getattr(cls, &#39;_singleton&#39;, None): cls._singleton = super().__new__(cls, *args, **kwargs) return cls._singleton class MyClass(Singleton): pass a = MyClass() b = MyClass() print(id(a)) # 4433117872 print(id(b)) # 4433117872 print(a is b) # True 使用装饰器 from functools import wraps def singleton(cls): _singleton = {} @wraps(cls) def wrapper(*args, **kwargs): if not _singleton.get(cls): _singleton[cls] = cls(*args, **kwargs) return _singleton[cls] return wrapper @singleton class MyClass: pass 利用装饰器中的_singleton变量存储所有类的实例
+利用python模块 python模块（module）是天然的单例模式
+# singleton.py class Singleton: def foo(self): print(&#34;I&#39;m singleton&#34;) instance = Singleton() del Singleton 然后利用模块导入
+from single import instance instance.foo() # I&#39;m singleton </p>
   </div>
   <footer class="entry-footer"><span title='2019-02-27 09:07:17 +0800 +0800'>February 27, 2019</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;96 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Python实现单例(Singleton)的几种方法" href="https://blog.fangjiahui.me/posts/2019-02-27-python-singleton/"></a>
@@ -195,7 +219,8 @@ class Singleton: def __new__(cls, *args, **kwargs): if not getattr(cls, &#39;_si
   <div class="entry-content">
     <p>Mac不安装第三方应用读写NTFS格式硬盘 首先插入硬盘或者U盘，现在的盘只能读取，我们先umount以/dev/disk3s2分区为例
 ❯ mount # 列出挂载分区 /dev/disk1s5 on / (apfs, local, read-only, journaled) devfs on /dev (devfs, local, nobrowse) /dev/disk1s1 on /System/Volumes/Data (apfs, local, journaled, nobrowse) /dev/disk1s4 on /private/var/vm (apfs, local, journaled, nobrowse) /dev/disk3s2 on /Volumes/TOSHIBA EXT (ntfs, local, nodev, nosuid, read-only, noowners) ❯ sudo umount /Volumes/TOSHIBA\ EXT 创建挂在路径，然后手动挂载
-sudo mkdir /Volumes/mount sudo mount -t ntfs -o rw,auto,nobrowse /dev/disk3s2 /Volumes/mount cd /Volumes/mount 就这样移动硬盘可读写了，也可以打开Finder试试</p>
+sudo mkdir /Volumes/mount sudo mount -t ntfs -o rw,auto,nobrowse /dev/disk3s2 /Volumes/mount cd /Volumes/mount 就这样移动硬盘可读写了，也可以打开Finder试试
+</p>
   </div>
   <footer class="entry-footer"><span title='2019-01-25 08:59:14 +0800 +0800'>January 25, 2019</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;63 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Mac不安装第三方应用读写NTFS格式硬盘" href="https://blog.fangjiahui.me/posts/2019-01-25-mac-mount-ntfs/"></a>
@@ -208,25 +233,11 @@ sudo mkdir /Volumes/mount sudo mount -t ntfs -o rw,auto,nobrowse /dev/disk3s2 /V
   </header>
   <div class="entry-content">
     <p>Mysql(mysqldump)备份脚本 记录下服务器上一个备份 mysql 数据库的脚本，使用 mysql 自带的mysqldump命令
-!/usr/bin/env bash USER=username PASSWORD=password MAXIMUM_BACKUP_FILES=10 BACKUP_FOLDER=/path/to/save/folder DATABASES=( db_name_0 db_name_1 ) # check mysqldump instlled _=$(command -v mysqldump) if [[ $? != 0 ]] then printf &#34;You don&#39;t seem to mysqldump installed, exit..\n&#34; exit 1 fi # create backup folder if [ ! -d $BACKUP_FOLDER ] then mkdir $BACKUP_FOLDER fi # backup for DB in ${DATABASES[@]} do echo backing up ${DB} database ... if $(mysqldump --host=localhost --user=${USER} --password=${PASSWORD} ${DB} | gzip -9 &gt; ${BACKUP_FOLDER}/db_${DB}_$(date &#43;&#34;%Y%m%d&#34;)....</p>
+!/usr/bin/env bash USER=username PASSWORD=password MAXIMUM_BACKUP_FILES=10 BACKUP_FOLDER=/path/to/save/folder DATABASES=( db_name_0 db_name_1 ) # check mysqldump instlled _=$(command -v mysqldump) if [[ $? != 0 ]] then printf &#34;You don&#39;t seem to mysqldump installed, exit..\n&#34; exit 1 fi # create backup folder if [ ! -d $BACKUP_FOLDER ] then mkdir $BACKUP_FOLDER fi # backup for DB in ${DATABASES[@]} do echo backing up ${DB} database ... if $(mysqldump --host=localhost --user=${USER} --password=${PASSWORD} ${DB} | gzip -9 &gt; ${BACKUP_FOLDER}/db_${DB}_$(date &#43;&#34;%Y%m%d&#34;).sql.gz) then echo dump db_${DB}_$(date &#43;&#34;%Y%m%d&#34;).sql.gz done. else echo dump db_${DB}_$(date &#43;&#34;%Y%m%d&#34;).sql.gz failed. fi done # remove older files find ${BACKUP_FOLDER} -type f -name *.sql.gz -mtime &#43;${MAXIMUM_BACKUP_FILES} -delete 脚本就是使用 mysqldump 备份指定的数据库（在 DATABASES 使用空格分隔）然后 gzip 压缩保存到指定目录，使用系统自带的 find 命令删除旧文件
+...</p>
   </div>
   <footer class="entry-footer"><span title='2018-11-08 03:11:51 +0800 +0800'>November 8, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;260 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Mysql数据库备份脚本(使用mysqldump)" href="https://blog.fangjiahui.me/posts/2018-11-08-mysqldump-backup-script/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">使用 Cython 加密 Python 项目
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>最近公司需要将 python 代码部署到端上查了各种加密方法说到底 python 其实是不建议加密部署的，像什么生成.pyc其实都是很容易反编译直接运行的，因为它是解释型语言。不像 C 或者 java 可以编译后生成机器码直接部署。还有看到把项目打包成.exe文件，在 windows 上运行，由于我们使用 Linux 平台没有尝试，最后选择了使用Cython这个库来加密(编译成二进制)。
-Cython其实就是把py 代码编译成 C或者 C&#43;&#43;代码来执行，在Linux 上会生成.so二进制文件，Windows下为.pyd，所以还有一个作用是加速代码的执行效率。但还有一些限制如项目中不能删除__init__.py否者包导入会失败。详细可参考官方文档，Cython 还在持续开发中支持 Python3，下面也用Python3演示。
-先来做一些准备工作定义编译后的文件夹build和一些部署不需要的文件和文件夹，将待编译的.py文件加入ext_modules列表
-cur_dir = os.path.abspath(os.path.dirname(__file__)) setup_file = os.path.split(__file__)[1] build_dir = os.path.join(cur_dir, &#39;build&#39;) build_tmp_dir = os.path.join(build_dir, &#34;temp&#34;) # define exclude dirs, these dirs will be deleted exclude_dirs = [&#39;.git&#39;, &#39;__pycache__&#39;, &#39;test&#39;, &#39;logs&#39;, &#39;venv&#39;, &#39;tests&#39;] # defile exclude files, these files will be deleted exclude_files = [&#39;*.md&#39;, &#39;.gitignore&#39;, &#39;.python-version&#39;, &#39;requirements.txt&#39;, &#39;*.pyc&#39;, &#39;*.c&#39;] # these `....</p>
-  </div>
-  <footer class="entry-footer"><span title='2018-11-03 08:32:22 +0800 +0800'>November 3, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;307 words&nbsp;·&nbsp;Fython</footer>
-  <a class="entry-link" aria-label="post link to 使用 Cython 加密 Python 项目" href="https://blog.fangjiahui.me/posts/2018-11-03-encrypt-protect-python-code/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
@@ -240,7 +251,8 @@ cur_dir = os.path.abspath(os.path.dirname(__file__)) setup_file = os.path.split(
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

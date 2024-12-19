@@ -10,7 +10,7 @@
 <meta name="description" content="SSH agent 和 SSH agent forwarding">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/2017-12-27-ssh-agent-and-ssh-agent-forwarding/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -18,6 +18,7 @@
 <link rel="mask-icon" href="https://blog.fangjiahui.me/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/2017-12-27-ssh-agent-and-ssh-agent-forwarding/">
 <noscript>
     <style>
         #theme-toggle,
@@ -54,18 +55,22 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="配置SSH agent 和 SSH agent forwarding转发" />
-<meta property="og:description" content="SSH agent 和 SSH agent forwarding" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/2017-12-27-ssh-agent-and-ssh-agent-forwarding/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2017-12-27T03:00:27+08:00" />
-<meta property="article:modified_time" content="2018-07-29T09:37:55+08:00" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:title" content="配置SSH agent 和 SSH agent forwarding转发"/>
-<meta name="twitter:description" content="SSH agent 和 SSH agent forwarding"/>
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/2017-12-27-ssh-agent-and-ssh-agent-forwarding/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="配置SSH agent 和 SSH agent forwarding转发">
+  <meta property="og:description" content="SSH agent 和 SSH agent forwarding">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2017-12-27T03:00:27+08:00">
+    <meta property="article:modified_time" content="2018-07-29T09:37:55+08:00">
+    <meta property="article:tag" content="Shell">
+    <meta property="article:tag" content="SSH">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="配置SSH agent 和 SSH agent forwarding转发">
+<meta name="twitter:description" content="SSH agent 和 SSH agent forwarding">
 
 
 <script type="application/ld+json">
@@ -101,7 +106,7 @@
   "articleBody": "0x01. ssh-agent转发 经常使用SSH而且私钥设置了passphrase的同学会遇到一个问题，就是每次登录主机都要输入一遍passphrase会很麻烦，这时ssh-agent命令就有用了。\nssh-agent是OpenSSH默认自带的并且在后台一直运行的daemon。假设已经通过ssh-keygen生成了自己的私钥，可以在GitHub上传公钥后使用ssh -T git@github.com命令测试通过。\n$ ssh-agent SSH_AUTH_SOCK=/var/folders/k6/k5s6nj_j2k70jzp7plv120y40000gn/T//ssh-fcn9OCl9La13/agent.2462; export SSH_AUTH_SOCK; SSH_AGENT_PID=2463; export SSH_AGENT_PID; echo Agent pid 2463; 但上面的命令没用，我们需要eval命令导入环境变量\n$ eval $(ssh-agent) Agent pid 2533 $ echo $SSH_AGENT_PID 2553 $ echo $SSH_AUTH_SOCK /var/folders/k6/k5s6nj_j2k70jzp7plv120y40000gn/T//ssh-6bHKwvKJ6AO1/agent.2532 ssh-agent已经运行了，最后需要把私钥加入cache。\n$ ssh-add ~/.ssh/id_rsa Enter passphrase for /Users/fython/.ssh/id_rsa: Identity added: /Users/fython/.ssh/id_rsa (/Users/fython/.ssh/id_rsa) 可以使用ssh-add -l查看缓存的私钥。现在再登录使用公钥认证的主机不需要输入passphrase了。\n这个每次开机都要运行一遍上面的命令好像有点麻烦，值得高兴的是大多数的linux发行版都在登录图形界面时都会启动一个ssh-agent进程，你不需要任何操作，可以使用ps -ef | grep ssh-agent查看。如果你的系统没有这个功能，请在~/.xsession文件中加入：\nssh-agent gnome-session Note：请使用你自己的窗口管理器取代gnome-session。\n本人使用Arch，i3桌面环境的时候需要在～/.profile中加入才能启用\nexport $(gnome-keyring-daemon --start --components=secrets,ssh) 0x02. 使用SSH agent forwarding多机器转发 设想一下当你有两台server如A和B，你都可以ssh上去但你已经登入了上了A想从A上面ssh到B又不想将私钥上传到A该怎么办，一个很好的办法是开启ForwardAgent yes。\n修改全局配置/etc/ssh/ssh_config或修改个人~/.ssh/config配置推荐第二种，没有就新建文件，然后加入\nHost * ForwardAgent yes 最后去A和B服务器上~/.ssh/config也加入如上的配置。现在可以愉快的在A上免密连接到B了，当然在B上面也可以ssh到A，其实只要在服务器配置中加入了ForwardAgent yes这样就能传递了。\n0x03. 在MacOS上的设置 由于MacOS上每次开机都会忘记Key，只要在~/.ssh/config中添加如下配置即可和实现上面的效果\nHost * AddKeysToAgent yes UseKeychain yes ForwardAgent yes IdentityFile ~/.ssh/id_rsa 或者手动运行ssh-add -K yourkey将key加入到Keychain也可以。\n参考 https://wiki.archlinux.org/index.php/SSH_keys\nhttp://mah.everybody.org/docs/ssh\nhttps://developer.github.com/v3/guides/using-ssh-agent-forwarding/\n",
   "wordCount" : "93",
   "inLanguage": "en",
-  "datePublished": "2017-12-27T03:00:27+08:00",
+  "image": "https://blog.fangjiahui.me/blog-cover-1.png","datePublished": "2017-12-27T03:00:27+08:00",
   "dateModified": "2018-07-29T09:37:55+08:00",
   "author":{
     "@type": "Person",
@@ -371,16 +376,15 @@
 
 
 <div id="tcomment"></div>
-<script src="https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.40/dist/twikoo.all.min.js"></script>
 <script>
   twikoo.init({
     envId: "https://twikoo-kbp3p7wxh-fythons-projects.vercel.app", 
     el: "#tcomment", 
     
-    region: "",
     
     path: "",
-    lang: "zh-CN", 
+    
   });
 </script>
 
@@ -388,7 +392,8 @@
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

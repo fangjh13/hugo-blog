@@ -9,7 +9,7 @@
       <url>https://blog.fangjiahui.me/blog-cover-1.png</url>
       <link>https://blog.fangjiahui.me/blog-cover-1.png</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.140.0</generator>
     <language>en</language>
     <lastBuildDate>Thu, 07 Dec 2023 11:34:52 +0800</lastBuildDate>
     <atom:link href="https://blog.fangjiahui.me/tags/bash/index.xml" rel="self" type="application/rss+xml" />
@@ -25,23 +25,316 @@
       <link>https://blog.fangjiahui.me/posts/2021-01-20-bash-shell-cheat-sheet/</link>
       <pubDate>Wed, 20 Jan 2021 07:50:48 +0800</pubDate>
       <guid>https://blog.fangjiahui.me/posts/2021-01-20-bash-shell-cheat-sheet/</guid>
-      <description>BASH SHELL cheat sheet 记录一些 bash shell 脚本的奇技淫巧，都是从实际使用中 google 的。bash 各 Linux 发行版都自带方便好用特别是文本处理、一些运维之类的小脚本，但有些语法繁琐不好记容易忘整理一下方便查找。
-trap trap 命令 用于指定在接收到信号后将要采取的动作，常见的用途是在脚本程序被中断时完成清理工作。当 shell 接收到 sigspec 指定的信号时，arg 参数（命令）将会被读取，并被执行。例如：
-trap &amp;#34;exit 1&amp;#34; HUP INT PIPE QUIT TERM 表示当 shell 收到HUP,INT,PIPE,QUIT,TERM这几个信号时，当前执行的程序会读取参数&amp;quot;exit 1&amp;quot;，并将它作为命令执行。
-如果要忽略某个信号就参数使用单引号就可以&#39;&#39;
-trap &amp;#39;&amp;#39; signals 如果启动的时候忽略了信号比如使用了nohup，trap 命令是无效的。具体信号可使用man 7 signal或者kill -l查阅
-$*、$@、$# 直接上例子看，如下脚本test.sh
-echo 参数总个数 \$#: $# echo 第0个参数 \$0: $0 for a in $(seq 1 $#); do eval b=\$$a echo 第&amp;#34;$a&amp;#34;个参数 \$&amp;#34;$a&amp;#34;: $b done echo -e &amp;#34;\nUsing \&amp;#34;\$#\&amp;#34;:&amp;#34; echo &amp;#34;$#&amp;#34; echo -e &amp;#34;\nUsing \$#:&amp;#34; echo $# echo -e &amp;#34;\nUsing \&amp;#34;\$*\&amp;#34;:&amp;#34; for a in &amp;#34;$*&amp;#34;; do echo $a; done echo -e &amp;#34;\nUsing \$*:&amp;#34; for a in $*; do echo $a; done echo -e &amp;#34;\nUsing \&amp;#34;\$@\&amp;#34;:&amp;#34; for a in &amp;#34;$@&amp;#34;; do echo $a; done echo -e &amp;#34;\nUsing \$@:&amp;#34; for a in $@; do echo $a; done 然后运行此脚本，注意最后3 4用了双引号</description>
+      <description>&lt;h1 id=&#34;bash-shell-cheat-sheet&#34;&gt;BASH SHELL cheat sheet&lt;/h1&gt;
+&lt;p&gt;记录一些 bash shell 脚本的奇技淫巧，都是从实际使用中 google 的。bash 各 Linux 发行版都自带方便好用特别是文本处理、一些运维之类的小脚本，但有些语法繁琐不好记容易忘整理一下方便查找。&lt;/p&gt;
+&lt;h2 id=&#34;trap&#34;&gt;&lt;code&gt;trap&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_12_02.html&#34;&gt;trap 命令&lt;/a&gt;&lt;/strong&gt; 用于指定在接收到信号后将要采取的动作，常见的用途是在脚本程序被中断时完成清理工作。当 shell 接收到 sigspec 指定的信号时，arg 参数（命令）将会被读取，并被执行。例如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;trap&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;exit 1&amp;#34;&lt;/span&gt; HUP INT PIPE QUIT TERM
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;表示当 shell 收到&lt;code&gt;HUP,INT,PIPE,QUIT,TERM&lt;/code&gt;这几个信号时，当前执行的程序会读取参数&lt;code&gt;&amp;quot;exit 1&amp;quot;&lt;/code&gt;，并将它作为命令执行。&lt;/p&gt;
+&lt;p&gt;如果要忽略某个信号就参数使用单引号就可以&lt;code&gt;&#39;&#39;&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;trap&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;  signals
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果启动的时候忽略了信号比如使用了&lt;code&gt;nohup&lt;/code&gt;，trap 命令是无效的。具体信号可使用&lt;code&gt;man 7 signal&lt;/code&gt;或者&lt;code&gt;kill -l&lt;/code&gt;查阅&lt;/p&gt;
+&lt;h2 id=&#34;heading&#34;&gt;&lt;code&gt;$*&lt;/code&gt;、&lt;code&gt;$@&lt;/code&gt;、&lt;code&gt;$#&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;直接上例子看，如下脚本&lt;code&gt;test.sh&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; 参数总个数 &lt;span class=&#34;se&#34;&gt;\$&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;#: $#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; 第0个参数 &lt;span class=&#34;se&#34;&gt;\$&lt;/span&gt;0: &lt;span class=&#34;nv&#34;&gt;$0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; a in &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;seq &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$#&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;eval&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\$&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$a&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; 第&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$a&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;个参数 &lt;span class=&#34;se&#34;&gt;\$&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$a&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span class=&#34;nv&#34;&gt;$b&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; -e &lt;span class=&#34;s2&#34;&gt;&amp;#34;\nUsing \&amp;#34;\$#\&amp;#34;:&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$#&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; -e &lt;span class=&#34;s2&#34;&gt;&amp;#34;\nUsing \$#:&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; -e &lt;span class=&#34;s2&#34;&gt;&amp;#34;\nUsing \&amp;#34;\$*\&amp;#34;:&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; a in &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$*&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; -e &lt;span class=&#34;s2&#34;&gt;&amp;#34;\nUsing \$*:&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; a in &lt;span class=&#34;nv&#34;&gt;$*&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; -e &lt;span class=&#34;s2&#34;&gt;&amp;#34;\nUsing \&amp;#34;\$@\&amp;#34;:&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; a in &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$@&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; -e &lt;span class=&#34;s2&#34;&gt;&amp;#34;\nUsing \$@:&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; a in &lt;span class=&#34;nv&#34;&gt;$@&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后运行此脚本，注意最后&lt;code&gt;3 4&lt;/code&gt;用了双引号&lt;/p&gt;</description>
     </item>
     <item>
       <title>Bash 快捷操作</title>
       <link>https://blog.fangjiahui.me/posts/2020-07-14-bash-tip-and-tricks/</link>
       <pubDate>Tue, 14 Jul 2020 03:47:53 +0800</pubDate>
       <guid>https://blog.fangjiahui.me/posts/2020-07-14-bash-tip-and-tricks/</guid>
-      <description>Bash 快捷操作 GUN Bash 是现代操作系统一般都默认自带的 Shell，它兼容 sh 并提供了更多的 feature，如果我们常用命令行那么记住一些快捷键和 trick 能大大提高我们的工作效率，这篇文章就介绍下本人常用的快捷键和一些技巧。
-Bash 默认的是 emacs 模式，这里的快捷键以默认的为准，可以使用set -o命令查看，使用set -o emacs设置。
-移动光标 快捷键 描述 Ctrl + a 移动光标到行首 Ctrl + e 移动光标到行尾 Alt + b 移动光标后退一个单词（词首） Alt + f 移动光标前进一个单词（词首） Ctrl + f 光标前进一个字母 Ctrl + b 光标后退一个字母 Ctrl + xx 当前位置与行首之间光标切换 一般配合Ctrl的是单字符移动，Alt是单词为边界。建议将键盘上的caps lock键改成Ctrl这样手指移动距离更短按起来也更加舒服方便。
-剪切（删除）粘贴 快捷键 描述 Ctrl + k 剪切从光标到行尾 Ctrl + u 剪切从光标到行首 Ctrl + w 从光标向前剪切一个单词 Alt + Backspace 与 Ctrl + w 类似，但分隔符是一些特殊字符 Alt + d 从光标向后剪切一个单词 Ctrl + d 删除光标下一个字母，如果没有字符存在，ctrl+d 则会登出该会话 Ctrl + h 删除光标前一个字母 Alt + t swap(当前单词, 上一个单词) Ctrl + t swap(当前字母, 上一个字母) Ctrl + y 粘贴上一次剪切的文本，配合 Ctrl-u、Ctrl-k 效果极好 大小写转换 快捷键 描述 Alt + c 大写当前字母，并移动光标到单词尾 Alt + u 大写从当光标到单词尾 Alt + l 小写从当光标到单词尾 历史命令 快捷键 描述 Ctrl + r 向后搜索历史命令 Ctrl + g 退出搜索 Ctrl + p 历史中上一个命令，代替向上方向键 Ctrl + n 历史中下一个命令，代替乡下方向键 Alt + .</description>
+      <description>&lt;h1 id=&#34;bash-快捷操作&#34;&gt;Bash 快捷操作&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.gnu.org/software/bash/&#34;&gt;GUN Bash&lt;/a&gt; 是现代操作系统一般都默认自带的 Shell，它兼容 sh 并提供了更多的 feature，如果我们常用命令行那么记住一些快捷键和 trick 能大大提高我们的工作效率，这篇文章就介绍下本人常用的快捷键和一些技巧。&lt;/p&gt;
+&lt;p&gt;Bash 默认的是 emacs 模式，这里的快捷键以默认的为准，可以使用&lt;code&gt;set -o&lt;/code&gt;命令查看，使用&lt;code&gt;set -o emacs&lt;/code&gt;设置。&lt;/p&gt;
+&lt;h2 id=&#34;移动光标&#34;&gt;移动光标&lt;/h2&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;快捷键&lt;/th&gt;
+          &lt;th&gt;描述&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + a&lt;/td&gt;
+          &lt;td&gt;移动光标到行首&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + e&lt;/td&gt;
+          &lt;td&gt;移动光标到行尾&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Alt + b&lt;/td&gt;
+          &lt;td&gt;移动光标后退一个单词（词首）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Alt + f&lt;/td&gt;
+          &lt;td&gt;移动光标前进一个单词（词首）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + f&lt;/td&gt;
+          &lt;td&gt;光标前进一个字母&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + b&lt;/td&gt;
+          &lt;td&gt;光标后退一个字母&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + xx&lt;/td&gt;
+          &lt;td&gt;当前位置与行首之间光标切换&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;一般配合&lt;code&gt;Ctrl&lt;/code&gt;的是单字符移动，&lt;code&gt;Alt&lt;/code&gt;是单词为边界。建议将键盘上的&lt;code&gt;caps lock&lt;/code&gt;键改成&lt;code&gt;Ctrl&lt;/code&gt;这样手指移动距离更短按起来也更加舒服方便。&lt;/p&gt;
+&lt;h2 id=&#34;剪切删除粘贴&#34;&gt;剪切（删除）粘贴&lt;/h2&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;快捷键&lt;/th&gt;
+          &lt;th&gt;描述&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + k&lt;/td&gt;
+          &lt;td&gt;剪切从光标到行尾&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + u&lt;/td&gt;
+          &lt;td&gt;剪切从光标到行首&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + w&lt;/td&gt;
+          &lt;td&gt;从光标向前剪切一个单词&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Alt + Backspace&lt;/td&gt;
+          &lt;td&gt;与 Ctrl + w 类似，但分隔符是一些特殊字符&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Alt + d&lt;/td&gt;
+          &lt;td&gt;从光标向后剪切一个单词&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + d&lt;/td&gt;
+          &lt;td&gt;删除光标下一个字母，如果没有字符存在，ctrl+d 则会登出该会话&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + h&lt;/td&gt;
+          &lt;td&gt;删除光标前一个字母&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Alt + t&lt;/td&gt;
+          &lt;td&gt;swap(当前单词, 上一个单词)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + t&lt;/td&gt;
+          &lt;td&gt;swap(当前字母, 上一个字母)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + y&lt;/td&gt;
+          &lt;td&gt;粘贴上一次剪切的文本，配合 Ctrl-u、Ctrl-k 效果极好&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;大小写转换&#34;&gt;大小写转换&lt;/h2&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;快捷键&lt;/th&gt;
+          &lt;th&gt;描述&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Alt + c&lt;/td&gt;
+          &lt;td&gt;大写当前字母，并移动光标到单词尾&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Alt + u&lt;/td&gt;
+          &lt;td&gt;大写从当光标到单词尾&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Alt + l&lt;/td&gt;
+          &lt;td&gt;小写从当光标到单词尾&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;历史命令&#34;&gt;历史命令&lt;/h2&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;快捷键&lt;/th&gt;
+          &lt;th&gt;描述&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + r&lt;/td&gt;
+          &lt;td&gt;向后搜索历史命令&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + g&lt;/td&gt;
+          &lt;td&gt;退出搜索&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + p&lt;/td&gt;
+          &lt;td&gt;历史中上一个命令，代替向上方向键&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + n&lt;/td&gt;
+          &lt;td&gt;历史中下一个命令，代替乡下方向键&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Alt + .&lt;/td&gt;
+          &lt;td&gt;上一个命令的最后一个单词&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;终端指令&#34;&gt;终端指令&lt;/h2&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;快捷键&lt;/th&gt;
+          &lt;th&gt;描述&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + l&lt;/td&gt;
+          &lt;td&gt;跳纸，换页，清屏&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + m&lt;/td&gt;
+          &lt;td&gt;回车（Carriage return）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + s&lt;/td&gt;
+          &lt;td&gt;停止输出（在 Zsh 中为向前搜索历史命令）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + q&lt;/td&gt;
+          &lt;td&gt;继续输出&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + c&lt;/td&gt;
+          &lt;td&gt;终止当前命令&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + z&lt;/td&gt;
+          &lt;td&gt;挂起当前命令&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Ctrl + d&lt;/td&gt;
+          &lt;td&gt;结束输入（产生一个 EOF）&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;bang--命令&#34;&gt;Bang (!) 命令&lt;/h2&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;快捷键&lt;/th&gt;
+          &lt;th&gt;描述&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!n&lt;/td&gt;
+          &lt;td&gt;执行第 n 条命令&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!-n&lt;/td&gt;
+          &lt;td&gt;执行倒数第 n 条命令&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!xx&lt;/td&gt;
+          &lt;td&gt;执行最近的以 xx 开头的命令&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!xx:p&lt;/td&gt;
+          &lt;td&gt;和上面一样，但仅打印输出，而不执行命令&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!!&lt;/td&gt;
+          &lt;td&gt;执行上一条命令, 与 !-1 相同&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!$&lt;/td&gt;
+          &lt;td&gt;上一条命令的最后一个参数，与 &lt;code&gt;Alt + .&lt;/code&gt;和&lt;code&gt;$_&lt;/code&gt;相同&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!:n&lt;/td&gt;
+          &lt;td&gt;上一条命令的第 n 个参数，索引从 0 开始&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!*&lt;/td&gt;
+          &lt;td&gt;上一条命令的所有参数&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!:1-$&lt;/td&gt;
+          &lt;td&gt;上一条命令的所有参数同 !* 相同&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!-n:$&lt;/td&gt;
+          &lt;td&gt;倒数第 n 条命令的最后一个参数&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!$:h&lt;/td&gt;
+          &lt;td&gt;上一条命令参数的上一级&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!#:1&lt;/td&gt;
+          &lt;td&gt;当前行的第 1 个参数&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;!!:gs/aa/bb/&lt;/td&gt;
+          &lt;td&gt;替换上一条命令中所有的 aa 为 bb&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;^blah&lt;/td&gt;
+          &lt;td&gt;删除上一条命令中的 blah&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;^blah^foo&lt;/td&gt;
+          &lt;td&gt;将上一条命令中的 blah 替换为 foo&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;执行之前输入过的命令&#34;&gt;执行之前输入过的命令&lt;/h3&gt;
+&lt;p&gt;经常我们会遇到当输入比较长的命令时执行了时，提示需要 sudo 运行，这个时候下面的技巧就很有用了&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

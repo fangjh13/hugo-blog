@@ -5,12 +5,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>gRPC | Fython&#39;s Blog</title>
+<title>GRPC | Fython&#39;s Blog</title>
 <meta name="keywords" content="">
 <meta name="description" content="My Personal Blog Site">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/tags/grpc/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -19,6 +19,7 @@
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" type="application/rss+xml" href="https://blog.fangjiahui.me/tags/grpc/index.xml">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/tags/grpc/">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,16 +56,17 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="gRPC" />
-<meta property="og:description" content="My Personal Blog Site" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://blog.fangjiahui.me/tags/grpc/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:title" content="gRPC"/>
-<meta name="twitter:description" content="My Personal Blog Site"/>
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/tags/grpc/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="GRPC">
+  <meta property="og:description" content="My Personal Blog Site">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="website">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="GRPC">
+<meta name="twitter:description" content="My Personal Blog Site">
 
 </head>
 
@@ -129,7 +131,7 @@
 <main class="main"> 
 <header class="page-header"><div class="breadcrumbs"><a href="https://blog.fangjiahui.me/">Home</a>&nbsp;»&nbsp;<a href="https://blog.fangjiahui.me/tags/">Tags</a></div>
   <h1>
-    gRPC
+    GRPC
     <a href="/tags/grpc/index.xml" title="RSS" aria-label="RSS">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
         stroke-linecap="round" stroke-linejoin="round" height="23">
@@ -152,7 +154,13 @@
 所有源码托管在github，可按需要查看获取，下文只列出部分主要的代码提供一些思路。
 Proto定义 使用gRPC必须先使用protocol buffers定义序列化的结构包括各对象、服务等所有类型，之后通过grpcio-tools生成服务端和客户端可用的代码，使用proto3格式。首先定义存放图片的Image用于请求参数，也就是入参是一张图片
 // request image message Image { bytes raw_data = 1; int32 height = 2; int32 width = 3; string image_id = 4; MetaData _meta_data = 5; } message Image定义了单张图片的存放格式主要包括raw_data存放图片二进制，还有图片的长高和唯一id，_meta_data记录各种元数据具体实现可查看上面github源码infer.proto
-// each message Result message Result { Box box = 1; Landmarks landmarks = 2; double confidence = 3; } // return results message InferResults { string image_id = 1; MetaData _meta_data = 2; repeated Result results = 3; } message Result定义单张人脸格式每张人脸包括bounding box人脸框,landmarks5个点和置信度confidence，message InferResults定义了单张图上所有人脸和各种元数据。...</p>
+// each message Result message Result { Box box = 1; Landmarks landmarks = 2; double confidence = 3; } // return results message InferResults { string image_id = 1; MetaData _meta_data = 2; repeated Result results = 3; } message Result定义单张人脸格式每张人脸包括bounding box人脸框,landmarks5个点和置信度confidence，message InferResults定义了单张图上所有人脸和各种元数据。
+// run inference service Inference { rpc Predict (Image) returns (InferResults) {} } service Inference定义了一个最简单的服务，输入一张图片输出是包含所有人脸信息的InferResults，就像一个函数调用一样，gRPC还支持复杂的服务比如streaming。
+protobuf的具体格式可以查看谷歌官网介绍
+定义完.proto文件后就可以生成客户端和服务端可用的接口了，需要安装grpcio-tools包。
+python3 -m grpc_tools.protoc \ -I ./protos \ --python_out=./protos \ --grpc_python_out=./protos \ ./protos/infer.proto 以上命令会生成infer_pb2.py和infer_pb2_grpc.py两个文件。
+infer_pb2.py中包含了我们在proto文件中定义的所有以message开头的类型，每个都是一个python类 infer_pb2_grpc.py中包含了在proto文件中以service开头的类型，包括服务端需要引用...Servicer的类重写方法，下文重写了Predict方法，add_...Servicer_to_server也是在服务端需要添加服务到grpc.Server，...Stub类是客户端需要导入的类与服务端交互。 加载模型启动gRPC服务 服务端主要是继承上文生成的infer_pb2_grpc.py中的InferenceServicer重写在infer.proto中定义的Predict方法，返回指定的类型也就是InferResults。
+...</p>
   </div>
   <footer class="entry-footer"><span title='2019-12-31 13:33:06 +0800 +0800'>December 31, 2019</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;517 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to 通过谷歌gRPC部署线上机器学习模型" href="https://blog.fangjiahui.me/posts/2019-12-31-python-web-grpc-inference/"></a>
@@ -160,7 +168,8 @@ Proto定义 使用gRPC必须先使用protocol buffers定义序列化的结构包
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

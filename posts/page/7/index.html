@@ -10,7 +10,7 @@
 <meta name="description" content="Posts - Fython&#39;s Blog">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -19,6 +19,7 @@
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" type="application/rss+xml" href="https://blog.fangjiahui.me/posts/index.xml">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,16 +56,17 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Posts" />
-<meta property="og:description" content="My Personal Blog Site" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:title" content="Posts"/>
-<meta name="twitter:description" content="My Personal Blog Site"/>
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="Posts">
+  <meta property="og:description" content="My Personal Blog Site">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="website">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="Posts">
+<meta name="twitter:description" content="My Personal Blog Site">
 
 
 <script type="application/ld+json">
@@ -158,6 +160,21 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">XPath语法
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>XPath语法 XPath是在XML中检索信息的语言，也就是遍历XML文档，找出有用的信息。这里记录下XPath的语法
+选取节点 XPath 使用路径表达式在 XML 文档中选取节点。节点是通过沿着路径或者 step 来选取的。
+表达式 描述 nodename 选取此节点的所有子节点 / 从根节点选取 // 从整个文档选取，不考虑它们的位置 . 选取当前节点 .. 选取当前节点的父节点 @ 选取属性 实例 &lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt; &lt;bookstore&gt; &lt;book category=&#34;cooking&#34;&gt; &lt;title lang=&#34;en&#34;&gt;Everyday Italian&lt;/title&gt; &lt;author&gt;Giada De Laurentiis&lt;/author&gt; &lt;year&gt;2005&lt;/year&gt; &lt;price&gt;30.00&lt;/price&gt; &lt;/book&gt; &lt;book category=&#34;children&#34;&gt; &lt;title lang=&#34;zh&#34;&gt;哈利波特&lt;/title&gt; &lt;author&gt;J K. Rowling&lt;/author&gt; &lt;year&gt;2005&lt;/year&gt; &lt;price&gt;29.99&lt;/price&gt; &lt;/book&gt; &lt;book category=&#34;web&#34;&gt; &lt;title lang=&#34;en&#34;&gt;XQuery Kick Start&lt;/title&gt; &lt;author&gt;James McGovern&lt;/author&gt; &lt;author&gt;Per Bothner&lt;/author&gt; &lt;author&gt;Kurt Cagle&lt;/author&gt; &lt;author&gt;James Linn&lt;/author&gt; &lt;author&gt;Vaidyanathan Nagarajan&lt;/author&gt; &lt;year&gt;2003&lt;/year&gt; &lt;price&gt;49.99&lt;/price&gt; &lt;/book&gt; &lt;book category=&#34;web&#34; cover=&#34;paperback&#34;&gt; &lt;title lang=&#34;en&#34;&gt;Learning XML&lt;/title&gt; &lt;author&gt;Erik T. Ray&lt;/author&gt; &lt;year&gt;2003&lt;/year&gt; &lt;price&gt;39.95&lt;/price&gt; &lt;/book&gt; &lt;/bookstore&gt; 路径表达式 结果 bookstore 选取 bookstore 元素的所有子节点 /bookstore 选取根元素 bookstore/book 选取属于 bookstore 的子元素的所有 book 元素 //book 选取所有 book 子元素，而不管它们在文档中的位置 bookstore//book 选择属于 bookstore 元素的后代的所有 book 元素，而不管它们位于 bookstore 之下的什么位置。 //@lang 选取名为 lang 的所有属性 使用上面的xml文档作为测试，node.js可以使用xpath，Python可以使用lxml库
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-06-01 03:23:12 +0800 +0800'>June 1, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;372 words&nbsp;·&nbsp;Fython</footer>
+  <a class="entry-link" aria-label="post link to XPath语法" href="https://blog.fangjiahui.me/posts/2018-06-01-xpath-syntax/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">使用usb转TTL(PL2303模块) 串口连接树莓派3B
     </h2>
   </header>
@@ -165,7 +182,8 @@
     <p>使用 usb 转 TTL(PL2303 模块) 串口连接树莓派 3B By default, on Raspberry Pis equipped with the wireless/Bluetooth module (Raspberry Pi 3 and Raspberry Pi Zero W), the PL011 UART is connected to the BT module, while the mini UART is used for Linux console output. On all other models the PL011 is used for the Linux console output.
 在树莓派 3 以前，官方是将“硬件串口”分配给 GPIO 中的 UART(GPIO14&amp;GPIO15)，因此可以独立调整串口的速率和模式，直接连接就可以。而在 3 以后的树莓派中因为新增了蓝牙使用掉了 UART。这样默认就不开启了，以下是手动开启的方法。
 使用 HDMI 启动树莓派编辑/boot/config.txt在后面新增以下两行
-# 激活串口输出 enable_uart=1 # 禁用蓝牙 dtoverlay=pi3-disable-bt 运行sudo systemctl disable hciuart禁用蓝牙服务，然后重启...</p>
+# 激活串口输出 enable_uart=1 # 禁用蓝牙 dtoverlay=pi3-disable-bt 运行sudo systemctl disable hciuart禁用蓝牙服务，然后重启
+...</p>
   </div>
   <footer class="entry-footer"><span title='2018-04-02 12:41:09 +0800 +0800'>April 2, 2018</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;120 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to 使用usb转TTL(PL2303模块) 串口连接树莓派3B" href="https://blog.fangjiahui.me/posts/2018-04-02-raspberry-pi-3b-uart-serial-connect/"></a>
@@ -181,7 +199,10 @@
 namedtuple() namedtuple(typename, field_names)是tuple的子类，定义的元组可以通过属性访问，也易于理解，self-document。field_names可以是列表或者是通过空格或者逗号分隔的字符串。
 &gt;&gt;&gt; from collections import namedtuple &gt;&gt;&gt; Point = namedtuple(&#39;point&#39;, &#39;x, y&#39;) &gt;&gt;&gt; p = Point(3, y=4) &gt;&gt;&gt; p point(x=3, y=4) &gt;&gt;&gt; p[0] 3 &gt;&gt;&gt; p.x 3 &gt;&gt;&gt; x, y = p &gt;&gt;&gt; print(x, y) 3 4 namedtuple有几个比较有用的方法和属性
 SomeNamedTuple._make(iterable)类方法，从可迭代对象中取值，长度必须和传入的field_names一致，返回一个新的对象 somenamedtuple._asdict()方法返回一个有序字典(OrderedDict) somenamedtuple._replace(**kwargs)方法替换值，返回一个新的对象，原来的不变 somenamedtuple._fields属性返回键名(field name)，可用于创建新的named tuple 再来看两个官方文档上的例子读取csv文件或者从sqlite读取
-EmployeeRecord = namedtuple(&#39;EmployeeRecord&#39;, &#39;name, age, title, department, paygrade&#39;) import csv for emp in map(EmployeeRecord._make, csv.reader(open(&#34;employees.csv&#34;, &#34;rb&#34;))): print(emp.name, emp.title) import sqlite3 conn = sqlite3....</p>
+EmployeeRecord = namedtuple(&#39;EmployeeRecord&#39;, &#39;name, age, title, department, paygrade&#39;) import csv for emp in map(EmployeeRecord._make, csv.reader(open(&#34;employees.csv&#34;, &#34;rb&#34;))): print(emp.name, emp.title) import sqlite3 conn = sqlite3.connect(&#39;/companydata&#39;) cursor = conn.cursor() cursor.execute(&#39;SELECT name, age, title, department, paygrade FROM employees&#39;) for emp in map(EmployeeRecord._make, cursor.fetchall()): print(emp.name, emp.title) defaultdict defaultdict([default_factory[,...]])顾名思义继承自dict它接收一个函数(default_factory)作为参数但它除了dict所有的属性和方法外，另外加了__missing__方法和default_factory属性。这两个的作用就是访问不存在的key时它会新增一个key，value为调用default_factory的值。
+&gt;&gt;&gt; from collections import defaultdict &gt;&gt;&gt; d = defaultdict(list) # 默认函数为list &gt;&gt;&gt; print(d.items()) # 创建空字典 dict_items([]) &gt;&gt;&gt; d.default_factory &lt;class &#39;list&#39;&gt; &gt;&gt;&gt; d[&#39;key&#39;] # 调用会设置该key的值为空list并返回 [] &gt;&gt;&gt; print(d.items()) dict_items([(&#39;key&#39;, [])]) 我们可以利用这个特性来做很多事，比如说给一个包含元组的的列表分类整理。
+&gt;&gt;&gt; s = [(&#39;yellow&#39;, 1), (&#39;blue&#39;, 2), (&#39;yellow&#39;, 3), (&#39;blue&#39;, 4), (&#39;red&#39;, 1)] &gt;&gt;&gt; d = defaultdict(list) &gt;&gt;&gt; for k, v in s: ... d[k].append(v) &gt;&gt;&gt; sorted(d.items()) [(&#39;blue&#39;, [2, 4]), (&#39;red&#39;, [1]), (&#39;yellow&#39;, [1, 3])] 上面的代码其实可以用dict的setdefault实现，但效率和可读性差点，如下
+...</p>
   </div>
   <footer class="entry-footer"><span title='2018-02-09 15:17:02 +0800 +0800'>February 9, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;244 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to collections模块中的namedtuple和defaultdict" href="https://blog.fangjiahui.me/posts/2018-02-09-python-collections-namedtuple-and-defaultdict/"></a>
@@ -201,7 +222,8 @@ __new__ called __init__ called 需要注意的是上面我们定义了__new__接
 __str__(self) 调用print(obj)或str(obj)时返回的字符串是对人类友好的(human readable string)。
 __repr__(self) 调用repr(obj)或obj返回的字符串，比较偏向机器。
 __format__(self, format_spec) 调用f string或format时调用，format(value, format_spec)相当于value.__format__(format_spec)
-class Animal: def __init__(self, name): self.name = name def __format__(self, format_spec): if format_spec == &#39;view&#39;: return f&#34;this is {self....</p>
+class Animal: def __init__(self, name): self.name = name def __format__(self, format_spec): if format_spec == &#39;view&#39;: return f&#34;this is {self.name}&#34; else: raise ValueError(&#39;invalid format spec.&#39;) dog = Animal(&#39;Labrador&#39;) print(format(dog, &#34;view&#34;)) print(&#34;{0:view}&#34;.format(dog)) print(f&#34;{dog:view}&#34;) 三种方式返回都一样如下
+...</p>
   </div>
   <footer class="entry-footer"><span title='2018-01-28 05:36:12 +0800 +0800'>January 28, 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;588 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to Python中的特殊方法" href="https://blog.fangjiahui.me/posts/2018-01-28-python-magical-special-methods/"></a>
@@ -223,33 +245,13 @@ ssh-agent gnome-session Note：请使用你自己的窗口管理器取代gnome-s
 本人使用Arch，i3桌面环境的时候需要在～/.profile中加入才能启用
 export $(gnome-keyring-daemon --start --components=secrets,ssh) 0x02. 使用SSH agent forwarding多机器转发 设想一下当你有两台server如A和B，你都可以ssh上去但你已经登入了上了A想从A上面ssh到B又不想将私钥上传到A该怎么办，一个很好的办法是开启ForwardAgent yes。
 修改全局配置/etc/ssh/ssh_config或修改个人~/.ssh/config配置推荐第二种，没有就新建文件，然后加入
-Host * ForwardAgent yes 最后去A和B服务器上~/....</p>
+Host * ForwardAgent yes 最后去A和B服务器上~/.ssh/config也加入如上的配置。现在可以愉快的在A上免密连接到B了，当然在B上面也可以ssh到A，其实只要在服务器配置中加入了ForwardAgent yes这样就能传递了。
+0x03. 在MacOS上的设置 由于MacOS上每次开机都会忘记Key，只要在~/.ssh/config中添加如下配置即可和实现上面的效果
+Host * AddKeysToAgent yes UseKeychain yes ForwardAgent yes IdentityFile ~/.ssh/id_rsa 或者手动运行ssh-add -K yourkey将key加入到Keychain也可以。
+...</p>
   </div>
   <footer class="entry-footer"><span title='2017-12-27 03:00:27 +0800 +0800'>December 27, 2017</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;93 words&nbsp;·&nbsp;Fython</footer>
   <a class="entry-link" aria-label="post link to 配置SSH agent 和 SSH agent forwarding转发" href="https://blog.fangjiahui.me/posts/2017-12-27-ssh-agent-and-ssh-agent-forwarding/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Git工作流
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Git是当今最流行的开源版本控制系统，使用git的每个团队应该也有固定的工作流。今天就介绍一个现有普遍使用的工作流git-flow。
-分支（branch） 如上图一般分支有*master、develop、feature/xxx、release/xxx、hotfixes*，下面一一介绍。
-长期分支 长期分支是跟着产品长期存在的不会删除。
-*master*只能用来包括产品代码，不要在这上面做任何的改动。
-*develop开发主分支，所有新功能的分支从这里checkout，所以这是开发的基础分支。该分支也是汇集所有开发新功能后最后merge到master*的分支。
-临时分支 临时分支只用来开发新功能、修复bug和发布产品用最后删除。
-*feature/xxx开发新功能的分支从develop分支checkout每个功能创建一个分支是一个良好的习惯。开发测试完后merge到develop*分支进行更全面的测试。
-*release/xxx产品预发布分支，一般以版本号为分支名，需要合并到master*分支发布。
-*hotfixes紧急修复bug的分支基于master分支，修复完后一定要合并到master分支和develop*分支。
-Git-flow工作流程 基本步骤 开发人员首先从*develop*分支checkout -b feature/xxx一个待开发的分支，开发和测试。 当开发和测试都完成后将*feature/xxx合并到develop并删除清理。当然其中有新功能时可以再新建一个feature*分支并最后合并到开发分支。 终于等到release了，现在开发分支汇集了所有新开发的功能并无重大bug，我们从*develop分支checkout一个release/v1.0.0的分支进行更加全面的测试准备发布，有bug就在release分支修复，正式发布就是把这个release分支合并到master分支打上tag。当然不要忘记将发布分支合并到develop分支以保持和master*代码同步一致。 可能发布后有紧急的bug需要修复那就从*master分支checkout一个hotfixes/missing-link分支修复bug并合并到master和develop*最后删除。 总结一下 以上就是Git-flow方案的所有流程，优点是分支清晰各干各的看名字就知道，最后只留下*master和develop*分枝。缺点当然是步骤比较繁琐咯，开发要新建很多分支然后切换和删除。我们可以还有很多方案选择GitHub flow、GitLab flow等，或者理解熟练了之后自创一套也是可以的。
-GitHub协同工作 身为一个开发者一定想为开源项目贡献自己的代码，下面是基本步骤可做参考。也可以作为团队协作的基本流程。
-Fork到自己帐号下并Clone到本地 git remote add upstream https://github.com/... 添加上游项目地址（源项目地址）以便更新到最新的代码，添加完可用git remote -v查看除了origin应该还有upstream远程地址 git pull upstream master从刚才添加的upstream拉取最新代码 git checkout -b feature/some-feature 新建一个你要添加新功能的分支，开发就在这上面进行 git add . &amp;&amp; git commit -m &#39;some feature add&#39;测试通过后提交代码 git checkout master &amp;&amp; git pull upstream master这主要是从源仓库拉取最新代码，在你开发期间，如果源项目有改动提交pull就能拉取下来 git checkout feature/some-feature &amp;&amp; git rebase master 然后执行一次变基更新代码 git push origin feature/some-feature推送你开发完并更新到最新的分支到GitHub 去自己GitHub帐号下 pull request等review合并 一具话就是先在本地新建一个分支开发最后提交这个分支发PR，需要注意的是提交到远程的时候记得先pull更新代码然后rebase使分支清晰可读。...</p>
-  </div>
-  <footer class="entry-footer"><span title='2017-11-21 07:18:51 +0800 +0800'>November 21, 2017</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;82 words&nbsp;·&nbsp;Fython</footer>
-  <a class="entry-link" aria-label="post link to Git工作流" href="https://blog.fangjiahui.me/posts/2017-11-21-git-workflow/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
@@ -263,7 +265,8 @@ Fork到自己帐号下并Clone到本地 git remote add upstream https://github.c
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

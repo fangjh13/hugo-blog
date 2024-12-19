@@ -7,15 +7,57 @@
 <meta name="robots" content="index, follow">
 <title>Python描述符(descriptor) | Fython&#39;s Blog</title>
 <meta name="keywords" content="Python">
-<meta name="description" content="Python 描述符(descriptor) Python 中有一个很少被使用或者用户自定义的特性，那就是描述符(descriptor)，但它是@property, @classmethod, @staticmethod和super的底层实现机制，我今天就扒一扒它，官方文档对描述符的介绍如下
+<meta name="description" content="Python 描述符(descriptor)
+Python 中有一个很少被使用或者用户自定义的特性，那就是描述符(descriptor)，但它是@property, @classmethod, @staticmethod和super的底层实现机制，我今天就扒一扒它，官方文档对描述符的介绍如下
+
 In general, a descriptor is an object attribute with “binding behavior”, one whose attribute access has been overridden by methods in the descriptor protocol: __get__(), __set__(), and __delete__(). If any of those methods are defined for an object, it is said to be a descriptor.
+
 描述符是绑定了行为的对象属性(object attribute)，实现了描述符协议(descriptor protocol)，描述符协议就是定义了__get__(),__set__(),__delete__()中的一个或者多个方法，将描述符对象作为其他对象的属性进行访问时，就会产生一些特殊的效果。
 上面的定义可能还是有些晦涩，一步步来
-默认查找属性 在没有描述符定义情况下，我们访问属性的顺序如下，以a.x为例
-查找实例字典里的属性就是a.__dict__[&#39;x&#39;]有就返回 往上查找父类的字典就是a.__class__.__dict__[&#39;x&#39;]有就返回 上面都没有就查找父类的基类(不包括元类(metaclass)) 如果定义了__getattr__就会返回此方法 最后都没有抛出AttributeError &gt;&gt;&gt; class A: ... x = 8 ... .">
+默认查找属性
+在没有描述符定义情况下，我们访问属性的顺序如下，以a.x为例
+
+查找实例字典里的属性就是a.__dict__[&#39;x&#39;]有就返回
+往上查找父类的字典就是a.__class__.__dict__[&#39;x&#39;]有就返回
+上面都没有就查找父类的基类(不包括元类(metaclass))
+如果定义了__getattr__就会返回此方法
+最后都没有抛出AttributeError
+
+&gt;&gt;&gt; class A:
+...     x = 8
+...
+...
+&gt;&gt;&gt; class B(A):
+...     pass
+...
+&gt;&gt;&gt; class C(B):
+...     def __getattr__(self, name):
+...         if name == &#39;y&#39;:
+...             print(&#34;call getattr method&#34;)
+...         else:
+...             raise AttributeError
+...
+...
+...
+&gt;&gt;&gt; C.__mro__
+(&lt;class &#39;__main__.C&#39;&gt;, &lt;class &#39;__main__.B&#39;&gt;, &lt;class &#39;__main__.A&#39;&gt;, &lt;class &#39;object&#39;&gt;)
+&gt;&gt;&gt; a = C()
+&gt;&gt;&gt; a.x
+8
+&gt;&gt;&gt; a.y
+call getattr method
+&gt;&gt;&gt; a.__dict__
+{}
+&gt;&gt;&gt; a.x = 99
+&gt;&gt;&gt; a.x
+99
+&gt;&gt;&gt; a.__dict__
+{&#39;x&#39;: 99}
+
+__getattr__是实例访问没有定义的属性时调用的方法，需要特别定义">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/2019-12-17-python-descriptor/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -23,6 +65,7 @@ In general, a descriptor is an object attribute with “binding behavior”, one
 <link rel="mask-icon" href="https://blog.fangjiahui.me/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/2019-12-17-python-descriptor/">
 <noscript>
     <style>
         #theme-toggle,
@@ -59,28 +102,73 @@ In general, a descriptor is an object attribute with “binding behavior”, one
         }
 
     </style>
-</noscript><meta property="og:title" content="Python描述符(descriptor)" />
-<meta property="og:description" content="Python 描述符(descriptor) Python 中有一个很少被使用或者用户自定义的特性，那就是描述符(descriptor)，但它是@property, @classmethod, @staticmethod和super的底层实现机制，我今天就扒一扒它，官方文档对描述符的介绍如下
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/2019-12-17-python-descriptor/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="Python描述符(descriptor)">
+  <meta property="og:description" content="Python 描述符(descriptor) Python 中有一个很少被使用或者用户自定义的特性，那就是描述符(descriptor)，但它是@property, @classmethod, @staticmethod和super的底层实现机制，我今天就扒一扒它，官方文档对描述符的介绍如下
 In general, a descriptor is an object attribute with “binding behavior”, one whose attribute access has been overridden by methods in the descriptor protocol: __get__(), __set__(), and __delete__(). If any of those methods are defined for an object, it is said to be a descriptor.
 描述符是绑定了行为的对象属性(object attribute)，实现了描述符协议(descriptor protocol)，描述符协议就是定义了__get__(),__set__(),__delete__()中的一个或者多个方法，将描述符对象作为其他对象的属性进行访问时，就会产生一些特殊的效果。
 上面的定义可能还是有些晦涩，一步步来
 默认查找属性 在没有描述符定义情况下，我们访问属性的顺序如下，以a.x为例
-查找实例字典里的属性就是a.__dict__[&#39;x&#39;]有就返回 往上查找父类的字典就是a.__class__.__dict__[&#39;x&#39;]有就返回 上面都没有就查找父类的基类(不包括元类(metaclass)) 如果定义了__getattr__就会返回此方法 最后都没有抛出AttributeError &gt;&gt;&gt; class A: ... x = 8 ... ." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/2019-12-17-python-descriptor/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2019-12-17T11:38:45+08:00" />
-<meta property="article:modified_time" content="2020-04-17T14:06:42+08:00" />
+查找实例字典里的属性就是a.__dict__[&#39;x&#39;]有就返回 往上查找父类的字典就是a.__class__.__dict__[&#39;x&#39;]有就返回 上面都没有就查找父类的基类(不包括元类(metaclass)) 如果定义了__getattr__就会返回此方法 最后都没有抛出AttributeError &gt;&gt;&gt; class A: ... x = 8 ... ... &gt;&gt;&gt; class B(A): ... pass ... &gt;&gt;&gt; class C(B): ... def __getattr__(self, name): ... if name == &#39;y&#39;: ... print(&#34;call getattr method&#34;) ... else: ... raise AttributeError ... ... ... &gt;&gt;&gt; C.__mro__ (&lt;class &#39;__main__.C&#39;&gt;, &lt;class &#39;__main__.B&#39;&gt;, &lt;class &#39;__main__.A&#39;&gt;, &lt;class &#39;object&#39;&gt;) &gt;&gt;&gt; a = C() &gt;&gt;&gt; a.x 8 &gt;&gt;&gt; a.y call getattr method &gt;&gt;&gt; a.__dict__ {} &gt;&gt;&gt; a.x = 99 &gt;&gt;&gt; a.x 99 &gt;&gt;&gt; a.__dict__ {&#39;x&#39;: 99} __getattr__是实例访问没有定义的属性时调用的方法，需要特别定义">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-12-17T11:38:45+08:00">
+    <meta property="article:modified_time" content="2020-04-17T14:06:42+08:00">
+    <meta property="article:tag" content="Python">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="Python描述符(descriptor)">
+<meta name="twitter:description" content="Python 描述符(descriptor)
+Python 中有一个很少被使用或者用户自定义的特性，那就是描述符(descriptor)，但它是@property, @classmethod, @staticmethod和super的底层实现机制，我今天就扒一扒它，官方文档对描述符的介绍如下
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
-
-<meta name="twitter:title" content="Python描述符(descriptor)"/>
-<meta name="twitter:description" content="Python 描述符(descriptor) Python 中有一个很少被使用或者用户自定义的特性，那就是描述符(descriptor)，但它是@property, @classmethod, @staticmethod和super的底层实现机制，我今天就扒一扒它，官方文档对描述符的介绍如下
 In general, a descriptor is an object attribute with “binding behavior”, one whose attribute access has been overridden by methods in the descriptor protocol: __get__(), __set__(), and __delete__(). If any of those methods are defined for an object, it is said to be a descriptor.
+
 描述符是绑定了行为的对象属性(object attribute)，实现了描述符协议(descriptor protocol)，描述符协议就是定义了__get__(),__set__(),__delete__()中的一个或者多个方法，将描述符对象作为其他对象的属性进行访问时，就会产生一些特殊的效果。
 上面的定义可能还是有些晦涩，一步步来
-默认查找属性 在没有描述符定义情况下，我们访问属性的顺序如下，以a.x为例
-查找实例字典里的属性就是a.__dict__[&#39;x&#39;]有就返回 往上查找父类的字典就是a.__class__.__dict__[&#39;x&#39;]有就返回 上面都没有就查找父类的基类(不包括元类(metaclass)) 如果定义了__getattr__就会返回此方法 最后都没有抛出AttributeError &gt;&gt;&gt; class A: ... x = 8 ... ."/>
+默认查找属性
+在没有描述符定义情况下，我们访问属性的顺序如下，以a.x为例
+
+查找实例字典里的属性就是a.__dict__[&#39;x&#39;]有就返回
+往上查找父类的字典就是a.__class__.__dict__[&#39;x&#39;]有就返回
+上面都没有就查找父类的基类(不包括元类(metaclass))
+如果定义了__getattr__就会返回此方法
+最后都没有抛出AttributeError
+
+&gt;&gt;&gt; class A:
+...     x = 8
+...
+...
+&gt;&gt;&gt; class B(A):
+...     pass
+...
+&gt;&gt;&gt; class C(B):
+...     def __getattr__(self, name):
+...         if name == &#39;y&#39;:
+...             print(&#34;call getattr method&#34;)
+...         else:
+...             raise AttributeError
+...
+...
+...
+&gt;&gt;&gt; C.__mro__
+(&lt;class &#39;__main__.C&#39;&gt;, &lt;class &#39;__main__.B&#39;&gt;, &lt;class &#39;__main__.A&#39;&gt;, &lt;class &#39;object&#39;&gt;)
+&gt;&gt;&gt; a = C()
+&gt;&gt;&gt; a.x
+8
+&gt;&gt;&gt; a.y
+call getattr method
+&gt;&gt;&gt; a.__dict__
+{}
+&gt;&gt;&gt; a.x = 99
+&gt;&gt;&gt; a.x
+99
+&gt;&gt;&gt; a.__dict__
+{&#39;x&#39;: 99}
+
+__getattr__是实例访问没有定义的属性时调用的方法，需要特别定义">
 
 
 <script type="application/ld+json">
@@ -109,14 +197,14 @@ In general, a descriptor is an object attribute with “binding behavior”, one
   "@type": "BlogPosting",
   "headline": "Python描述符(descriptor)",
   "name": "Python描述符(descriptor)",
-  "description": "Python 描述符(descriptor) Python 中有一个很少被使用或者用户自定义的特性，那就是描述符(descriptor)，但它是@property, @classmethod, @staticmethod和super的底层实现机制，我今天就扒一扒它，官方文档对描述符的介绍如下\nIn general, a descriptor is an object attribute with “binding behavior”, one whose attribute access has been overridden by methods in the descriptor protocol: __get__(), __set__(), and __delete__(). If any of those methods are defined for an object, it is said to be a descriptor.\n描述符是绑定了行为的对象属性(object attribute)，实现了描述符协议(descriptor protocol)，描述符协议就是定义了__get__(),__set__(),__delete__()中的一个或者多个方法，将描述符对象作为其他对象的属性进行访问时，就会产生一些特殊的效果。\n上面的定义可能还是有些晦涩，一步步来\n默认查找属性 在没有描述符定义情况下，我们访问属性的顺序如下，以a.x为例\n查找实例字典里的属性就是a.__dict__['x']有就返回 往上查找父类的字典就是a.__class__.__dict__['x']有就返回 上面都没有就查找父类的基类(不包括元类(metaclass)) 如果定义了__getattr__就会返回此方法 最后都没有抛出AttributeError \u0026gt;\u0026gt;\u0026gt; class A: ... x = 8 ... .",
+  "description": "Python 描述符(descriptor) Python 中有一个很少被使用或者用户自定义的特性，那就是描述符(descriptor)，但它是@property, @classmethod, @staticmethod和super的底层实现机制，我今天就扒一扒它，官方文档对描述符的介绍如下\nIn general, a descriptor is an object attribute with “binding behavior”, one whose attribute access has been overridden by methods in the descriptor protocol: __get__(), __set__(), and __delete__(). If any of those methods are defined for an object, it is said to be a descriptor.\n描述符是绑定了行为的对象属性(object attribute)，实现了描述符协议(descriptor protocol)，描述符协议就是定义了__get__(),__set__(),__delete__()中的一个或者多个方法，将描述符对象作为其他对象的属性进行访问时，就会产生一些特殊的效果。\n上面的定义可能还是有些晦涩，一步步来\n默认查找属性 在没有描述符定义情况下，我们访问属性的顺序如下，以a.x为例\n查找实例字典里的属性就是a.__dict__['x']有就返回 往上查找父类的字典就是a.__class__.__dict__['x']有就返回 上面都没有就查找父类的基类(不包括元类(metaclass)) 如果定义了__getattr__就会返回此方法 最后都没有抛出AttributeError \u0026gt;\u0026gt;\u0026gt; class A: ... x = 8 ... ... \u0026gt;\u0026gt;\u0026gt; class B(A): ... pass ... \u0026gt;\u0026gt;\u0026gt; class C(B): ... def __getattr__(self, name): ... if name == \u0026#39;y\u0026#39;: ... print(\u0026#34;call getattr method\u0026#34;) ... else: ... raise AttributeError ... ... ... \u0026gt;\u0026gt;\u0026gt; C.__mro__ (\u0026lt;class \u0026#39;__main__.C\u0026#39;\u0026gt;, \u0026lt;class \u0026#39;__main__.B\u0026#39;\u0026gt;, \u0026lt;class \u0026#39;__main__.A\u0026#39;\u0026gt;, \u0026lt;class \u0026#39;object\u0026#39;\u0026gt;) \u0026gt;\u0026gt;\u0026gt; a = C() \u0026gt;\u0026gt;\u0026gt; a.x 8 \u0026gt;\u0026gt;\u0026gt; a.y call getattr method \u0026gt;\u0026gt;\u0026gt; a.__dict__ {} \u0026gt;\u0026gt;\u0026gt; a.x = 99 \u0026gt;\u0026gt;\u0026gt; a.x 99 \u0026gt;\u0026gt;\u0026gt; a.__dict__ {\u0026#39;x\u0026#39;: 99} __getattr__是实例访问没有定义的属性时调用的方法，需要特别定义\n",
   "keywords": [
     "Python"
   ],
   "articleBody": "Python 描述符(descriptor) Python 中有一个很少被使用或者用户自定义的特性，那就是描述符(descriptor)，但它是@property, @classmethod, @staticmethod和super的底层实现机制，我今天就扒一扒它，官方文档对描述符的介绍如下\nIn general, a descriptor is an object attribute with “binding behavior”, one whose attribute access has been overridden by methods in the descriptor protocol: __get__(), __set__(), and __delete__(). If any of those methods are defined for an object, it is said to be a descriptor.\n描述符是绑定了行为的对象属性(object attribute)，实现了描述符协议(descriptor protocol)，描述符协议就是定义了__get__(),__set__(),__delete__()中的一个或者多个方法，将描述符对象作为其他对象的属性进行访问时，就会产生一些特殊的效果。\n上面的定义可能还是有些晦涩，一步步来\n默认查找属性 在没有描述符定义情况下，我们访问属性的顺序如下，以a.x为例\n查找实例字典里的属性就是a.__dict__['x']有就返回 往上查找父类的字典就是a.__class__.__dict__['x']有就返回 上面都没有就查找父类的基类(不包括元类(metaclass)) 如果定义了__getattr__就会返回此方法 最后都没有抛出AttributeError \u003e\u003e\u003e class A: ... x = 8 ... ... \u003e\u003e\u003e class B(A): ... pass ... \u003e\u003e\u003e class C(B): ... def __getattr__(self, name): ... if name == 'y': ... print(\"call getattr method\") ... else: ... raise AttributeError ... ... ... \u003e\u003e\u003e C.__mro__ (\u003cclass '__main__.C'\u003e, ",
   "wordCount" : "1135",
   "inLanguage": "en",
-  "datePublished": "2019-12-17T11:38:45+08:00",
+  "image": "https://blog.fangjiahui.me/blog-cover-1.png","datePublished": "2019-12-17T11:38:45+08:00",
   "dateModified": "2020-04-17T14:06:42+08:00",
   "author":{
     "@type": "Person",
@@ -690,30 +778,30 @@ In general, a descriptor is an object attribute with “binding behavior”, one
 <h3 id="静态方法和类方法">静态方法和类方法<a hidden class="anchor" aria-hidden="true" href="#静态方法和类方法">#</a></h3>
 <p>没错静态方法和类方法也是和上面函数调用同样的原理，如类方法调用（从类调用）内部<code>__get__</code>就是把<code>OneClass.f(*args)</code>转化成<code>f(OneClass, *args)</code>，静态方法同理，官方文档提供了如下的转化表格</p>
 <table>
-<thead>
-<tr>
-<th>转型</th>
-<th>从实例对象调用</th>
-<th>从类调用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>函数</td>
-<td><code>f(ojb, *args)</code></td>
-<td><code>f(*args)</code></td>
-</tr>
-<tr>
-<td>静态方法</td>
-<td><code>f(*args)</code></td>
-<td><code>f(*args)</code></td>
-</tr>
-<tr>
-<td>类方法</td>
-<td><code>f(type(obj), *args)</code></td>
-<td><code>f(kclass, *args)</code></td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>转型</th>
+          <th>从实例对象调用</th>
+          <th>从类调用</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>函数</td>
+          <td><code>f(ojb, *args)</code></td>
+          <td><code>f(*args)</code></td>
+      </tr>
+      <tr>
+          <td>静态方法</td>
+          <td><code>f(*args)</code></td>
+          <td><code>f(*args)</code></td>
+      </tr>
+      <tr>
+          <td>类方法</td>
+          <td><code>f(type(obj), *args)</code></td>
+          <td><code>f(kclass, *args)</code></td>
+      </tr>
+  </tbody>
 </table>
 <h2 id="小结">小结<a hidden class="anchor" aria-hidden="true" href="#小结">#</a></h2>
 <ol>
@@ -839,16 +927,15 @@ In general, a descriptor is an object attribute with “binding behavior”, one
 
 
 <div id="tcomment"></div>
-<script src="https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.40/dist/twikoo.all.min.js"></script>
 <script>
   twikoo.init({
     envId: "https://twikoo-kbp3p7wxh-fythons-projects.vercel.app", 
     el: "#tcomment", 
     
-    region: "",
     
     path: "",
-    lang: "zh-CN", 
+    
   });
 </script>
 
@@ -856,7 +943,8 @@ In general, a descriptor is an object attribute with “binding behavior”, one
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

@@ -7,15 +7,59 @@
 <meta name="robots" content="index, follow">
 <title>Python中@propery 使用 | Fython&#39;s Blog</title>
 <meta name="keywords" content="Python">
-<meta name="description" content="Python中@propery 装饰器的使用 python是面向对象的语言，当我们想在类中封装一个变量，并提供设置和获取值的时候，往往会使用如下方法。
-class Student: def __init__(self, score): self.__score = score def get_score(self): return self.__score def set_score(self, score): self.__score = score 然后如下输出
-&gt;&gt;&gt; s = Student(99) &gt;&gt;&gt; s.get_score() 99 &gt;&gt;&gt; s.set_score(100) &gt;&gt;&gt; s.get_score() 100 这是最简单的封装，但有没有像s.score这样属性直接调用s.score = 100直接赋值的呢，有！而且很简单。
-class Student: def __init__(self, score): self.score = score 没错就是__init__方法直接设置。
-&gt;&gt;&gt; s = Student(99) &gt;&gt;&gt; s.score 99 &gt;&gt;&gt; s.score = 100 &gt;&gt;&gt; s.score 100 以上的方法没有封装，而且如果我想要判断score的值范围（0~100）也无法做到，使用第一种set_score倒是可以做到。
-class Student: def __init__(self, score): self.set_score(score) def get_score(self): return self.">
+<meta name="description" content="Python中@propery 装饰器的使用
+python是面向对象的语言，当我们想在类中封装一个变量，并提供设置和获取值的时候，往往会使用如下方法。
+class Student:
+    def __init__(self, score):
+	    self.__score = score
+
+    def get_score(self):
+	    return self.__score
+
+    def set_score(self, score):
+	    self.__score = score
+
+然后如下输出
+&gt;&gt;&gt; s = Student(99)
+&gt;&gt;&gt; s.get_score()
+99
+&gt;&gt;&gt; s.set_score(100)
+&gt;&gt;&gt; s.get_score()
+100
+
+这是最简单的封装，但有没有像s.score这样属性直接调用s.score = 100直接赋值的呢，有！而且很简单。
+class Student:
+	def __init__(self, score):
+		self.score = score
+
+没错就是__init__方法直接设置。
+&gt;&gt;&gt; s = Student(99)
+&gt;&gt;&gt; s.score
+99
+&gt;&gt;&gt; s.score = 100
+&gt;&gt;&gt; s.score
+100
+
+以上的方法没有封装，而且如果我想要判断score的值范围（0~100）也无法做到，使用第一种set_score倒是可以做到。
+class Student:
+	def __init__(self, score):
+		self.set_score(score)
+
+	def get_score(self):
+		return self.__score
+
+	def set_score(self, score):
+		if score &lt; 0:
+			self.__score = 0
+		elif score &gt; 100:
+			self.__score = 100
+		else:
+			self.__score = score
+
+效果">
 <meta name="author" content="Fython">
 <link rel="canonical" href="https://blog.fangjiahui.me/posts/2017-10-08-python-property-tutorial/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.cb1aafd9743813871bf41a2fa1d7e236e5e31def9fdc38693afbaab134f8b316.css" integrity="sha256-yxqv2XQ4E4cb9BovodfiNuXjHe&#43;f3DhpOvuqsTT4sxY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fe5e2aabdfff8eb553d92fe38c9df2462232b65718e9a34fc328f56fa92ba5fc.css" integrity="sha256-/l4qq9//jrVT2S/jjJ3yRiIytlcY6aNPwyj1b6krpfw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.fangjiahui.me/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.fangjiahui.me/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.fangjiahui.me/favicon-32x32.png">
@@ -23,6 +67,7 @@ class Student: def __init__(self, score): self.set_score(score) def get_score(se
 <link rel="mask-icon" href="https://blog.fangjiahui.me/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.fangjiahui.me/posts/2017-10-08-python-property-tutorial/">
 <noscript>
     <style>
         #theme-toggle,
@@ -59,28 +104,75 @@ class Student: def __init__(self, score): self.set_score(score) def get_score(se
         }
 
     </style>
-</noscript><meta property="og:title" content="Python中@propery 使用" />
-<meta property="og:description" content="Python中@propery 装饰器的使用 python是面向对象的语言，当我们想在类中封装一个变量，并提供设置和获取值的时候，往往会使用如下方法。
+</noscript><meta property="og:url" content="https://blog.fangjiahui.me/posts/2017-10-08-python-property-tutorial/">
+  <meta property="og:site_name" content="Fython&#39;s Blog">
+  <meta property="og:title" content="Python中@propery 使用">
+  <meta property="og:description" content="Python中@propery 装饰器的使用 python是面向对象的语言，当我们想在类中封装一个变量，并提供设置和获取值的时候，往往会使用如下方法。
 class Student: def __init__(self, score): self.__score = score def get_score(self): return self.__score def set_score(self, score): self.__score = score 然后如下输出
 &gt;&gt;&gt; s = Student(99) &gt;&gt;&gt; s.get_score() 99 &gt;&gt;&gt; s.set_score(100) &gt;&gt;&gt; s.get_score() 100 这是最简单的封装，但有没有像s.score这样属性直接调用s.score = 100直接赋值的呢，有！而且很简单。
 class Student: def __init__(self, score): self.score = score 没错就是__init__方法直接设置。
 &gt;&gt;&gt; s = Student(99) &gt;&gt;&gt; s.score 99 &gt;&gt;&gt; s.score = 100 &gt;&gt;&gt; s.score 100 以上的方法没有封装，而且如果我想要判断score的值范围（0~100）也无法做到，使用第一种set_score倒是可以做到。
-class Student: def __init__(self, score): self.set_score(score) def get_score(self): return self." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.fangjiahui.me/posts/2017-10-08-python-property-tutorial/" /><meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2017-10-08T07:26:02+08:00" />
-<meta property="article:modified_time" content="2017-11-29T02:48:29+08:00" />
+class Student: def __init__(self, score): self.set_score(score) def get_score(self): return self.__score def set_score(self, score): if score &lt; 0: self.__score = 0 elif score &gt; 100: self.__score = 100 else: self.__score = score 效果">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2017-10-08T07:26:02+08:00">
+    <meta property="article:modified_time" content="2017-11-29T02:48:29+08:00">
+    <meta property="article:tag" content="Python">
+      <meta property="og:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png">
+<meta name="twitter:title" content="Python中@propery 使用">
+<meta name="twitter:description" content="Python中@propery 装饰器的使用
+python是面向对象的语言，当我们想在类中封装一个变量，并提供设置和获取值的时候，往往会使用如下方法。
+class Student:
+    def __init__(self, score):
+	    self.__score = score
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.fangjiahui.me/blog-cover-1.png"/>
+    def get_score(self):
+	    return self.__score
 
-<meta name="twitter:title" content="Python中@propery 使用"/>
-<meta name="twitter:description" content="Python中@propery 装饰器的使用 python是面向对象的语言，当我们想在类中封装一个变量，并提供设置和获取值的时候，往往会使用如下方法。
-class Student: def __init__(self, score): self.__score = score def get_score(self): return self.__score def set_score(self, score): self.__score = score 然后如下输出
-&gt;&gt;&gt; s = Student(99) &gt;&gt;&gt; s.get_score() 99 &gt;&gt;&gt; s.set_score(100) &gt;&gt;&gt; s.get_score() 100 这是最简单的封装，但有没有像s.score这样属性直接调用s.score = 100直接赋值的呢，有！而且很简单。
-class Student: def __init__(self, score): self.score = score 没错就是__init__方法直接设置。
-&gt;&gt;&gt; s = Student(99) &gt;&gt;&gt; s.score 99 &gt;&gt;&gt; s.score = 100 &gt;&gt;&gt; s.score 100 以上的方法没有封装，而且如果我想要判断score的值范围（0~100）也无法做到，使用第一种set_score倒是可以做到。
-class Student: def __init__(self, score): self.set_score(score) def get_score(self): return self."/>
+    def set_score(self, score):
+	    self.__score = score
+
+然后如下输出
+&gt;&gt;&gt; s = Student(99)
+&gt;&gt;&gt; s.get_score()
+99
+&gt;&gt;&gt; s.set_score(100)
+&gt;&gt;&gt; s.get_score()
+100
+
+这是最简单的封装，但有没有像s.score这样属性直接调用s.score = 100直接赋值的呢，有！而且很简单。
+class Student:
+	def __init__(self, score):
+		self.score = score
+
+没错就是__init__方法直接设置。
+&gt;&gt;&gt; s = Student(99)
+&gt;&gt;&gt; s.score
+99
+&gt;&gt;&gt; s.score = 100
+&gt;&gt;&gt; s.score
+100
+
+以上的方法没有封装，而且如果我想要判断score的值范围（0~100）也无法做到，使用第一种set_score倒是可以做到。
+class Student:
+	def __init__(self, score):
+		self.set_score(score)
+
+	def get_score(self):
+		return self.__score
+
+	def set_score(self, score):
+		if score &lt; 0:
+			self.__score = 0
+		elif score &gt; 100:
+			self.__score = 100
+		else:
+			self.__score = score
+
+效果">
 
 
 <script type="application/ld+json">
@@ -109,14 +201,14 @@ class Student: def __init__(self, score): self.set_score(score) def get_score(se
   "@type": "BlogPosting",
   "headline": "Python中@propery 使用",
   "name": "Python中@propery 使用",
-  "description": "Python中@propery 装饰器的使用 python是面向对象的语言，当我们想在类中封装一个变量，并提供设置和获取值的时候，往往会使用如下方法。\nclass Student: def __init__(self, score): self.__score = score def get_score(self): return self.__score def set_score(self, score): self.__score = score 然后如下输出\n\u0026gt;\u0026gt;\u0026gt; s = Student(99) \u0026gt;\u0026gt;\u0026gt; s.get_score() 99 \u0026gt;\u0026gt;\u0026gt; s.set_score(100) \u0026gt;\u0026gt;\u0026gt; s.get_score() 100 这是最简单的封装，但有没有像s.score这样属性直接调用s.score = 100直接赋值的呢，有！而且很简单。\nclass Student: def __init__(self, score): self.score = score 没错就是__init__方法直接设置。\n\u0026gt;\u0026gt;\u0026gt; s = Student(99) \u0026gt;\u0026gt;\u0026gt; s.score 99 \u0026gt;\u0026gt;\u0026gt; s.score = 100 \u0026gt;\u0026gt;\u0026gt; s.score 100 以上的方法没有封装，而且如果我想要判断score的值范围（0~100）也无法做到，使用第一种set_score倒是可以做到。\nclass Student: def __init__(self, score): self.set_score(score) def get_score(self): return self.",
+  "description": "Python中@propery 装饰器的使用 python是面向对象的语言，当我们想在类中封装一个变量，并提供设置和获取值的时候，往往会使用如下方法。\nclass Student: def __init__(self, score): self.__score = score def get_score(self): return self.__score def set_score(self, score): self.__score = score 然后如下输出\n\u0026gt;\u0026gt;\u0026gt; s = Student(99) \u0026gt;\u0026gt;\u0026gt; s.get_score() 99 \u0026gt;\u0026gt;\u0026gt; s.set_score(100) \u0026gt;\u0026gt;\u0026gt; s.get_score() 100 这是最简单的封装，但有没有像s.score这样属性直接调用s.score = 100直接赋值的呢，有！而且很简单。\nclass Student: def __init__(self, score): self.score = score 没错就是__init__方法直接设置。\n\u0026gt;\u0026gt;\u0026gt; s = Student(99) \u0026gt;\u0026gt;\u0026gt; s.score 99 \u0026gt;\u0026gt;\u0026gt; s.score = 100 \u0026gt;\u0026gt;\u0026gt; s.score 100 以上的方法没有封装，而且如果我想要判断score的值范围（0~100）也无法做到，使用第一种set_score倒是可以做到。\nclass Student: def __init__(self, score): self.set_score(score) def get_score(self): return self.__score def set_score(self, score): if score \u0026lt; 0: self.__score = 0 elif score \u0026gt; 100: self.__score = 100 else: self.__score = score 效果\n",
   "keywords": [
     "Python"
   ],
   "articleBody": "Python中@propery 装饰器的使用 python是面向对象的语言，当我们想在类中封装一个变量，并提供设置和获取值的时候，往往会使用如下方法。\nclass Student: def __init__(self, score): self.__score = score def get_score(self): return self.__score def set_score(self, score): self.__score = score 然后如下输出\n\u003e\u003e\u003e s = Student(99) \u003e\u003e\u003e s.get_score() 99 \u003e\u003e\u003e s.set_score(100) \u003e\u003e\u003e s.get_score() 100 这是最简单的封装，但有没有像s.score这样属性直接调用s.score = 100直接赋值的呢，有！而且很简单。\nclass Student: def __init__(self, score): self.score = score 没错就是__init__方法直接设置。\n\u003e\u003e\u003e s = Student(99) \u003e\u003e\u003e s.score 99 \u003e\u003e\u003e s.score = 100 \u003e\u003e\u003e s.score 100 以上的方法没有封装，而且如果我想要判断score的值范围（0~100）也无法做到，使用第一种set_score倒是可以做到。\nclass Student: def __init__(self, score): self.set_score(score) def get_score(self): return self.__score def set_score(self, score): if score \u003c 0: self.__score = 0 elif score \u003e 100: self.__score = 100 else: self.__score = score 效果\n\u003e\u003e\u003e s = Student(1000) \u003e\u003e\u003e s.get_score() 100 \u003e\u003e\u003e s.set_score(80) \u003e\u003e\u003e s.get_score() 80 看起来已经满足我们的需求但不够Pythonic，所以Python提供了@propery装饰器\nclass Student: def __init__(self, score): self.score = score @property def score(self): return self.__score @score.setter def score(self, score): if score \u003c 0: self.__score = 0 elif score \u003e 100: self.__score = 100 else: self.__score = score 运用了Python提供的property装饰器，结果和上面一样。但更优雅可读\n\u003e\u003e\u003e s = Student(101) \u003e\u003e\u003e s.score 100 \u003e\u003e\u003e s.score = -99 \u003e\u003e\u003e s.score 0 使用propery需要注意以下几点\n使用property的两个方法都是相同的名字(score)只是参数不同，设置(setter)方法上的装饰器要用score.setter装饰 在__init__方法中self.score = score是初始化self.__score的值 在另外两个名称相同的方法中使用self.__score私有变量储存值 还有一种写法参考官方文档个人感觉比较繁琐。\nclass Student: def __init__(self, score): self.score = score def __get_score(self): return self.__score def __set_score(self, score): if score \u003c 0: self.__score = 0 elif score \u003e 100: self.__score = 100 else: self.__score = score score = property(__get_score, __set_score) 注意使用了__get_score和__set_score成为私有方法(前面加__)，使用户不能访问。\n参考：\nhttps://www.python-course.eu/\nhttps://docs.python.org/3/\n",
   "wordCount" : "204",
   "inLanguage": "en",
-  "datePublished": "2017-10-08T07:26:02+08:00",
+  "image": "https://blog.fangjiahui.me/blog-cover-1.png","datePublished": "2017-10-08T07:26:02+08:00",
   "dateModified": "2017-11-29T02:48:29+08:00",
   "author":{
     "@type": "Person",
@@ -445,16 +537,15 @@ class Student: def __init__(self, score): self.set_score(score) def get_score(se
 
 
 <div id="tcomment"></div>
-<script src="https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.40/dist/twikoo.all.min.js"></script>
 <script>
   twikoo.init({
     envId: "https://twikoo-kbp3p7wxh-fythons-projects.vercel.app", 
     el: "#tcomment", 
     
-    region: "",
     
     path: "",
-    lang: "zh-CN", 
+    
   });
 </script>
 
@@ -462,7 +553,8 @@ class Student: def __init__(self, score): self.set_score(score) def get_score(se
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span>
+        <span>&copy; 2024 <a href="https://blog.fangjiahui.me/">Fython&#39;s Blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
