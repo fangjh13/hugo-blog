@@ -20,11 +20,13 @@ ShowWordCount: true
 
 **前提**
 
-- 电脑和安卓设备都要安装上chrome 应用
-- 打开了开发者模式（一般都是 _Build number_ 多点几下）
-  - https://developer.android.com/studio/debug/dev-options.html
-- 电脑上要有 `adb` 工具
-  - https://developer.android.com/tools/adb
+> - 电脑和安卓设备都要安装上chrome 应用
+> - 打开了开发者模式（一般都是 _Build number_ 多点几下）
+>   - https://developer.android.com/studio/debug/dev-options.html
+> - 电脑上要有 `adb` 工具
+>   - https://developer.android.com/tools/adb
+
+---
 
 1.  电脑有线或者无线 adb 连上设备，确保 `adb devices` 有设备在，我用的是无线连的
     ![](../images/image_20241219210427.png)
