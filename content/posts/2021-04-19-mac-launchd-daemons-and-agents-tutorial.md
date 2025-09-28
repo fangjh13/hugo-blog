@@ -7,7 +7,7 @@ ShowWordCount: true
 TocOpen: false
 UseHugoToc: true
 date: "2021-04-19T03:25:09+08:00"
-lastmod: "2023-05-31T11:25:36+08:00"
+lastmod: "2025-09-28T10:22:36+08:00"
 showToc: true
 tags: [Mac, Launchd]
 title: Mac Launchd 介绍和使用
@@ -124,9 +124,35 @@ hello world
 
 1. 任务一般都要手动启动(start)，如果设置了`RunAtLoad`或者`KeepAlive`则在`launchctl load`时就启动
 2. 使用`launchctl list`列出当前加载的任务，第一列代表进程 id，因为上面的程序运行一次就退出了所以显示`-`，第二列是程序上次运行退出的 code，`0`代表正常退出，如果是正数代表退出的时候是有错误的，负数代表是接收到信号被终止的
-3. `launchctl stop <service_name>`可以终止一个在运行中的任务，`launchctl unload <path>`指定路径卸载一个任务，`launchctl remove <service_name>`通过服务名卸载任务
-4. `launchctl load <path>`只会加载没有被**disable**的任务，可以加`-w`参数 `launchctl load -w <path>`覆盖如果设置了 disable 的，下次开机启动一定会起来。`launchctl unload <path>`只会停止和卸载这个任务，但下次启动还会加载，可以使用`-w`参数`launchctl unload -w <path>`停止任务，下次启动也不会起来，也就是标记了**disable**
+3. `launchctl stop <service_name>`可以终止一个在运行中的任务，`launchctl unload <path>`指定路径卸载一个任务（legacy 使用下面的 `bootout`），`launchctl remove <service_name>`通过服务名卸载任务
+4. `launchctl load <path>`只会加载没有被**disable**的任务，可以加`-w`参数 `launchctl load -w <path>`覆盖如果设置了 disable 的，下次开机启动一定会起来。`launchctl unload <path>`只会停止和卸载这个任务，但下次启动还会加载，可以使用`-w`参数`launchctl unload -w <path>`停止任务，下次启动也不会起来，也就是标记了**disable** (legacy 使用下面的 `bootstrap`)
 5. 调试一个任务可以配合使用`plutil`命令检查语法，设置`StandardOutPath`、`StandardErrorPath`、`Debug`键，也可以看看苹果自带的`Console.app`应用中的`system.log`
+
+#### 后台守护进程用法
+
+1. `launchctl enable <service-target>` 设置开机自启，服务但不会立即启动
+2. `launchctl bootstrap <domain-target> <path-to-plist>` 启动
+3. `launchctl bootout <domain-target> <path-to-plist>` 停止
+
+其中 `<service-target>` 由「域 (domain)」和「服务名称 (service name)」组成，格式为 `domain/service-name`，domain 分为当前用户、系统，`service-name` 是服务的名称
+
+- `system`: 系统级别的守护行程 (daemon)，以 root 权限执行，不需要使用者登入即可运行 如 `system/com.example.myservice`
+- `user/<uid>`: 特定使用者的代理程式 (agent)，当该使用者登入时运行，并以该使用者的权限执行。<uid> 是使用者的 ID。 如 `user/501/com.example.myagent`
+- `gui/<uid>`: 特定使用者的代理程式，仅使用者登入图形化使用者介面 (GUI) 时才会启动。 如 `gui/501/com.example.myagent`
+
+`launchctl bootstrap/bootout` 缷载并停止指定的服务。用于替换之前的 `load/unload` 建议使用 `bootstrap/bootout`，`<domain-target>` 是服务运行的目标域同上。`<plist-path>` 是 .plist 文件的完整路径
+
+`launchctl bootstrap`，如果设置了`RunAtLoad` 或者`KeepAlive`则在`launchctl bootstrap`时就启动
+
+- 用户级卸载 `launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/xxx.plist`
+- 系统级卸载 `sudo launchctl bootout system /Library/LaunchDaemons/xxx.plist`
+
+显式 `launchctl disable` 会禁用这个服务，再运行 bootstrap 也会失败，查看是否己激活可以使用 `launchctl print-disabled <domain-target>`
+
+- `sudo launchctl print-disabled system`
+- `launchctl print-disabled gui/$(id -u)`
+
+---
 
 ### 一些例子
 
@@ -212,7 +238,26 @@ hello world
 </plist>
 ```
 
-因为要监听 53 端口所以需要 root 用户启动，而且需要用户登录前就运行所以存放在`/Library/LaunchDaemons/`目录下，配置了`KeepAlive`和`UserName`，也设置了工作目录`WorkingDirectory`，日志也存在这目录下。这个任务加载和其他操作都需要加 sudo，`sudo launchctl load /Library/LaunchDaemons/com.fython.clash.plist`因为配置了`RunAtLoad`它会自动启动，不需要在 start 了
+因为要监听 53 端口所以需要 root 用户启动，而且需要用户登录前就运行所以存放在`/Library/LaunchDaemons/`目录下，配置了`KeepAlive`和`UserName`，也设置了工作目录`WorkingDirectory`，日志也存在这目录下。这个任务加载和其他操作都需要加 sudo。
+
+1. `sudo launchctl enable system/com.fython.clash`
+2. `sudo launchctl bootstrap system /Library/LaunchDaemons/com.fython.clash.plist`
+
+因为配置了`RunAtLoad`它会自动启动，不需要在 start 了
+
+```shell
+❯ sudo launchctl list | rg -i clash
+9371    0       com.fython.clash
+
+❯ sudo launchctl print-disabled system
+
+        disabled services = {
+                "com.fython.clash" => enabled
+                ...
+        }
+```
+
+显式 enabled 就是己激活
 
 ### Reference
 
